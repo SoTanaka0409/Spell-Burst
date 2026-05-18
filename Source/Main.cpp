@@ -1,16 +1,7 @@
 #include "DxLib.h"
-#include"Master.h"
-#include"Camera.h"
-#include"SceneManager.h"
-#include"ObjectManager.h"
-#include"ResourceManager.h"
-#include"SoundManager.h"
-#include"ColliderManager.h"
-#include "Utility.h"
-#include"Score.h"
 
-#include"EffectManager.h"
-#include"Fever.h"
+#include "Utility.h"
+
 #include <EffekseerForDXLib.h>
 // プログラムは WinMain から始まります
 /*============================================================================================================================================
@@ -18,18 +9,6 @@
 =============================================================================================================================================*/
 
 
-SceneManager* Master::mpSceneManager = new SceneManager();
-Camera* Master::mpCamera = new Camera();
-ResourceManager* Master::mpResourceManager = new ResourceManager();
-SoundManager* Master::mpSoundManager = new SoundManager();
-
-EffectManager* Master::mpEffectManager = new EffectManager();
-
-Score* Master::mpScore = new Score();
-bool Master::SelectSkill = false;
-int Master::mnTutorialcount = 0;
-bool Master::GameFinishFlag = false;
-bool Master::TutrialVacumFlag = false;
 
 VECTOR Utility::StageSize= VGet(8000, 0, 8000);//stageサイズの取得
 
@@ -52,16 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetUseZBufferFlag(true);
 	SetWriteZBufferFlag(true);
 
-	Master::mpSoundManager->Initialize();//すべてのサウンドが読み込まれru----
-
-	//シーンマネージャーの生成と初期化
-	Master::mpSceneManager->Initialize();
 	
-	//カメラの更新
-	Master::mpCamera->Initialize();
-
-	Master::mpEffectManager->Initalize();
-
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
@@ -71,19 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		int time = GetNowCount();
 
 
-		Master::mpCamera->Update();
-
-		Master::mpEffectManager->Update();
-
-		//更新
-		Master::mpSceneManager->Update();
 		
-
-		//player->Update();
-		//描画
-		Master::mpSceneManager->Draw();
-		
-		Master::mpEffectManager->Draw();
 
 		// 画面全体を少し明るくする
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
@@ -112,28 +70,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//待つだけなのでここには何も書かない
 		}
 
-		//削除する必要のあるオブジェクトがあれば削除する
-		Master::mpSceneManager->GetCurrentScene()->GetCollisionManager()->DeleteAllColliderIfNeeded();
-		Master::mpSceneManager->GetCurrentScene()->GetObjectManager()->DeleteAll3DIfNeeded();
-
-
-		//ループする直前にシーン遷移チェックを入れておく
-		Master::mpSceneManager->ChangeSceneIfNeeded();
+	
 
 
 	}
-	//終了処理
-	Master::mpSceneManager->Finalize();
-	delete Master::mpSceneManager;
-	Master::mpSoundManager->Finalize();
-	delete Master::mpSoundManager;
-	Master::mpCamera->Finalize();
-	delete Master::mpCamera;
-	delete Master::mpResourceManager;
-
-	ColliderManager::GetInstance()->Finalize();
 	
-
 
 	Effkseer_End();
 

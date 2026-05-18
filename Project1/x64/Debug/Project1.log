@@ -1,1 +1,2 @@
-﻿C:\Users\student\Desktop\Aigame\Project1.vcxproj : error MSB4025: プロジェクト ファイルを読み込めませんでした。ファイル 'C:\Users\student\Desktop\Aigame\Project1.vcxproj' が見つかりませんでした。
+﻿  Main.cpp
+  Project1.vcxproj -> C:\Users\student\Desktop\Aigame\x64\Debug\Project1.exe
