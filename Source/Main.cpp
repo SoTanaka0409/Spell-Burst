@@ -1,85 +1,58 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
+#include"Scene.h"
+#include"SceneManager.h"
+#include"Master.h"
 
-#include "Utility.h"
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã®è¨­å®š
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
-#include <EffekseerForDXLib.h>
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
-/*============================================================================================================================================
-ƒrƒWƒ…ƒAƒ‹ƒXƒ^ƒWƒI2022‚©‚ç2026A2026‚©‚ç2022‚É•ÏX‚·‚é‚ÌƒGƒ‰[‚Í[ƒvƒƒWƒFƒNƒg->ƒvƒƒpƒeƒB->ƒvƒ‰ƒbƒgƒz[ƒ€ƒc[ƒ‹ƒZƒbƒg‚ğƒo[ƒWƒ‡ƒ“‚É‡‚í‚¹‚é]
-=============================================================================================================================================*/
+SceneManager* Master::sceneManager = new SceneManager();
 
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•ï¼ˆãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã«ã—ãªã„ï¼‰
+    ChangeWindowMode(TRUE);
+    // ç”»é¢ã‚µã‚¤ã‚ºã®è¨­å®š
+    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«è¨­å®š
+    SetMainWindowText("Shooting Action Game");
 
+    // DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆæœŸåŒ–
+    if (DxLib_Init() == -1) {
+        return -1; // ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰çµ‚äº†
+    }
 
-VECTOR Utility::StageSize= VGet(8000, 0, 8000);//stageƒTƒCƒY‚Ìæ“¾
+    // æç”»å…ˆã‚’è£ç”»é¢ã«è¨­å®šï¼ˆã¡ã‚‰ã¤ãé˜²æ­¢ï¼‰
+    SetDrawScreen(DX_SCREEN_BACK);
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{// ƒEƒCƒ“ƒhƒEƒ‚[ƒh‚Å‹N“®
-	ChangeWindowMode(true);
+    // ã‚·ãƒ¼ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
+   
 
-	SetGraphMode(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, 32, 60);
-	SetWindowSize(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT);
-	if (DxLib_Init() == -1)		// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
-	{
-		return -1;			// ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
-	}
+    // ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
+    // ProcessMessage: Windowsã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†ï¼ˆã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ãŸã‚Šå‹•ã‹ã—ãŸã‚Šã™ã‚‹ã®ã«å¿…é ˆï¼‰
+    // CheckHitKey(KEY_INPUT_ESCAPE) == 0: ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ãªã„é–“ãƒ«ãƒ¼ãƒ—ã‚’ç¶šã‘ã‚‹
+    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
+        
+        // 1. ç”»é¢ã‚’ã‚¯ãƒªã‚¢ï¼ˆå‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®æç”»ã‚’æ¶ˆã™ï¼‰
+        ClearDrawScreen();
 
-	SetGlobalAmbientLight(GetColorF(0.4f, 0.4f, 0.4f, 1.0f));
-	//•`‰ææİ’è‚ğ— ‰æ–Ê‚Éİ’è‚·‚é
-	SetDrawScreen(DX_SCREEN_BACK);
+      
 
-	//Zƒoƒbƒtƒ@‚É‘‚«‚Ş€”õ
-	SetUseZBufferFlag(true);
-	SetWriteZBufferFlag(true);
+        // 2. ã‚²ãƒ¼ãƒ ã®æ›´æ–°ï¼ˆè¨ˆç®—ã‚„å…¥åŠ›å‡¦ç†ï¼‰
+        Master::sceneManager->Update();
 
-	
+        // 3. ã‚²ãƒ¼ãƒ ã®æç”»ï¼ˆç”»åƒãªã©ã‚’è£ç”»é¢ã«æãï¼‰
+        Master::sceneManager->Draw();
 
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
-	{
+        // 4. è£ç”»é¢ã®å†…å®¹ã‚’è¡¨ç”»é¢ã«åæ˜ 
+        ScreenFlip();
+    }
 
-		//‰æ–Ê‚ğ‰Šú‰»‚·‚é
-		ClearDrawScreen();
-		int time = GetNowCount();
+    // ãƒ¡ãƒ¢ãƒªã®è§£æ”¾
+    delete Master::sceneManager;
 
+    // DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®çµ‚äº†å‡¦ç†
+    DxLib_End();
 
-		
-
-		// ‰æ–Ê‘S‘Ì‚ğ­‚µ–¾‚é‚­‚·‚é
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-
-		// ”’‚¢lŠp‚ğ‰æ–Ê‘S‘Ì‚É•`‰æ
-		//
-		DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(255, 255, 255), TRUE);
-
-		// ƒuƒŒƒ“ƒh‚ğ–ß‚·
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-		//Master::mpScoreManager->Draw();
-
-
-
-
-		//player->Draw();
-
-
-		//— ‰æ–Ê‚Ì“à—e‚ğ•\‰æ–Ê‚É‰f‚·wwwwwwwwwwwwww
-		ScreenFlip();
-
-		//‚P‚Vƒ~ƒŠ•bi•b”ŠÔ–ó‚U‚OƒtƒŒ[ƒ€‚¾‚Á‚½‚Áê‡‚PƒtƒŒ[ƒ€“–‚½‚è‚ÌŒo‰ßŠÔ
-		//Œo‰ß‚·‚é‚Ü‚Å‚±‚±‚Å‘Ò‚Â
-		while (GetNowCount() - time < 17)
-		{
-			//‘Ò‚Â‚¾‚¯‚È‚Ì‚Å‚±‚±‚É‚Í‰½‚à‘‚©‚È‚¢
-		}
-
-	
-
-
-	}
-	
-
-	Effkseer_End();
-
-
-	DxLib_End();				// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
-
-	return 0;				// ƒ\ƒtƒg‚ÌI—¹ 
+    return 0;
 }
