@@ -1,101 +1,111 @@
-#include"SceneManager.h"
-#include"ObjectManager.h"
-#include"Scene.h"
-//
-//#include"GameScene.h"
-
-
-
-
-
-
-
+#include "SceneManager.h"
+#include "ObjectManager.h"
+#include "Scene.h"
+#include "TitleScene.h"
+#include "StageSelectScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 
 SceneManager::SceneManager()
-	:mnSceneType(SCENE_TYPE::SCENE_NONE)
+	: mnSceneType(SCENE_TYPE::SCENE_NONE)
 	, mnNextSceneType(SCENE_TYPE::SCENE_NONE)
 	, mpCurrentScene(nullptr)
-	,SceneHard(false)//ƒn[ƒhƒV[ƒ“‚©‚Ç‚¤‚©
-	,SceneNormal(false)//ƒm[ƒ}ƒ‹ƒV[ƒ“‚©‚Ç‚¤‚©
+	, SceneHard(false)
+	, SceneNormal(false)
 {
-
 }
 
 SceneManager::~SceneManager()
 {
-
+	if (mpCurrentScene != nullptr)
+	{
+		delete mpCurrentScene;
+		mpCurrentScene = nullptr;
+	}
 }
+
 void SceneManager::Initialize()
 {
-	////‰ŠúƒV[ƒ“‚ÌÝ’è
-	//mnNextSceneType = SCENE_TYPE::SCENE_RESULTWIN;
+	// æœ€åˆã¯ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã‹ã‚‰é–‹å§‹ã™ã‚‹
+	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
 
-	//mnNextSceneType = SCENE_TYPE::SCENE_NAME;
-	//mnNextSceneType = SCENE_TYPE::SCENE_3D;
-	//mnNextSceneType = SCENE_TYPE::SCENE_RESULTWIN;
-	mnNextSceneType = SCENE_TYPE::SCENE_3D;
-
-	//ƒV[ƒ“‘JˆÚ‚³‚¹‚é
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†ã‚’å‘¼ã³å‡ºã™
 	ChangeSceneIfNeeded();
-
 }
-
-
 
 void SceneManager::Update()
 {
-	//ƒV[ƒ“‚ÌXV
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãŒå¿…è¦ãªã‚‰å‡¦ç†ã™ã‚‹
+	ChangeSceneIfNeeded();
 
-
-
-
-
-
-	mpCurrentScene->Update();
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
+	if (mpCurrentScene != nullptr)
+	{
+		mpCurrentScene->Update();
+	}
 }
 
 void SceneManager::Draw()
 {
-	//ƒV[ƒ“‚Ì•`‰æ
-	mpCurrentScene->Draw();
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
+	if (mpCurrentScene != nullptr)
+	{
+		mpCurrentScene->Draw();
+	}
 }
 
 void SceneManager::Finalize()
 {
-
+	if (mpCurrentScene != nullptr)
+	{
+		mpCurrentScene->Finalize();
+		delete mpCurrentScene;
+		mpCurrentScene = nullptr;
+	}
 }
 
 void SceneManager::ChangeSceneIfNeeded()
 {
-	//Œ»Ý‚ÌƒV[ƒ“‚ÆŽŸ‚ÌƒV[ƒ“‚ªˆê‚Å‚ ‚ê‚Î‰½‚à‚µ‚È‚¢
+	// ã‚·ãƒ¼ãƒ³ãŒå¤‰ã‚ã‚‰ãªã„å ´åˆã¯ä½•ã‚‚ã—ãªã„
 	if (mnSceneType == mnNextSceneType)
 	{
 		return;
 	}
+
+	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ãŒã‚ã‚‹å ´åˆã¯çµ‚äº†å‡¦ç†ã‚’è¡Œã£ã¦ç ´æ£„ã™ã‚‹
 	if (mpCurrentScene != nullptr)
 	{
-		//Œ»Ý‚ÌƒV[ƒ“‚ÌI—¹ˆ—‚ð‚·‚é
 		mpCurrentScene->Finalize();
-
-		//ˆê’UƒV[ƒ“Ž©‘Ì‚à”jŠü‚µ‚Ä‚¨‚­
 		delete mpCurrentScene;
 		mpCurrentScene = nullptr;
 	}
 
-	//ŽŸ‚ÌƒV[ƒ“‚É‚·‚é‚½‚ßƒV[ƒ“ƒ^ƒCƒv‚ðXV
+	// ã‚·ãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ã‚’æ›´æ–°
 	mnSceneType = mnNextSceneType;
 
-	//mnSceneType‚É‰ž‚¶‚ÄƒV[ƒ“‚ð¶¬‚·‚é
+	// æ–°ã—ã„ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	switch (mnSceneType)
 	{
-	
-	case SCENE_TYPE::SCENE_3D:
-		mpCurrentScene = new Scene3D();
+	case SCENE_TYPE::SCENE_TITLE:
+		mpCurrentScene = new TitleScene();
 		break;
-	
-		
+	case SCENE_TYPE::SCENE_LEVEL:
+		mpCurrentScene = new StageSelectScene();
+		break;
+	case SCENE_TYPE::SCENE_GAME:
+		mpCurrentScene = new GameScene();
+		break;
+	case SCENE_TYPE::SCENE_RESULT:
+		mpCurrentScene = new ResultScene();
+		break;
+	default:
+		mpCurrentScene = nullptr;
+		break;
 	}
-	//ƒV[ƒ“‚Ì¶¬‚ª‚³‚ê‚Ä‚¢‚é‚Í‚¸‚È‚Ì‚ÅA‰Šú‰»ˆ—‚ð“Ç‚ñ‚Å‚¨‚­
-	mpCurrentScene->Initialize();
 
+	// ç”Ÿæˆã«æˆåŠŸã—ã¦ã„ã‚Œã°åˆæœŸåŒ–å‡¦ç†ã‚’å‘¼ã¶
+	if (mpCurrentScene != nullptr)
+	{
+		mpCurrentScene->Initialize();
+	}
 }

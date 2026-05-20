@@ -1,10 +1,10 @@
-﻿#pragma once
-#include "BaseScene.h"
+#pragma once
+#include "Scene.h"
 
-// リザルト（結果）画面クラス
-class ResultScene : public BaseScene {
+class ResultScene : public Scene {
 public:
     void Initialize() override;
-    SceneType Update() override;
+    void Update() override;
     void Draw() override;
+    void Finalize() override;
 };

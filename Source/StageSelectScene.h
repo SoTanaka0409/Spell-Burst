@@ -1,10 +1,10 @@
-﻿#pragma once
-#include "BaseScene.h"
+#pragma once
+#include "Scene.h"
 
-// ステージ選択画面クラス
-class StageSelectScene : public BaseScene {
+class StageSelectScene : public Scene {
 public:
     void Initialize() override;
-    SceneType Update() override;
+    void Update() override;
     void Draw() override;
+    void Finalize() override;
 };

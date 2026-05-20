@@ -26,7 +26,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     SetDrawScreen(DX_SCREEN_BACK);
 
     // シーン管理クラスの生成
-   
+    Master::sceneManager->Initialize();
 
     // メインループ
     // ProcessMessage: Windowsのメッセージ処理（ウィンドウを閉じたり動かしたりするのに必須）

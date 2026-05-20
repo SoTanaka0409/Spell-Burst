@@ -1,19 +1,33 @@
-﻿#include "TitleScene.h"
-#include "../Input/InputManager.h"
+#include "TitleScene.h"
+#include "InputManager.h"
+#include "Master.h"
 #include <DxLib.h>
 
-void TitleScene::Initialize() {
-    // 初期化処理（画像の読み込みなど）
+TitleScene::TitleScene()
+{
+
+}
+TitleScene::~TitleScene()
+{
+
+}
+void TitleScene::Initialize()
+{
+
 }
 
-SceneType TitleScene::Update() {
-    // Zキーまたはエンターキーが押された瞬間だけステージ選択画面へ遷移
-    if (InputManager::IsKeyPush(KEY_INPUT_RETURN) || InputManager::IsKeyPush(KEY_INPUT_Z)) {
-        return SceneType::StageSelect;
+void TitleScene::Update()
+{
+    if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z)) {
+        Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
     }
-    return SceneType::Title; // 遷移しない場合はそのまま
+    Scene::Update();
 }
 
 void TitleScene::Draw() {
+    Scene::Draw();
     DrawString(100, 100, "TITLE SCENE (Press ENTER to Start)", GetColor(255, 255, 255));
+}
+
+void TitleScene::Finalize() {
 }

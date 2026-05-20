@@ -1,39 +1,48 @@
-﻿#include "GameScene.h"
-#include "../Object/ObjectManager.h"
-#include "../Input/InputManager.h"
+#include "GameScene.h"
+#include "ObjectManager.h"
+#include "InputManager.h"
+#include "Master.h"
+#include "Player.h"
+#include "Enemy.h"
 #include <DxLib.h>
 
 GameScene::GameScene() {
-    m_objectManager = new ObjectManager();
 }
 
 GameScene::~GameScene() {
-    delete m_objectManager;
 }
 
 void GameScene::Initialize() {
-    // 全オブジェクトの初期化
-    m_objectManager->Initialize();
+    // プレイヤーの生成（自動的にObjectManagerに追加されます）
+    new Player();
+
+    // テスト用の敵の生成
+    new Enemy(640.0f, 100.0f);
+    new Enemy(440.0f, 150.0f);
+    new Enemy(840.0f, 200.0f);
 }
 
-SceneType GameScene::Update() {
-    // 全オブジェクトの更新
-    m_objectManager->Update();
+void GameScene::Update() {
+    // 親クラスのUpdateを呼ぶことで、登録された全Object2Dが更新されます
+    Scene::Update();
 
-    // 実際のゲームでは、プレイヤーが死んだりクリアしたときに遷移します
-    // ここでは仮で、Zキーまたはエンターキーが押されたらリザルト画面へ遷移とします
-    if (InputManager::IsKeyPush(KEY_INPUT_RETURN) || InputManager::IsKeyPush(KEY_INPUT_Z)) {
-        return SceneType::Result;
+    if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z)) {
+        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
-    return SceneType::Game; // 遷移しない場合はそのまま
+   // SetBackgroundColor(20, 30, 60);
 }
 
 void GameScene::Draw() {
-    // 背景色を少し明るいネイビーブルーなどに設定して見やすくする
-    SetBackgroundColor(20, 30, 60);
+    // 背景色の設定
+    
 
-    // 全オブジェクトの描画
-    m_objectManager->Draw();
+    // 親クラスのDrawを呼ぶことで、登録された全Object2Dが描画されます
+    Scene::Draw();
 
     DrawString(100, 100, "GAME SCENE (Press ENTER to Result)", GetColor(255, 255, 255));
+}
+
+void GameScene::Finalize() {
+    // シーン遷移時に、このシーンに紐づいていた全オブジェクトを削除します
+    GetObjectManager()->DeleteAll2D();
 }

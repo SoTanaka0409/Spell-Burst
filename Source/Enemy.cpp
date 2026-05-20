@@ -1,27 +1,29 @@
-﻿#include "Enemy.h"
+#include "Enemy.h"
 #include <DxLib.h>
 
-Enemy::Enemy(float x, float y) {
+Enemy::Enemy(float x, float y) 
+    : Object2D(VGet(x, y, 0.0f))
+{
     m_x = x;
     m_y = y;
-    m_speed = 3.0f; // 下へ移動するスピード
+    m_speed = 3.0f;
     m_isActive = true;
 }
 
-void Enemy::Update() {
-    // 下に向かって移動
-    m_y += m_speed;
+Enemy::~Enemy() {
+}
 
-    // 画面外（下）に出たら消滅フラグを立てる
-    if (m_y > 800.0f) { // 720よりも少し下まで行ったら消す
+void Enemy::Update() {
+    m_y += m_speed;
+    mvPosition = VGet(m_x, m_y, 0.0f);
+
+    if (m_y > 800.0f) {
         m_isActive = false;
+        SetDeleteFlag(true);
     }
 }
 
 void Enemy::Draw() {
     if (!m_isActive) return;
-
-    // 仮の画像として、赤色の円を描画する
-    // (x, y, 半径, 色, 塗りつぶしフラグ)
-    DrawCircle((int)m_x, (int)m_y, 15, GetColor(255, 0, 0), TRUE);
+    DrawCircle(mvPosition.x,mvPosition.y, 15, GetColor(255, 0, 0), TRUE);
 }

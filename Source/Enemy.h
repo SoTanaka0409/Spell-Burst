@@ -1,22 +1,24 @@
 #pragma once
+#include "Object2D.h"
 
-class Enemy {
+class Enemy : public Object2D {
 private:
-    float m_x, m_y;       // 座標
-    float m_speed;        // 移動スピード
-    bool m_isActive;      // 生きているかどうかのフラグ
+    float m_x, m_y;       // Position
+    float m_speed;        // Speed
+    bool m_isActive;      // Active flag
 
 public:
     Enemy(float x, float y);
-    void Update();
-    void Draw();
+    ~Enemy() override;
+    void Update() override;
+    void Draw() override;
 
-    // 生きているか確認するための関数
+    // Active check
     bool IsActive() const { return m_isActive; }
 
-    // 当たり判定・情報取得用の関数
+    // Collision helper
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
-    float GetRadius() const { return 15.0f; } // 描画時の半径と同じ
-    void Kill() { m_isActive = false; }       // 当たった時に消滅させる
+    float GetRadius() const { return 15.0f; }
+    void Kill() { m_isActive = false; SetDeleteFlag(true); }
 };

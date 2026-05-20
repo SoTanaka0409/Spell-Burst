@@ -1,23 +1,24 @@
 #pragma once
-#include"dxlib.h"
-#include"Object2D.h"
+#include "dxlib.h"
+#include "Object2D.h"
 
-class Bullet:public Object2D
+class Bullet : public Object2D
 {
 public:
     Bullet(float x, float y);
-    ~Bullet()override;
-    void Draw()override;
-    void Update()override;
+    ~Bullet() override;
+    void Draw() override;
+    void Update() override;
     bool IsActive() { return m_isActive; }
 
-    // 当たり判定・情報取得用の関数
+    // Collision helper
     float GetX() { return m_x; }
     float GetY() { return m_y; }
-    float GetRadius() const { return 5.0f; }  // 描画時の半径と同じ
-    void Kill() { m_isActive = false; }       // 当たった時に消滅させる
+    float GetRadius() const { return 5.0f; }
+    void Kill() { m_isActive = false; SetDeleteFlag(true); }
+
 private:
-    float m_x, m_y;       // 座標
-    float m_speed;        // 移動スピード
-    bool m_isActive;      // 画面内に存在しているか（生きているか）
+    float m_x, m_y;       // Position
+    float m_speed;        // Movement speed
+    bool m_isActive;      // Active flag
 };
