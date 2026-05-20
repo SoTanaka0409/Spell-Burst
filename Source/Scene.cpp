@@ -1,21 +1,18 @@
-#include"Scene.h"
-#include"ObjectManager.h"
-#include"Master.h"
-#include"ColliderManager.h"
+#include "Scene.h"
+#include "ObjectManager.h"
+#include "Master.h"
+#include "ColliderManager.h"
+#include "DebugLog.h"
 
 Scene::Scene()
 {
-	//オブジェクトマネージャーの生成
+	// Create object manager
 	mpObjectManager = new ObjectManager();
 	mpColliderManager = new ColliderManager();
-	
 }
 
 Scene::~Scene()
 {
-	
-	
-	
 	if (mpObjectManager != nullptr)
 	{
 		mpObjectManager->DeleteAll2D();
@@ -25,12 +22,10 @@ Scene::~Scene()
 	{
 		mpColliderManager->DeleteAllCollider();
 		delete mpColliderManager;
-		
 	}
-
-	
 }
-//描画wwwwwwwwwwwwww
+
+// Draw
 void Scene::Draw()
 {
 	if (mpObjectManager != nullptr)
@@ -41,20 +36,17 @@ void Scene::Draw()
 	{
 		mpColliderManager->Draw();
 	}
-	
-	
 }
-//更新
+
+// Update
 void Scene::Update()
 {
 	if (mpObjectManager != nullptr)
 	{
-		
 		mpObjectManager->Update();
 	}
 	if (mpColliderManager != nullptr)
 	{
 		mpColliderManager->Update();
 	}
-
 }

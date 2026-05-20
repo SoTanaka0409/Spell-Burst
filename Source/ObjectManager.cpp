@@ -24,7 +24,8 @@ void ObjectManager::Draw()
 {
 	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); itr++)
 	{
-		if ((*itr)->IsDrawFlag())
+		bool isDraw = (*itr)->IsDrawFlag();
+		if (isDraw)
 		{
 			(*itr)->Draw();
 		}

@@ -45,8 +45,11 @@ void SceneManager::Update()
 	}
 }
 
+#include "DebugLog.h"
+
 void SceneManager::Draw()
 {
+	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene);
 	// 現在のシーンを描画する
 	if (mpCurrentScene != nullptr)
 	{

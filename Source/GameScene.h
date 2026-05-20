@@ -1,11 +1,11 @@
 #pragma once
 #include "Scene.h"
 
-// ゲーム本編画面クラス
+// Game main scene class
 class GameScene : public Scene {
 public:
     GameScene();
-    ~GameScene();
+    virtual ~GameScene() override;
     void Initialize() override;
     void Update() override;
     void Draw() override;
