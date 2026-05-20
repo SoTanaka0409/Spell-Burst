@@ -15,7 +15,7 @@ public:
     // Collision helper
     float GetX() { return m_x; }
     float GetY() { return m_y; }
-    float GetRadius() const { return 5.0f; }
+    float GetRadius() const { return 10.0f; }
     int GetDamage() const { return m_damage; }
     void Kill();
 

@@ -19,15 +19,20 @@ Player::~Player() {
     }
 }
 
+#include "MeleeAttack.h"
+#include "SpecialBullet.h"
+
 void Player::Initialize() {
     m_x = 1280.0f / 2.0f;
     m_y = 720.0f / 2.0f;
     m_speed = 5.0f;
     m_maxHp = 5;
     m_hp = m_maxHp;
+    m_attackMode = AttackMode_Bullet;
+    m_specialCooldown = 0;
 
-    // Create a circular collider with radius 20
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 20.0f);
+    // Create a circular collider with radius 45 (previously 20)
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
 }
 
 void Player::Update()
@@ -37,10 +42,11 @@ void Player::Update()
     if (InputManager::CheckPressKey(KEY_INPUT_A)) { m_x -= m_speed; }
     if (InputManager::CheckPressKey(KEY_INPUT_D)) { m_x += m_speed; }
 
-    if (m_x < 20.0f) m_x = 20.0f;
-    if (m_x > 1260.0f) m_x = 1260.0f;
-    if (m_y < 20.0f) m_y = 20.0f;
-    if (m_y > 700.0f) m_y = 700.0f;
+    // Clamp inside screen with 45.0f padding
+    if (m_x < 45.0f) m_x = 45.0f;
+    if (m_x > 1235.0f) m_x = 1235.0f;
+    if (m_y < 45.0f) m_y = 45.0f;
+    if (m_y > 675.0f) m_y = 675.0f;
 
     mvPosition = VGet(m_x, m_y, 0.0f);
 
@@ -49,8 +55,41 @@ void Player::Update()
         mpCollider->mvPosition2 = mvPosition;
     }
 
+    // Cooldown decrement
+    if (m_specialCooldown > 0) {
+        m_specialCooldown--;
+    }
+
+    // Switch attack modes
+    if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
+        if (m_attackMode == AttackMode_Bullet) m_attackMode = AttackMode_Melee;
+        else if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
+        else m_attackMode = AttackMode_Bullet;
+    }
+    if (InputManager::CheckDownKey(KEY_INPUT_1)) {
+        m_attackMode = AttackMode_Bullet;
+    }
+    if (InputManager::CheckDownKey(KEY_INPUT_2)) {
+        m_attackMode = AttackMode_Melee;
+    }
+    if (InputManager::CheckDownKey(KEY_INPUT_3)) {
+        m_attackMode = AttackMode_Special;
+    }
+
+    // Firing attacks
     if (InputManager::CheckDownKey(KEY_INPUT_SPACE)) {
-        new Bullet(m_x + 20.0f, m_y);
+        if (m_attackMode == AttackMode_Bullet) {
+            new Bullet(m_x, m_y - 45.0f);
+        }
+        else if (m_attackMode == AttackMode_Melee) {
+            new MeleeAttack(m_x, m_y - 70.0f);
+        }
+        else if (m_attackMode == AttackMode_Special) {
+            if (m_specialCooldown == 0) {
+                new SpecialBullet(m_x, m_y - 90.0f);
+                m_specialCooldown = 180; // 3 seconds cooldown
+            }
+        }
     }
 }
 
@@ -62,26 +101,28 @@ void Player::Draw() {
 
     if (s_playerGraphHandle != -1) {
         DrawExtendGraph(
-            static_cast<int>(mvPosition.x - 20.0f), 
-            static_cast<int>(mvPosition.y - 20.0f), 
-            static_cast<int>(mvPosition.x + 20.0f), 
-            static_cast<int>(mvPosition.y + 20.0f), 
+            static_cast<int>(mvPosition.x - 45.0f), 
+            static_cast<int>(mvPosition.y - 45.0f), 
+            static_cast<int>(mvPosition.x + 45.0f), 
+            static_cast<int>(mvPosition.y + 45.0f), 
             s_playerGraphHandle, 
             TRUE
         );
     } else {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 20, GetColor(0, 255, 0), TRUE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
 }
 
 #include "Enemy.h"
 #include "Master.h"
 #include "SceneManager.h"
+#include "ResultScene.h"
 
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
+        ResultScene::s_isVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }

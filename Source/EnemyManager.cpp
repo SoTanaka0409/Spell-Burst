@@ -1,34 +1,50 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
+#include "Boss.h"
 #include <DxLib.h>
 #include <cstdlib>
 
 EnemyManager::EnemyManager() {
     m_spawnTimer = 0;
+    m_defeatedCount = 0;
+    m_bossSpawned = false;
 }
 
 EnemyManager::~EnemyManager() {
-    // Note: Do not delete enemies here, because ObjectManager owns and deletes them.
     m_enemies.clear();
 }
 
 void EnemyManager::Initialize() {
     m_spawnTimer = 0;
+    m_defeatedCount = 0;
+    m_bossSpawned = false;
 }
 
 void EnemyManager::Update() {
-    m_spawnTimer++;
-    if (m_spawnTimer >= 90) { // Spawn every 90 frames (approx. 1.5 seconds)
-        m_spawnTimer = 0;
-        // Spawn at random Y coordinate off screen right (horizontal scrolling)
-        float spawnX = 1330.0f;
-        float spawnY = 50.0f + static_cast<float>(rand() % 620);
-        SpawnEnemy(spawnX, spawnY);
+    // Spawning logic
+    if (!m_bossSpawned) {
+        if (m_defeatedCount >= 10) {
+            // Spawn Boss at the top center, slightly off-screen Y
+            new Boss(640.0f, -80.0f);
+            m_bossSpawned = true;
+        } else {
+            m_spawnTimer++;
+            if (m_spawnTimer >= 90) { // Spawn every 90 frames
+                m_spawnTimer = 0;
+                // Spawn at random X coordinate off screen top (vertical scrolling)
+                float spawnX = 80.0f + static_cast<float>(rand() % 1120);
+                float spawnY = -50.0f;
+                SpawnEnemy(spawnX, spawnY);
+            }
+        }
     }
 
     // Clean up inactive / deleted enemies from the manager list to avoid dangling pointers
     for (auto it = m_enemies.begin(); it != m_enemies.end(); ) {
         if (*it == nullptr || (*it)->IsDeleteFlag() || !(*it)->IsActive()) {
+            if (*it != nullptr && (*it)->GetHp() <= 0) {
+                m_defeatedCount++;
+            }
             it = m_enemies.erase(it);
         } else {
             it++;

@@ -13,8 +13,8 @@ Bullet::Bullet(float x, float y)
     m_isActive = true;
     m_damage = 1;
 
-    // Create a circular collider with radius 5
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 5.0f);
+    // Create a circular collider with radius 10 (previously 5)
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
 }
 
 Bullet::~Bullet()
@@ -27,7 +27,7 @@ Bullet::~Bullet()
 
 void Bullet::Update() 
 {
-    m_x += m_speed;
+    m_y -= m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
 
     if (mpCollider) {
@@ -35,7 +35,7 @@ void Bullet::Update()
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    if (m_x > 1330.0f) {
+    if (m_y < -20.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
@@ -60,5 +60,5 @@ void Bullet::OnTrigger(Collider* collider, Collider* check) {
 void Bullet::Draw()
 {
     if (!m_isActive) return;
-    DrawCircle((int)m_x, (int)m_y, 5, GetColor(255, 255, 255), TRUE);
+    DrawCircle((int)m_x, (int)m_y, 10, GetColor(255, 255, 255), TRUE);
 }

@@ -16,8 +16,8 @@ Enemy::Enemy(float x, float y)
     m_maxHp = 3; // Take 3 hits to kill
     m_hp = m_maxHp;
 
-    // Create a circular collider with radius 15
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 15.0f);
+    // Create a circular collider with radius 35 (previously 15)
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
 }
 
 Enemy::~Enemy() {
@@ -28,7 +28,7 @@ Enemy::~Enemy() {
 }
 
 void Enemy::Update() {
-    m_x -= m_speed;
+    m_y += m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
 
     if (mpCollider) {
@@ -36,7 +36,7 @@ void Enemy::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    if (m_x < -50.0f) {
+    if (m_y > 770.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
@@ -82,18 +82,18 @@ void Enemy::Draw()
 
     if (s_enemyGraphHandle != -1) {
         DrawExtendGraph(
-            static_cast<int>(mvPosition.x - 15.0f), 
-            static_cast<int>(mvPosition.y - 15.0f), 
-            static_cast<int>(mvPosition.x + 15.0f), 
-            static_cast<int>(mvPosition.y + 15.0f), 
+            static_cast<int>(mvPosition.x - 35.0f), 
+            static_cast<int>(mvPosition.y - 35.0f), 
+            static_cast<int>(mvPosition.x + 35.0f), 
+            static_cast<int>(mvPosition.y + 35.0f), 
             s_enemyGraphHandle, 
             TRUE
         );
     } else {
         // Draw red circle for enemy as fallback
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 15, GetColor(255, 0, 0), TRUE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 35, GetColor(255, 0, 0), TRUE);
     }
 
     // Draw HP text above enemy
-    DrawFormatString(static_cast<int>(mvPosition.x) - 15, static_cast<int>(mvPosition.y) - 30, GetColor(255, 255, 255), "HP:%d", m_hp);
+    DrawFormatString(static_cast<int>(mvPosition.x) - 15, static_cast<int>(mvPosition.y) - 55, GetColor(255, 255, 255), "HP:%d", m_hp);
 }

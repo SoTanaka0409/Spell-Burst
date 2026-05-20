@@ -161,6 +161,10 @@
     <ClInclude Include="Source\TitleScene.h" />
     <ClInclude Include="Source\StageSelectScene.h" />
     <ClInclude Include="Source\ResultScene.h" />
+    <ClInclude Include="Source\MeleeAttack.h" />
+    <ClInclude Include="Source\SpecialBullet.h" />
+    <ClInclude Include="Source\EnemyBullet.h" />
+    <ClInclude Include="Source\Boss.h" />
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +186,10 @@
     <ClCompile Include="Source\TitleScene.cpp" />
     <ClCompile Include="Source\StageSelectScene.cpp" />
     <ClCompile Include="Source\ResultScene.cpp" />
+    <ClCompile Include="Source\MeleeAttack.cpp" />
+    <ClCompile Include="Source\SpecialBullet.cpp" />
+    <ClCompile Include="Source\EnemyBullet.cpp" />
+    <ClCompile Include="Source\Boss.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

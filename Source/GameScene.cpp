@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "EnemyManager.h"
+#include "Boss.h"
 #include <DxLib.h>
 #include "DebugLog.h"
 #include <cstdlib>
@@ -52,25 +53,104 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
+    // Draw Stage Background (Underwater ocean world)
+    static int s_bgGraphHandle = -1;
+    if (s_bgGraphHandle == -1) {
+        s_bgGraphHandle = LoadGraph("Resource/background.png");
+    }
+    if (s_bgGraphHandle != -1) {
+        DrawExtendGraph(0, 0, 1280, 720, s_bgGraphHandle, FALSE);
+    }
+
+    // Draw game objects
     Scene::Draw();
 
-    DrawString(100, 100, "GAME SCENE (Press ENTER to Result)", GetColor(255, 255, 255));
-
-    // Draw debug information
-    DrawFormatString(100, 130, GetColor(255, 255, 0), "Object Count: %d", (int)GetObjectManager()->GetObjectCount());
-    
-    // Draw Player HP if player is active
+    // HUD Panel
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
     if (player != nullptr) {
-        DrawFormatString(100, 160, GetColor(100, 255, 100), "Player HP: %d / %d", player->GetHp(), player->GetMaxHp());
+        // Draw elegant semi-transparent background box for HUD
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+        DrawBox(10, 10, 320, 155, GetColor(0, 15, 30), TRUE); // Ocean dark theme
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        DrawBox(10, 10, 320, 155, GetColor(0, 128, 255), FALSE); // border
+
+        // Player HP
+        DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
+
+        // Attack Mode HUD
+        DrawString(20, 45, "ATTACK MODE [Q / 1-3 to switch]:", GetColor(255, 255, 255));
+        
+        Player::AttackMode mode = player->GetAttackMode();
+        unsigned int colorSelected = GetColor(255, 215, 0); // Gold
+        unsigned int colorUnselected = GetColor(120, 180, 200); // Aqua gray
+
+        DrawFormatString(35, 70, (mode == Player::AttackMode_Bullet) ? colorSelected : colorUnselected, 
+            "[1] Bullet %s", (mode == Player::AttackMode_Bullet) ? "<SELECTED>" : "");
+        DrawFormatString(35, 92, (mode == Player::AttackMode_Melee) ? colorSelected : colorUnselected, 
+            "[2] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
+
+        int cd = player->GetSpecialCooldown();
+        if (cd > 0) {
+            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
+                "[3] Special [CD: %.1fs]", cd / 60.0f);
+        } else {
+            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
+                "[3] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
+        }
     }
 
-    int yOffset = 190;
-    for (auto obj : GetObjectManager()->GetObjectList()) {
-        VECTOR pos = obj->GetPosition();
-        DrawFormatString(100, yOffset, GetColor(0, 255, 255), "Object at (%.1f, %.1f) - DrawFlag: %d", pos.x, pos.y, obj->IsDrawFlag() ? 1 : 0);
-        yOffset += 20;
+    // Defeated Enemies Score HUD (Top Right)
+    if (mpEnemyManager != nullptr) {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+        DrawBox(1050, 10, 1270, 50, GetColor(0, 15, 30), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        DrawBox(1050, 10, 1270, 50, GetColor(0, 128, 255), FALSE);
+
+        if (mpEnemyManager->GetDefeatedCount() >= 10) {
+            DrawString(1060, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
+        } else {
+            DrawFormatString(1060, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", mpEnemyManager->GetDefeatedCount());
+        }
     }
+
+    // Boss HP Bar (Top Center)
+    Boss* boss = nullptr;
+    for (auto obj : GetObjectManager()->GetObjectList()) {
+        Boss* b = dynamic_cast<Boss*>(obj);
+        if (b != nullptr) {
+            boss = b;
+            break;
+        }
+    }
+
+    if (boss != nullptr && boss->IsActive()) {
+        int barWidth = 600;
+        int barHeight = 20;
+        int barX = (1280 - barWidth) / 2;
+        int barY = 35;
+
+        // Semi-transparent panel
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(0, 15, 30), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE); // red border
+
+        // HP Fill
+        float hpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
+        int fillWidth = static_cast<int>(barWidth * hpRatio);
+        if (fillWidth > 0) {
+            DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
+        }
+        DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE); // bar outline
+
+        // Title and HP numeric text
+        DrawString(barX, barY - 20, "BOSS: FISHMAN KING", GetColor(255, 215, 0));
+        DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
+    }
+
+    // Small debug stats on bottom right
+    DrawFormatString(1100, 680, GetColor(200, 200, 200), "Objects: %d", (int)GetObjectManager()->GetObjectCount());
+    DrawFormatString(1100, 660, GetColor(200, 200, 200), "FPS: 60");
 }
 
 void GameScene::Finalize() {
