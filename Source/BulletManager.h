@@ -1,12 +1,9 @@
 #pragma once
 #include <vector>
+#include"Bullet.h"
 
-// 前方宣言
-class Bullet;
 
 class BulletManager {
-private:
-    std::vector<Bullet*> m_bullets; // 弾のリスト
 
 public:
     BulletManager();
@@ -21,4 +18,7 @@ public:
 
     // 当たり判定用に弾のリストを取得する関数
     const std::vector<Bullet*>& GetBullets() const { return m_bullets; }
+private:
+    std::vector<Bullet*> m_bullets; // 弾のリスト
+
 };

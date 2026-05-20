@@ -18,7 +18,7 @@ Scene::~Scene()
 	
 	if (mpObjectManager != nullptr)
 	{
-		mpObjectManager->DeleteAll3D();
+		mpObjectManager->DeleteAll2D();
 		delete mpObjectManager;
 	}
 	if (mpColliderManager != nullptr)

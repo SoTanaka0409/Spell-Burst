@@ -18,7 +18,7 @@ public:
 public:
 	Object2D(VECTOR initPos);
 
-	~Object2D();
+	virtual ~Object2D();
 
 	virtual void Update();
 

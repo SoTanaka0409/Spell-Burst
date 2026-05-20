@@ -1,5 +1,5 @@
 ﻿#include "Player.h"
-#include "../Input/InputManager.h"
+#include"InputManager.h"
 #include <DxLib.h>
 
 Player::Player() {
@@ -13,12 +13,13 @@ void Player::Initialize() {
     m_speed = 5.0f; // スピード調整
 }
 
-void Player::Update() {
+void Player::Update()
+{
     // WASDキーで移動（押している間は true）
-    if (InputManager::IsKeyHold(KEY_INPUT_W)) { m_y -= m_speed; } // 上
-    if (InputManager::IsKeyHold(KEY_INPUT_S)) { m_y += m_speed; } // 下
-    if (InputManager::IsKeyHold(KEY_INPUT_A)) { m_x -= m_speed; } // 左
-    if (InputManager::IsKeyHold(KEY_INPUT_D)) { m_x += m_speed; } // 右
+    if (InputManager::CheckDownKey(KEY_INPUT_W)) { m_y -= m_speed; } // 上
+    if (InputManager::CheckDownKey(KEY_INPUT_S)) { m_y += m_speed; } // 下
+    if (InputManager::CheckDownKey(KEY_INPUT_A)) { m_x -= m_speed; } // 左
+    if (InputManager::CheckDownKey(KEY_INPUT_D)) { m_x += m_speed; } // 右
 }
 
 void Player::Draw() {

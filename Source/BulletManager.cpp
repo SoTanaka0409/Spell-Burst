@@ -2,7 +2,9 @@
 #include "Bullet.h"
 #include <DxLib.h>
 
-BulletManager::BulletManager() {
+BulletManager::BulletManager()
+{
+
 }
 
 BulletManager::~BulletManager() {
@@ -22,9 +24,7 @@ void BulletManager::Initialize() {
 
 void BulletManager::Update() {
     // 全ての弾を更新
-    for (auto bullet : m_bullets) {
-        bullet->Update();
-    }
+    
 
     // 画面外に出て不要になった弾（isActive が false になったもの）をリストから削除する
     auto it = m_bullets.begin();
@@ -40,9 +40,7 @@ void BulletManager::Update() {
 
 void BulletManager::Draw() {
     // 全ての弾を描画
-    for (auto bullet : m_bullets) {
-        bullet->Draw();
-    }
+   
 }
 
 void BulletManager::SpawnBullet(float x, float y) {

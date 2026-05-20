@@ -146,16 +146,16 @@
     <ClInclude Include="Source\BulletManager.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\ColliderManager.h" />
+    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\GameScene.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Master.h" />
     <ClInclude Include="Source\Object2D.h" />
-    <ClInclude Include="Source\Object\ObjectManager.h" />
-    <ClInclude Include="Source\Object\Enemy.h" />
-    <ClInclude Include="Source\Object\EnemyManager.h" />
+    <ClInclude Include="Source\ObjectManager.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Scene\SceneManager.h" />
+    <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\TitleScene.h" />
     <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
@@ -164,13 +164,14 @@
     <ClCompile Include="Source\BulletManager.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\ColliderManager.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\EnemyManager.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\Object2D.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Object\Enemy.cpp" />
-    <ClCompile Include="Source\Object\EnemyManager.cpp" />
-    <ClCompile Include="Source\Object\ObjectManager.cpp" />
+    <ClCompile Include="Source\ObjectManager.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
   </ItemGroup>
