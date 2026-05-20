@@ -9,10 +9,10 @@ class Object2D
 public:
 	enum Tag2D
 	{
-		None2D = 0,//İ’è‚È‚µ
-		Tag2D_Dino1 = 1,
-		Tag2D_Dino2=100,
-		
+		None2D = 0,
+		Tag2D_Player = 1,
+		Tag2D_Enemy = 2,
+		Tag2D_PlayerBullet = 3
 	};
 
 public:
@@ -24,7 +24,7 @@ public:
 
 	virtual void Draw();
 
-public://ƒQƒbƒ^[AƒZƒbƒ^[//
+public://ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼//
 	void SetPosition(VECTOR pos) { mvPosition = pos; };
 	VECTOR GetPosition() { return mvPosition; }
 
@@ -34,10 +34,10 @@ public://ƒQƒbƒ^[AƒZƒbƒ^[//
 	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
 	bool IsDeleteFlag() { return mbDeleteFlag; }
 
-	void SetDrawFlag(bool flag) { mbDrawFlag = flag; } //“G‚Ìíœƒtƒ‰ƒOİ’è@
-	bool IsDrawFlag() { return mbDrawFlag; }          //“G‚Ìíœƒtƒ‰ƒO‚Ìì¬
+	void SetDrawFlag(bool flag) { mbDrawFlag = flag; } //æ•µã®å‰Šé™¤ãƒ•ãƒ©ã‚°è¨­å®šã€€
+	bool IsDrawFlag() { return mbDrawFlag; }          //æ•µã®å‰Šé™¤ãƒ•ãƒ©ã‚°ã®ä½œæˆ
 
-	//ƒ^ƒO
+	//ã‚¿ã‚°
 	void SetTag(Tag2D tag) { mnTag = tag; }
 	Tag2D GetTag() { return mnTag; }
 
@@ -46,13 +46,13 @@ public://ƒQƒbƒ^[AƒZƒbƒ^[//
 	virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	VECTOR mvPosition;  //À•W
-	VECTOR mvRotation;   //‰ñ“]
+	VECTOR mvPosition;  //åº§æ¨™
+	VECTOR mvRotation;   //å›è»¢
 
 private:
-	bool mbDeleteFlag;  //íœƒtƒ‰ƒO
-	Tag2D mnTag;   //ƒ^ƒO
-	bool mbDrawFlag;//•`‰æƒtƒ‰ƒO
+	bool mbDeleteFlag;  //å‰Šé™¤ãƒ•ãƒ©ã‚°
+	Tag2D mnTag;   //ã‚¿ã‚°
+	bool mbDrawFlag;//æç”»ãƒ•ãƒ©ã‚°
 
 
 };

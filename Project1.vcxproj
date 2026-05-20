@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
+    <TargetName>Project1_v2</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -145,6 +146,7 @@
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\BulletManager.h" />
     <ClInclude Include="Source\Collider.h" />
+    <ClInclude Include="Source\CapsuleCollider.h" />
     <ClInclude Include="Source\ColliderManager.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\EnemyManager.h" />
@@ -165,6 +167,7 @@
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletManager.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
+    <ClCompile Include="Source\CapsuleCollider.cpp" />
     <ClCompile Include="Source\ColliderManager.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EnemyManager.cpp" />

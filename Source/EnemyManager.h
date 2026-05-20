@@ -16,5 +16,7 @@ public:
     void Update();
     void Draw();
 
+    void SpawnEnemy(float x, float y);
+
     const std::vector<Enemy*>& GetEnemies() const { return m_enemies; }
 };

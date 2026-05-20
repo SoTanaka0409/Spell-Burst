@@ -1,27 +1,59 @@
 #include "Bullet.h"
+#include "CapsuleCollider.h"
 #include "DxLib.h"
 
 Bullet::Bullet(float x, float y) 
     : Object2D(VGet(x, y, 0.0f))
+    , mpCollider(nullptr)
 {
+    SetTag(Tag2D_PlayerBullet);
     m_x = x;
     m_y = y;
     m_speed = 10.0f;
     m_isActive = true;
+    m_damage = 1;
+
+    // Create a circular collider with radius 5
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 5.0f);
 }
 
 Bullet::~Bullet()
 {
+    if (mpCollider) {
+        delete mpCollider;
+        mpCollider = nullptr;
+    }
 }
 
 void Bullet::Update() 
 {
-    m_y -= m_speed;
+    m_x += m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
 
-    if (m_y < 0.0f) {
+    if (mpCollider) {
+        mpCollider->mvPosition = mvPosition;
+        mpCollider->mvPosition2 = mvPosition;
+    }
+
+    if (m_x > 1330.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
+    }
+}
+
+void Bullet::Kill() {
+    m_isActive = false;
+    SetDeleteFlag(true);
+    if (mpCollider) {
+        mpCollider->SetDeleteFlag(true);
+    }
+}
+
+void Bullet::OnTrigger(Collider* collider, Collider* check) {
+    if (check != nullptr && check->GetParentObject() != nullptr) {
+        if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
+            Kill();
+        }
     }
 }
 

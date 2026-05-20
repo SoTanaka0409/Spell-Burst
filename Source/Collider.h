@@ -3,6 +3,7 @@
 #include <vector>
 
 class Object2D;
+class ColliderManager;
 
 class Collider
 {
@@ -10,7 +11,7 @@ public:
 	Collider(Object2D* parent);
 	virtual ~Collider();
 
-	virtual void Update(Collider* check);//
+	virtual void Update(Collider* check);
 	virtual void Draw();
 
 	virtual void OnEnter();
@@ -34,8 +35,6 @@ public:
 
 	void RemoveCollision(Collider* collider);
 
-
-
 public:
 	Object2D* mpParentObject;
 
@@ -46,6 +45,6 @@ public:
 	bool mbDeleteFlag;
 
 protected:
-	std::vector<Collider*> mCollisionList;	// Õ“Ë‚µ‚Ä‚¢‚éCollider‚ÌƒŠƒXƒg
-	
+	std::vector<Collider*> mCollisionList;
+	ColliderManager* mpMyManager;
 };
