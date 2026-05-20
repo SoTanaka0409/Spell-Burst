@@ -1,6 +1,11 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 #include "Boss.h"
+#include "Player.h"
+#include "Master.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "ObjectManager.h"
 #include <DxLib.h>
 #include <cstdlib>
 
@@ -44,6 +49,13 @@ void EnemyManager::Update() {
         if (*it == nullptr || (*it)->IsDeleteFlag() || !(*it)->IsActive()) {
             if (*it != nullptr && (*it)->GetHp() <= 0) {
                 m_defeatedCount++;
+                // Grant XP to the player for defeating an enemy
+                Player* player = dynamic_cast<Player*>(
+                    Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player)
+                );
+                if (player != nullptr) {
+                    player->AddXp(1);
+                }
             }
             it = m_enemies.erase(it);
         } else {

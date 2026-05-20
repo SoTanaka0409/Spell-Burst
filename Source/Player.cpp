@@ -31,7 +31,13 @@ void Player::Initialize() {
     m_attackMode = AttackMode_Bullet;
     m_specialCooldown = 0;
 
-    // Create a circular collider with radius 45 (previously 20)
+    // Level & XP system initialization
+    m_level = 1;
+    m_xp = 0;
+    m_xpNeeded = 5; // Level 1 needs 5 XP to level up
+    m_levelUpTimer = 0;
+
+    // Create a circular collider with radius 35
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
 }
 
@@ -58,6 +64,11 @@ void Player::Update()
     // Cooldown decrement
     if (m_specialCooldown > 0) {
         m_specialCooldown--;
+    }
+
+    // Level-up flash timer decrement
+    if (m_levelUpTimer > 0) {
+        m_levelUpTimer--;
     }
 
     // Switch attack modes
@@ -124,6 +135,19 @@ void Player::TakeDamage(int damage) {
         m_hp = 0;
         ResultScene::s_isVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    }
+}
+
+void Player::AddXp(int amount) {
+    m_xp += amount;
+    // Level-up loop (handles multiple level-ups from one big XP gain)
+    while (m_xp >= m_xpNeeded) {
+        m_xp -= m_xpNeeded;
+        m_level++;
+        m_xpNeeded = m_level * 5; // Each level requires (level * 5) XP
+        // Bonus on level up: full HP restore
+        m_hp = m_maxHp;
+        m_levelUpTimer = 120; // Show "LEVEL UP!" for 120 frames (~2 seconds)
     }
 }
 

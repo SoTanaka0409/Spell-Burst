@@ -68,11 +68,11 @@ void GameScene::Draw() {
     // HUD Panel
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
     if (player != nullptr) {
-        // Draw elegant semi-transparent background box for HUD
+        // Draw elegant semi-transparent background box for HUD (taller to fit Level/XP)
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 155, GetColor(0, 15, 30), TRUE); // Ocean dark theme
+        DrawBox(10, 10, 320, 195, GetColor(0, 15, 30), TRUE); // Ocean dark theme
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 155, GetColor(0, 128, 255), FALSE); // border
+        DrawBox(10, 10, 320, 195, GetColor(0, 128, 255), FALSE); // border
 
         // Player HP
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
@@ -96,6 +96,40 @@ void GameScene::Draw() {
         } else {
             DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
                 "[3] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
+        }
+
+        // === Level & XP HUD ===
+        DrawFormatString(20, 140, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
+
+        // XP progress bar
+        int xpBarWidth = 260;
+        int xpBarX = 35;
+        int xpBarY = 162;
+        float xpRatio = (player->GetXpNeeded() > 0) 
+            ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) 
+            : 1.0f;
+        int xpFill = static_cast<int>(xpBarWidth * xpRatio);
+        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
+        if (xpFill > 0) {
+            DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
+        }
+        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
+        DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
+
+        // === LEVEL UP! Flash Effect (above player character) ===
+        int lvTimer = player->GetLevelUpTimer();
+        if (lvTimer > 0) {
+            // Flicker every 10 frames for a blinking effect
+            if ((lvTimer / 10) % 2 == 0) {
+                int px = static_cast<int>(player->GetX());
+                int py = static_cast<int>(player->GetY()) - 60;
+                // Shadow text
+                DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "LEVEL UP!");
+                // Main gold text
+                DrawFormatString(px - 60, py, GetColor(255, 215, 0), "LEVEL UP!");
+                DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100), 
+                    "LV.%d -> LV.%d", player->GetLevel() - 1, player->GetLevel());
+            }
         }
     }
 
