@@ -1,121 +1,14 @@
-﻿  Bullet.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Bullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Bullet.cpp' をコンパイルしています)
-  
-  BulletManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
-  
-  Collider.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/Collider.cpp' をコンパイルしています)
-  
-  CapsuleCollider.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/CapsuleCollider.cpp' をコンパイルしています)
-  
-  ColliderManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/ColliderManager.cpp' をコンパイルしています)
-  
-  Enemy.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
-  EnemyManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-  GameScene.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-  InputManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\InputManager.cpp(2,9): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  Object2D.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Object2D.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Object2D.cpp' をコンパイルしています)
-  
-  Main.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Main.cpp(1,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  ObjectManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/ObjectManager.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/ObjectManager.cpp' をコンパイルしています)
-  
-  Player.cpp
+﻿  Player.cpp
 C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\InputManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  Scene.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/Scene.cpp' をコンパイルしています)
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  SceneManager.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\SceneManager.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/SceneManager.cpp' をコンパイルしています)
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  TitleScene.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/TitleScene.cpp' をコンパイルしています)
-  
-  StageSelectScene.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/StageSelectScene.cpp' をコンパイルしています)
-  
-  ResultScene.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/ResultScene.cpp' をコンパイルしています)
-  
-  MeleeAttack.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/MeleeAttack.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/MeleeAttack.cpp' をコンパイルしています)
-  
-  SpecialBullet.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SpecialBullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/SpecialBullet.cpp' をコンパイルしています)
-  
-  コードを生成中...
-  コンパイル中...
-  EnemyBullet.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
-  Boss.cpp
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-  コードを生成中...
+  Project1.vcxproj -> C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\x64\Debug\Project1_v2.exe

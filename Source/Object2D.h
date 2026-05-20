@@ -1,8 +1,8 @@
 #pragma once
-#include<string>
-#include"vector"
-#include"Dxlib.h"
-#include"Collider.h"
+#include <string>
+#include "vector"
+#include "Dxlib.h"
+#include "Collider.h"
 
 class Object2D
 {

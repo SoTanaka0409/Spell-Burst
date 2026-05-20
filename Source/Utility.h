@@ -1,15 +1,15 @@
 #pragma once
 #include "DxLib.h"
 
-//ƒvƒƒOƒ‰ƒ€“à‚Å‹¤’Ê‚µ‚ÄŽg—p‚·‚é’è”’è‹`‚È‚Ç‚ð‚±‚±‚É‹Lq‚µ‚Ä‚¢‚­
-//ŠÖ”‚È‚Ç‚à‹Lq‚µ‚Ä‚¢‚­
+//ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‹ï¿½ï¿½Ê‚ï¿½ï¿½ÄŽgï¿½pï¿½ï¿½ï¿½ï¿½è”ï¿½ï¿½`ï¿½È‚Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½É‹Lï¿½qï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+//ï¿½Öï¿½ï¿½È‚Ç‚ï¿½Lï¿½qï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 
 class Utility
 {
-	public://’è”’è‹`
-	static const int SCREEN_WIDTH = 1920; //‰æ–Ê‚Ì•
+	public://ï¿½è”ï¿½ï¿½`
+	static const int SCREEN_WIDTH = 1920; //ï¿½ï¿½Ê‚Ì•ï¿½
 
-	static const int SCREEN_HEIGHT = 1080; //‰æ–Ê‚Ì‚‚³
+	static const int SCREEN_HEIGHT = 1080; //ï¿½ï¿½Ê‚Ìï¿½ï¿½ï¿½
 
 	static VECTOR StageSize;
 

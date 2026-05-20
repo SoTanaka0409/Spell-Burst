@@ -3,9 +3,9 @@
 #include "Player.h"
 #include <DxLib.h>
 #include <cmath>
-#include"utility.h"
+#include "utility.h"
 
-EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed)
+EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
@@ -16,6 +16,8 @@ EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed)
     m_dy = dy;
     m_speed = speed;
     m_isActive = true;
+    m_canReflect = canReflect;
+    m_hasReflected = false;
 
     // Normalize direction vector just in case
     float len = std::sqrt(m_dx * m_dx + m_dy * m_dy);
@@ -47,10 +49,39 @@ void EnemyBullet::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
+    if (m_canReflect && !m_hasReflected) {
+        bool reflected = false;
+        if (m_x < 0.0f) {
+            m_x = 0.0f;
+            m_dx = -m_dx;
+            reflected = true;
+        } else if (m_x > Utility::SCREEN_WIDTH) {
+            m_x = (float)Utility::SCREEN_WIDTH;
+            m_dx = -m_dx;
+            reflected = true;
+        }
+        
+        if (m_y < 0.0f) {
+            m_y = 0.0f;
+            m_dy = -m_dy;
+            reflected = true;
+        } else if (m_y > Utility::SCREEN_HEIGHT) {
+            m_y = (float)Utility::SCREEN_HEIGHT;
+            m_dy = -m_dy;
+            reflected = true;
+        }
+
+        if (reflected) {
+            m_hasReflected = true;
+        }
+    }
+
     // Clean up when off-screen
-    if (m_x < -50.0f || m_x >Utility::SCREEN_WIDTH  || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT) {
-        m_isActive = false;
-        SetDeleteFlag(true);
+    if (!m_canReflect || m_hasReflected) {
+        if (m_x < -50.0f || m_x > Utility::SCREEN_WIDTH + 50.0f || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT + 50.0f) {
+            m_isActive = false;
+            SetDeleteFlag(true);
+        }
     }
 }
 

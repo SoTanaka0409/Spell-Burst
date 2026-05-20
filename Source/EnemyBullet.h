@@ -11,8 +11,11 @@ private:
     bool m_isActive;
     CapsuleCollider* mpCollider;
 
+    bool m_canReflect;
+    bool m_hasReflected;
+
 public:
-    EnemyBullet(float x, float y, float dx, float dy, float speed);
+    EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect = false);
     virtual ~EnemyBullet() override;
 
     void Update() override;

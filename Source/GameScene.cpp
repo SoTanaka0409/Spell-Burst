@@ -179,7 +179,7 @@ void GameScene::Draw() {
         DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE); // bar outline
 
         // Title and HP numeric text
-        DrawString(barX, barY - 20, "BOSS: FISHMAN KING", GetColor(255, 215, 0));
+        DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "BOSS: FISHMAN KING (PHASE %d)", 4 - boss->GetLives());
         DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
     }
 
