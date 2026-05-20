@@ -9,6 +9,7 @@
 #include <DxLib.h>
 #include "DebugLog.h"
 #include <cstdlib>
+#include "Utility.h"
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
@@ -59,7 +60,7 @@ void GameScene::Draw() {
         s_bgGraphHandle = LoadGraph("Resource/background.png");
     }
     if (s_bgGraphHandle != -1) {
-        DrawExtendGraph(0, 0, 1280, 720, s_bgGraphHandle, FALSE);
+        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
     }
 
     // Draw game objects
@@ -136,14 +137,14 @@ void GameScene::Draw() {
     // Defeated Enemies Score HUD (Top Right)
     if (mpEnemyManager != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(1050, 10, 1270, 50, GetColor(0, 15, 30), TRUE);
+        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 15, 30), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(1050, 10, 1270, 50, GetColor(0, 128, 255), FALSE);
+        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
 
         if (mpEnemyManager->GetDefeatedCount() >= 10) {
-            DrawString(1060, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
+            DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
         } else {
-            DrawFormatString(1060, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", mpEnemyManager->GetDefeatedCount());
+            DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", mpEnemyManager->GetDefeatedCount());
         }
     }
 
@@ -158,10 +159,10 @@ void GameScene::Draw() {
     }
 
     if (boss != nullptr && boss->IsActive()) {
-        int barWidth = 600;
+        int barWidth = 400;
         int barHeight = 20;
-        int barX = (1280 - barWidth) / 2;
-        int barY = 35;
+        int barX = (Utility::SCREEN_WIDTH - barWidth) / 2;
+        int barY = 50;
 
         // Semi-transparent panel
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);

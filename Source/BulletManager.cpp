@@ -21,9 +21,7 @@ void BulletManager::Initialize() {
 }
 
 void BulletManager::Update() {
-    for (auto bullet : m_bullets) {
-        bullet->Update();
-    }
+   
 
     for (auto it = m_bullets.begin(); it != m_bullets.end(); ) {
         if (!(*it)->IsActive()) {
@@ -36,11 +34,9 @@ void BulletManager::Update() {
 }
 
 void BulletManager::Draw() {
-    for (auto bullet : m_bullets) {
-        bullet->Draw();
-    }
+   
 }
 
 void BulletManager::SpawnBullet(float x, float y) {
-    m_bullets.push_back(new Bullet(x, y));
+    m_bullets.push_back(new Bullet(x, y,1));
 }

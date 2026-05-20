@@ -6,7 +6,7 @@ class CapsuleCollider;
 class Bullet : public Object2D
 {
 public:
-    Bullet(float x, float y);
+    Bullet(float x, float y,float damage);
     virtual ~Bullet() override;
     void Draw() override;
     void Update() override;

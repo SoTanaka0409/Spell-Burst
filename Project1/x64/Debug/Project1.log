@@ -2,104 +2,72 @@
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Bullet.cpp' をコンパイルしています)
   
+C:\Users\student\Desktop\Aigame\Source\Bullet.cpp(14,16): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
   BulletManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Bullet.cpp' をコンパイルしています)
-  
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
   (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
   
   Collider.cpp
-C:\Users\student\Desktop\Aigame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+C:\Users\student\Desktop\Aigame\Source\BulletManager.cpp(45,35): error C2661: 'Bullet::Bullet': 2 個の引数を伴うオーバーロードされた関数はありません。
+  C:\Users\student\Desktop\Aigame\Source\BulletManager.cpp(45,35):
+  引数リスト '(float, float)' を一致させようとしているとき
+  
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Collider.cpp' をコンパイルしています)
   
   CapsuleCollider.cpp
-C:\Users\student\Desktop\Aigame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/CapsuleCollider.cpp' をコンパイルしています)
   
   ColliderManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Collider.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/ColliderManager.cpp' をコンパイルしています)
-  
   Enemy.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
   (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
   
   EnemyManager.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
   GameScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
   
   InputManager.cpp
-C:\Users\student\Desktop\Aigame\Source\InputManager.cpp(2,9): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
   Object2D.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Object2D.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Object2D.cpp' をコンパイルしています)
-  
   Main.cpp
-C:\Users\student\Desktop\Aigame\Source\Main.cpp(1,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
   ObjectManager.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/ObjectManager.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
   (ソース ファイル 'Source/ObjectManager.cpp' をコンパイルしています)
   
   Player.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
+C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27): error C2661: 'Bullet::Bullet': 2 個の引数を伴うオーバーロードされた関数はありません。
+  C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27):
+  引数リスト '(float, float)' を一致させようとしているとき
   
   Scene.cpp
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Scene.cpp' をコンパイルしています)
   
   SceneManager.cpp
 C:\Users\student\Desktop\Aigame\Source\SceneManager.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/SceneManager.cpp' をコンパイルしています)
   
   TitleScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/TitleScene.cpp' をコンパイルしています)
-  
   StageSelectScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/StageSelectScene.cpp' をコンパイルしています)
-  
   ResultScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Scene.h(2,10): error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
-  (ソース ファイル 'Source/ResultScene.cpp' をコンパイルしています)
-  
   MeleeAttack.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/MeleeAttack.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/MeleeAttack.cpp' をコンパイルしています)
-  
   SpecialBullet.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SpecialBullet.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
   (ソース ファイル 'Source/SpecialBullet.cpp' をコンパイルしています)
   
   コードを生成中...
@@ -108,14 +76,8 @@ C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include フ
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
   Boss.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(4,9): error C1083: include ファイルを開けません。'Dxlib.h':No such file or directory
   (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
   
   コードを生成中...

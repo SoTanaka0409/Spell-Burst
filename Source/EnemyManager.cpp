@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "ObjectManager.h"
+#include "Utility.h"
 #include <DxLib.h>
 #include <cstdlib>
 
@@ -30,7 +31,7 @@ void EnemyManager::Update() {
     if (!m_bossSpawned) {
         if (m_defeatedCount >= 10) {
             // Spawn Boss at the top center, slightly off-screen Y
-            new Boss(640.0f, -80.0f);
+            new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f);
             m_bossSpawned = true;
         } else {
             m_spawnTimer++;

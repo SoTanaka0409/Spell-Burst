@@ -1,6 +1,8 @@
 #include "ResultScene.h"
-#include "InputManager.h"
+#include "SceneManager.h"
 #include "Master.h"
+#include "InputManager.h"
+#include "Utility.h"
 #include <DxLib.h>
 
 bool ResultScene::s_isVictory = false;
@@ -18,8 +20,8 @@ void ResultScene::Update() {
 void ResultScene::Draw() {
     Scene::Draw();
     
-    // Draw nice solid blue/black background
-    DrawBox(0, 0, 1280, 720, GetColor(0, 10, 20), TRUE);
+    // Draw nice solid background
+    DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 10, 20), TRUE);
 
     if (s_isVictory) {
         // Draw huge victory text with gold border

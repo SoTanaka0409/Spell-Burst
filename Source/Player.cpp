@@ -2,10 +2,11 @@
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
-#include <DxLib.h>
+#include"dxlib.h"
+#include "Utility.h"
 
 Player::Player() 
-    : Object2D(VGet(1280.0f / 2.0f, 720.0f / 2.0f, 0.0f))
+    : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Player);
@@ -23,8 +24,8 @@ Player::~Player() {
 #include "SpecialBullet.h"
 
 void Player::Initialize() {
-    m_x = 1280.0f / 2.0f;
-    m_y = 720.0f / 2.0f;
+    m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
+    m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
     m_speed = 5.0f;
     m_maxHp = 5;
     m_hp = m_maxHp;
@@ -50,9 +51,9 @@ void Player::Update()
 
     // Clamp inside screen with 45.0f padding
     if (m_x < 45.0f) m_x = 45.0f;
-    if (m_x > 1235.0f) m_x = 1235.0f;
+    if (m_x > Utility::SCREEN_WIDTH - 45.0f) m_x = Utility::SCREEN_WIDTH - 45.0f;
     if (m_y < 45.0f) m_y = 45.0f;
-    if (m_y > 675.0f) m_y = 675.0f;
+    if (m_y > Utility::SCREEN_HEIGHT - 45.0f) m_y = Utility::SCREEN_HEIGHT - 45.0f;
 
     mvPosition = VGet(m_x, m_y, 0.0f);
 
@@ -90,7 +91,12 @@ void Player::Update()
     // Firing attacks
     if (InputManager::CheckDownKey(KEY_INPUT_SPACE)) {
         if (m_attackMode == AttackMode_Bullet) {
-            new Bullet(m_x, m_y - 45.0f);
+            int numBullets = m_level;
+            float spacing = 20.0f;
+            float startX = m_x - (numBullets - 1) * spacing / 2.0f;
+            for (int i = 0; i < numBullets; ++i) {
+                new Bullet(startX + i * spacing, m_y - 45.0f);
+            }
         }
         else if (m_attackMode == AttackMode_Melee) {
             new MeleeAttack(m_x, m_y - 70.0f);

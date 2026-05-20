@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <DxLib.h>
 #include <cmath>
+#include"utility.h"
 
 EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed)
     : Object2D(VGet(x, y, 0.0f))
@@ -47,7 +48,7 @@ void EnemyBullet::Update() {
     }
 
     // Clean up when off-screen
-    if (m_x < -50.0f || m_x > 1330.0f || m_y < -50.0f || m_y > 770.0f) {
+    if (m_x < -50.0f || m_x >Utility::SCREEN_WIDTH  || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT) {
         m_isActive = false;
         SetDeleteFlag(true);
     }

@@ -7,9 +7,9 @@
 class Utility
 {
 	public://’è”’è‹`
-	static const int SCREEN_WIDTH = 1600; //‰æ–Ê‚Ì•
+	static const int SCREEN_WIDTH = 1920; //‰æ–Ê‚Ì•
 
-	static const int SCREEN_HEIGHT = 900; //‰æ–Ê‚Ì‚‚³
+	static const int SCREEN_HEIGHT = 1080; //‰æ–Ê‚Ì‚‚³
 
 	static VECTOR StageSize;
 

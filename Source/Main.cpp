@@ -3,9 +3,8 @@
 #include "SceneManager.h"
 #include "Master.h"
 #include <iostream>
+#include"Utility.h"
 
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
 
 SceneManager* Master::sceneManager = new SceneManager();
 
@@ -24,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     // Init DX Library
     ChangeWindowMode(TRUE);
-    SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+    SetGraphMode(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, 32);
     SetMainWindowText("Shooting Action Game");
 
     if (DxLib_Init() == -1) {

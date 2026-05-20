@@ -26,6 +26,8 @@ Boss::Boss(float x, float y)
     m_isActive = true;
     m_attackTimer = 0;
     m_patternIndex = 0;
+    m_isDying = false;
+    m_deathTimer = 0;
 
     // Radius 80.0f for the giant boss
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
@@ -46,6 +48,16 @@ void Boss::SelectNewTarget() {
 }
 
 void Boss::Update() {
+    if (m_isDying) {
+        m_deathTimer--;
+        m_y -= 1.0f; // Move upwards while dying
+        mvPosition = VGet(m_x, m_y, 0.0f);
+        if (m_deathTimer <= 0) {
+            Kill();
+        }
+        return; // Skip normal behavior
+    }
+
     // Move towards current target
     float dx = m_targetX - m_x;
     float dy = m_targetY - m_y;
@@ -96,7 +108,7 @@ void Boss::ShootFanBarrage() {
     const int bulletCount = 7;
     // Straight down is PI/2 (90 degrees). We spread out +/- 45 degrees.
     float baseAngle = PI / 2.0f;
-    for (int i = -3; i <= 3; i++) {
+    for (int i = 0; i <= bulletCount; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
         float dx = std::cos(angle);
         float dy = std::sin(angle);
@@ -137,10 +149,17 @@ void Boss::ShootTargetedBarrage() {
 }
 
 void Boss::TakeDamage(int damage) {
+    if (m_isDying) return;
+
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
-        Kill();
+        m_isDying = true;
+        m_deathTimer = 180; // 3 seconds flash and fly up
+        if (mpCollider) {
+            mpCollider->SetDeleteFlag(true); // Disable collision
+            mpCollider = nullptr;
+        }
     }
 }
 
@@ -156,6 +175,8 @@ void Boss::Kill() {
 }
 
 void Boss::OnTrigger(Collider* collider, Collider* check) {
+    if (m_isDying) return;
+
     if (check != nullptr && check->GetParentObject() != nullptr) {
         Object2D* parent = check->GetParentObject();
         if (parent->GetTag() == Tag2D_PlayerBullet) {
@@ -189,15 +210,23 @@ void Boss::Draw() {
     }
 
     if (s_bossGraphHandle != -1) {
-        DrawExtendGraph(
-            static_cast<int>(mvPosition.x - 80.0f), 
-            static_cast<int>(mvPosition.y - 80.0f), 
-            static_cast<int>(mvPosition.x + 80.0f), 
-            static_cast<int>(mvPosition.y + 80.0f), 
-            s_bossGraphHandle, 
-            TRUE
-        );
+        if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
+            DrawExtendGraph(
+                static_cast<int>(mvPosition.x - 80.0f), 
+                static_cast<int>(mvPosition.y - 80.0f), 
+                static_cast<int>(mvPosition.x + 80.0f), 
+                static_cast<int>(mvPosition.y + 80.0f), 
+                s_bossGraphHandle, 
+                TRUE
+            );
+        }
     } else {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 80, GetColor(255, 0, 0), TRUE);
+        if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
+            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 80, GetColor(255, 0, 0), TRUE);
+        }
+    }
+
+    if (m_isDying) {
+        DrawString(static_cast<int>(mvPosition.x) - 150, static_cast<int>(mvPosition.y) + 90, "I will be waiting for you in the next stage...!", GetColor(255, 100, 100));
     }
 }

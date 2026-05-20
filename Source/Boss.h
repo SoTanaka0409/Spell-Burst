@@ -17,6 +17,10 @@ private:
     // Attack timers and states
     int m_attackTimer;
     int m_patternIndex;
+
+    // Death animation state
+    bool m_isDying;
+    int m_deathTimer;
     
     CapsuleCollider* mpCollider;
 

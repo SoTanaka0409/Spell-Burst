@@ -2,7 +2,7 @@
 #include "CapsuleCollider.h"
 #include "DxLib.h"
 
-Bullet::Bullet(float x, float y) 
+Bullet::Bullet(float x, float y,float damage) 
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
@@ -11,7 +11,7 @@ Bullet::Bullet(float x, float y)
     m_y = y;
     m_speed = 10.0f;
     m_isActive = true;
-    m_damage = 1;
+    m_damage = damage;
 
     // Create a circular collider with radius 10 (previously 5)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
