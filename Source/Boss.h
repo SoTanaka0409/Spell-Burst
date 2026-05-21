@@ -27,6 +27,7 @@ private:
     // フェーズ（残機）と無敵時間を管理する変数
     int m_lives;
     int m_invincibleTimer;
+    int m_invincibleCycleTimer; // 5秒ごとの無敵を管理するタイマー
     
     CapsuleCollider* mpCollider;
 

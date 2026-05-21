@@ -5,7 +5,7 @@
 #include <cmath>
 #include "utility.h"
 
-EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect)
+EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect, bool isStunBullet)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
@@ -18,6 +18,7 @@ EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool
     m_isActive = true;
     m_canReflect = canReflect;
     m_hasReflected = false;
+    m_isStunBullet = isStunBullet;
 
     // Normalize direction vector just in case
     float len = std::sqrt(m_dx * m_dx + m_dy * m_dy);
@@ -78,7 +79,7 @@ void EnemyBullet::Update() {
         }
     }
 
-    // Clean up when off-screen
+    // Clean up when off-screenうんこうんこうんこうんこうんこ
     if (!m_canReflect || m_hasReflected) {
         if (m_x < -50.0f || m_x > Utility::SCREEN_WIDTH + 50.0f || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT + 50.0f) {
             m_isActive = false;
@@ -91,9 +92,16 @@ void EnemyBullet::Update() {
 // 敵弾の画像を描画します。
 void EnemyBullet::Draw() {
     if (!m_isActive) return;
-    // Draw a bright magenta/red glowing energy ball
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 10, GetColor(255, 0, 128), TRUE);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(255, 255, 255), TRUE);
+    
+    if (m_isStunBullet) {
+        // スタン弾は水色系
+        DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 10, GetColor(0, 200, 255), TRUE);
+        DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(200, 255, 255), TRUE);
+    } else {
+        // 通常の敵弾はマゼンタ系
+        DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 10, GetColor(255, 0, 128), TRUE);
+        DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(255, 255, 255), TRUE);
+    }
 }
 
 void EnemyBullet::OnTrigger(Collider* collider, Collider* check) {
@@ -102,6 +110,9 @@ void EnemyBullet::OnTrigger(Collider* collider, Collider* check) {
             Player* player = dynamic_cast<Player*>(check->GetParentObject());
             if (player != nullptr) {
                 player->TakeDamage(1);
+                if (m_isStunBullet) {
+                    player->Stun(60); // 1秒間スタン
+                }
             }
             m_isActive = false;
             SetDeleteFlag(true);

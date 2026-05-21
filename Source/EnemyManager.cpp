@@ -87,7 +87,16 @@ void EnemyManager::Update() {
 }
 
 void EnemyManager::SpawnEnemy(float x, float y) {
-    Enemy* enemy = new Enemy(x, y);
+    int enemyType = 1;
+    if (m_currentPhase == 2) {
+        if (rand() % 100 < 30) enemyType = 2; // 30%の確率でタイプ2
+    } else if (m_currentPhase >= 3) {
+        int r = rand() % 100;
+        if (r < 20) enemyType = 3; // 20%の確率でタイプ3（スタン）
+        else if (r < 50) enemyType = 2; // 30%の確率でタイプ2
+    }
+    
+    Enemy* enemy = new Enemy(x, y, enemyType);
     m_enemies.push_back(enemy);
 }
 

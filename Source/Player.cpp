@@ -24,6 +24,8 @@ Player::~Player() {
         delete mpCollider;
         mpCollider = nullptr;
     }
+    m_levelUpTimer = 0;
+    m_stunTimer = 0;
 }
 
 // プレイヤーの初期化処理
@@ -34,6 +36,8 @@ void Player::Initialize() {
     m_speed = 5.0f;
     m_maxHp = 5;
     m_hp = m_maxHp;
+    m_levelUpTimer = 0;
+    m_stunTimer = 0;
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 100;
@@ -54,6 +58,20 @@ void Player::Initialize() {
 // キー入力による移動や、画面外に出ないようにする制限、各種タイマーの更新を行います。
 void Player::Update()
 {
+    if (m_levelUpTimer > 0) {
+        m_levelUpTimer--;
+    }
+
+    if (m_stunTimer > 0) {
+        m_stunTimer--;
+        // Update collider position even when stunned so we can take more hits if needed
+        if (mpCollider) {
+            mpCollider->mvPosition = mvPosition;
+            mpCollider->mvPosition2 = mvPosition;
+        }
+        return; // スタン中は入力と攻撃をスキップ
+    }
+
     if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= m_speed; }
     if (InputManager::CheckPressKey(KEY_INPUT_S)) { m_y += m_speed; }
     if (InputManager::CheckPressKey(KEY_INPUT_A)) { m_x -= m_speed; }
@@ -95,6 +113,13 @@ void Player::Update()
 // プレイヤーの描画処理
 // プレイヤー自身の画像を描画します。
 void Player::Draw() {
+    if (m_stunTimer > 0) {
+        // スタン中は青い円を描画
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
     static int s_playerGraphHandle = -1;
     if (s_playerGraphHandle == -1) {
         s_playerGraphHandle = LoadGraph("Resource/player.png");

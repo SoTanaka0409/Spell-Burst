@@ -37,9 +37,15 @@ Boss::Boss(float x, float y, int bossType)
     m_attackTimer = 0;
     m_patternIndex = 0;
     m_isDying = false;
-    m_deathTimer = 0;
-    m_lives = 3;
+    if (m_bossType == 3) {
+        m_lives = 3;
+    } else {
+        m_lives = 1;
+    }
     m_invincibleTimer = 0;
+    m_invincibleCycleTimer = 0;
+    m_isDying = false;
+    m_deathTimer = 0;
 
     // Radius 80.0f for the giant boss
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
@@ -78,13 +84,20 @@ void Boss::Update() {
         m_invincibleTimer--;
     }
 
-    if (m_lives == 1 && m_invincibleTimer <= 0) {
-        // In Phase 3, 1/300 chance per frame to become invincible and spawn minions
-        if (rand() % 300 == 0) {
-            m_invincibleTimer = 120; // 2 seconds
-            new Enemy(m_x - 60.0f, m_y + 60.0f);
-            new Enemy(m_x + 60.0f, m_y + 60.0f);
+    // 最終ボス（タイプ3）のみ、5秒（300フレーム）おきに2秒間（120フレーム）無敵になる
+    if (m_bossType == 3) {
+        m_invincibleCycleTimer++;
+        if (m_invincibleCycleTimer >= 300) {
+            m_invincibleTimer = 120; // 2 seconds invincibility
+            m_invincibleCycleTimer = 0;
+            
+            // 無敵化と同時に取り巻きを召喚
+            new Enemy(m_x - 60.0f, m_y + 60.0f, 1);
+            new Enemy(m_x + 60.0f, m_y + 60.0f, 1);
         }
+    } else {
+        m_invincibleTimer = 0;
+        m_invincibleCycleTimer = 0;
     }
 
     // Move towards current target
@@ -237,6 +250,8 @@ void Boss::ShootBouncingBarrage() {
 // プレイヤーの攻撃と当たった際に呼ばれ、HPを減らします。0以下になったら死亡演出(m_isDying)を開始します。
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
+
+    // m_lives の手動減少ロジックを削除し、0になった時のみ判定
 
     m_hp -= damage;
     if (m_hp <= 0) {

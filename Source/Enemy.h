@@ -14,8 +14,11 @@ private:
     int m_maxHp;          // 敵の最大体力
     CapsuleCollider* mpCollider; // 当たり判定を管理するコライダー（カプセル状/円形）
 
+    int m_enemyType;      // 敵の種類（1: 移動のみ, 2: 通常弾, 3: スタン弾）
+    int m_attackTimer;    // 弾を発射するためのタイマー
+
 public:
-    Enemy(float x, float y);
+    Enemy(float x, float y, int enemyType = 1);
     virtual ~Enemy() override;
 
     // 毎フレーム呼ばれ、敵の移動処理や画面外に出た際の削除処理を行う

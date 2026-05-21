@@ -1,22 +1,39 @@
-#include "Enemy.h"
+#include "Enemy.h"
 #include "CapsuleCollider.h"
 #include <DxLib.h>
 #include "Bullet.h"
+#include "EnemyBullet.h"
+#include "Player.h"
+#include "Master.h"
+#include "SceneManager.h"
+#include "ObjectManager.h"
+#include "Utility.h"
+#include <cmath>
 
-
-Enemy::Enemy(float x, float y) 
+Enemy::Enemy(float x, float y, int enemyType) 
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
     m_x = x;
     m_y = y;
-    m_speed = 3.0f;
     m_isActive = true;
-    m_maxHp = 3; // Take 3 hits to kill
+    m_enemyType = enemyType;
+    m_attackTimer = 0;
+
+    if (m_enemyType == 1) {
+        m_speed = 3.0f;
+        m_maxHp = 3;
+    } else if (m_enemyType == 2) {
+        m_speed = 2.0f;
+        m_maxHp = 5;
+    } else {
+        m_speed = 1.5f;
+        m_maxHp = 8;
+    }
     m_hp = m_maxHp;
 
-    // Create a circular collider with radius 35 (previously 15)
+    // Create a circular collider with radius 35
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
 }
 
@@ -38,7 +55,38 @@ void Enemy::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    if (m_y > 770.0f) {
+    // 種類2, 3の場合は定期的にプレイヤーへ向けて弾を撃つ
+    if (m_enemyType == 2 || m_enemyType == 3) {
+        m_attackTimer++;
+        if (m_attackTimer >= 150) { // 2.5秒ごと
+            m_attackTimer = 0;
+            Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
+            float targetX = m_x;
+            float targetY = m_y + 100.0f;
+            if (player != nullptr) {
+                targetX = player->GetX();
+                targetY = player->GetY();
+            }
+            float dx = targetX - m_x;
+            float dy = targetY - m_y;
+            float dist = std::sqrt(dx * dx + dy * dy);
+            if (dist > 0.0f) {
+                dx /= dist;
+                dy /= dist;
+            } else {
+                dx = 0.0f;
+                dy = 1.0f;
+            }
+            
+            if (m_enemyType == 2) {
+                new EnemyBullet(m_x, m_y, dx, dy, 4.0f, false, false); // 通常弾
+            } else if (m_enemyType == 3) {
+                new EnemyBullet(m_x, m_y, dx, dy, 3.5f, false, true); // スタン弾
+            }
+        }
+    }
+
+    if (m_y > Utility::SCREEN_HEIGHT + 50.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
@@ -91,6 +139,11 @@ void Enemy::Draw()
     }
 
     if (s_enemyGraphHandle != -1) {
+        // タイプによって色を変える
+        if (m_enemyType == 1) SetDrawBright(255, 255, 255);
+        else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
+        else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
+
         DrawExtendGraph(
             static_cast<int>(mvPosition.x - 35.0f), 
             static_cast<int>(mvPosition.y - 35.0f), 
@@ -99,9 +152,13 @@ void Enemy::Draw()
             s_enemyGraphHandle, 
             TRUE
         );
+
+        SetDrawBright(255, 255, 255); // 色を元に戻す
     } else {
-        // Draw red circle for enemy as fallback
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 35, GetColor(255, 0, 0), TRUE);
+        unsigned int color = GetColor(255, 100, 100);
+        if (m_enemyType == 2) color = GetColor(255, 200, 100);
+        else if (m_enemyType == 3) color = GetColor(100, 100, 255);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 35, color, TRUE);
     }
 
     // Draw HP text above enemy

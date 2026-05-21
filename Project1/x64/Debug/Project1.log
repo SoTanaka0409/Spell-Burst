@@ -1,52 +1,15 @@
-﻿  Boss.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
+﻿  EnemyBullet.cpp
+C:\Users\student\Desktop\Aigame\Source\EnemyBullet.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+C:\Users\student\Desktop\Aigame\Source\EnemyBullet.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-  EnemyBullet.cpp
 C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
+  
+C:\Users\student\Desktop\Aigame\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
   
 C:\Users\student\Desktop\Aigame\Source\utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
   
-  EnemyManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-  GameScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\InputManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-  Player.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\InputManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-  コードを生成中...
   Project1.vcxproj -> C:\Users\student\Desktop\Aigame\x64\Debug\Project1_v2.exe

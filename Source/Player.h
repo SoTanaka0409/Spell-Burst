@@ -35,6 +35,8 @@ private:
     int m_xpNeeded;       // 次のレベルアップに必要な経験値量
     int m_levelUpTimer;   // レベルアップ演出（文字の点滅など）を表示する残り時間
 
+    int m_stunTimer;      // スタン（行動不能）の残り時間（フレーム数）
+
 public:
     Player();
     virtual ~Player() override;
@@ -61,6 +63,9 @@ public:
     int GetXp() const { return m_xp; }
     int GetXpNeeded() const { return m_xpNeeded; }
     int GetLevelUpTimer() const { return m_levelUpTimer; }
+    int GetStunTimer() const { return m_stunTimer; }
+
+    void Stun(int frames) { m_stunTimer = frames; }
 
     // 敵を倒した時に経験値を追加し、規定値に達したらレベルアップさせる処理
     void AddXp(int amount);

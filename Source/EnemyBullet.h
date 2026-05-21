@@ -14,9 +14,10 @@ private:
 
     bool m_canReflect;
     bool m_hasReflected;
+    bool m_isStunBullet; // スタン効果を持つ弾かどうか
 
 public:
-    EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect = false);
+    EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect = false, bool isStunBullet = false);
     virtual ~EnemyBullet() override;
 
     void Update() override;
