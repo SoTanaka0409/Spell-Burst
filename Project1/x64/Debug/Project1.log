@@ -1,83 +1,14 @@
-﻿  Bullet.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Bullet.cpp' をコンパイルしています)
-  
-C:\Users\student\Desktop\Aigame\Source\Bullet.cpp(14,16): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-  BulletManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
-  
-  Collider.cpp
-C:\Users\student\Desktop\Aigame\Source\BulletManager.cpp(45,35): error C2661: 'Bullet::Bullet': 2 個の引数を伴うオーバーロードされた関数はありません。
-  C:\Users\student\Desktop\Aigame\Source\BulletManager.cpp(45,35):
-  引数リスト '(float, float)' を一致させようとしているとき
-  
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Collider.cpp' をコンパイルしています)
-  
-  CapsuleCollider.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/CapsuleCollider.cpp' をコンパイルしています)
-  
-  ColliderManager.cpp
-  Enemy.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
-  EnemyManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-  GameScene.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-  InputManager.cpp
-  Object2D.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Object2D.cpp' をコンパイルしています)
-  
-  Main.cpp
-  ObjectManager.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/ObjectManager.cpp' をコンパイルしています)
-  
-  Player.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+﻿  Player.cpp
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27): error C2661: 'Bullet::Bullet': 2 個の引数を伴うオーバーロードされた関数はありません。
-  C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27):
-  引数リスト '(float, float)' を一致させようとしているとき
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\InputManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  Scene.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Scene.cpp' をコンパイルしています)
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Utility.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  SceneManager.cpp
-C:\Users\student\Desktop\Aigame\Source\SceneManager.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SceneManager.cpp' をコンパイルしています)
+C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\SceneManager.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
-  TitleScene.cpp
-  StageSelectScene.cpp
-  ResultScene.cpp
-  MeleeAttack.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/MeleeAttack.cpp' をコンパイルしています)
-  
-  SpecialBullet.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SpecialBullet.cpp' をコンパイルしています)
-  
-  コードを生成中...
-  コンパイル中...
-  EnemyBullet.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
-  Boss.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-  コードを生成中...
+  Project1.vcxproj -> C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\x64\Debug\Project1_v2.exe

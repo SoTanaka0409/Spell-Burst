@@ -5,6 +5,7 @@
 #include "StageSelectScene.h"
 #include "GameScene.h"
 #include "ResultScene.h"
+#include "DebugLog.h"
 
 SceneManager::SceneManager()
 	: mnSceneType(SCENE_TYPE::SCENE_NONE)
@@ -45,7 +46,6 @@ void SceneManager::Update()
 	}
 }
 
-#include "DebugLog.h"
 
 void SceneManager::Draw()
 {

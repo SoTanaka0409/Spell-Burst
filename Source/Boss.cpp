@@ -9,6 +9,7 @@
 #include "Master.h"
 #include "SceneManager.h"
 #include "ResultScene.h"
+#include "Enemy.h"
 #include <DxLib.h>
 #include <cmath>
 #include <cstdlib>
@@ -28,6 +29,8 @@ Boss::Boss(float x, float y)
     m_patternIndex = 0;
     m_isDying = false;
     m_deathTimer = 0;
+    m_lives = 3;
+    m_invincibleTimer = 0;
 
     // Radius 80.0f for the giant boss
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
@@ -56,6 +59,19 @@ void Boss::Update() {
             Kill();
         }
         return; // Skip normal behavior
+    }
+
+    if (m_invincibleTimer > 0) {
+        m_invincibleTimer--;
+    }
+
+    if (m_lives == 1 && m_invincibleTimer <= 0) {
+        // In Phase 3, 1/300 chance per frame to become invincible and spawn minions
+        if (rand() % 300 == 0) {
+            m_invincibleTimer = 120; // 2 seconds
+            new Enemy(m_x - 60.0f, m_y + 60.0f);
+            new Enemy(m_x + 60.0f, m_y + 60.0f);
+        }
     }
 
     // Move towards current target
@@ -95,24 +111,26 @@ void Boss::Update() {
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 18;
+    bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
         float angle = (i * 2.0f * PI) / bulletCount;
         float dx = std::cos(angle);
         float dy = std::sin(angle);
-        new EnemyBullet(m_x, m_y, dx, dy, 4.0f);
+        new EnemyBullet(m_x, m_y, dx, dy, 4.0f, reflect);
     }
 }
 
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 7;
+    bool reflect = (m_lives == 2);
     // Straight down is PI/2 (90 degrees). We spread out +/- 45 degrees.
     float baseAngle = PI / 2.0f;
     for (int i = 0; i <= bulletCount; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
         float dx = std::cos(angle);
         float dy = std::sin(angle);
-        new EnemyBullet(m_x, m_y, dx, dy, 5.0f);
+        new EnemyBullet(m_x, m_y, dx, dy, 5.0f, reflect);
     }
 }
 
@@ -142,23 +160,32 @@ void Boss::ShootTargetedBarrage() {
     float baseAngle = std::atan2(dy, dx);
 
     // 3-way spread shot aimed at player
+    bool reflect = (m_lives == 2);
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 10.0f * PI / 180.0f);
-        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 6.5f);
+        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 6.5f, reflect);
     }
 }
 
 void Boss::TakeDamage(int damage) {
-    if (m_isDying) return;
+    if (m_isDying || m_invincibleTimer > 0) return;
 
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
-        m_isDying = true;
-        m_deathTimer = 180; // 3 seconds flash and fly up
-        if (mpCollider) {
-            mpCollider->SetDeleteFlag(true); // Disable collision
-            mpCollider = nullptr;
+        m_lives--;
+        
+        if (m_lives > 0) {
+            // Heal back to max and become invincible for a while
+            m_hp = m_maxHp;
+            m_invincibleTimer = 180; // 3 seconds invincibility on phase change
+        } else {
+            m_isDying = true;
+            m_deathTimer = 180; // 3 seconds flash and fly up
+            if (mpCollider) {
+                mpCollider->SetDeleteFlag(true); // Disable collision
+                mpCollider = nullptr;
+            }
         }
     }
 }
@@ -211,6 +238,9 @@ void Boss::Draw() {
 
     if (s_bossGraphHandle != -1) {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
+            if (m_invincibleTimer > 0) {
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (m_invincibleTimer % 20) * 5);
+            }
             DrawExtendGraph(
                 static_cast<int>(mvPosition.x - 80.0f), 
                 static_cast<int>(mvPosition.y - 80.0f), 
@@ -219,10 +249,17 @@ void Boss::Draw() {
                 s_bossGraphHandle, 
                 TRUE
             );
+            if (m_invincibleTimer > 0) {
+                SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+            }
         }
     } else {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
-            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 80, GetColor(255, 0, 0), TRUE);
+            unsigned int color = GetColor(255, 0, 0);
+            if (m_invincibleTimer > 0 && (m_invincibleTimer / 5) % 2 == 0) {
+                color = GetColor(255, 255, 0); // Blink yellow during invincibility
+            }
+            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 80, color, TRUE);
         }
     }
 

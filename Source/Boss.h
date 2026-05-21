@@ -22,6 +22,10 @@ private:
     bool m_isDying;
     int m_deathTimer;
     
+    // Phase and Invincibility
+    int m_lives;
+    int m_invincibleTimer;
+    
     CapsuleCollider* mpCollider;
 
 public:
@@ -34,6 +38,7 @@ public:
     int GetHp() const { return m_hp; }
     int GetMaxHp() const { return m_maxHp; }
     bool IsActive() const { return m_isActive; }
+    int GetLives() const { return m_lives; }
 
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }

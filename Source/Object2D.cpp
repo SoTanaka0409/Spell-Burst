@@ -1,9 +1,8 @@
-#include"Object2D.h"
-#include"Master.h"
-#include"ObjectManager.h"
-#include"Collider.h"
-#include"Scene.h"
-
+#include "Object2D.h"
+#include "Master.h"
+#include "ObjectManager.h"
+#include "Collider.h"
+#include "Scene.h"
 
 
 Object2D::Object2D(VECTOR initPos)
@@ -13,22 +12,22 @@ Object2D::Object2D(VECTOR initPos)
 	, mnTag(Tag2D::None2D)
 	, mbDrawFlag(true)
 {
-	//Œ»İ‚ÌƒV[ƒ“‚ÌobjectManager‚É©Mithis)‚ğ’Ç‰Á‚·‚éwwwwwwwwwwwwwwww
+	//ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½ï¿½objectManagerï¿½Éï¿½ï¿½Mï¿½ithis)ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½wwwwwwwwwwwwwwww
 	Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
 Object2D::~Object2D()
 {
 
 }
-//•`‰æ
+//ï¿½`ï¿½ï¿½
 void Object2D::Draw()
 {
 
 }
 
-//XV
+//ï¿½Xï¿½V
 void Object2D::Update()
 {
 

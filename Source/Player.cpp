@@ -2,8 +2,14 @@
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
-#include"dxlib.h"
+#include "dxlib.h"
 #include "Utility.h"
+#include "Enemy.h"
+#include "Master.h"
+#include "SceneManager.h"
+#include "ResultScene.h"
+#include "MeleeAttack.h"
+#include "SpecialBullet.h"
 
 Player::Player() 
     : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
@@ -20,9 +26,6 @@ Player::~Player() {
     }
 }
 
-#include "MeleeAttack.h"
-#include "SpecialBullet.h"
-
 void Player::Initialize() {
     m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
     m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
@@ -31,6 +34,7 @@ void Player::Initialize() {
     m_hp = m_maxHp;
     m_attackMode = AttackMode_Bullet;
     m_specialCooldown = 0;
+    mfAttack = 100;
 
     // Level & XP system initialization
     m_level = 1;
@@ -95,7 +99,7 @@ void Player::Update()
             float spacing = 20.0f;
             float startX = m_x - (numBullets - 1) * spacing / 2.0f;
             for (int i = 0; i < numBullets; ++i) {
-                new Bullet(startX + i * spacing, m_y - 45.0f);
+                new Bullet(startX + i * spacing, m_y - 45.0f, mfAttack);
             }
         }
         else if (m_attackMode == AttackMode_Melee) {
@@ -129,11 +133,6 @@ void Player::Draw() {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
 }
-
-#include "Enemy.h"
-#include "Master.h"
-#include "SceneManager.h"
-#include "ResultScene.h"
 
 void Player::TakeDamage(int damage) {
     m_hp -= damage;

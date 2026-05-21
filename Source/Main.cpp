@@ -3,7 +3,7 @@
 #include "SceneManager.h"
 #include "Master.h"
 #include <iostream>
-#include"Utility.h"
+#include "Utility.h"
 
 
 SceneManager* Master::sceneManager = new SceneManager();

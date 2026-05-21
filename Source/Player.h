@@ -17,6 +17,7 @@ private:
     float m_speed;        // Speed
     int m_hp;             // Current HP
     int m_maxHp;          // Maximum HP
+	float mfAttack;	   // Base attack damage (can be modified by level-ups)
     AttackMode m_attackMode;      // Current attack pattern
     int m_specialCooldown;        // Cooldown for ultimate
     CapsuleCollider* mpCollider;

@@ -21,7 +21,7 @@ void BulletManager::Initialize() {
 }
 
 void BulletManager::Update() {
-   
+
 
     for (auto it = m_bullets.begin(); it != m_bullets.end(); ) {
         if (!(*it)->IsActive()) {
