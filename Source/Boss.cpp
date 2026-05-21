@@ -14,15 +14,24 @@
 #include <cmath>
 #include <cstdlib>
 
-Boss::Boss(float x, float y)
+Boss::Boss(float x, float y, int bossType)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
     m_x = x;
     m_y = y;
-    m_speed = 2.5f;
-    m_hp = 50;
+    m_bossType = bossType;
+    if (m_bossType == 1) {
+        m_speed = 1.5f;
+        m_hp = 20;
+    } else if (m_bossType == 2) {
+        m_speed = 2.0f;
+        m_hp = 30;
+    } else {
+        m_speed = 2.5f;
+        m_hp = 50;
+    }
     m_maxHp = m_hp;
     m_isActive = true;
     m_attackTimer = 0;
@@ -44,12 +53,16 @@ Boss::~Boss() {
     }
 }
 
+// ランダム移動のターゲット座標を更新する処理
+// 画面上部（プレイヤーが攻撃しやすい範囲）からランダムに次の移動先を決めます。
 void Boss::SelectNewTarget() {
     // Top half boundary: X between 100 and 1180, Y between 80 and 260
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
+// ボスの毎フレームの更新処理
+// 死亡演出中なら上にフェードアウトし、生存中ならターゲット座標に向かって移動しながら弾幕を撃ちます。
 void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
@@ -95,19 +108,33 @@ void Boss::Update() {
 
     // Shoot barrage patterns cyclically
     m_attackTimer++;
-    if (m_attackTimer >= 100) { // Every 1.6s approx.
-        m_attackTimer = 0;
-        if (m_patternIndex == 0) {
-            ShootRadialBarrage();
-        } else if (m_patternIndex == 1) {
-            ShootFanBarrage();
-        } else if (m_patternIndex == 2) {
-            ShootTargetedBarrage();
+    if (m_bossType == 1) {
+        if (m_attackTimer >= 60) {
+            m_attackTimer = 0;
+            ShootSimpleBarrage();
         }
-        m_patternIndex = (m_patternIndex + 1) % 3;
+    } else if (m_bossType == 2) {
+        if (m_attackTimer >= 80) {
+            m_attackTimer = 0;
+            ShootBouncingBarrage();
+        }
+    } else {
+        if (m_attackTimer >= 100) { // Every 1.6s approx.
+            m_attackTimer = 0;
+            if (m_patternIndex == 0) {
+                ShootRadialBarrage();
+            } else if (m_patternIndex == 1) {
+                ShootFanBarrage();
+            } else if (m_patternIndex == 2) {
+                ShootTargetedBarrage();
+            }
+            m_patternIndex = (m_patternIndex + 1) % 3;
+        }
     }
 }
 
+// 全方位弾幕を撃つ処理
+// ボスの周囲360度に向かって、円形に広がるように弾を発射します。
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 18;
@@ -120,6 +147,8 @@ void Boss::ShootRadialBarrage() {
     }
 }
 
+// 扇状弾幕を撃つ処理
+// ボスの前方下方向を中心に、扇形に広がるように弾を発射します。
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 7;
@@ -134,6 +163,8 @@ void Boss::ShootFanBarrage() {
     }
 }
 
+// 自機狙い弾幕を撃つ処理
+// プレイヤーの現在位置を計算し、そこに向かって3WAYの弾を発射します。
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
@@ -160,13 +191,50 @@ void Boss::ShootTargetedBarrage() {
     float baseAngle = std::atan2(dy, dx);
 
     // 3-way spread shot aimed at player
-    bool reflect = (m_lives == 2);
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 10.0f * PI / 180.0f);
-        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 6.5f, reflect);
+        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 6.5f);
     }
 }
 
+void Boss::ShootSimpleBarrage() {
+    Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
+    float targetX = m_x;
+    float targetY = m_y + 200.0f;
+
+    if (player != nullptr) {
+        targetX = player->GetX();
+        targetY = player->GetY();
+    }
+
+    float dx = targetX - m_x;
+    float dy = targetY - m_y;
+    float dist = std::sqrt(dx * dx + dy * dy);
+    
+    if (dist > 0.0f) {
+        dx /= dist;
+        dy /= dist;
+    } else {
+        dx = 0.0f;
+        dy = 1.0f;
+    }
+
+    new EnemyBullet(m_x, m_y, dx, dy, 5.0f);
+}
+
+void Boss::ShootBouncingBarrage() {
+    const float PI = 3.14159265f;
+    for (int i = 0; i < 6; i++) {
+        float angle = (i * 2.0f * PI) / 6.0f;
+        float dx = std::cos(angle);
+        float dy = std::sin(angle);
+        // pass canReflect = true
+        new EnemyBullet(m_x, m_y, dx, dy, 4.5f, true);
+    }
+}
+
+// ダメージを受ける処理
+// プレイヤーの攻撃と当たった際に呼ばれ、HPを減らします。0以下になったら死亡演出(m_isDying)を開始します。
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
 
@@ -190,17 +258,23 @@ void Boss::TakeDamage(int damage) {
     }
 }
 
+// 完全に消滅させる処理
+// 死亡演出が終わった後に呼ばれ、ゲームクリア（ResultSceneへの移行）をトリガーします。
 void Boss::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
     if (mpCollider) {
         mpCollider->SetDeleteFlag(true);
     }
-    // Transition to victory result screen!
-    ResultScene::s_isVictory = true;
-    Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    // Transition to victory result screen only if it's the phase 3 boss
+    if (m_bossType == 3) {
+        ResultScene::s_isVictory = true;
+        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    }
 }
 
+// 他のオブジェクトと重なっている時の処理（当たり判定イベント）
+// プレイヤーの弾（通常弾、近接、必殺技）と当たった場合に、自身のTakeDamageを呼び出します。
 void Boss::OnTrigger(Collider* collider, Collider* check) {
     if (m_isDying) return;
 
@@ -228,6 +302,8 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
+// 描画処理
+// ボスの画像を描画します。死亡演出中はチカチカと点滅させ、英語のメッセージを表示します。
 void Boss::Draw() {
     if (!m_isActive) return;
 

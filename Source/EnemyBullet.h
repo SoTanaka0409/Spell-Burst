@@ -3,12 +3,13 @@
 
 class CapsuleCollider;
 
+// 敵キャラクター（雑魚やボス）が発射する弾を管理するクラス
 class EnemyBullet : public Object2D {
 private:
-    float m_x, m_y;
-    float m_dx, m_dy;
-    float m_speed;
-    bool m_isActive;
+    float m_x, m_y;     // 弾の座標
+    float m_dx, m_dy;   // 移動方向のベクトル
+    float m_speed;      // 弾の移動速度
+    bool m_isActive;    // 弾が有効かどうか
     CapsuleCollider* mpCollider;
 
     bool m_canReflect;

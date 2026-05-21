@@ -39,6 +39,8 @@ EnemyBullet::~EnemyBullet() {
     }
 }
 
+// 毎フレーム呼ばれる更新処理
+// 指定されたベクトル方向へ弾を移動させ、画面外に出たら削除フラグを立てます。
 void EnemyBullet::Update() {
     m_x += m_dx * m_speed;
     m_y += m_dy * m_speed;
@@ -85,6 +87,8 @@ void EnemyBullet::Update() {
     }
 }
 
+// 描画処理
+// 敵弾の画像を描画します。
 void EnemyBullet::Draw() {
     if (!m_isActive) return;
     // Draw a bright magenta/red glowing energy ball

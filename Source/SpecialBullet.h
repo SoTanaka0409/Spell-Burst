@@ -3,12 +3,13 @@
 
 class CapsuleCollider;
 
+// プレイヤーの必殺技（貫通弾や強力な攻撃）を管理するクラス
 class SpecialBullet : public Object2D {
 private:
-    float m_x, m_y;
-    float m_speed;
-    int m_damage;
-    bool m_isActive;
+    float m_x, m_y;     // 必殺技弾の座標
+    float m_speed;      // 弾の移動速度
+    int m_damage;       // 与えるダメージ量
+    bool m_isActive;    // 弾が有効かどうか
     CapsuleCollider* mpCollider;
 
 public:

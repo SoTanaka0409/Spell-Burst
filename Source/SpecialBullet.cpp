@@ -25,6 +25,8 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
+// 毎フレーム呼ばれる更新処理
+// 必殺技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます。
 void SpecialBullet::Update() {
     m_y -= m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
@@ -40,6 +42,8 @@ void SpecialBullet::Update() {
     }
 }
 
+// 描画処理
+// 必殺技のエフェクト（大きな光弾など）を描画します。
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 

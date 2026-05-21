@@ -27,6 +27,8 @@ Enemy::~Enemy() {
     }
 }
 
+// 毎フレーム呼ばれる更新処理
+// 敵を下方向に移動させ、画面外に出たら活動停止・削除フラグを立てます。
 void Enemy::Update() {
     m_y += m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
@@ -42,6 +44,8 @@ void Enemy::Update() {
     }
 }
 
+// 敵の消滅処理
+// 活動フラグをオフにし、オブジェクト管理システムに削除されるようフラグを立てます。
 void Enemy::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -51,6 +55,8 @@ void Enemy::Kill() {
 }
 
 
+// ダメージを受ける処理
+// プレイヤーの攻撃と当たった際に呼ばれ、HPを減らします。0以下になったら消滅処理(Kill)を呼びます。
 void Enemy::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -59,6 +65,8 @@ void Enemy::TakeDamage(int damage) {
     }
 }
 
+// 他のオブジェクトと重なっている時の処理（当たり判定イベント）
+// プレイヤーの弾（通常弾、近接、必殺技）と当たった場合に、自身のTakeDamageを呼び出します。
 void Enemy::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_PlayerBullet) {
@@ -71,6 +79,8 @@ void Enemy::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
+// 描画処理
+// 敵自身の画像を描画し、頭上にHPバーを表示します。
 void Enemy::Draw() 
 {
     if (!m_isActive) return;

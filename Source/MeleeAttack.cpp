@@ -26,6 +26,8 @@ MeleeAttack::~MeleeAttack() {
     }
 }
 
+// 毎フレーム呼ばれる更新処理
+// 持続時間（寿命）を減らし、0になったら消滅させます。
 void MeleeAttack::Update() {
     m_lifetime--;
     if (m_lifetime <= 0) {
@@ -36,6 +38,8 @@ void MeleeAttack::Update() {
     }
 }
 
+// 描画処理
+// 近接攻撃のエフェクト（半透明の斬撃など）を描画します。
 void MeleeAttack::Draw() {
     // Draw a beautiful white and cyan slash arc pointing upwards using overlapping circles
     unsigned int slashColor = GetColor(100, 255, 255);

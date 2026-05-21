@@ -25,6 +25,8 @@ Bullet::~Bullet()
     }
 }
 
+// 毎フレーム呼ばれる更新処理
+// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます。
 void Bullet::Update() 
 {
     m_y -= m_speed;
@@ -41,6 +43,8 @@ void Bullet::Update()
     }
 }
 
+// 弾の消滅処理
+// 敵に当たった際などに呼ばれ、オブジェクト管理から削除されるようにします。
 void Bullet::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -57,6 +61,8 @@ void Bullet::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
+// 描画処理
+// 弾の画像を描画します。
 void Bullet::Draw()
 {
     if (!m_isActive) return;

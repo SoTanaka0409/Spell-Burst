@@ -14,6 +14,9 @@ EnemyManager::EnemyManager() {
     m_spawnTimer = 0;
     m_defeatedCount = 0;
     m_bossSpawned = false;
+    m_currentPhase = 1;
+    m_requiredKills = 10;
+    m_currentBoss = nullptr;
 }
 
 EnemyManager::~EnemyManager() {
@@ -24,14 +27,17 @@ void EnemyManager::Initialize() {
     m_spawnTimer = 0;
     m_defeatedCount = 0;
     m_bossSpawned = false;
+    m_currentPhase = 1;
+    m_requiredKills = 10;
+    m_currentBoss = nullptr;
 }
 
 void EnemyManager::Update() {
     // Spawning logic
     if (!m_bossSpawned) {
-        if (m_defeatedCount >= 10) {
+        if (m_defeatedCount >= m_requiredKills) {
             // Spawn Boss at the top center, slightly off-screen Y
-            new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f);
+            m_currentBoss = new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, m_currentPhase);
             m_bossSpawned = true;
         } else {
             m_spawnTimer++;
@@ -41,6 +47,21 @@ void EnemyManager::Update() {
                 float spawnX = 80.0f + static_cast<float>(rand() % 1120);
                 float spawnY = -50.0f;
                 SpawnEnemy(spawnX, spawnY);
+            }
+        }
+    } else {
+        // Check if boss was defeated
+        if (m_currentBoss != nullptr && m_currentBoss->IsDeleteFlag()) {
+            m_currentBoss = nullptr;
+            m_bossSpawned = false;
+            m_defeatedCount = 0;
+            
+            if (m_currentPhase == 1) {
+                m_currentPhase = 2;
+                m_requiredKills = 20; // 倍の敵を要求
+            } else if (m_currentPhase == 2) {
+                m_currentPhase = 3;
+                m_requiredKills = 40; // さらに倍の敵を要求
             }
         }
     }

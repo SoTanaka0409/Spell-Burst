@@ -23,6 +23,8 @@ GameScene::~GameScene() {
     }
 }
 
+// シーンの初期化処理
+// プレイヤー、敵マネージャー、各種オブジェクト管理クラスのインスタンスを生成・初期化します。
 void GameScene::Initialize() {
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
@@ -40,6 +42,8 @@ void GameScene::Initialize() {
     mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
 }
 
+// 毎フレーム呼ばれる更新処理
+// ESCキーによるポーズ機能の処理、およびゲーム中であれば全オブジェクトや敵の出現を更新します。
 void GameScene::Update() {
     Scene::Update();
 
@@ -53,6 +57,8 @@ void GameScene::Update() {
     }
 }
 
+// 毎フレーム呼ばれる描画処理
+// 背景画像、ゲーム内の全オブジェクト、HUD（プレイヤーのHPやレベル、経験値バーなど）を描画します。
 void GameScene::Draw() {
     // Draw Stage Background (Underwater ocean world)
     static int s_bgGraphHandle = -1;
@@ -79,24 +85,23 @@ void GameScene::Draw() {
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
 
         // Attack Mode HUD
-        DrawString(20, 45, "ATTACK MODE [Q / 1-3 to switch]:", GetColor(255, 255, 255));
+        DrawString(20, 45, "ATTACK MODE [Q / 1-2 to switch]:", GetColor(255, 255, 255));
         
         Player::AttackMode mode = player->GetAttackMode();
         unsigned int colorSelected = GetColor(255, 215, 0); // Gold
         unsigned int colorUnselected = GetColor(120, 180, 200); // Aqua gray
 
-        DrawFormatString(35, 70, (mode == Player::AttackMode_Bullet) ? colorSelected : colorUnselected, 
-            "[1] Bullet %s", (mode == Player::AttackMode_Bullet) ? "<SELECTED>" : "");
+     
         DrawFormatString(35, 92, (mode == Player::AttackMode_Melee) ? colorSelected : colorUnselected, 
-            "[2] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
+            "[1] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
 
         int cd = player->GetSpecialCooldown();
         if (cd > 0) {
             DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[3] Special [CD: %.1fs]", cd / 60.0f);
+                "[2] Special [CD: %.1fs]", cd / 60.0f);
         } else {
             DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[3] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
+                "[2] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
         }
 
         // === Level & XP HUD ===
@@ -188,6 +193,8 @@ void GameScene::Draw() {
     DrawFormatString(1100, 660, GetColor(200, 200, 200), "FPS: 60");
 }
 
+// シーン終了時の処理
+// シーン切り替え時などに呼ばれ、動的に確保したメモリ（敵マネージャーなど）を解放します。
 void GameScene::Finalize() {
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();

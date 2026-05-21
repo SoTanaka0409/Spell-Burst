@@ -26,16 +26,20 @@ Player::~Player() {
     }
 }
 
+// プレイヤーの初期化処理
+// ゲーム開始時やリトライ時に呼ばれ、HPやレベル、座標などを初期状態に戻します。
 void Player::Initialize() {
     m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
     m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
     m_speed = 5.0f;
     m_maxHp = 5;
     m_hp = m_maxHp;
-    m_attackMode = AttackMode_Bullet;
+    m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 100;
-
+    m_attackTimer = 30;
+    m_AttackInterval =0 ;
+    m_AttackTimer_2 = 60;
     // Level & XP system initialization
     m_level = 1;
     m_xp = 0;
@@ -46,6 +50,8 @@ void Player::Initialize() {
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
 }
 
+// 毎フレーム呼ばれる更新処理
+// キー入力による移動や、画面外に出ないようにする制限、各種タイマーの更新を行います。
 void Player::Update()
 {
     if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= m_speed; }
@@ -66,10 +72,7 @@ void Player::Update()
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // Cooldown decrement
-    if (m_specialCooldown > 0) {
-        m_specialCooldown--;
-    }
+    
 
     // Level-up flash timer decrement
     if (m_levelUpTimer > 0) {
@@ -78,42 +81,19 @@ void Player::Update()
 
     // Switch attack modes
     if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
-        if (m_attackMode == AttackMode_Bullet) m_attackMode = AttackMode_Melee;
-        else if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
-        else m_attackMode = AttackMode_Bullet;
+        
+         if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
+        else m_attackMode = AttackMode_Melee;
     }
-    if (InputManager::CheckDownKey(KEY_INPUT_1)) {
-        m_attackMode = AttackMode_Bullet;
-    }
-    if (InputManager::CheckDownKey(KEY_INPUT_2)) {
-        m_attackMode = AttackMode_Melee;
-    }
-    if (InputManager::CheckDownKey(KEY_INPUT_3)) {
-        m_attackMode = AttackMode_Special;
-    }
+   
 
     // Firing attacks
-    if (InputManager::CheckDownKey(KEY_INPUT_SPACE)) {
-        if (m_attackMode == AttackMode_Bullet) {
-            int numBullets = m_level;
-            float spacing = 20.0f;
-            float startX = m_x - (numBullets - 1) * spacing / 2.0f;
-            for (int i = 0; i < numBullets; ++i) {
-                new Bullet(startX + i * spacing, m_y - 45.0f, mfAttack);
-            }
-        }
-        else if (m_attackMode == AttackMode_Melee) {
-            new MeleeAttack(m_x, m_y - 70.0f);
-        }
-        else if (m_attackMode == AttackMode_Special) {
-            if (m_specialCooldown == 0) {
-                new SpecialBullet(m_x, m_y - 90.0f);
-                m_specialCooldown = 180; // 3 seconds cooldown
-            }
-        }
-    }
+    Attack();
+   
 }
 
+// プレイヤーの描画処理
+// プレイヤー自身の画像を描画します。
 void Player::Draw() {
     static int s_playerGraphHandle = -1;
     if (s_playerGraphHandle == -1) {
@@ -134,6 +114,8 @@ void Player::Draw() {
     }
 }
 
+// ダメージを受ける処理
+// 敵や敵の弾と当たった際に呼ばれ、HPを減らします。HPが0になるとリザルト画面（敗北）に移行します。
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -142,7 +124,52 @@ void Player::TakeDamage(int damage) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
+// 攻撃処理
+// 選択されている攻撃モード（通常弾、近接、必殺技）に応じて弾を生成・発射します。
+void Player::Attack()
+{
+    int mouseInput = GetMouseInput(); // マウスの状態を取得
+    m_AttackInterval++;
+    m_AttackInterval_2++;
+    // Cooldown decrement
+    if (m_specialCooldown > 0) {
+        m_specialCooldown--;
+    }
+    if (m_AttackInterval>=m_attackTimer)
+    {
+        m_AttackInterval = 0;//intervalの初期化
+            int numBullets = m_level;
+            float spacing = 20.0f;
+            float startX = m_x - (numBullets - 1) * spacing / 2.0f;
+            for (int i = 0; i < numBullets; ++i) 
+            {
+                new Bullet(startX + i * spacing, m_y - 45.0f, mfAttack);
+            }
+            
+        
+        
+    }
 
+    if (mouseInput & MOUSE_INPUT_LEFT&&m_AttackInterval_2>=m_AttackTimer_2)
+    {
+        m_AttackInterval_2 = 0;
+        if (m_attackMode == AttackMode_Melee) {
+            new MeleeAttack(m_x, m_y - 70.0f);
+        }
+        else if (m_attackMode == AttackMode_Special)
+        {
+            if (m_specialCooldown == 0)
+            {
+                new SpecialBullet(m_x, m_y - 90.0f);
+                m_specialCooldown = 180; // 3 seconds cooldown
+            }
+        }
+    }
+
+}
+
+// 経験値（XP）の獲得とレベルアップ処理
+// 敵を倒した時に呼ばれ、一定値を超えるとレベルアップしてHPを全回復します。
 void Player::AddXp(int amount) {
     m_xp += amount;
     // Level-up loop (handles multiple level-ups from one big XP gain)
@@ -157,6 +184,9 @@ void Player::AddXp(int amount) {
 }
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
+
+// 他のオブジェクトと重なっている時の処理
+// 敵本体とぶつかった場合にダメージを受けます。
 void Player::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
