@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ﻿  Player.cpp
 C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
@@ -12,3 +13,22 @@ C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\Source\SceneMana
   (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
   
   Project1.vcxproj -> C:\Users\Admin\Desktop\progtram\新しいフォルダー\AiGame\x64\Debug\Project1_v2.exe
+=======
+﻿  BulletManager.cpp
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/BulletManager.cpp' をコンパイルしています)
+  
+  EnemyBullet.cpp
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
+  
+  Player.cpp
+C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
+  
+  コードを生成中...
+C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27): error C2661: 'Bullet::Bullet': 2 個の引数を伴うオーバーロードされた関数はありません。
+  C:\Users\student\Desktop\Aigame\Source\Player.cpp(98,27):
+  引数リスト '(float, float)' を一致させようとしているとき
+  
+>>>>>>> Stashed changes
