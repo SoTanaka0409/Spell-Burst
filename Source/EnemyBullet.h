@@ -15,9 +15,11 @@ private:
     bool m_canReflect;
     bool m_hasReflected;
     bool m_isStunBullet; // スタン効果を持つ弾かどうか
+    int m_homingTimer;   // 追尾（ホーミング）する残りフレーム数
+    int m_homingDelayTimer;
 
 public:
-    EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect = false, bool isStunBullet = false);
+    EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect = false, bool isStunBullet = false, int homingFrames = 0, int homingDelayFrames = 0);
     virtual ~EnemyBullet() override;
 
     void Update() override;

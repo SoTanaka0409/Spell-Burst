@@ -41,7 +41,7 @@ void EnemyManager::Update() {
             m_bossSpawned = true;
         } else {
             m_spawnTimer++;
-            if (m_spawnTimer >= 90) { // Spawn every 90 frames
+            if (m_spawnTimer >= 45) { // Spawn every 45 frames (increased enemy count)
                 m_spawnTimer = 0;
                 // Spawn at random X coordinate off screen top (vertical scrolling)
                 float spawnX = 80.0f + static_cast<float>(rand() % 1120);
@@ -89,11 +89,14 @@ void EnemyManager::Update() {
 void EnemyManager::SpawnEnemy(float x, float y) {
     int enemyType = 1;
     if (m_currentPhase == 2) {
-        if (rand() % 100 < 30) enemyType = 2; // 30%の確率でタイプ2
+        int r = rand() % 100;
+        if (r < 10) enemyType = 4; // 10%の確率で中ボス（タイプ4）
+        else if (r < 40) enemyType = 2; // 30%の確率でタイプ2
     } else if (m_currentPhase >= 3) {
         int r = rand() % 100;
-        if (r < 20) enemyType = 3; // 20%の確率でタイプ3（スタン）
-        else if (r < 50) enemyType = 2; // 30%の確率でタイプ2
+        if (r < 10) enemyType = 4; // 10%の確率で中ボス（タイプ4）
+        else if (r < 30) enemyType = 3; // 20%の確率でタイプ3（スタン）
+        else if (r < 60) enemyType = 2; // 30%の確率でタイプ2
     }
     
     Enemy* enemy = new Enemy(x, y, enemyType);

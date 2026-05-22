@@ -34,6 +34,8 @@ private:
     int m_xp;             // 獲得した経験値
     int m_xpNeeded;       // 次のレベルアップに必要な経験値量
     int m_levelUpTimer;   // レベルアップ演出（文字の点滅など）を表示する残り時間
+    int m_spellGauge;     // スペルカード発動用のゲージ
+    int m_maxSpellGauge;  // ゲージの最大値
 
     int m_stunTimer;      // スタン（行動不能）の残り時間（フレーム数）
 
@@ -64,6 +66,8 @@ public:
     int GetXpNeeded() const { return m_xpNeeded; }
     int GetLevelUpTimer() const { return m_levelUpTimer; }
     int GetStunTimer() const { return m_stunTimer; }
+    int GetSpellGauge() const { return m_spellGauge; }
+    int GetMaxSpellGauge() const { return m_maxSpellGauge; }
 
     void Stun(int frames) { m_stunTimer = frames; }
 

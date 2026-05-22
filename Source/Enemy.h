@@ -14,8 +14,11 @@ private:
     int m_maxHp;          // 敵の最大体力
     CapsuleCollider* mpCollider; // 当たり判定を管理するコライダー（カプセル状/円形）
 
-    int m_enemyType;      // 敵の種類（1: 移動のみ, 2: 通常弾, 3: スタン弾）
+    int m_enemyType;      // 敵の種類（1: 移動のみ, 2: 通常弾, 3: スタン弾, 4: 中ボス）
     int m_attackTimer;    // 弾を発射するためのタイマー
+
+    float m_targetX, m_targetY; // ランダム移動の目的地（中ボス用）
+    void SelectNewTarget();     // 次のランダム移動の目的地を決定する（中ボス用）
 
 public:
     Enemy(float x, float y, int enemyType = 1);
@@ -40,7 +43,10 @@ public:
     // 座標や当たり判定の半径を取得
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
-    float GetRadius() const { return 15.0f; }
+    float GetRadius() const { 
+        if (m_enemyType == 4) return 45.0f; // 中ボスは少し大きくする
+        return 15.0f; 
+    }
 
     // HPが0になった時などに呼ばれ、敵を消滅させる処理
     void Kill();

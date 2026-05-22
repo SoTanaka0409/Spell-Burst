@@ -3,7 +3,7 @@
 #include "ColliderManager.h"
 #include <algorithm>
 
-ObjectManager::ObjectManager()
+ObjectManager::ObjectManager() : m_player2D(nullptr)
 {
 }
 
@@ -35,10 +35,14 @@ void ObjectManager::Draw()
 void ObjectManager::AddObject(Object2D* object2D)
 {
 	mObject2DList.push_back(object2D);
+	if (object2D->GetTag() == Object2D::Tag2D_Player) {
+		m_player2D = object2D;
+	}
 }
 
 void ObjectManager::DeleteAll2D()
 {
+	m_player2D = nullptr;
 	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); )
 	{
 		Object2D* temp = *itr;
@@ -53,6 +57,7 @@ void ObjectManager::DeleteAll2DIfNeeded()
 	{
 		if ((*itr)->IsDeleteFlag())
 		{
+			if (*itr == m_player2D) m_player2D = nullptr;
 			Object2D* temp = *itr;
 			itr = mObject2DList.erase(itr);
 			delete temp;
@@ -66,6 +71,10 @@ void ObjectManager::DeleteAll2DIfNeeded()
 
 Object2D* ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 {
+	if (tag == Object2D::Tag2D_Player && m_player2D != nullptr && !m_player2D->IsDeleteFlag()) {
+		return m_player2D;
+	}
+
 	auto itr = std::find_if(
 		mObject2DList.begin(),
 		mObject2DList.end(),

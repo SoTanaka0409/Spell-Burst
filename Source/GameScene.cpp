@@ -10,6 +10,7 @@
 #include "DebugLog.h"
 #include <cstdlib>
 #include "Utility.h"
+#include "ResourceManager.h"
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
@@ -52,7 +53,7 @@ void GameScene::Update() {
         mpEnemyManager->Update();
     }
 
-    if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z)) {
+    if (InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
@@ -61,10 +62,7 @@ void GameScene::Update() {
 // 背景画像、ゲーム内の全オブジェクト、HUD（プレイヤーのHPやレベル、経験値バーなど）を描画します。
 void GameScene::Draw() {
     // Draw Stage Background (Underwater ocean world)
-    static int s_bgGraphHandle = -1;
-    if (s_bgGraphHandle == -1) {
-        s_bgGraphHandle = LoadGraph("Resource/background.png");
-    }
+    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     if (s_bgGraphHandle != -1) {
         DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
     }
@@ -75,11 +73,11 @@ void GameScene::Draw() {
     // HUD Panel
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
     if (player != nullptr) {
-        // Draw elegant semi-transparent background box for HUD (taller to fit Level/XP)
+        // Draw elegant semi-transparent background box for HUD (taller to fit Level/XP and Spell Gauge)
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 195, GetColor(0, 15, 30), TRUE); // Ocean dark theme
+        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); // Ocean dark theme
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 195, GetColor(0, 128, 255), FALSE); // border
+        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); // border
 
         // Player HP
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
@@ -121,6 +119,28 @@ void GameScene::Draw() {
         }
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
         DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
+
+        // === Spell Card Gauge ===
+        DrawFormatString(20, 180, GetColor(255, 100, 200), "SPELL");
+        int spellBarY = 195;
+        float spellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
+        int spellFill = static_cast<int>(xpBarWidth * spellRatio);
+        
+        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
+        if (spellFill > 0) {
+            DrawBox(xpBarX, spellBarY, xpBarX + spellFill, spellBarY + 14, GetColor(255, 100, 200), TRUE);
+        }
+        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(255, 150, 220), FALSE);
+        
+        if (player->GetSpellGauge() >= player->GetMaxSpellGauge()) {
+            if ((GetNowCount() / 150) % 2 == 0) {
+                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "READY!! (PRESS X)");
+            } else {
+                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "READY!! (PRESS X)");
+            }
+        } else {
+            DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
+        }
 
         // === LEVEL UP! Flash Effect (above player character) ===
         int lvTimer = player->GetLevelUpTimer();

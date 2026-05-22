@@ -24,4 +24,5 @@ public:
 
 private:
 	std::list<Object2D*> mObject2DList;
+	Object2D* m_player2D = nullptr;
 };

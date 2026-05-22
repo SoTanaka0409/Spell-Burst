@@ -10,6 +10,8 @@
 #include "ResultScene.h"
 #include "MeleeAttack.h"
 #include "SpecialBullet.h"
+#include "ResourceManager.h"
+#include "SpellCardBullet.h"
 
 Player::Player() 
     : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
@@ -34,14 +36,14 @@ void Player::Initialize() {
     m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
     m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
     m_speed = 5.0f;
-    m_maxHp = 5;
+    m_maxHp = 10;
     m_hp = m_maxHp;
     m_levelUpTimer = 0;
     m_stunTimer = 0;
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
-    mfAttack = 100;
-    m_attackTimer = 30;
+    mfAttack = 1;
+    m_attackTimer = 20; // 発射間隔を短く（連射）
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
     // Level & XP system initialization
@@ -49,9 +51,12 @@ void Player::Initialize() {
     m_xp = 0;
     m_xpNeeded = 5; // Level 1 needs 5 XP to level up
     m_levelUpTimer = 0;
+    
+    m_spellGauge = 0;
+    m_maxSpellGauge = 10; // 敵10体分でゲージMAX
 
-    // Create a circular collider with radius 35
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 35.0f);
+    // Create a circular collider with small radius (Touhou style)
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
 }
 
 // 毎フレーム呼ばれる更新処理
@@ -72,10 +77,14 @@ void Player::Update()
         return; // スタン中は入力と攻撃をスキップ
     }
 
-    if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= m_speed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_S)) { m_y += m_speed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_A)) { m_x -= m_speed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_D)) { m_x += m_speed; }
+    // 低速移動（フォーカス）モード
+    bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
+    float currentSpeed = isFocus ? 2.0f : m_speed;
+
+    if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_S)) { m_y += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_A)) { m_x -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_D)) { m_x += currentSpeed; }
 
     // Clamp inside screen with 45.0f padding
     if (m_x < 45.0f) m_x = 45.0f;
@@ -120,10 +129,7 @@ void Player::Draw() {
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    static int s_playerGraphHandle = -1;
-    if (s_playerGraphHandle == -1) {
-        s_playerGraphHandle = LoadGraph("Resource/player.png");
-    }
+    int s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
 
     if (s_playerGraphHandle != -1) {
         DrawExtendGraph(
@@ -136,6 +142,12 @@ void Player::Draw() {
         );
     } else {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
+    }
+
+    // 低速移動中は当たり判定（コア）を描画する
+    if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠（白）
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中心（赤）
     }
 }
 
@@ -154,13 +166,17 @@ void Player::TakeDamage(int damage) {
 void Player::Attack()
 {
     int mouseInput = GetMouseInput(); // マウスの状態を取得
+    bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
+    
     m_AttackInterval++;
     m_AttackInterval_2++;
     // Cooldown decrement
     if (m_specialCooldown > 0) {
         m_specialCooldown--;
     }
-    if (m_AttackInterval>=m_attackTimer)
+    
+    // Zキーが押されている間、メインショットを発射
+    if ( m_AttackInterval >= m_attackTimer)
     {
         m_AttackInterval = 0;//intervalの初期化
             int numBullets = m_level;
@@ -190,13 +206,31 @@ void Player::Attack()
             }
         }
     }
+    if (mouseInput & MOUSE_INPUT_LEFT)
+    {
+        new SpecialBullet(m_x, m_y - 90.0f);
+    }
 
+    // スペルカードの発動（Xキー）
+    if (InputManager::CheckDownKey(KEY_INPUT_X)) {
+       // if (m_spellGauge >= m_maxSpellGauge) 
+        {
+            m_spellGauge = 0; // ゲージ消費
+            new SpellCardBullet(m_x, m_y - 90.0f);
+        }
+    }
 }
 
 // 経験値（XP）の獲得とレベルアップ処理
 // 敵を倒した時に呼ばれ、一定値を超えるとレベルアップしてHPを全回復します。
 void Player::AddXp(int amount) {
     m_xp += amount;
+    
+    // スペルゲージも一緒に増加させる
+    m_spellGauge += amount;
+    if (m_spellGauge > m_maxSpellGauge) {
+        m_spellGauge = m_maxSpellGauge;
+    }
     // Level-up loop (handles multiple level-ups from one big XP gain)
     while (m_xp >= m_xpNeeded) {
         m_xp -= m_xpNeeded;

@@ -9,7 +9,7 @@ Bullet::Bullet(float x, float y,float damage)
     SetTag(Tag2D_PlayerBullet);
     m_x = x;
     m_y = y;
-    m_speed = 10.0f;
+    m_speed = 20.0f;
     m_isActive = true;
     m_damage = damage;
 

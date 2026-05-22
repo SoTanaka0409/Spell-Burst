@@ -12,7 +12,8 @@ public:
 		None2D = 0,
 		Tag2D_Player = 1,
 		Tag2D_Enemy = 2,
-		Tag2D_PlayerBullet = 3
+		Tag2D_PlayerBullet=3,
+		Tag2D_EnemyBullet=4,
 	};
 
 public:

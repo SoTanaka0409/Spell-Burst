@@ -13,6 +13,7 @@
 #include <DxLib.h>
 #include <cmath>
 #include <cstdlib>
+#include "ResourceManager.h"
 
 Boss::Boss(float x, float y, int bossType)
     : Object2D(VGet(x, y, 0.0f))
@@ -24,13 +25,13 @@ Boss::Boss(float x, float y, int bossType)
     m_bossType = bossType;
     if (m_bossType == 1) {
         m_speed = 1.5f;
-        m_hp = 20;
+        m_hp = 60; // 東方風なのでHP多め
     } else if (m_bossType == 2) {
         m_speed = 2.0f;
-        m_hp = 30;
+        m_hp = 80;
     } else {
         m_speed = 2.5f;
-        m_hp = 50;
+        m_hp = 150;
     }
     m_maxHp = m_hp;
     m_isActive = true;
@@ -119,7 +120,7 @@ void Boss::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // Shoot barrage patterns cyclically
+    // 攻撃感覚
     m_attackTimer++;
     if (m_bossType == 1) {
         if (m_attackTimer >= 60) {
@@ -127,12 +128,12 @@ void Boss::Update() {
             ShootSimpleBarrage();
         }
     } else if (m_bossType == 2) {
-        if (m_attackTimer >= 80) {
+        if (m_attackTimer >= 120) {
             m_attackTimer = 0;
             ShootBouncingBarrage();
         }
     } else {
-        if (m_attackTimer >= 100) { // Every 1.6s approx.
+        if (m_attackTimer >= 100) { // 発射間隔を短く（100 -> 40）弾幕化
             m_attackTimer = 0;
             if (m_patternIndex == 0) {
                 ShootRadialBarrage();
@@ -146,33 +147,39 @@ void Boss::Update() {
     }
 }
 
-// 全方位弾幕を撃つ処理
-// ボスの周囲360度に向かって、円形に広がるように弾を発射します。
+// 全方位弾幕を撃つ処理（スペルカード風：渦巻き弾幕）
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 18;
+    const int bulletCount = 36; // 弾数を倍増
+    static float spiralAngle = 0.0f;
+    spiralAngle += 0.15f; // 発射ごとに角度をずらして渦巻きにする
+
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
-        float angle = (i * 2.0f * PI) / bulletCount;
+        float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
         float dx = std::cos(angle);
         float dy = std::sin(angle);
-        new EnemyBullet(m_x, m_y, dx, dy, 4.0f, reflect);
+        new EnemyBullet(m_x, m_y, dx, dy, 2.5f, reflect); // 弾速を落として避けやすく
     }
 }
 
-// 扇状弾幕を撃つ処理
-// ボスの前方下方向を中心に、扇形に広がるように弾を発射します。
+// 扇状弾幕を撃つ処理（スペルカード風：多層交差弾幕）
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 7;
+    const int bulletCount = 15;
     bool reflect = (m_lives == 2);
-    // Straight down is PI/2 (90 degrees). We spread out +/- 45 degrees.
+    // 真下を中心に広範囲に撃つ
     float baseAngle = PI / 2.0f;
-    for (int i = 0; i <= bulletCount; i++) {
-        float angle = baseAngle + (i * 12.0f * PI / 180.0f);
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        new EnemyBullet(m_x, m_y, dx, dy, 5.0f, reflect);
+    
+    // 2層の速度が違う弾幕を同時に撃つ
+    for (int layer = 0; layer < 4; layer++) {
+        float speed = 2.0f + layer * 1.5f; // 遅い弾と速い弾
+        for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
+            float angle = baseAngle + (i * 8.0f * PI / 180.0f);
+            float dx = std::cos(angle);
+            float dy = std::sin(angle);
+            new EnemyBullet(m_x, m_y, dx, dy, speed, reflect);
+        }
     }
 }
 
@@ -203,36 +210,31 @@ void Boss::ShootTargetedBarrage() {
 
     float baseAngle = std::atan2(dy, dx);
 
-    // 3-way spread shot aimed at player
+    // 密な5WAY自機狙い
+    for (int i = -2; i <= 2; i++) {
+        float angle = baseAngle + (i * 5.0f * PI / 180.0f);
+        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 3.5f);
+    }
+    // 少し遅い広めの3WAYも重ねる
     for (int i = -1; i <= 1; i++) {
-        float angle = baseAngle + (i * 10.0f * PI / 180.0f);
-        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 6.5f);
+        float angle = baseAngle + (i * 12.0f * PI / 180.0f);
+        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 2.5f);
     }
 }
 
 void Boss::ShootSimpleBarrage() {
-    Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-    float targetX = m_x;
-    float targetY = m_y + 200.0f;
-
-    if (player != nullptr) {
-        targetX = player->GetX();
-        targetY = player->GetY();
-    }
-
-    float dx = targetX - m_x;
-    float dy = targetY - m_y;
-    float dist = std::sqrt(dx * dx + dy * dy);
+    const float PI = 3.14159265f;
     
-    if (dist > 0.0f) {
-        dx /= dist;
-        dy /= dist;
-    } else {
-        dx = 0.0f;
-        dy = 1.0f;
+    // ランダムな基準角から、四方（全方位）に5発の弾を発射する
+    // 60フレーム（1秒間）はそのまま直進し、その後120フレーム（2秒間）プレイヤーを追尾する
+    float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
+    for (int i = 0; i < 5; i++) {
+        float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
+        float bx = std::cos(angle);
+        float by = std::sin(angle);
+        // speed: 3.5f, canReflect: false, stun: false, homingFrames: 120, homingDelayFrames: 60
+        new EnemyBullet(m_x, m_y, bx, by, 3.5f, false, false, 120, 60);
     }
-
-    new EnemyBullet(m_x, m_y, dx, dy, 5.0f);
 }
 
 void Boss::ShootBouncingBarrage() {
@@ -322,10 +324,7 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
 void Boss::Draw() {
     if (!m_isActive) return;
 
-    static int s_bossGraphHandle = -1;
-    if (s_bossGraphHandle == -1) {
-        s_bossGraphHandle = LoadGraph("Resource/boss.png");
-    }
+    int s_bossGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/boss.png");
 
     if (s_bossGraphHandle != -1) {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
