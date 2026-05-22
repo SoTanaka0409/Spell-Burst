@@ -32,6 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     SetDrawScreen(DX_SCREEN_BACK);
 
+    Master::sceneManager = new SceneManager();
     Master::sceneManager->Initialize();
 
     // Main loop
