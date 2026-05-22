@@ -1,0 +1,40 @@
+# Visual Studio cache/options directory
+.vs/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Oo]bj/
+[Bb]in/
+Project1/x64/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.db
+*.opendb
+*.VC.db
+*.VC.db-shm
+*.VC.db-wal
+
+# Build artifacts and logs
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.log
+*.tlog
+*.idb
+*.ipch
+*.recipe
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
