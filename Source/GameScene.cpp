@@ -14,6 +14,8 @@
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
+    , m_cutinTimer(0)
+    , m_cutinImageHandle(-1)
 {
 }
 
@@ -34,6 +36,9 @@ void GameScene::Initialize() {
     mpEnemyManager = new EnemyManager();
     mpEnemyManager->Initialize();
 
+    m_cutinTimer = 0;
+    m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_mackerel.png");
+
     // Create player (automatically registered to current scene's ObjectManager)
     new Player();
 
@@ -46,6 +51,11 @@ void GameScene::Initialize() {
 // 毎フレーム呼ばれる更新処理
 // ESCキーによるポーズ機能の処理、およびゲーム中であれば全オブジェクトや敵の出現を更新します。
 void GameScene::Update() {
+    if (m_cutinTimer > 0) {
+        m_cutinTimer--;
+        return; // 時間停止！オブジェクトや敵の更新を行わない
+    }
+
     Scene::Update();
 
     // Update EnemyManager (spawns enemies dynamically)
@@ -211,6 +221,34 @@ void GameScene::Draw() {
     // Small debug stats on bottom right
     DrawFormatString(1100, 680, GetColor(200, 200, 200), "Objects: %d", (int)GetObjectManager()->GetObjectCount());
     DrawFormatString(1100, 660, GetColor(200, 200, 200), "FPS: 60");
+
+    // Draw Cut-in if active
+    if (m_cutinTimer > 0) {
+        int maxTimer = 90;
+        int progress = maxTimer - m_cutinTimer; 
+        
+        // Slide from right to left smoothly
+        float xOffset = Utility::SCREEN_WIDTH - (Utility::SCREEN_WIDTH * 2.0f * (progress / (float)maxTimer));
+        
+        if (m_cutinImageHandle != -1) {
+            DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, m_cutinImageHandle, TRUE);
+        }
+
+        // Darken the rest of the screen slightly
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+        DrawBox(0, 0, Utility::SCREEN_WIDTH, 150, GetColor(0, 0, 0), TRUE);
+        DrawBox(0, 570, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+        // Flashy spell card text
+        if (progress > 10) {
+            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "SPELL CARD: SCHOOL OF MACKEREL!!");
+        }
+    }
+}
+
+void GameScene::TriggerCutin() {
+    m_cutinTimer = 90; // 1.5 seconds freeze
 }
 
 // シーン終了時の処理

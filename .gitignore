@@ -27,7 +27,6 @@ bld/
 *.pdb
 *.ilk
 *.idb
-*.lib
 *.exp
 *.map
 *.res
@@ -48,6 +47,3 @@ bld/
 .vs/Project1/v17/Browse.VC.db-wal
 .vs/Project1/v17/DocumentLayout.json
 
-# Large Libraries
-DxLib_VC/
-EFKforDxLib/

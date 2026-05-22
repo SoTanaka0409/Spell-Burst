@@ -9,6 +9,10 @@ private:
     // 敵の出現やWAVEの進行を管理するマネージャー
     EnemyManager* mpEnemyManager;
 
+    // カットイン関連
+    int m_cutinTimer;
+    int m_cutinImageHandle;
+
 public:
     GameScene();
     virtual ~GameScene() override;
@@ -24,4 +28,7 @@ public:
 
     // シーン終了時に呼ばれ、確保したメモリを解放する
     void Finalize() override;
+
+    // スペルカードカットインを発動する
+    void TriggerCutin();
 };

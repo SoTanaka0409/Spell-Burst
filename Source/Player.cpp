@@ -12,6 +12,7 @@
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
 #include "SpellCardBullet.h"
+#include "GameScene.h"
 
 Player::Player() 
     : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
@@ -212,11 +213,15 @@ void Player::Attack()
     }
 
     // スペルカードの発動（Xキー）
-    if (InputManager::CheckDownKey(KEY_INPUT_X)) {
-       // if (m_spellGauge >= m_maxSpellGauge) 
-        {
+    if (InputManager::CheckPressKey(KEY_INPUT_X)) {
+        if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
             new SpellCardBullet(m_x, m_y - 90.0f);
+            
+            GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+            if (gs != nullptr) {
+                gs->TriggerCutin();
+            }
         }
     }
 }

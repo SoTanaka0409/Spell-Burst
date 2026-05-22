@@ -57,12 +57,12 @@ void PlayerSpellParticle::Update() {
 void PlayerSpellParticle::Draw() {
     if (!m_isActive) return;
 
-    // Sakura pink colors
+    // Light blue (Aqua/Cyan) colors for Mackerel theme
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 20, GetColor(255, 100, 150), TRUE); // aura
+    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 20, GetColor(0, 150, 255), TRUE); // aura
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 12, GetColor(255, 180, 220), TRUE); // outline
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(255, 255, 255), TRUE); // core
+    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 12, GetColor(100, 220, 255), TRUE); // outline
+    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(200, 255, 255), TRUE); // core
 }
 
 void PlayerSpellParticle::Kill() {
