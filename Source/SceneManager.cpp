@@ -6,6 +6,9 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 #include "DebugLog.h"
+#include "Master.h"
+
+SceneManager* Master::sceneManager = nullptr;
 
 SceneManager::SceneManager()
 	: mnSceneType(SCENE_TYPE::SCENE_NONE)
