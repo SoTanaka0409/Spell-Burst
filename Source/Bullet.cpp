@@ -13,7 +13,8 @@ Bullet::Bullet(float x, float y,float damage)
     m_speed = 20.0f;
     m_isActive = true;
     m_damage = damage;
-
+    m_recivedDamage = 0;
+    m_MaxrecivedDamage = 20; // ダメージを受けてから3回で技を出す
     // Create a circular collider with radius 10 (previously 5)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
 }
@@ -37,11 +38,13 @@ void Bullet::Update()
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
+   
 
     if (mvPosition.y < -20.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
+
 }
 
 // 蠑ｾ縺ｮ豸域ｻ・・逅・
