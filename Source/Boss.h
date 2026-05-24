@@ -3,6 +3,7 @@
 
 class CapsuleCollider;
 
+<<<<<<< HEAD
 // ボスキャラクターのデータや振る舞い、弾幕パターンを管理するクラス
 class Boss : public Object2D {
 private:
@@ -28,6 +29,27 @@ private:
     int m_lives;
     int m_invincibleTimer;
     int m_invincibleCycleTimer; // 5秒ごとの無敵を管理するタイマー
+=======
+class Boss : public Object2D {
+private:
+    float m_speed;
+    int m_hp;
+    int m_maxHp;
+    bool m_isActive;
+    int m_bossType;
+    
+    float m_targetX, m_targetY;
+    
+    int m_attackTimer;
+    int m_patternIndex;
+
+    bool m_isDying;
+    int m_deathTimer;
+    
+    int m_lives;
+    int m_invincibleTimer;
+    int m_invincibleCycleTimer;
+>>>>>>> main
     
     CapsuleCollider* mpCollider;
 
@@ -35,10 +57,15 @@ public:
     Boss(float x, float y, int bossType = 3);
     virtual ~Boss() override;
 
+<<<<<<< HEAD
     // 毎フレーム呼ばれ、移動処理や攻撃処理、死亡時の演出を行う
     void Update() override;
 
     // 毎フレーム呼ばれ、ボスの画像や被ダメージ時の点滅効果を描画する
+=======
+    void Update() override;
+
+>>>>>>> main
     void Draw() override;
 
     int GetHp() const { return m_hp; }
@@ -46,6 +73,7 @@ public:
     bool IsActive() const { return m_isActive; }
     int GetLives() const { return m_lives; }
 
+<<<<<<< HEAD
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
     float GetRadius() const { return 80.0f; }
@@ -68,5 +96,25 @@ private:
     void ShootBouncingBarrage();  // タイプ2用の反射弾
     
     // 次のランダム移動の目的地を決定する
+=======
+    float GetX() const { return mvPosition.x; }
+    float GetY() const { return mvPosition.y; }
+    float GetRadius() const { return 80.0f; }
+
+    void TakeDamage(int damage);
+
+    void Kill();
+
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+private:
+    void ShootRadialBarrage();
+    void ShootFanBarrage();
+    void ShootTargetedBarrage();
+    void ShootSimpleBarrage();
+    void ShootBouncingBarrage();
+    void ShootSpellCardBarrage();
+    
+>>>>>>> main
     void SelectNewTarget();
 };
