@@ -3,12 +3,11 @@
 
 class CapsuleCollider;
 
-// プレイヤーの近接攻撃（ナイフや剣の振り）を管理するクラス
+// プレイヤーの近接攻撁E��ナイフや剣の振り）を管琁E��るクラス
 class MeleeAttack : public Object2D {
 private:
-    float m_x, m_y; // 攻撃の判定が発生している座標
-    int m_lifetime; // 攻撃の持続時間（フレーム数）
-    int m_damage;   // 与えるダメージ量
+    int m_lifetime; // 攻撁E�E持続時間（フレーム数�E�E
+    int m_damage;   // 与えるダメージ釁E
     CapsuleCollider* mpCollider;
 
 public:

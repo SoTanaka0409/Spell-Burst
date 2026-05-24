@@ -31,4 +31,7 @@ public:
 
     // スペルカードカットインを発動する
     void TriggerCutin();
+
+    // 敵マネージャーの取得
+    EnemyManager* GetEnemyManager() const { return mpEnemyManager; }
 };

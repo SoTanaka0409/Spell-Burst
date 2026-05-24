@@ -3,7 +3,7 @@
 
 class CapsuleCollider;
 
-// プレイヤーが発射する通常の弾を管理するクラス
+// プレイヤーが発封E��る通常の弾を管琁E��るクラス
 class Bullet : public Object2D
 {
 public:
@@ -14,8 +14,8 @@ public:
     bool IsActive() { return m_isActive; }
 
     // Collision helper
-    float GetX() { return m_x; }
-    float GetY() { return m_y; }
+    float GetX() { return mvPosition.x; }
+    float GetY() { return mvPosition.y; }
     float GetRadius() const { return 10.0f; }
     int GetDamage() const { return m_damage; }
     void Kill();
@@ -23,9 +23,8 @@ public:
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    float m_x, m_y;       // 弾の座標
     float m_speed;        // 弾の移動速度
-    bool m_isActive;      // 弾が有効かどうか
-    int m_damage;         // 弾が与えるダメージ量
+    bool m_isActive;      // 弾が有効かどぁE��
+    int m_damage;         // 弾が与えるダメージ釁E
     CapsuleCollider* mpCollider;
 };

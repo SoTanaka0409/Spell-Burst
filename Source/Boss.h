@@ -3,31 +3,30 @@
 
 class CapsuleCollider;
 
-// ボスキャラクターのデータや振る舞い、弾幕パターンを管理するクラス
+// ボスキャラクターのチE�EタめE��る�EぁE��弾幕パターンを管琁E��るクラス
 class Boss : public Object2D {
 private:
-    float m_x, m_y;       // ボスの画面上のXY座標
     float m_speed;        // 移動速度
     int m_hp;             // 現在の体力
     int m_maxHp;          // 最大体力
-    bool m_isActive;      // ボスが活動中かどうかのフラグ
-    int m_bossType;       // ボスの種類（1〜3）
+    bool m_isActive;      // ボスが活動中かどぁE��のフラグ
+    int m_bossType;       // ボスの種類！E、E�E�E
     
-    // ランダム移動の目的地（ターゲット座標）
+    // ランダム移動�E目皁E���E�ターゲチE��座標！E
     float m_targetX, m_targetY;
     
-    // 攻撃パターンと発射間隔を管理するタイマー
+    // 攻撁E��ターンと発封E��隔を管琁E��るタイマ�E
     int m_attackTimer;
     int m_patternIndex;
 
-    // 撃破された際の死亡演出を管理するステータスとタイマー
+    // 撁E��された際の死亡演�Eを管琁E��るスチE�Eタスとタイマ�E
     bool m_isDying;
     int m_deathTimer;
     
-    // フェーズ（残機）と無敵時間を管理する変数
+    // フェーズ�E�残機）と無敵時間を管琁E��る変数
     int m_lives;
     int m_invincibleTimer;
-    int m_invincibleCycleTimer; // 5秒ごとの無敵を管理するタイマー
+    int m_invincibleCycleTimer; // 5秒ごとの無敵を管琁E��るタイマ�E
     
     CapsuleCollider* mpCollider;
 
@@ -35,10 +34,10 @@ public:
     Boss(float x, float y, int bossType = 3);
     virtual ~Boss() override;
 
-    // 毎フレーム呼ばれ、移動処理や攻撃処理、死亡時の演出を行う
+    // 毎フレーム呼ばれ、移動�E琁E��攻撁E�E琁E��死亡時�E演�Eを行う
     void Update() override;
 
-    // 毎フレーム呼ばれ、ボスの画像や被ダメージ時の点滅効果を描画する
+    // 毎フレーム呼ばれ、�Eスの画像や被ダメージ時�E点滁E��果を描画する
     void Draw() override;
 
     int GetHp() const { return m_hp; }
@@ -46,27 +45,27 @@ public:
     bool IsActive() const { return m_isActive; }
     int GetLives() const { return m_lives; }
 
-    float GetX() const { return m_x; }
-    float GetY() const { return m_y; }
+    float GetX() const { return mvPosition.x; }
+    float GetY() const { return mvPosition.y; }
     float GetRadius() const { return 80.0f; }
 
-    // プレイヤーの攻撃を受けた際に呼ばれるダメージ処理
+    // プレイヤーの攻撁E��受けた際に呼ばれるダメージ処琁E
     void TakeDamage(int damage);
 
-    // ボスを完全に消滅させる処理
+    // ボスを完�Eに消滁E��せる処琁E
     void Kill();
 
-    // 他のオブジェクトと重なっている時の処理（弾との当たり判定）
+    // 他�Eオブジェクトと重なってぁE��時�E処琁E��弾との当たり判定！E
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    // ボスの弾幕パターン処理群
-    void ShootRadialBarrage();    // 全方位（放射状）への弾幕
-    void ShootFanBarrage();       // 扇状（前方広範囲）への弾幕
-    void ShootTargetedBarrage();  // プレイヤーを狙う自機狙い弾幕
-    void ShootSimpleBarrage();    // タイプ1用の単純な弾
-    void ShootBouncingBarrage();  // タイプ2用の反射弾
+    // ボスの弾幕パターン処琁E��
+    void ShootRadialBarrage();    // 全方位（放封E���E�への弾幁E
+    void ShootFanBarrage();       // 扁E���E�前方庁E��E���E�への弾幁E
+    void ShootTargetedBarrage();  // プレイヤーを狙ぁE�E機狙ぁE��幁E
+    void ShootSimpleBarrage();    // タイチE用の単純な弾
+    void ShootBouncingBarrage();  // タイチE用の反封E��
     
-    // 次のランダム移動の目的地を決定する
+    // 次のランダム移動�E目皁E��を決定すめE
     void SelectNewTarget();
 };

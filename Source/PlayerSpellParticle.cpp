@@ -10,8 +10,8 @@ PlayerSpellParticle::PlayerSpellParticle(float x, float y, float dx, float dy, f
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet);
-    m_x = x;
-    m_y = y;
+    mvPosition.x = x;
+    mvPosition.y = y;
     m_dx = dx;
     m_dy = dy;
     m_speed = speed;
@@ -30,9 +30,9 @@ PlayerSpellParticle::~PlayerSpellParticle() {
 }
 
 void PlayerSpellParticle::Update() {
-    m_x += m_dx * m_speed;
-    m_y += m_dy * m_speed;
-    mvPosition = VGet(m_x, m_y, 0.0f);
+    mvPosition.x += m_dx * m_speed * Utility::TimeScale;
+    mvPosition.y += m_dy * m_speed * Utility::TimeScale;
+    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -49,7 +49,7 @@ void PlayerSpellParticle::Update() {
         m_dy = std::sin(currentAngle);
     }
 
-    if (m_x < -50.0f || m_x > Utility::SCREEN_WIDTH + 50.0f || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT + 50.0f) {
+    if (mvPosition.x < -50.0f || mvPosition.x > Utility::SCREEN_WIDTH + 50.0f || mvPosition.y < -50.0f || mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
         Kill();
     }
 }
@@ -59,10 +59,10 @@ void PlayerSpellParticle::Draw() {
 
     // Light blue (Aqua/Cyan) colors for Mackerel theme
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 20, GetColor(0, 150, 255), TRUE); // aura
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 20, GetColor(0, 150, 255), TRUE); // aura
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 12, GetColor(100, 220, 255), TRUE); // outline
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 6, GetColor(200, 255, 255), TRUE); // core
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 12, GetColor(100, 220, 255), TRUE); // outline
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(200, 255, 255), TRUE); // core
 }
 
 void PlayerSpellParticle::Kill() {
