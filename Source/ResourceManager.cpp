@@ -26,9 +26,28 @@ int ResourceManager::GetGraph(const std::string& path) {
     return handle;
 }
 
+int ResourceManager::GetFont(int size, int thickness) {
+    int key = size * 1000 + (thickness > 0 ? thickness : 0);
+    auto it = m_fontMap.find(key);
+    if (it != m_fontMap.end()) {
+        return it->second;
+    }
+
+    int handle = CreateFontToHandle(NULL, size, thickness);
+    if (handle != -1) {
+        m_fontMap[key] = handle;
+    }
+    return handle;
+}
+
 void ResourceManager::ClearAll() {
     for (auto& pair : m_graphMap) {
         DeleteGraph(pair.second);
     }
     m_graphMap.clear();
+
+    for (auto& pair : m_fontMap) {
+        DeleteFontToHandle(pair.second);
+    }
+    m_fontMap.clear();
 }

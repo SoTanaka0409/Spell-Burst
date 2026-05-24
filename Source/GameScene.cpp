@@ -13,6 +13,8 @@
 #include "ResourceManager.h"
 #include "HUD.h"
 
+int GameScene::s_currentStage = 1;
+
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
     , m_cutinTimer(0)
@@ -78,7 +80,7 @@ void GameScene::Update() {
     if (mpEnemyManager != nullptr) {
         mpEnemyManager->Update();
     }
-
+    
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {

@@ -1,9 +1,11 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 #include "Boss.h"
+#include "Obstacle.h"
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
+#include "GameScene.h"
 #include "Scene.h"
 #include "ObjectManager.h"
 #include "Utility.h"
@@ -53,15 +55,29 @@ void EnemyManager::Update() {
         {
             // 通常敵の定期出現カウンターを進める
             m_spawnTimer++;
-            if (m_spawnTimer >= 45)
-            { // 45フレームごとに出現（敵の数を増加）
+            int interval = 45;
+            if (GameScene::s_currentStage == 2) interval = 40;
+            if (GameScene::s_currentStage == 3) interval = 35;
+            
+            if (m_spawnTimer >= interval)
+            { // ステージに応じた間隔で出現
                 m_spawnTimer = 0;
 
                 // 画面外の上部（Y座標-50）のランダムなX座標を決定（縦スクロール用）
                 float spawnX = 80.0f + static_cast<float>(rand() % 1120);
                 float spawnY = -50.0f;
-                SpawnEnemy(spawnX, spawnY);
-               
+                
+                // ステージ2以降は障害物を混ぜる
+                bool spawnObstacle = false;
+                if (GameScene::s_currentStage >= 2 && (rand() % 100) < 30) { // 30%の確率で障害物
+                    spawnObstacle = true;
+                }
+                
+                if (spawnObstacle) {
+                    new Obstacle(spawnX, spawnY);
+                } else {
+                    SpawnEnemy(spawnX, spawnY);
+                }
             }
         }
     }

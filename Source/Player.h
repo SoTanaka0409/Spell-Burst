@@ -3,62 +3,66 @@
 #include"Barrier.h"
 class CapsuleCollider;
 
-// �v���C���[�i����L�����N�^�[�j�̃f�[�^��U�镑�����Ǘ�����N���X
-// Object2D���p�����A��ʏ�̕`��ⓖ���蔻��������Ă��܂��B
+// プレイヤー（操作キャラクター）のデータや振る舞いを管理するクラス
+// Object2Dを継承し、画面上の描画や当たり判定を持っています。class SpecialBullet;
+
 class Player : public Object2D
 {
 public:
-    // �v���C���[�̍U�����@���`����񋓌^
+    static int s_selectedCharacterType; // 1: Normal, 2: Girl, 3: Old
+    
+    // プレイヤーの攻撃方法を定義する列挙型
     enum AttackMode
     {
-        AttackMode_Melee,   // �ߐڍU���i�i�C�t���j
-        AttackMode_Special  // �K�E�Z�i�N�[���_�E������j
+        AttackMode_Melee,   // 近接攻撃（ナイフ等）
+        AttackMode_Special  // 必殺技（クールダウンあり）
     };
+    
 
 private:
-    float m_speed;            // �v���C���[�̈ړ����x
-    int m_hp;                 // ���݂̗̑́iHP�j
-    int m_maxHp;              // �ő�̗�
-    float mfAttack;           // ��{�U���́i���x���A�b�v���ŕϓ��\�j
-    float m_attackTimer{};    // �ʏ�U���̔��ˊԊu���Ǘ�����^�C�}�[
-    float m_AttackInterval{}; // �ʏ�U���̔��ˊԊu�i�������l�j
-    float m_AttackTimer_2{};  // �T�u�U�����̔��ˊԊu���Ǘ�����^�C�}�[
-    float m_AttackInterval_2{}; // �T�u�U���̔��ˊԊu�i�������l�j
+    float m_speed;            // プレイヤーの移動速度
+    int m_hp;                 // 現在の体力（HP）
+    int m_maxHp;              // 最大体力
+    float mfAttack;           // 基本攻撃力（レベルアップ等で変動可能）
+    float m_attackTimer{};    // 通常攻撃の発射間隔を管理するタイマー
+    float m_AttackInterval{}; // 通常攻撃の発射間隔（しきい値）
+    float m_AttackTimer_2{};  // サブ攻撃等の発射間隔を管理するタイマー
+    float m_AttackInterval_2{}; // サブ攻撃の発射間隔（しきい値）
     float m__BarrierCount{};
-    AttackMode m_attackMode;  // ���ݑI������Ă���U�����[�h
-    int m_specialCooldown;    // �K�E�Z���ēx���Ă�悤�ɂȂ�܂ł̃N�[���_�E�����ԁi�t���[�����j
-    CapsuleCollider* mpCollider; // �����蔻����Ǘ�����R���C�_�[�i�J�v�Z����/�~�`�j
-	Barrier* mpBarrier; // �v���C���[���W�J����o���A�I�u�W�F�N�g�ւ̃|�C���^�i�K�v�ɉ����Ďg�p�j
+    AttackMode m_attackMode;  // 現在選択されている攻撃モード
+    int m_specialCooldown;    // 必殺技が再度撃てるようになるまでのクールダウン時間（フレーム数）
+    CapsuleCollider* mpCollider; // 当たり判定を管理するコライダー（カプセル状/円形）
+	Barrier* mpBarrier; // プレイヤーが展開するバリアオブジェクトへのポインタ（必要に応じて使用）
 
 
-    // ���x���A�b�v�ƌo���l�iXP�j�̊Ǘ��V�X�e��
-    int m_level;          // ���݂̃��x��
-    int m_xp;             // �l�������o���l
-    int m_xpNeeded;       // ���̃��x���A�b�v�ɕK�v�Ȍo���l��
-    int m_levelUpTimer;   // ���x���A�b�v���o�i�����̓_�łȂǁj��\������c�莞��
-    int m_spellGauge;     // �X�y���J�[�h�����p�̃Q�[�W
-    int m_maxSpellGauge;  // �Q�[�W�̍ő�l
+    // レベルアップと経験値（XP）の管理システム
+    int m_level;          // 現在のレベル
+    int m_xp;             // 獲得した経験値
+    int m_xpNeeded;       // 次のレベルアップに必要な経験値量
+    int m_levelUpTimer;   // レベルアップ演出（文字の点滅など）を表示する残り時間
+    int m_spellGauge;     // スペルカード発動用のゲージ
+    int m_maxSpellGauge;  // ゲージの最大値
 
-    int m_stunTimer;      // �X�^���i�s���s�\�j�̎c�莞�ԁi�t���[�����j
+    int m_stunTimer;      // スタン（行動不能）の残り時間（フレーム数）
 
 public:
     Player();
     virtual ~Player() override;
 
-    // �Q�[���J�n���⃊�g���C���Ƀv���C���[�̃X�e�[�^�X��������Ԃɖ߂�
+    // ゲーム開始時やリトライ時にプレイヤーのステータスを初期状態に戻す
     void Initialize();
 
-    // ���t���[���Ă΂�A�L�[�{�[�h���͂ɂ��ړ�������U������Ȃǂ��s��
+    // 毎フレーム呼ばれ、キーボード入力による移動処理や攻撃判定などを行う
     void Update() override;
 
-    // ���t���[���Ă΂�A�v���C���[�̉摜���ʏ�̊e��G�t�F�N�g��`�悷��
+    // 毎フレーム呼ばれ、プレイヤーの画像や画面上の各種エフェクトを描画する
     void Draw() override;
 
-    // �v���C���[���U�����s���ۂ̋�̓I�Ȓe�̐����⏈�����s��
+    // プレイヤーが攻撃を行う際の具体的な弾の生成や処理を行う
     void Attack();
     void Bariier();
 
-    // �Q�b�^�[�֐��Q�i�O������v���C���[�̏�Ԃ��擾���邽�߂̊֐��j
+    // ゲッター関数群（外部からプレイヤーの状態を取得するための関数）
     float GetX() const { return mvPosition.x; }
     float GetY() const { return mvPosition.y; }
     int GetHp() const { return m_hp; }
@@ -75,18 +79,18 @@ public:
 
     void Stun(int frames) { m_stunTimer = frames; }
 
-    // �G��|�������Ɍo���l��ǉ����A�K��l�ɒB�����烌�x���A�b�v�����鏈��
+    // 敵を倒した時に経験値を追加し、規定値に達したらレベルアップさせる処理
     void AddXp(int amount);
 
-    // �G��G�̒e�ɓ����������Ƀ_���[�W���󂯁AHP�����炷����
+    // 敵や敵の弾に当たった時にダメージを受け、HPを減らす処理
     void TakeDamage(int damage);
 
-    // �����蔻��̃C�x���g�n���h���i���̃I�u�W�F�N�g�ƏՓ˂����u�ԂɌĂ΂��j
+    // 当たり判定のイベントハンドラ（他のオブジェクトと衝突した瞬間に呼ばれる）
     virtual void OnEnter(Collider* collider, Collider* check) override;
 
-    // �����蔻��̃C�x���g�n���h���i���̃I�u�W�F�N�g�Əd�Ȃ��Ă���ԁA���t���[���Ă΂��j
+    // 当たり判定のイベントハンドラ（他のオブジェクトと重なっている間、毎フレーム呼ばれる）
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    // �����蔻��̃C�x���g�n���h���i���̃I�u�W�F�N�g�Ɨ��ꂽ�u�ԂɌĂ΂��j
+    // 当たり判定のイベントハンドラ（他のオブジェクトと離れた瞬間に呼ばれる）
     virtual void OnExit(Collider* collider, Collider* check) override;
 };

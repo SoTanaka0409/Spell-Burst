@@ -10,9 +10,13 @@
 #include "ResultScene.h"
 #include "MeleeAttack.h"
 #include "MasterSpark.h"
+#include "RainbowWaveManager.h"
+#include "SpellCardBullet.h"
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
 #include "GameScene.h"
+
+int Player::s_selectedCharacterType = 1;
 
 Player::Player() 
     : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
@@ -141,7 +145,14 @@ void Player::Draw() {
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    int s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    int s_playerGraphHandle = -1;
+    if (s_selectedCharacterType == 1) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    } else if (s_selectedCharacterType == 2) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+    } else if (s_selectedCharacterType == 3) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+    }
 
     if (s_playerGraphHandle != -1) {
         DrawExtendGraph(
@@ -229,7 +240,14 @@ void Player::Attack()
     if (InputManager::CheckDownKey(KEY_INPUT_X)) {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
-            new MasterSpark(mvPosition.x, mvPosition.y);
+            
+            if (s_selectedCharacterType == 1) {
+                new MasterSpark(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 2) {
+                new RainbowWaveManager(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 3) {
+                new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
+            }
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {

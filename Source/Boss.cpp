@@ -63,16 +63,16 @@ Boss::~Boss() {
     }
 }
 
-// 繝ｩ繝ｳ繝繝�遘ｻ蜍輔・繧ｿ繝ｼ繧ｲ繝・ヨ蠎ｧ讓吶ｒ譖ｴ譁ｰ縺吶ｋ蜃ｦ逅・
-// 逕ｻ髱｢荳企Κ・医・繝ｬ繧､繝､繝ｼ縺梧判謦・＠繧・☆縺・ｯ・峇・峨°繧峨Λ繝ｳ繝繝�縺ｫ谺｡縺ｮ遘ｻ蜍募・繧呈ｱｺ繧√∪縺吶・
+// 繝ｩ繝ｳ繝€繝遘ｻ蜍輔・繧ｿ繝ｼ繧ｲ繝・ヨ蠎ｧ讓吶ｒ譖ｴ譁ｰ縺吶ｋ蜃ｦ逅・
+// 逕ｻ髱｢荳企Κ・医・繝ｬ繧､繝､繝ｼ縺梧判謦・＠繧・☆縺・ｯ・峇・峨°繧峨Λ繝ｳ繝€繝縺ｫ谺｡縺ｮ遘ｻ蜍募・繧呈ｱｺ繧√∪縺吶€・
 void Boss::SelectNewTarget() {
     // Top half boundary: X between 100 and 1180, Y between 80 and 260
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
-// 繝懊せ縺ｮ豈弱ヵ繝ｬ繝ｼ繝�縺ｮ譖ｴ譁ｰ蜃ｦ逅・
-// 豁ｻ莠｡貍泌・荳ｭ縺ｪ繧我ｸ翫↓繝輔ぉ繝ｼ繝峨い繧ｦ繝医＠縲∫函蟄倅ｸｭ縺ｪ繧峨ち繝ｼ繧ｲ繝・ヨ蠎ｧ讓吶↓蜷代°縺｣縺ｦ遘ｻ蜍輔＠縺ｪ縺後ｉ蠑ｾ蟷輔ｒ謦・■縺ｾ縺吶・
+// 繝懊せ縺ｮ豈弱ヵ繝ｬ繝ｼ繝縺ｮ譖ｴ譁ｰ蜃ｦ逅・
+// 豁ｻ莠｡貍泌・荳ｭ縺ｪ繧我ｸ翫↓繝輔ぉ繝ｼ繝峨い繧ｦ繝医＠縲∫函蟄倅ｸｭ縺ｪ繧峨ち繝ｼ繧ｲ繝・ヨ蠎ｧ讓吶↓蜷代°縺｣縺ｦ遘ｻ蜍輔＠縺ｪ縺後ｉ蠑ｾ蟷輔ｒ謦・■縺ｾ縺吶€・
 void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
@@ -88,7 +88,7 @@ void Boss::Update() {
         m_invincibleTimer--;
     }
 
-    // 譛邨ゅ・繧ｹ・医ち繧､繝・・峨・縺ｿ縲・遘抵ｼ・00繝輔Ξ繝ｼ繝�・峨♀縺阪↓2遘帝俣・・20繝輔Ξ繝ｼ繝�・臥┌謨ｵ縺ｫ縺ｪ繧・
+    // 譛€邨ゅ・繧ｹ・医ち繧､繝・・峨・縺ｿ縲・遘抵ｼ・00繝輔Ξ繝ｼ繝・峨♀縺阪↓2遘帝俣・・20繝輔Ξ繝ｼ繝・臥┌謨ｵ縺ｫ縺ｪ繧・
     if (m_bossType == 3) {
         m_invincibleCycleTimer++;
         if (m_invincibleCycleTimer >= 300) {
@@ -138,14 +138,26 @@ void Boss::Update() {
     } else {
         if (m_attackTimer >= 100) { // 逋ｺ蟆・俣髫斐ｒ遏ｭ縺擾ｼ・00 -> 40・牙ｼｾ蟷募喧
             m_attackTimer = 0;
-            if (m_patternIndex == 0) {
-                ShootRadialBarrage();
-            } else if (m_patternIndex == 1) {
-                ShootFanBarrage();
-            } else if (m_patternIndex == 2) {
-                ShootTargetedBarrage();
+            
+            // ステージ3の場合は確率でスペルカード発動
+            bool usedSpellCard = false;
+            if (GameScene::s_currentStage == 3) {
+                if ((rand() % 100) < 20) { // 20%の確率
+                    ShootSpellCardBarrage();
+                    usedSpellCard = true;
+                }
             }
-            m_patternIndex = (m_patternIndex + 1) % 3;
+            
+            if (!usedSpellCard) {
+                if (m_patternIndex == 0) {
+                    ShootRadialBarrage();
+                } else if (m_patternIndex == 1) {
+                    ShootFanBarrage();
+                } else if (m_patternIndex == 2) {
+                    ShootTargetedBarrage();
+                }
+                m_patternIndex = (m_patternIndex + 1) % 3;
+            }
         }
     }
 }
@@ -153,7 +165,7 @@ void Boss::Update() {
 // 蜈ｨ譁ｹ菴榊ｼｾ蟷輔ｒ謦・▽蜃ｦ逅・ｼ医せ繝壹Ν繧ｫ繝ｼ繝蛾｢ｨ・壽ｸｦ蟾ｻ縺榊ｼｾ蟷包ｼ・
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 36; // 蠑ｾ謨ｰ繧貞榊｢・
+    const int bulletCount = 36; // 蠑ｾ謨ｰ繧貞€榊｢・
     static float spiralAngle = 0.0f;
     spiralAngle += 0.15f; // 逋ｺ蟆・＃縺ｨ縺ｫ隗貞ｺｦ繧偵★繧峨＠縺ｦ貂ｦ蟾ｻ縺阪↓縺吶ｋ
 
@@ -187,7 +199,7 @@ void Boss::ShootFanBarrage() {
 }
 
 // 閾ｪ讖溽漁縺・ｼｾ蟷輔ｒ謦・▽蜃ｦ逅・
-// 繝励Ξ繧､繝､繝ｼ縺ｮ迴ｾ蝨ｨ菴咲ｽｮ繧定ｨ育ｮ励＠縲√◎縺薙↓蜷代°縺｣縺ｦ3WAY縺ｮ蠑ｾ繧堤匱蟆・＠縺ｾ縺吶・
+// 繝励Ξ繧､繝､繝ｼ縺ｮ迴ｾ蝨ｨ菴咲ｽｮ繧定ｨ育ｮ励＠縲√◎縺薙↓蜷代°縺｣縺ｦ3WAY縺ｮ蠑ｾ繧堤匱蟆・＠縺ｾ縺吶€・
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
@@ -228,8 +240,8 @@ void Boss::ShootTargetedBarrage() {
 void Boss::ShootSimpleBarrage() {
     const float PI = 3.14159265f;
     
-    // 繝ｩ繝ｳ繝繝�縺ｪ蝓ｺ貅冶ｧ偵°繧峨∝屁譁ｹ・亥・譁ｹ菴搾ｼ峨↓5逋ｺ縺ｮ蠑ｾ繧堤匱蟆・☆繧・
-    // 60繝輔Ξ繝ｼ繝�・・遘帝俣・峨・縺昴・縺ｾ縺ｾ逶ｴ騾ｲ縺励√◎縺ｮ蠕・20繝輔Ξ繝ｼ繝�・・遘帝俣・峨・繝ｬ繧､繝､繝ｼ繧定ｿｽ蟆ｾ縺吶ｋ
+    // 繝ｩ繝ｳ繝€繝縺ｪ蝓ｺ貅冶ｧ偵°繧峨€∝屁譁ｹ・亥・譁ｹ菴搾ｼ峨↓5逋ｺ縺ｮ蠑ｾ繧堤匱蟆・☆繧・
+    // 60繝輔Ξ繝ｼ繝・・遘帝俣・峨・縺昴・縺ｾ縺ｾ逶ｴ騾ｲ縺励€√◎縺ｮ蠕・20繝輔Ξ繝ｼ繝・・遘帝俣・峨・繝ｬ繧､繝､繝ｼ繧定ｿｽ蟆ｾ縺吶ｋ
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
@@ -251,12 +263,30 @@ void Boss::ShootBouncingBarrage() {
     }
 }
 
-// 繝繝｡繝ｼ繧ｸ繧貞女縺代ｋ蜃ｦ逅・
-// 繝励Ξ繧､繝､繝ｼ縺ｮ謾ｻ謦・→蠖薙◆縺｣縺滄圀縺ｫ蜻ｼ縺ｰ繧後？P繧呈ｸ帙ｉ縺励∪縺吶・莉･荳九↓縺ｪ縺｣縺溘ｉ豁ｻ莠｡貍泌・(m_isDying)繧帝幕蟋九＠縺ｾ縺吶・
+void Boss::ShootSpellCardBarrage() {
+    const float PI = 3.14159265f;
+    // 巨大な弾を円形に大量に放ち、さらにそれが反射する（スペルカード級の難易度）
+    for (int i = 0; i < 24; i++) {
+        float angle = (i * 2.0f * PI) / 24.0f;
+        float dx = std::cos(angle);
+        float dy = std::sin(angle);
+        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.0f, true); // 反射する遅い弾
+    }
+    // 時間差で速い弾を放つ
+    for (int i = 0; i < 12; i++) {
+        float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
+        float dx = std::cos(angle);
+        float dy = std::sin(angle);
+        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 5.0f, false);
+    }
+}
+
+// 繝€繝｡繝ｼ繧ｸ繧貞女縺代ｋ蜃ｦ逅・
+// 繝励Ξ繧､繝､繝ｼ縺ｮ謾ｻ謦・→蠖薙◆縺｣縺滄圀縺ｫ蜻ｼ縺ｰ繧後€？P繧呈ｸ帙ｉ縺励∪縺吶€・莉･荳九↓縺ｪ縺｣縺溘ｉ豁ｻ莠｡貍泌・(m_isDying)繧帝幕蟋九＠縺ｾ縺吶€・
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
 
-    // m_lives 縺ｮ謇句虚貂帛ｰ代Ο繧ｸ繝・け繧貞炎髯､縺励・縺ｫ縺ｪ縺｣縺滓凾縺ｮ縺ｿ蛻､螳・
+    // m_lives 縺ｮ謇句虚貂帛ｰ代Ο繧ｸ繝・け繧貞炎髯､縺励€・縺ｫ縺ｪ縺｣縺滓凾縺ｮ縺ｿ蛻､螳・
 
     m_hp -= damage;
     if (m_hp <= 0) {

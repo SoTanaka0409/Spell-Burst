@@ -20,6 +20,8 @@ private:
     int m_hitStopTimer;
 
 public:
+    static int s_currentStage; // 1: Normal, 2: Hard, 3: Very Hard
+    
     GameScene();
     virtual ~GameScene() override;
 
