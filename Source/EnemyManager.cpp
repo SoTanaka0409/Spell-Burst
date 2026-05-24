@@ -72,6 +72,7 @@ void EnemyManager::Update() {
             m_currentBoss = nullptr;
             m_bossSpawned = false;
             m_defeatedCount = 0; // 撃破数をリセット
+			DeleteEnemy(); // ボスが倒されたときは他の通常敵を一度全消去する
 
             // フェーズ（難易度）を進行させ、次の規定撃破数を設定
             if (m_currentPhase == 1) {

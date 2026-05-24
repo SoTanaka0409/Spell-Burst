@@ -205,6 +205,7 @@ void Enemy::OnTrigger(Collider* collider, Collider* check) {
             if (bullet != nullptr) {
                 TakeDamage(bullet->GetDamage());
                 bullet->Kill(); // 当たったプレイヤーの弾を消滅させる
+
             }
         }
     }

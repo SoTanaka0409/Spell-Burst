@@ -72,12 +72,14 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
         auto tag = check->GetParentObject()->GetTag();
         
         // プレイヤーのバリアなら敵の弾のみを消す
-        if (GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet) {
+        if (GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet)
+        {
             check->GetParentObject()->SetDeleteFlag(true);
         }
         // 敵のバリアならプレイヤーの弾のみを消す
         else if (GetTag() == tag2D_BarierEne && tag == Tag2D_PlayerBullet) {
             check->GetParentObject()->SetDeleteFlag(true);
         }
+       
     }
 }

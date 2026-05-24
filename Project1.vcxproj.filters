@@ -131,9 +131,6 @@
     <ClInclude Include="Source\GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\HpBar.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\InputManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

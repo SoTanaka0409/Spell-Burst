@@ -59,7 +59,6 @@
     <ClInclude Include="Source\EnemyBullet.h" />
     <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\GameScene.h" />
-    <ClInclude Include="Source\HpBar.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Master.h" />
     <ClInclude Include="Source\MeleeAttack.h" />

@@ -20,11 +20,15 @@ public:
     int GetDamage() const { return m_damage; }
     void Kill();
 
+	void AddReceivedDamage() { m_recivedDamage++; }
+
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
     float m_speed;        // 蠑ｾ縺ｮ遘ｻ蜍暮溷ｺｦ
     bool m_isActive;      // 蠑ｾ縺梧怏蜉ｹ縺九←縺・°
     int m_damage;         // 蠑ｾ縺御ｸ弱∴繧九ム繝｡繝ｼ繧ｸ驥・
+	int m_recivedDamage;    // ダメージを受けた回数  
+	int m_MaxrecivedDamage; // ダメージを受けてmaxになると技を出す
     CapsuleCollider* mpCollider;
 };
