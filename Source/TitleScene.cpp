@@ -20,12 +20,16 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-    // MOUSE_INPUT_LEFT handles mouse clicks
+    static int prevMouseInput = 0;
+    int currentMouseInput = GetMouseInput();
+    bool isLeftClicked = (currentMouseInput & MOUSE_INPUT_LEFT) != 0 && (prevMouseInput & MOUSE_INPUT_LEFT) == 0;
+    prevMouseInput = currentMouseInput;
+
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
     // We have 3 character boxes around (200, 300), (400, 300), (600, 300) with size approx 100x100
-    if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
+    if (isLeftClicked) {
         if (mouseX >= 150 && mouseX <= 250 && mouseY >= 250 && mouseY <= 350) {
             Player::s_selectedCharacterType = 1;
             Master::sceneManager->SetNextScene(SceneManager::SCENE_LEVEL);

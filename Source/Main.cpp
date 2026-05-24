@@ -24,6 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     printf("Debug Console Started!\n");
 
     // Init DX Library
+    SetOutApplicationLogValidFlag(FALSE);
     ChangeWindowMode(TRUE);
     SetGraphMode(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, 32);
     SetMainWindowText("Shooting Action Game");

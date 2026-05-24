@@ -10,10 +10,15 @@ void StageSelectScene::Initialize()
 }
 
 void StageSelectScene::Update() {
+    static int prevMouseInput = 0;
+    int currentMouseInput = GetMouseInput();
+    bool isLeftClicked = (currentMouseInput & MOUSE_INPUT_LEFT) != 0 && (prevMouseInput & MOUSE_INPUT_LEFT) == 0;
+    prevMouseInput = currentMouseInput;
+
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
+    if (isLeftClicked) {
         if (mouseX >= 250 && mouseX <= 550 && mouseY >= 150 && mouseY <= 250) {
             GameScene::s_currentStage = 1;
             Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
