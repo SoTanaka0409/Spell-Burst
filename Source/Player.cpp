@@ -9,9 +9,9 @@
 #include "SceneManager.h"
 #include "ResultScene.h"
 #include "MeleeAttack.h"
+#include "MasterSpark.h"
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
-#include "SpellCardBullet.h"
 #include "GameScene.h"
 
 Player::Player() 
@@ -35,8 +35,8 @@ Player::~Player() {
     m_stunTimer = 0;
 }
 
-// 繝励Ξ繧､繝､繝ｼ縺ｮ蛻晄悄蛹門・逅・
-// 繧ｲ繝ｼ繝�髢句ｧ区凾繧・Μ繝医Λ繧､譎ゅ↓蜻ｼ縺ｰ繧後？P繧・Ξ繝吶Ν縲∝ｺｧ讓吶↑縺ｩ繧貞・譛溽憾諷九↓謌ｻ縺励∪縺吶・
+// プレイヤーの初期化処理
+// ゲーム開始時やリトライ時に呼ばれ、HPやレベル、座標などを初期状態に戻します。
 void Player::Initialize() {
     mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
     mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
@@ -48,7 +48,7 @@ void Player::Initialize() {
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 1;
-    m_attackTimer = 20; // 逋ｺ蟆・俣髫斐ｒ遏ｭ縺擾ｼ磯｣蟆・ｼ・
+    m_attackTimer = 20; // 逋ｺ蟆・俣髫斐ｒ遏ｭ縺擾ｼ磯€｣蟆・ｼ・
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
     m__BarrierCount = 0;
@@ -66,8 +66,8 @@ void Player::Initialize() {
 	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
 }
 
-// 豈弱ヵ繝ｬ繝ｼ繝�蜻ｼ縺ｰ繧後ｋ譖ｴ譁ｰ蜃ｦ逅・
-// 繧ｭ繝ｼ蜈･蜉帙↓繧医ｋ遘ｻ蜍輔ｄ縲∫判髱｢螟悶↓蜃ｺ縺ｪ縺・ｈ縺・↓縺吶ｋ蛻ｶ髯舌∝推遞ｮ繧ｿ繧､繝槭・縺ｮ譖ｴ譁ｰ繧定｡後＞縺ｾ縺吶・
+// 毎フレーム呼ばれる更新処理
+// キー入力による移動や、画面外に出ないようにする制限、各種タイマーの更新を行います。
 void Player::Update()
 {
     if (m_levelUpTimer > 0) {
@@ -81,10 +81,10 @@ void Player::Update()
             mpCollider->mvPosition = mvPosition;
             mpCollider->mvPosition2 = mvPosition;
         }
-        return; // 繧ｹ繧ｿ繝ｳ荳ｭ縺ｯ蜈･蜉帙→謾ｻ謦・ｒ繧ｹ繧ｭ繝・・
+        return; // スタン中は入力と攻撃をスキップ
     }
 
-    // 菴朱溽ｧｻ蜍包ｼ医ヵ繧ｩ繝ｼ繧ｫ繧ｹ・峨Δ繝ｼ繝・
+    // 低速移動（フォーカス）モード
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
     float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
 
@@ -131,11 +131,11 @@ void Player::Update()
    
 }
 
-// 繝励Ξ繧､繝､繝ｼ縺ｮ謠冗判蜃ｦ逅・
-// 繝励Ξ繧､繝､繝ｼ閾ｪ霄ｫ縺ｮ逕ｻ蜒上ｒ謠冗判縺励∪縺吶・
+// プレイヤーの描画処理
+// プレイヤー自身の画像を描画します。
 void Player::Draw() {
     if (m_stunTimer > 0) {
-        // 繧ｹ繧ｿ繝ｳ荳ｭ縺ｯ髱偵＞蜀・ｒ謠冗判
+        // スタン中は青い円を描画
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -156,15 +156,15 @@ void Player::Draw() {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
 
-    // 菴朱溽ｧｻ蜍穂ｸｭ縺ｯ蠖薙◆繧雁愛螳夲ｼ医さ繧｢・峨ｒ謠冗判縺吶ｋ
+    // 低速移動中は当たり判定（コア）を描画する
     if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 螟匁棧・育區・・
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 荳ｭ蠢・ｼ郁ｵ､・・
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠（白）
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中心（赤）
     }
 }
 
-// 繝繝｡繝ｼ繧ｸ繧貞女縺代ｋ蜃ｦ逅・
-// 謨ｵ繧・雰縺ｮ蠑ｾ縺ｨ蠖薙◆縺｣縺滄圀縺ｫ蜻ｼ縺ｰ繧後？P繧呈ｸ帙ｉ縺励∪縺吶・P縺・縺ｫ縺ｪ繧九→繝ｪ繧ｶ繝ｫ繝育判髱｢・域風蛹暦ｼ峨↓遘ｻ陦後＠縺ｾ縺吶・
+// ダメージを受ける処理
+// 敵や敵の弾と当たった際に呼ばれ、HPを減らします。HPが0になるとリザルト画面（敗北）に移行します。
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -173,13 +173,13 @@ void Player::TakeDamage(int damage) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-// 謾ｻ謦・・逅・
-// 驕ｸ謚槭＆繧後※縺・ｋ謾ｻ謦・Δ繝ｼ繝会ｼ磯壼ｸｸ蠑ｾ縲∬ｿ第磁縲∝ｿ・ｮｺ謚・峨↓蠢懊§縺ｦ蠑ｾ繧堤函謌舌・逋ｺ蟆・＠縺ｾ縺吶・
+// 攻撃処理
+// 選択されている攻撃モード（通常弾、近接、必殺技）に応じて弾を生成・発射します。
 
 
 void Player::Attack()
 {
-    int mouseInput = GetMouseInput(); // 繝槭え繧ｹ縺ｮ迥ｶ諷九ｒ蜿門ｾ・
+    int mouseInput = GetMouseInput(); // マウスの状態を取得
     bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
     
     m_AttackInterval++;
@@ -189,10 +189,10 @@ void Player::Attack()
         m_specialCooldown--;
     }
     
-    // Z繧ｭ繝ｼ縺梧款縺輔ｌ縺ｦ縺・ｋ髢薙√Γ繧､繝ｳ繧ｷ繝ｧ繝・ヨ繧堤匱蟆・
+    // Zキーが押されている間、メインショットを発射
     if ( m_AttackInterval >= m_attackTimer)
     {
-        m_AttackInterval = 0;//interval縺ｮ蛻晄悄蛹・
+        m_AttackInterval = 0;//intervalの初期化
             int numBullets = m_level;
             float spacing = 20.0f;
             float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
@@ -225,11 +225,11 @@ void Player::Attack()
         new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
     }
 
-    // 繧ｹ繝壹Ν繧ｫ繝ｼ繝峨・逋ｺ蜍包ｼ・繧ｭ繝ｼ・・
+    // スペルカードの発動（Xキー）
     if (InputManager::CheckDownKey(KEY_INPUT_X)) {
         if (m_spellGauge >= m_maxSpellGauge) {
-            m_spellGauge = 0; // 繧ｲ繝ｼ繧ｸ豸郁ｲｻ
-            new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
+            m_spellGauge = 0; // ゲージ消費
+            new MasterSpark(mvPosition.x, mvPosition.y);
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {
@@ -239,12 +239,12 @@ void Player::Attack()
     }
 }
 
-// 邨碁ｨ灘､・・P・峨・迯ｲ蠕励→繝ｬ繝吶Ν繧｢繝・・蜃ｦ逅・
-// 謨ｵ繧貞偵＠縺滓凾縺ｫ蜻ｼ縺ｰ繧後∽ｸ螳壼､繧定ｶ・∴繧九→繝ｬ繝吶Ν繧｢繝・・縺励※HP繧貞・蝗槫ｾｩ縺励∪縺吶・
+// 経験値（XP）の獲得とレベルアップ処理
+// 敵を倒した時に呼ばれ、一定値を超えるとレベルアップしてHPを全回復します。
 void Player::AddXp(int amount) {
     m_xp += amount;
     
-    // 繧ｹ繝壹Ν繧ｲ繝ｼ繧ｸ繧ゆｸ邱偵↓蠅怜刈縺輔○繧・
+    // スペルゲージも一緒に増加させる
     m_spellGauge += amount;
     if (m_spellGauge > m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
@@ -262,8 +262,8 @@ void Player::AddXp(int amount) {
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
 
-// 莉悶・繧ｪ繝悶ず繧ｧ繧ｯ繝医→驥阪↑縺｣縺ｦ縺・ｋ譎ゅ・蜃ｦ逅・
-// 謨ｵ譛ｬ菴薙→縺ｶ縺､縺九▲縺溷�ｴ蜷医↓繝繝｡繝ｼ繧ｸ繧貞女縺代∪縺吶・
+// 他のオブジェクトと重なっている時の処理
+// 敵本体とぶつかった場合にダメージを受けます。
 void Player::OnTrigger(Collider* collider, Collider* check) 
 {
    
