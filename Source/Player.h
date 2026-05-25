@@ -3,58 +3,58 @@
 
 class CapsuleCollider;
 
-// プレイヤー（操作キャラクター）のデータや振る舞いを管理するクラス
-// Object2Dを継承し、画面上の描画や当たり判定を持っています。
+// プレイヤー�E�操作キャラクター�E��EチE�EタめE��る�EぁE��管琁E��るクラス
+// Object2Dを継承し、画面上�E描画めE��たり判定を持ってぁE��す、E
 class Player : public Object2D
 {
 public:
-    // プレイヤーの攻撃方法を定義する列挙型
+    // プレイヤーの攻撁E��法を定義する列挙垁E
     enum AttackMode 
     {
-        AttackMode_Melee,   // 近接攻撃（ナイフ等）
-        AttackMode_Special  // 必殺技（クールダウンあり）
+        AttackMode_Melee,   // 近接攻撁E��ナイフ等！E
+        AttackMode_Special  // 忁E��技�E�クールダウンあり�E�E
     };
 
 private:
-    float m_x, m_y;       // プレイヤーの画面上のXY座標
+    float m_x, m_y;       // プレイヤーの画面上�EXY座樁E
     float m_speed;        // プレイヤーの移動速度
-    int m_hp;             // 現在の体力（HP）
+    int m_hp;             // 現在の体力�E�EP�E�E
     int m_maxHp;          // 最大体力
-    float mfAttack;       // 基本攻撃力（レベルアップ等で変動可能）
-    float m_attackTimer{}; // 通常攻撃の発射間隔を管理するタイマー
-    float m_AttackInterval{}; // 通常攻撃の発射間隔（しきい値）
-    float m_AttackTimer_2{};  // サブ攻撃等の発射間隔を管理するタイマー
-    float m_AttackInterval_2{}; // サブ攻撃の発射間隔（しきい値）
-    AttackMode m_attackMode;      // 現在選択されている攻撃モード
-    int m_specialCooldown;        // 必殺技が再度撃てるようになるまでのクールダウン時間（フレーム数）
-    CapsuleCollider* mpCollider;  // 当たり判定を管理するコライダー（カプセル状/円形）
+    float mfAttack;       // 基本攻撁E���E�レベルアチE�E等で変動可能�E�E
+    float m_attackTimer{}; // 通常攻撁E�E発封E��隔を管琁E��るタイマ�E
+    float m_AttackInterval{}; // 通常攻撁E�E発封E��隔（しきい値�E�E
+    float m_AttackTimer_2{};  // サブ攻撁E���E発封E��隔を管琁E��るタイマ�E
+    float m_AttackInterval_2{}; // サブ攻撁E�E発封E��隔（しきい値�E�E
+    AttackMode m_attackMode;      // 現在選択されてぁE��攻撁E��ーチE
+    int m_specialCooldown;        // 忁E��技が�E度撁E��るよぁE��なるまでのクールダウン時間�E�フレーム数�E�E
+    CapsuleCollider* mpCollider;  // 当たり判定を管琁E��るコライダー�E�カプセル状/冁E���E�E
 
-    // レベルアップと経験値（XP）の管理システム
+    // レベルアチE�Eと経験値�E�EP�E��E管琁E��スチE��
     int m_level;          // 現在のレベル
     int m_xp;             // 獲得した経験値
-    int m_xpNeeded;       // 次のレベルアップに必要な経験値量
-    int m_levelUpTimer;   // レベルアップ演出（文字の点滅など）を表示する残り時間
+    int m_xpNeeded;       // 次のレベルアチE�Eに忁E��な経験値釁E
+    int m_levelUpTimer;   // レベルアチE�E演�E�E�文字�E点滁E��ど�E�を表示する残り時間
     int m_spellGauge;     // スペルカード発動用のゲージ
     int m_maxSpellGauge;  // ゲージの最大値
 
-    int m_stunTimer;      // スタン（行動不能）の残り時間（フレーム数）
+    int m_stunTimer;      // スタン�E�行動不�E�E��E残り時間�E�フレーム数�E�E
 
 public:
     Player();
     virtual ~Player() override;
 
-    // ゲーム開始時やリトライ時にプレイヤーのステータスを初期状態に戻す
+    // ゲーム開始時めE��トライ時にプレイヤーのスチE�Eタスを�E期状態に戻ぁE
     void Initialize();
 
-    // 毎フレーム呼ばれ、キーボード入力による移動処理や攻撃判定などを行う
+    // 毎フレーム呼ばれ、キーボ�Eド�E力による移動�E琁E��攻撁E��定などを行う
     void Update() override;
 
-    // 毎フレーム呼ばれ、プレイヤーの画像や画面上の各種エフェクトを描画する
+    // 毎フレーム呼ばれ、�Eレイヤーの画像や画面上�E吁E��エフェクトを描画する
     void Draw() override;
 
-    // プレイヤーが攻撃を行う際の具体的な弾の生成や処理を行う
+    // プレイヤーが攻撁E��行う際�E具体的な弾の生�EめE�E琁E��行う
     void Attack();
-    // ゲッター関数群（外部からプレイヤーの状態を取得するための関数）
+    // ゲチE��ー関数群�E�外部からプレイヤーの状態を取得するため�E関数�E�E
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
     int GetHp() const { return m_hp; }
@@ -71,18 +71,19 @@ public:
 
     void Stun(int frames) { m_stunTimer = frames; }
 
-    // 敵を倒した時に経験値を追加し、規定値に達したらレベルアップさせる処理
+    // 敵を倒した時に経験値を追加し、規定値に達したらレベルアチE�Eさせる�E琁E
     void AddXp(int amount);
 
-    // 敵や敵の弾に当たった時にダメージを受け、HPを減らす処理
+    // 敵めE��の弾に当たった時にダメージを受け、HPを減らす�E琁E
     void TakeDamage(int damage);
+    void Heal(int amount);
 
-    // 当たり判定のイベントハンドラ（他のオブジェクトと衝突した瞬間に呼ばれる）
+    // 当たり判定�Eイベントハンドラ�E�他�Eオブジェクトと衝突した瞬間に呼ばれる�E�E
     virtual void OnEnter(Collider* collider, Collider* check) override;
 
-    // 当たり判定のイベントハンドラ（他のオブジェクトと重なっている間毎フレーム呼ばれる）
+    // 当たり判定�Eイベントハンドラ�E�他�Eオブジェクトと重なってぁE��間毎フレーム呼ばれる�E�E
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    // 当たり判定のイベントハンドラ（他のオブジェクトと離れた瞬間に呼ばれる）
+    // 当たり判定�Eイベントハンドラ�E�他�Eオブジェクトと離れた瞬間に呼ばれる�E�E
     virtual void OnExit(Collider* collider, Collider* check) override;
 };

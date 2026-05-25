@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include "Boss.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
@@ -60,16 +61,16 @@ Boss::~Boss() {
     }
 }
 
-// ランダム移動のターゲット座標を更新する処理
-// 画面上部（プレイヤーが攻撃しやすい範囲）からランダムに次の移動先を決めます。
+// ランダム移動�EターゲチE��座標を更新する処琁E
+// 画面上部�E��Eレイヤーが攻撁E��めE��ぁE��E���E�からランダムに次の移動�Eを決めます、E
 void Boss::SelectNewTarget() {
     // Top half boundary: X between 100 and 1180, Y between 80 and 260
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
-// ボスの毎フレームの更新処理
-// 死亡演出中なら上にフェードアウトし、生存中ならターゲット座標に向かって移動しながら弾幕を撃ちます。
+// ボスの毎フレームの更新処琁E
+// 死亡演�E中なら上にフェードアウトし、生存中ならターゲチE��座標に向かって移動しながら弾幕を撁E��ます、E
 void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
@@ -85,14 +86,14 @@ void Boss::Update() {
         m_invincibleTimer--;
     }
 
-    // 最終ボス（タイプ3）のみ、5秒（300フレーム）おきに2秒間（120フレーム）無敵になる
+    // 最終�Eス�E�タイチE�E��Eみ、E秒！E00フレーム�E�おきに2秒間�E�E20フレーム�E�無敵になめE
     if (m_bossType == 3) {
         m_invincibleCycleTimer++;
         if (m_invincibleCycleTimer >= 300) {
             m_invincibleTimer = 120; // 2 seconds invincibility
             m_invincibleCycleTimer = 0;
             
-            // 無敵化と同時に取り巻きを召喚
+            // 無敵化と同時に取り巻きを召喁E
             new Enemy(m_x - 60.0f, m_y + 60.0f, 1);
             new Enemy(m_x + 60.0f, m_y + 60.0f, 1);
         }
@@ -120,7 +121,7 @@ void Boss::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // 攻撃感覚
+    // 攻撁E��要E
     m_attackTimer++;
     if (m_bossType == 1) {
         if (m_attackTimer >= 60) {
@@ -133,7 +134,7 @@ void Boss::Update() {
             ShootBouncingBarrage();
         }
     } else {
-        if (m_attackTimer >= 100) { // 発射間隔を短く（100 -> 40）弾幕化
+        if (m_attackTimer >= 100) { // 発封E��隔を短く！E00 -> 40�E�弾幕化
             m_attackTimer = 0;
             if (m_patternIndex == 0) {
                 ShootRadialBarrage();
@@ -147,12 +148,12 @@ void Boss::Update() {
     }
 }
 
-// 全方位弾幕を撃つ処理（スペルカード風：渦巻き弾幕）
+// 全方位弾幕を撁E��処琁E��スペルカード風�E�渦巻き弾幕！E
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 36; // 弾数を倍増
+    const int bulletCount = 36; // 弾数を倍墁E
     static float spiralAngle = 0.0f;
-    spiralAngle += 0.15f; // 発射ごとに角度をずらして渦巻きにする
+    spiralAngle += 0.15f; // 発封E��とに角度をずらして渦巻きにする
 
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
@@ -163,17 +164,17 @@ void Boss::ShootRadialBarrage() {
     }
 }
 
-// 扇状弾幕を撃つ処理（スペルカード風：多層交差弾幕）
+// 扁E��弾幕を撁E��処琁E��スペルカード風�E�多層交差弾幕！E
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 15;
     bool reflect = (m_lives == 2);
-    // 真下を中心に広範囲に撃つ
+    // 真下を中忁E��庁E��E��に撁E��
     float baseAngle = PI / 2.0f;
     
-    // 2層の速度が違う弾幕を同時に撃つ
+    // 2層の速度が違ぁE��幕を同時に撁E��
     for (int layer = 0; layer < 4; layer++) {
-        float speed = 2.0f + layer * 1.5f; // 遅い弾と速い弾
+        float speed = 2.0f + layer * 1.5f; // 遁E��弾と速い弾
         for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
             float dx = std::cos(angle);
@@ -183,8 +184,8 @@ void Boss::ShootFanBarrage() {
     }
 }
 
-// 自機狙い弾幕を撃つ処理
-// プレイヤーの現在位置を計算し、そこに向かって3WAYの弾を発射します。
+// 自機狙ぁE��幕を撁E��処琁E
+// プレイヤーの現在位置を計算し、そこに向かって3WAYの弾を発封E��ます、E
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
@@ -210,12 +211,12 @@ void Boss::ShootTargetedBarrage() {
 
     float baseAngle = std::atan2(dy, dx);
 
-    // 密な5WAY自機狙い
+    // 寁E��5WAY自機狙ぁE
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
         new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 3.5f);
     }
-    // 少し遅い広めの3WAYも重ねる
+    // 少し遁E��庁E��の3WAYも重ねめE
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
         new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 2.5f);
@@ -225,8 +226,8 @@ void Boss::ShootTargetedBarrage() {
 void Boss::ShootSimpleBarrage() {
     const float PI = 3.14159265f;
     
-    // ランダムな基準角から、四方（全方位）に5発の弾を発射する
-    // 60フレーム（1秒間）はそのまま直進し、その後120フレーム（2秒間）プレイヤーを追尾する
+    // ランダムな基準角から、四方�E��E方位）に5発の弾を発封E��めE
+    // 60フレーム�E�E秒間�E��Eそ�Eまま直進し、その征E20フレーム�E�E秒間�E��Eレイヤーを追尾する
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
@@ -248,12 +249,12 @@ void Boss::ShootBouncingBarrage() {
     }
 }
 
-// ダメージを受ける処理
-// プレイヤーの攻撃と当たった際に呼ばれ、HPを減らします。0以下になったら死亡演出(m_isDying)を開始します。
+// ダメージを受ける処琁E
+// プレイヤーの攻撁E��当たった際に呼ばれ、HPを減らします、E以下になったら死亡演�E(m_isDying)を開始します、E
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
 
-    // m_lives の手動減少ロジックを削除し、0になった時のみ判定
+    // m_lives の手動減少ロジチE��を削除し、Eになった時のみ判宁E
 
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -266,6 +267,7 @@ void Boss::TakeDamage(int damage) {
             m_invincibleTimer = 180; // 3 seconds invincibility on phase change
         } else {
             m_isDying = true;
+            SoundManager::GetInstance()->PlaySE("Resource/se_boss_death.wav");
             m_deathTimer = 180; // 3 seconds flash and fly up
             if (mpCollider) {
                 mpCollider->SetDeleteFlag(true); // Disable collision
@@ -275,8 +277,8 @@ void Boss::TakeDamage(int damage) {
     }
 }
 
-// 完全に消滅させる処理
-// 死亡演出が終わった後に呼ばれ、ゲームクリア（ResultSceneへの移行）をトリガーします。
+// 完�Eに消滁E��せる処琁E
+// 死亡演�Eが終わった後に呼ばれ、ゲームクリア�E�EesultSceneへの移行）をトリガーします、E
 void Boss::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -290,8 +292,8 @@ void Boss::Kill() {
     }
 }
 
-// 他のオブジェクトと重なっている時の処理（当たり判定イベント）
-// プレイヤーの弾（通常弾、近接、必殺技）と当たった場合に、自身のTakeDamageを呼び出します。
+// 他�Eオブジェクトと重なってぁE��時�E処琁E��当たり判定イベント！E
+// プレイヤーの弾�E�通常弾、近接、忁E��技�E�と当たった場合に、�E身のTakeDamageを呼び出します、E
 void Boss::OnTrigger(Collider* collider, Collider* check) {
     if (m_isDying) return;
 
@@ -319,8 +321,8 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
-// 描画処理
-// ボスの画像を描画します。死亡演出中はチカチカと点滅させ、英語のメッセージを表示します。
+// 描画処琁E
+// ボスの画像を描画します。死亡演�E中はチカチカと点滁E��せ、英語�EメチE��ージを表示します、E
 void Boss::Draw() {
     if (!m_isActive) return;
 

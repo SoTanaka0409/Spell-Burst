@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
@@ -26,8 +27,8 @@ GameScene::~GameScene() {
     }
 }
 
-// シーンの初期化処理
-// プレイヤー、敵マネージャー、各種オブジェクト管理クラスのインスタンスを生成・初期化します。
+// シーンの初期化�E琁E
+// プレイヤー、敵マネージャー、各種オブジェクト管琁E��ラスのインスタンスを生成�E初期化します、E
 void GameScene::Initialize() {
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
@@ -48,12 +49,12 @@ void GameScene::Initialize() {
     mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
 }
 
-// 毎フレーム呼ばれる更新処理
-// ESCキーによるポーズ機能の処理、およびゲーム中であれば全オブジェクトや敵の出現を更新します。
+// 毎フレーム呼ばれる更新処琁E
+// ESCキーによるポ�Eズ機�Eの処琁E��およ�Eゲーム中であれば全オブジェクトや敵の出現を更新します、E
 void GameScene::Update() {
     if (m_cutinTimer > 0) {
         m_cutinTimer--;
-        return; // 時間停止！オブジェクトや敵の更新を行わない
+        return; // 時間停止�E�オブジェクトや敵の更新を行わなぁE
     }
 
     Scene::Update();
@@ -68,8 +69,8 @@ void GameScene::Update() {
     }
 }
 
-// 毎フレーム呼ばれる描画処理
-// 背景画像、ゲーム内の全オブジェクト、HUD（プレイヤーのHPやレベル、経験値バーなど）を描画します。
+// 毎フレーム呼ばれる描画処琁E
+// 背景画像、ゲーム冁E�E全オブジェクト、HUD�E��EレイヤーのHPめE��ベル、経験値バ�Eなど�E�を描画します、E
 void GameScene::Draw() {
     // Draw Stage Background (Underwater ocean world)
     int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
@@ -251,8 +252,8 @@ void GameScene::TriggerCutin() {
     m_cutinTimer = 90; // 1.5 seconds freeze
 }
 
-// シーン終了時の処理
-// シーン切り替え時などに呼ばれ、動的に確保したメモリ（敵マネージャーなど）を解放します。
+// シーン終亁E��の処琁E
+// シーン刁E��替え時などに呼ばれ、動皁E��確保したメモリ�E�敵マネージャーなど�E�を解放します、E
 void GameScene::Finalize() {
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();

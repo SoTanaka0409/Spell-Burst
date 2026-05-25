@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include "Player.h"
 #include "InputManager.h"
 #include "Bullet.h"
@@ -31,8 +32,8 @@ Player::~Player() {
     m_stunTimer = 0;
 }
 
-// プレイヤーの初期化処理
-// ゲーム開始時やリトライ時に呼ばれ、HPやレベル、座標などを初期状態に戻します。
+// プレイヤーの初期化�E琁E
+// ゲーム開始時めE��トライ時に呼ばれ、HPめE��ベル、座標などを�E期状態に戻します、E
 void Player::Initialize() {
     m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
     m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
@@ -44,7 +45,7 @@ void Player::Initialize() {
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 1;
-    m_attackTimer = 20; // 発射間隔を短く（連射）
+    m_attackTimer = 20; // 発封E��隔を短く（連封E��E
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
     // Level & XP system initialization
@@ -54,14 +55,14 @@ void Player::Initialize() {
     m_levelUpTimer = 0;
     
     m_spellGauge = 0;
-    m_maxSpellGauge = 10; // 敵10体分でゲージMAX
+    m_maxSpellGauge = 10; // 敵10体�EでゲージMAX
 
     // Create a circular collider with small radius (Touhou style)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
 }
 
-// 毎フレーム呼ばれる更新処理
-// キー入力による移動や、画面外に出ないようにする制限、各種タイマーの更新を行います。
+// 毎フレーム呼ばれる更新処琁E
+// キー入力による移動や、画面外に出なぁE��ぁE��する制限、各種タイマ�Eの更新を行います、E
 void Player::Update()
 {
     if (m_levelUpTimer > 0) {
@@ -75,10 +76,10 @@ void Player::Update()
             mpCollider->mvPosition = mvPosition;
             mpCollider->mvPosition2 = mvPosition;
         }
-        return; // スタン中は入力と攻撃をスキップ
+        return; // スタン中は入力と攻撁E��スキチE�E
     }
 
-    // 低速移動（フォーカス）モード
+    // 低速移動（フォーカス�E�モーチE
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
     float currentSpeed = isFocus ? 2.0f : m_speed;
 
@@ -120,11 +121,11 @@ void Player::Update()
    
 }
 
-// プレイヤーの描画処理
-// プレイヤー自身の画像を描画します。
+// プレイヤーの描画処琁E
+// プレイヤー自身の画像を描画します、E
 void Player::Draw() {
     if (m_stunTimer > 0) {
-        // スタン中は青い円を描画
+        // スタン中は青い冁E��描画
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -145,15 +146,15 @@ void Player::Draw() {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
 
-    // 低速移動中は当たり判定（コア）を描画する
+    // 低速移動中は当たり判定（コア�E�を描画する
     if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠（白）
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中心（赤）
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠�E�白�E�E
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中忁E��赤�E�E
     }
 }
 
-// ダメージを受ける処理
-// 敵や敵の弾と当たった際に呼ばれ、HPを減らします。HPが0になるとリザルト画面（敗北）に移行します。
+// ダメージを受ける処琁E
+// 敵めE��の弾と当たった際に呼ばれ、HPを減らします、EPぁEになるとリザルト画面�E�敗北）に移行します、E
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -162,11 +163,11 @@ void Player::TakeDamage(int damage) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-// 攻撃処理
-// 選択されている攻撃モード（通常弾、近接、必殺技）に応じて弾を生成・発射します。
+// 攻撁E�E琁E
+// 選択されてぁE��攻撁E��ード（通常弾、近接、忁E��技�E�に応じて弾を生成�E発封E��ます、E
 void Player::Attack()
 {
-    int mouseInput = GetMouseInput(); // マウスの状態を取得
+    int mouseInput = GetMouseInput(); // マウスの状態を取征E
     bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
     
     m_AttackInterval++;
@@ -176,10 +177,10 @@ void Player::Attack()
         m_specialCooldown--;
     }
     
-    // Zキーが押されている間、メインショットを発射
+    // Zキーが押されてぁE��間、メインショチE��を発封E
     if ( m_AttackInterval >= m_attackTimer)
     {
-        m_AttackInterval = 0;//intervalの初期化
+        m_AttackInterval = 0;//intervalの初期匁E
             int numBullets = m_level;
             float spacing = 20.0f;
             float startX = m_x - (numBullets - 1) * spacing / 2.0f;
@@ -212,7 +213,7 @@ void Player::Attack()
         new SpecialBullet(m_x, m_y - 90.0f);
     }
 
-    // スペルカードの発動（Xキー）
+    // スペルカード�E発動！Eキー�E�E
     if (InputManager::CheckPressKey(KEY_INPUT_X)) {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
@@ -226,12 +227,12 @@ void Player::Attack()
     }
 }
 
-// 経験値（XP）の獲得とレベルアップ処理
-// 敵を倒した時に呼ばれ、一定値を超えるとレベルアップしてHPを全回復します。
+// 経験値�E�EP�E��E獲得とレベルアチE�E処琁E
+// 敵を倒した時に呼ばれ、一定値を趁E��るとレベルアチE�EしてHPを�E回復します、E
 void Player::AddXp(int amount) {
     m_xp += amount;
     
-    // スペルゲージも一緒に増加させる
+    // スペルゲージも一緒に増加させめE
     m_spellGauge += amount;
     if (m_spellGauge > m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
@@ -249,8 +250,8 @@ void Player::AddXp(int amount) {
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
 
-// 他のオブジェクトと重なっている時の処理
-// 敵本体とぶつかった場合にダメージを受けます。
+// 他�Eオブジェクトと重なってぁE��時�E処琁E
+// 敵本体とぶつかった場合にダメージを受けます、E
 void Player::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
@@ -263,3 +264,10 @@ void Player::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 void Player::OnExit(Collider* collider, Collider* check) {}
+
+void Player::Heal(int amount) {
+    m_hp += amount;
+    if (m_hp > m_maxHp) {
+        m_hp = m_maxHp;
+    }
+}

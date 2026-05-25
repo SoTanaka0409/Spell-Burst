@@ -1,10 +1,11 @@
+#include "SoundManager.h"
 #include "TitleScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include <DxLib.h>
 
-TitleScene::TitleScene()
-{
+TitleScene::TitleScene() {
+    SoundManager::GetInstance()->PlayBGM("Resource/bgm_title.mp3");
 
 }
 TitleScene::~TitleScene()

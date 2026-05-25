@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 
 #include "Enemy.h"
 #include "CapsuleCollider.h"
@@ -41,7 +42,7 @@ Enemy::Enemy(float x, float y, int enemyType)
         m_maxHp = 8;
     } else if (m_enemyType == 4) {
         m_speed = 2.5f;
-        m_maxHp = 20; // 中ボスはタフ
+        m_maxHp = 20; // 中ボスはタチE
         SelectNewTarget();
     }
     m_hp = m_maxHp;
@@ -58,11 +59,11 @@ Enemy::~Enemy() {
     }
 }
 
-// 毎フレーム呼ばれる更新処理
-// 敵を下方向に移動させ、画面外に出たら活動停止・削除フラグを立てます。
+// 毎フレーム呼ばれる更新処琁E
+// 敵を下方向に移動させ、画面外に出たら活動停止・削除フラグを立てます、E
 void Enemy::Update() {
     if (m_enemyType == 4) {
-        // 中ボスの移動処理（ボスと同じ）
+        // 中ボスの移動�E琁E���Eスと同じ�E�E
         float dx = m_targetX - m_x;
         float dy = m_targetY - m_y;
         float dist = std::sqrt(dx * dx + dy * dy);
@@ -74,7 +75,7 @@ void Enemy::Update() {
             m_y += (dy / dist) * m_speed;
         }
     } else {
-        // 通常の敵の移動処理
+        // 通常の敵の移動�E琁E
         m_y += m_speed;
     }
     mvPosition = VGet(m_x, m_y, 0.0f);
@@ -84,10 +85,10 @@ void Enemy::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // 種類2, 3, 4の場合は定期的にプレイヤーへ向けて弾を撃つ
+    // 種顁E, 3, 4の場合�E定期皁E��プレイヤーへ向けて弾を撃つ
     if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) {
         m_attackTimer++;
-        int interval = (m_enemyType == 4) ? 60 : 150; // 中ボスは頻繁に撃つ
+        int interval = (m_enemyType == 4) ? 60 : 150; // 中ボスは頻繁に撁E��
         if (m_attackTimer >= interval) {
             m_attackTimer = 0;
             Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
@@ -113,7 +114,7 @@ void Enemy::Update() {
             } else if (m_enemyType == 3) {
                 new EnemyBullet(m_x, m_y, dx, dy, 3.5f, false, true); // スタン弾
             } else if (m_enemyType == 4) {
-                // 中ボス：自機狙い3WAYと渦巻き弾の複合（スペルカード風）
+                // 中ボス�E��E機狙ぁEWAYと渦巻き弾の褁E���E�スペルカード風�E�E
                 static float mbAngle = 0.0f;
                 mbAngle += 0.2f;
                 // 渦巻き弾
@@ -121,7 +122,7 @@ void Enemy::Update() {
                     float angle = mbAngle + (i * 2.0f * 3.14159265f) / 16;
                     new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 2.0f);
                 }
-                // 自機狙い3WAY
+                // 自機狙ぁEWAY
                 float baseAngle = std::atan2(dy, dx);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
@@ -137,8 +138,8 @@ void Enemy::Update() {
     }
 }
 
-// 敵の消滅処理
-// 活動フラグをオフにし、オブジェクト管理システムに削除されるようフラグを立てます。
+// 敵の消滁E�E琁E
+// 活動フラグをオフにし、オブジェクト管琁E��スチE��に削除されるよぁE��ラグを立てます、E
 void Enemy::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -148,8 +149,8 @@ void Enemy::Kill() {
 }
 
 
-// ダメージを受ける処理
-// プレイヤーの攻撃と当たった際に呼ばれ、HPを減らします。0以下になったら消滅処理(Kill)を呼びます。
+// ダメージを受ける処琁E
+// プレイヤーの攻撁E��当たった際に呼ばれ、HPを減らします、E以下になったら消滁E�E琁EKill)を呼びます、E
 void Enemy::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
@@ -158,8 +159,8 @@ void Enemy::TakeDamage(int damage) {
     }
 }
 
-// 他のオブジェクトと重なっている時の処理（当たり判定イベント）
-// プレイヤーの弾（通常弾、近接、必殺技）と当たった場合に、自身のTakeDamageを呼び出します。
+// 他�Eオブジェクトと重なってぁE��時�E処琁E��当たり判定イベント！E
+// プレイヤーの弾�E�通常弾、近接、忁E��技�E�と当たった場合に、�E身のTakeDamageを呼び出します、E
 void Enemy::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_PlayerBullet) {
@@ -172,8 +173,8 @@ void Enemy::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
-// 描画処理
-// 敵自身の画像を描画し、頭上にHPバーを表示します。
+// 描画処琁E
+// 敵自身の画像を描画し、E��上にHPバ�Eを表示します、E
 void Enemy::Draw() 
 {
     if (!m_isActive) return;
@@ -181,11 +182,11 @@ void Enemy::Draw()
     int s_enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
 
     if (s_enemyGraphHandle != -1) {
-        // タイプによって色を変える
+        // タイプによって色を変えめE
         if (m_enemyType == 1) SetDrawBright(255, 255, 255);
         else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
         else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
-        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // 中ボスは赤っぽく
+        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // 中ボスは赤っぽぁE
 
         float drawSize = (m_enemyType == 4) ? 45.0f : 35.0f;
         DrawExtendGraph(
@@ -197,7 +198,7 @@ void Enemy::Draw()
             TRUE
         );
 
-        SetDrawBright(255, 255, 255); // 色を元に戻す
+        SetDrawBright(255, 255, 255); // 色を�Eに戻ぁE
     } else {
         unsigned int color = GetColor(255, 100, 100);
         if (m_enemyType == 2) color = GetColor(255, 200, 100);

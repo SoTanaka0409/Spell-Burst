@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include "ResultScene.h"
 #include "SceneManager.h"
 #include "Master.h"
