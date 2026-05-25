@@ -5,6 +5,7 @@
 #include "StageSelectScene.h"
 #include "GameScene.h"
 #include "ResultScene.h"
+#include "RuleScene.h"
 #include "DebugLog.h"
 #include "Master.h"
 
@@ -103,6 +104,9 @@ void SceneManager::ChangeSceneIfNeeded()
 		break;
 	case SCENE_TYPE::SCENE_RESULT:
 		mpCurrentScene = new ResultScene();
+		break;
+	case SCENE_TYPE::SCENE_RULE:
+		mpCurrentScene = new RuleScene();
 		break;
 	default:
 		mpCurrentScene = nullptr;

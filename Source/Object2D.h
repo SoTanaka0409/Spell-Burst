@@ -14,6 +14,8 @@ public:
 		Tag2D_Enemy = 2,
 		Tag2D_PlayerBullet=3,
 		Tag2D_EnemyBullet=4,
+		tag2D_BarierEne = 5,
+		tag2D_BarierPla = 6,
 	};
 
 public:

@@ -13,7 +13,15 @@ private:
     int m_cutinTimer;
     int m_cutinImageHandle;
 
+    // 演出用
+    int m_screenHandle;
+    int m_shakeTimer;
+    float m_shakeMagnitude;
+    int m_hitStopTimer;
+
 public:
+    static int s_currentStage; // 1: Normal, 2: Hard, 3: Very Hard
+    
     GameScene();
     virtual ~GameScene() override;
 
@@ -31,4 +39,11 @@ public:
 
     // スペルカードカットインを発動する
     void TriggerCutin();
+
+    // 敵マネージャーの取得
+    EnemyManager* GetEnemyManager() const { return mpEnemyManager; }
+
+    // 演出のトリガー
+    void AddScreenShake(int duration, float magnitude);
+    void AddHitStop(int duration);
 };

@@ -1,6 +1,9 @@
 #pragma once
 #include "Scene.h"
 
+#include <vector>
+#include <DxLib.h>
+
 // タイトル画面クラス
 class TitleScene : public Scene {
 public:
@@ -11,4 +14,8 @@ public:
     void Update() override;
     void Draw() override;
     void Finalize()override;
+
+private:
+    int m_bgGraph;
+    float m_bgScrollX;
 };

@@ -23,7 +23,7 @@ public:
 	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
 	bool IsDeleteFlag() { return mbDeleteFlag; }
 
-	Object2D* GetParentObject()
+	Object2D* GetParentObject() 
 	{
 		return mpParentObject;
 	}

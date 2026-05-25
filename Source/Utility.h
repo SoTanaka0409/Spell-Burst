@@ -1,17 +1,19 @@
 #pragma once
 #include "DxLib.h"
 
-//�v���O�������ŋ��ʂ��Ďg�p����萔��`�Ȃǂ������ɋL�q���Ă���
-//�֐��Ȃǂ��L�q���Ă���
+//プログラム内で共通して使用する定数定義などをここに記述していく
+//関数なども記述していく
 
 class Utility
 {
-	public://�萔��`
-	static const int SCREEN_WIDTH = 1600; //��ʂ̕�
+	public://定数定義
+	static const int SCREEN_WIDTH = 1600; //画面の幅
 
-	static const int SCREEN_HEIGHT = 900; //��ʂ̍���
+	static const int SCREEN_HEIGHT = 900; //画面の高さ
 
 	static VECTOR StageSize;
+	static float TimeScale;
+
 
 
 	static float DegToRad(float deg)

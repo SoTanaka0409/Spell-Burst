@@ -6,7 +6,6 @@ class Boss;
 
 class EnemyManager {
 private:
-    std::vector<Enemy*> m_enemies; // Enemy list
     int m_spawnTimer;              // Spawn timer
     int m_defeatedCount;           // Defeated enemies count
     bool m_bossSpawned;            // Flag if boss is spawned
@@ -24,9 +23,14 @@ public:
     void Update();
     void Draw();
 
-    void SpawnEnemy(float x, float y);
+	void DeleteEnemy();
 
-    const std::vector<Enemy*>& GetEnemies() const { return m_enemies; }
+    void SpawnEnemy(float x, float y);
+	void SpawnEnemy_Target(float x, float y,int spawnnum);   
+
+    int GetMidBossCount() const;
+    void AddDefeatedCount() { m_defeatedCount++; }
+
     int GetDefeatedCount() const { return m_defeatedCount; }
     int GetRequiredKills() const { return m_requiredKills; }
     bool IsBossSpawned() const { return m_bossSpawned; }
