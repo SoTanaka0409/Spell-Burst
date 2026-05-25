@@ -20,9 +20,7 @@ int ResourceManager::GetGraph(const std::string& path) {
     }
 
     int handle = LoadGraph(path.c_str());
-    if (handle != -1) {
-        m_graphMap[path] = handle;
-    }
+    m_graphMap[path] = handle;
     return handle;
 }
 
