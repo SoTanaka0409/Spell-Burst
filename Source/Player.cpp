@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
@@ -15,6 +15,7 @@
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
 #include "GameScene.h"
+#include "SoundManager.h"
 
 int Player::s_selectedCharacterType = 1;
 
@@ -240,6 +241,7 @@ void Player::Attack()
     if (InputManager::CheckDownKey(KEY_INPUT_X)) {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
+            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬る1.mp3");
             
             if (s_selectedCharacterType == 1) {
                 new MasterSpark(mvPosition.x, mvPosition.y);
@@ -271,6 +273,7 @@ void Player::AddXp(int amount) {
     while (m_xp >= m_xpNeeded) {
         m_xp -= m_xpNeeded;
         m_level++;
+        SoundManager::GetInstance()->PlaySE("Resource/SE/ステータス上昇魔法2.mp3");
         m_xpNeeded = m_level * 5; // Each level requires (level * 5) XP
         // Bonus on level up: full HP restore
         m_hp = m_maxHp;

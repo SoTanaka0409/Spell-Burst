@@ -1,4 +1,4 @@
-#include "HUD.h"
+﻿#include "HUD.h"
 #include "Player.h"
 #include "Boss.h"
 #include "EnemyManager.h"
@@ -166,7 +166,20 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         int maxTimer = 90;
         int progress = maxTimer - cutinTimer; 
         
-        float xOffset = Utility::SCREEN_WIDTH - (Utility::SCREEN_WIDTH * 2.0f * (progress / (float)maxTimer));
+        float xOffset = 0;
+        if (progress < 15) {
+            // Slide in quickly
+            float t = progress / 15.0f;
+            xOffset = Utility::SCREEN_WIDTH * (1.0f - t);
+        } else if (progress <= 75) {
+            // Hold and slightly drift
+            float t = (progress - 15) / 60.0f;
+            xOffset = -30.0f * t;
+        } else {
+            // Slide out quickly
+            float t = (progress - 75) / 15.0f;
+            xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
+        }
         
         if (cutinImageHandle != -1) {
             DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutinImageHandle, TRUE);
@@ -178,7 +191,10 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
         if (progress > 10) {
-            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "SPELL CARD: SCHOOL OF MACKEREL!!");
+            const char* spellName = "SPELL CARD: MASTER SPARK!!";
+            if (Player::s_selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
+            else if (Player::s_selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
+            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
         }
     }
 }

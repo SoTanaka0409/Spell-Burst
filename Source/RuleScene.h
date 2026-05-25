@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Scene.h"
 
 class RuleScene : public Scene {
@@ -8,6 +8,6 @@ public:
     void Draw() override;
     void Finalize() override;
 private:
-    int m_ruleGraphs[4];
+    int m_ruleGraphs[6];
     int m_currentSlide;
 };

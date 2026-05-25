@@ -1,7 +1,8 @@
-ï»¿#include "RuleScene.h"
+#include "RuleScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "Utility.h"
 #include <DxLib.h>
 #include <algorithm>
@@ -11,7 +12,10 @@ void RuleScene::Initialize() {
     m_ruleGraphs[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
     m_ruleGraphs[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
     m_ruleGraphs[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
+    m_ruleGraphs[4] = -1; // Or load new images if available
+    m_ruleGraphs[5] = -1;
     m_currentSlide = 0;
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
 }
 
 void RuleScene::Update() {
@@ -25,14 +29,16 @@ void RuleScene::Update() {
     
     if (isLeftClicked) {
         // Back Button
-        if (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60) {
+        if (mouseX >= 20 && mouseX <= 120 && mouseY >= 530 && mouseY <= 580) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
         // Next Button
-        if (mouseX >= 650 && mouseX <= 750 && mouseY >= 500 && mouseY <= 550) {
-            if (m_currentSlide < 3) {
+        if (mouseX >= 650 && mouseX <= 750 && mouseY >= 530 && mouseY <= 580) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            if (m_currentSlide < 5) {
                 m_currentSlide++;
             } else {
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
@@ -41,7 +47,8 @@ void RuleScene::Update() {
         }
         
         // Prev Button
-        if (mouseX >= 50 && mouseX <= 150 && mouseY >= 500 && mouseY <= 550) {
+        if (mouseX >= 150 && mouseX <= 250 && mouseY >= 530 && mouseY <= 580) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide > 0) {
                 m_currentSlide--;
             }
@@ -52,20 +59,22 @@ void RuleScene::Update() {
 void RuleScene::Draw() {
     DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
     
-    if (m_currentSlide >= 0 && m_currentSlide < 4 && m_ruleGraphs[m_currentSlide] != -1) {
+    if (m_currentSlide >= 0 && m_currentSlide < 6 && m_ruleGraphs[m_currentSlide] != -1) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
         int imgW = 1, imgH = 1;
         GetGraphSize(m_ruleGraphs[m_currentSlide], &imgW, &imgH);
         
         if (imgW > 0 && imgH > 0) {
-            float scaleX = (float)Utility::SCREEN_WIDTH / imgW;
-            float scaleY = (float)Utility::SCREEN_HEIGHT / imgH;
-            float scale = (scaleX < scaleY) ? scaleX : scaleY;
+            float maxWidth = 760.0f;
+            float maxHeight = 400.0f; // Keep it between Y=120 and Y=520
+            float scaleX = maxWidth / imgW;
+            float scaleY = maxHeight / imgH;
+            float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
             
             int drawW = (int)(imgW * scale);
             int drawH = (int)(imgH * scale);
             int drawX = (Utility::SCREEN_WIDTH - drawW) / 2;
-            int drawY = (Utility::SCREEN_HEIGHT - drawH) / 2;
+            int drawY = 120 + (400 - drawH) / 2;
             
             DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, m_ruleGraphs[m_currentSlide], FALSE);
         }
@@ -76,51 +85,64 @@ void RuleScene::Draw() {
     int font24 = ResourceManager::GetInstance()->GetFont(24, 3);
     
     const char* titles[] = {
-        "1. ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®é¸æŠž",
-        "2. é›£æ˜“åº¦ã®é¸æŠž",
-        "3. æ•µã‚’å€’ã—ã¦ãƒ¬ãƒ™ãƒ«ã‚’ä¸Šã’ã¦ãƒœã‚¹ã‚’å€’ãã†ï¼",
-        "4. å¿…æ®ºæŠ€ã‚„ãƒãƒªã‚¢ã‚’ã†ã¾ãä½¿ã£ã¦ç«‹ã¡å›žã‚ã†ï¼"
+        "1. ƒLƒƒƒ‰ƒNƒ^[‚Ì‘I‘ð",
+        "2. “ïˆÕ“x‚Ì‘I‘ð",
+        "3. “G‚ð“|‚µ‚ÄƒŒƒxƒ‹‚ðã‚°‚Äƒ{ƒX‚ð“|‚»‚¤I",
+        "4. UI‚Ìà–¾",
+        "5. ƒoƒŠƒA‚ÌŽg‚¢•û",
+        "6. ƒ{ƒX‚ð“|‚·‚ÆHP‚ª‰ñ•œI"
     };
-    const char* descs[] = {
-        "ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã‹ã‚‰GAME STARTã‚’æŠ¼ã—ã€å€‹æ€§è±Šã‹ãªã‚·ã‚§ãƒ•ã‚’é¸ã¼ã†ã€‚",
-        "è‡ªåˆ†ã«ã‚ã£ãŸé›£æ˜“åº¦ã‚’é¸ã¼ã†ã€‚NORMAL, HARD, VERY HARDãŒã‚ã‚‹ãžã€‚",
-        "æ•µã‚’å€’ã—ã¦çµŒé¨“å€¤ã‚’ç¨¼ãŽã€æœ€å¾Œã«å¾…ã¡å—ã‘ã‚‹ãƒœã‚¹ã‚’æ’ƒç ´ã—ã‚ˆã†ï¼",
-        "å¿…æ®ºæŠ€ã‚„ãƒãƒªã‚¢ã‚’é§†ä½¿ã—ã¦ã€æ•µã®æ¿€ã—ã„å¼¾å¹•ã‚’ç”ŸãæŠœã“ã†ï¼"
+    const char* descs1[] = {
+        "ƒ^ƒCƒgƒ‹‰æ–Ê‚©‚çGAME START‚ð‰Ÿ‚µAŒÂ«–L‚©‚ÈƒVƒFƒt‚ð‘I‚Ú‚¤B",
+        "Ž©•ª‚É‚ ‚Á‚½“ïˆÕ“x‚ð‘I‚Ú‚¤BNORMAL, HARD, VERY HARD‚ª‚ ‚é‚¼B",
+        "“G‚ð“|‚µ‚ÄŒoŒ±’l‚ð‰Ò‚²‚¤I–{ì‚ÍƒEƒF[ƒu§‚ÅA",
+        "¶ã‚ÍŽ©•ª‚ÌHP‚âƒŒƒxƒ‹A",
+        "ƒoƒŠƒA“WŠJ’†‚É“G‚Ì’e‚ðŽó‚¯‚é‚Æ—Í‚ª—­‚Ü‚èA",
+        "ƒ{ƒX‚ð“|‚·‚ÆHP‚ª3‰ñ•œ‚·‚é‚¼I"
+    };
+    const char* descs2[] = {
+        "",
+        "",
+        "ˆê’è”“|‚·‚Æƒ{ƒX‚ªoŒ»‚·‚é‚¼I",
+        "‰º‚ÌƒQ[ƒW‚Í•KŽE‹Z‚Ìƒ`ƒƒ[ƒW—Ê‚¾I",
+        "ÅŒã‚É—­‚ßUŒ‚‚Æ‚µ‚Ä•úo‚·‚é‚¼I‚¤‚Ü‚­Šˆ—p‚µ‚æ‚¤I",
+        "ÅŒã‚Ü‚Å‚ ‚«‚ç‚ß‚¸‚Éí‚¢”²‚±‚¤I"
     };
     
-    DrawBox(20, 80, 780, 200, GetColor(20, 20, 40), TRUE);
-    DrawBox(20, 80, 780, 200, GetColor(255, 255, 255), FALSE);
+    DrawBox(20, 20, 800, 130, GetColor(20, 20, 40), TRUE);
+    DrawBox(20, 20, 800, 130, GetColor(255, 255, 255), FALSE);
     
-    if (m_currentSlide >= 0 && m_currentSlide < 4) {
-        DrawStringToHandle(40, 100, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
-        DrawStringToHandle(40, 150, descs[m_currentSlide], GetColor(255, 255, 255), font24);
+    if (m_currentSlide >= 0 && m_currentSlide < 6) {
+        DrawStringToHandle(40, 30, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
+        DrawStringToHandle(40, 65, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(40, 90, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
     }
     
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
     // Draw Back button
-    bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60);
-    DrawBox(20, 20, 120, 60, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-    DrawBox(20, 20, 120, 60, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(35, 30, "BACK", GetColor(255, 255, 255), font24);
+    bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 530 && mouseY <= 580);
+    DrawBox(20, 530, 120, 580, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+    DrawBox(20, 530, 120, 580, GetColor(255, 255, 255), FALSE);
+    DrawStringToHandle(40, 545, "BACK", GetColor(255, 255, 255), font24);
     
     // Draw Prev button
     if (m_currentSlide > 0) {
-        bool hoverPrev = (mouseX >= 50 && mouseX <= 150 && mouseY >= 500 && mouseY <= 550);
-        DrawBox(50, 500, 150, 550, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-        DrawBox(50, 500, 150, 550, GetColor(255, 255, 255), FALSE);
-        DrawStringToHandle(65, 515, "PREV", GetColor(255, 255, 255), font24);
+        bool hoverPrev = (mouseX >= 150 && mouseX <= 250 && mouseY >= 530 && mouseY <= 580);
+        DrawBox(150, 530, 250, 580, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+        DrawBox(150, 530, 250, 580, GetColor(255, 255, 255), FALSE);
+        DrawStringToHandle(170, 545, "PREV", GetColor(255, 255, 255), font24);
     }
     
     // Draw Next button
-    bool hoverNext = (mouseX >= 650 && mouseX <= 750 && mouseY >= 500 && mouseY <= 550);
-    DrawBox(650, 500, 750, 550, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
-    DrawBox(650, 500, 750, 550, GetColor(255, 255, 255), FALSE);
-    if (m_currentSlide < 3) {
-        DrawStringToHandle(665, 515, "NEXT", GetColor(255, 255, 255), font24);
+    bool hoverNext = (mouseX >= 650 && mouseX <= 750 && mouseY >= 530 && mouseY <= 580);
+    DrawBox(650, 530, 750, 580, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
+    DrawBox(650, 530, 750, 580, GetColor(255, 255, 255), FALSE);
+    if (m_currentSlide < 5) {
+        DrawStringToHandle(675, 545, "NEXT", GetColor(255, 255, 255), font24);
     } else {
-        DrawStringToHandle(665, 515, "DONE", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(675, 545, "DONE", GetColor(255, 255, 255), font24);
     }
     
     Scene::Draw();

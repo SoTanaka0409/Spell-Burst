@@ -53,6 +53,7 @@
     <ClCompile Include="Source\StageSelectScene.cpp" />
     <ClCompile Include="Source\RuleScene.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
+    <ClCompile Include="Source\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Barrier.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Source\RuleScene.h" />
     <ClInclude Include="Source\TitleScene.h" />
     <ClInclude Include="Source\Utility.h" />
+    <ClInclude Include="Source\SoundManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -222,3 +224,4 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
+

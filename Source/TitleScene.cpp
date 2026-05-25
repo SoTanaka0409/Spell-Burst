@@ -1,26 +1,27 @@
-#include "TitleScene.h"
-#include "InputManager.h"
-#include "TitleScene.h"
+﻿#include "TitleScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "Player.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "Utility.h"
 #include <DxLib.h>
 #include <cmath>
 
-TitleScene::TitleScene() : m_bgGraph(-1), m_bgScrollX(0.0f)
+TitleScene::TitleScene() : m_bgGraph(-1), m_bgScrollX(0.0f), m_uiButtonGraph(-1)
 {
-
 }
+
 TitleScene::~TitleScene()
 {
-
 }
+
 void TitleScene::Initialize()
 {
     m_bgGraph = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    m_uiButtonGraph = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
     m_bgScrollX = 0.0f;
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.mp3");
 }
 
 void TitleScene::Update()
@@ -33,17 +34,24 @@ void TitleScene::Update()
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
+    int btnW = 300;
+    int btnH = 80;
+    int btnX = (Utility::SCREEN_WIDTH - btnW) / 2;
+    int btnY1 = Utility::SCREEN_HEIGHT / 2 - 50;
+    int btnY2 = btnY1 + 100;
+    int btnY3 = btnY2 + 100;
+    
     if (isLeftClicked) {
-        // Button 1: GAME START
-        if (mouseX >= 250 && mouseX <= 550 && mouseY >= 250 && mouseY <= 330) {
+        if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_LEVEL);
         }
-        // Button 2: SETTINGS (RULE)
-        else if (mouseX >= 250 && mouseX <= 550 && mouseY >= 350 && mouseY <= 430) {
+        else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_RULE);
         }
-        // Button 3: EXIT
-        else if (mouseX >= 250 && mouseX <= 550 && mouseY >= 450 && mouseY <= 530) {
+        else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
+            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_NONE);
         }
     }
@@ -58,43 +66,62 @@ void TitleScene::Update()
 }
 
 void TitleScene::Draw() {
-    // 1. Draw scrolling background
     if (m_bgGraph != -1) {
         float sw = Utility::SCREEN_WIDTH;
         float sh = Utility::SCREEN_HEIGHT;
         DrawExtendGraph(static_cast<int>(-m_bgScrollX), 0, static_cast<int>(-m_bgScrollX + sw), static_cast<int>(sh), m_bgGraph, FALSE);
         DrawExtendGraph(static_cast<int>(-m_bgScrollX + sw), 0, static_cast<int>(-m_bgScrollX + sw * 2), static_cast<int>(sh), m_bgGraph, FALSE);
     } else {
-        DrawBox(0, 0, 800, 600, GetColor(15, 20, 30), TRUE); // Deep sea color fallback
+        DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(15, 20, 30), TRUE);
     }
     Scene::Draw();
     
-    // 2. Draw Title Text
     int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
     int subFont = ResourceManager::GetInstance()->GetFont(32, 4);
     
-    DrawStringToHandle(120, 80, "AI SUSHI CHEF", GetColor(255, 215, 0), titleFont);
+    int titleW = GetDrawStringWidthToHandle("AI SUSHI CHEF", 13, titleFont);
+    DrawStringToHandle((Utility::SCREEN_WIDTH - titleW) / 2, Utility::SCREEN_HEIGHT / 4 - 30, "AI SUSHI CHEF", GetColor(255, 215, 0), titleFont);
     
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    // Button 1: GAME START
-    bool hover1 = (mouseX >= 250 && mouseX <= 550 && mouseY >= 250 && mouseY <= 330);
-    DrawBox(250, 250, 550, 330, hover1 ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
-    DrawBox(250, 250, 550, 330, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(300, 275, "GAME START", GetColor(255, 255, 255), subFont);
+    int btnW = 300;
+    int btnH = 80;
+    int btnX = (Utility::SCREEN_WIDTH - btnW) / 2;
+    int btnY1 = Utility::SCREEN_HEIGHT / 2 - 50;
+    int btnY2 = btnY1 + 100;
+    int btnY3 = btnY2 + 100;
     
-    // Button 2: SETTINGS
-    bool hover2 = (mouseX >= 250 && mouseX <= 550 && mouseY >= 350 && mouseY <= 430);
-    DrawBox(250, 350, 550, 430, hover2 ? GetColor(100, 100, 150) : GetColor(50, 50, 100), TRUE);
-    DrawBox(250, 350, 550, 430, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(320, 375, "SETTINGS", GetColor(255, 255, 255), subFont);
+    auto drawBtn = [&](int x, int y, const char* text, bool hover) {
+        if (m_uiButtonGraph != -1) {
+            if (hover) {
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+                DrawExtendGraph(x, y, x + btnW, y + btnH, m_uiButtonGraph, TRUE);
+                SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
+                DrawBox(x, y, x + btnW, y + btnH, GetColor(0, 200, 255), TRUE); // Glow effect
+                SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+            } else {
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+                DrawExtendGraph(x, y, x + btnW, y + btnH, m_uiButtonGraph, TRUE);
+                SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+            }
+        } else {
+            DrawBox(x, y, x + btnW, y + btnH, hover ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
+            DrawBox(x, y, x + btnW, y + btnH, GetColor(255, 255, 255), FALSE);
+        }
+        
+        int tw = GetDrawStringWidthToHandle(text, (int)strlen(text), subFont);
+        DrawStringToHandle(x + (btnW - tw) / 2, y + (btnH - 32) / 2, text, GetColor(255, 255, 255), subFont);
+    };
     
-    // Button 3: EXIT
-    bool hover3 = (mouseX >= 250 && mouseX <= 550 && mouseY >= 450 && mouseY <= 530);
-    DrawBox(250, 450, 550, 530, hover3 ? GetColor(150, 100, 100) : GetColor(100, 50, 50), TRUE);
-    DrawBox(250, 450, 550, 530, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(350, 475, "EXIT", GetColor(255, 255, 255), subFont);
+    bool hover1 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH);
+    drawBtn(btnX, btnY1, "GAME START", hover1);
+    
+    bool hover2 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH);
+    drawBtn(btnX, btnY2, "SETTINGS", hover2);
+    
+    bool hover3 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH);
+    drawBtn(btnX, btnY3, "EXIT", hover3);
 }
 
 void TitleScene::Finalize() {

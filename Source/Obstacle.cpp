@@ -1,7 +1,8 @@
-#include "Obstacle.h"
+﻿#include "Obstacle.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 #include "Player.h"
+#include "ResourceManager.h"
 #include <DxLib.h>
 
 Obstacle::Obstacle(float x, float y)
@@ -37,9 +38,19 @@ void Obstacle::Update() {
 }
 
 void Obstacle::Draw() {
-    // Draw a grey rock/obstacle
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 40, GetColor(100, 100, 100), TRUE);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 38, GetColor(80, 80, 80), TRUE);
+    int graph = ResourceManager::GetInstance()->GetGraph("Resource/rock.png");
+    if (graph != -1) {
+        DrawExtendGraph(
+            static_cast<int>(mvPosition.x - 45.0f),
+            static_cast<int>(mvPosition.y - 45.0f),
+            static_cast<int>(mvPosition.x + 45.0f),
+            static_cast<int>(mvPosition.y + 45.0f),
+            graph, TRUE
+        );
+    } else {
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 40, GetColor(100, 100, 100), TRUE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 38, GetColor(80, 80, 80), TRUE);
+    }
 }
 
 void Obstacle::OnTrigger(Collider* collider, Collider* check) {

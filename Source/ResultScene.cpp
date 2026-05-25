@@ -1,8 +1,9 @@
-#include "ResultScene.h"
+﻿#include "ResultScene.h"
 #include "SceneManager.h"
 #include "Master.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "Utility.h"
 #include <DxLib.h>
 #include <cmath>
@@ -10,10 +11,16 @@
 bool ResultScene::s_isVictory = false;
 
 void ResultScene::Initialize() {
+    if (s_isVictory) {
+        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.mp3");
+    } else {
+        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.mp3");
+    }
 }
 
 void ResultScene::Update() {
     if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z)) {
+        SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
         Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
     }
     Scene::Update();

@@ -1,4 +1,4 @@
-#include "Enemy.h"
+﻿#include "Enemy.h"
 #include "CapsuleCollider.h"
 #include <DxLib.h>
 #include "Bullet.h"
@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "GameScene.h"
 #include "EnemyManager.h"
+#include "SoundManager.h"
 #include <cmath>
 #include <cstdlib>
 
@@ -178,6 +179,7 @@ void Enemy::TakeDamage(int damage) {
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
+        SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
         Kill();
 
         // 敵を倒した報酬として、プレイヤーに経験値（XP）を付与

@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+﻿#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -8,6 +8,7 @@
 #include "RuleScene.h"
 #include "DebugLog.h"
 #include "Master.h"
+#include "SoundManager.h"
 
 SceneManager* Master::sceneManager = nullptr;
 
@@ -78,6 +79,9 @@ void SceneManager::ChangeSceneIfNeeded()
 	{
 		return;
 	}
+
+	// シーンが変わる場合は全ての音を停止
+	SoundManager::GetInstance()->StopAll();
 
 	// 現在のシーンがある場合は終了処理を行って破棄する
 	if (mpCurrentScene != nullptr)

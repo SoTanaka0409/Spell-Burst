@@ -17,7 +17,7 @@ MasterSpark::MasterSpark(float x, float y)
     , m_lifeTimer(180)
     , m_maxLife(180)
     , m_radius(10.0f)
-    , m_damage(5) // 5 damage per frame means 300 damage per second (MASSIVE)
+    , m_damage(10) // 5 damage per frame means 300 damage per second (MASSIVE)
     , m_colorHue(0)
 {
     SetTag(Tag2D_PlayerBullet);
@@ -89,14 +89,14 @@ void MasterSpark::Draw() {
     float radiusMid = m_radius * 0.7f;
     float radiusInner = m_radius * 0.3f;
 
-    // Rainbow colors for outer layer
-    int mySparkR = static_cast<int>(std::sin(m_colorHue * 3.14159f / 180.0f) * 127 + 128);
-    int mySparkG = static_cast<int>(std::sin((m_colorHue + 120) * 3.14159f / 180.0f) * 127 + 128);
-    int mySparkB = static_cast<int>(std::sin((m_colorHue + 240) * 3.14159f / 180.0f) * 127 + 128);
+    // Red/Vermilion based colors for outer layer
+    int mySparkR = 255;
+    int mySparkG = static_cast<int>(std::sin(m_colorHue * 3.14159f / 180.0f) * 80 + 80);
+    int mySparkB = 30;
     
     unsigned int colorOuter = GetColor(mySparkR, mySparkG, mySparkB);
-    unsigned int colorMid = GetColor(100, 255, 100); // Green-ish mid
-    unsigned int colorInner = GetColor(255, 255, 255); // White core
+    unsigned int colorMid = GetColor(255, 120, 30); // Orange-ish mid
+    unsigned int colorInner = GetColor(255, 255, 200); // White/yellow core
 
     SetDrawBlendMode(DX_BLENDMODE_ADD, 150);
     DrawBox(static_cast<int>(mvPosition.x - radiusOuter), static_cast<int>(mvPosition.y - 1200.0f),

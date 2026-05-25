@@ -6,8 +6,11 @@
 #include "Player.h"
 #include "EnemyBullet.h"
 #include "ObjectManager.h"
-#include "Master.h"
+#include "Math.h"
+#include "BulletManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
+#include "Master.h"
 #include "ResultScene.h"
 #include "Enemy.h"
 #include <DxLib.h>
@@ -18,6 +21,7 @@
 #include "GameScene.h"
 #include "ExplosionParticle.h"
 #include "PlayerHomingBullet.h"
+#include "SoundManager.h"
 
 Boss::Boss(float x, float y, int bossType)
     : Object2D(VGet(x, y, 0.0f))
@@ -168,7 +172,7 @@ void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 36; // 蠑ｾ謨ｰ繧貞€榊｢・
     static float spiralAngle = 0.0f;
-    spiralAngle += 0.15f; // 逋ｺ蟆・＃縺ｨ縺ｫ隗貞ｺｦ繧偵★繧峨＠縺ｦ貂ｦ蟾ｻ縺阪↓縺吶ｋ
+    spiralAngle += 0.15f; // 逋ｺ蟆・＃縺ｨ縺ｨ隗貞ｺｦ繧偵★繧峨＠縺ｦ貂ｦ蟾ｻ縺阪↓縺吶ｋ
 
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
@@ -300,11 +304,23 @@ void Boss::TakeDamage(int damage) {
             m_invincibleTimer = 180; // 3 seconds invincibility on phase change
         } else {
             m_isDying = true;
+            SoundManager::GetInstance()->PlaySE("Resource/se_boss_die.wav");
             m_deathTimer = 180; // 3 seconds flash and fly up
             if (mpCollider) {
                 mpCollider->SetDeleteFlag(true); // Disable collision
-                mpCollider = nullptr;
             }
+            
+            // Clear all enemy bullets
+            Scene* currentScene = Master::sceneManager->GetCurrentScene();
+            if (currentScene) {
+                auto bullets = currentScene->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
+                for (auto* b : bullets) {
+                    b->SetDeleteFlag(true);
+                }
+                // Heal player
+                Player* p = dynamic_cast<Player*>(currentScene->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
+                if (p) p->Heal(3);
+            }    mpCollider = nullptr;
 
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {

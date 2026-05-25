@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 #include"Barrier.h"
 class CapsuleCollider;
@@ -78,6 +78,7 @@ public:
     int GetMaxSpellGauge() const { return m_maxSpellGauge; }
 
     void Stun(int frames) { m_stunTimer = frames; }
+    void Heal(int amount) { m_hp += amount; if (m_hp > m_maxHp) m_hp = m_maxHp; }
 
     // 敵を倒した時に経験値を追加し、規定値に達したらレベルアップさせる処理
     void AddXp(int amount);

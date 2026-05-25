@@ -1,8 +1,9 @@
-#include "Barrier.h"
+﻿#include "Barrier.h"
 #include "CapsuleCollider.h"
 #include "DxLib.h"
 #include "Utility.h"
 #include "PlayerHomingBullet.h"
+#include "SoundManager.h"
 #include <cmath>
 
 Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
@@ -31,6 +32,7 @@ void Barrier::Update() {
     if (!m_isDeployed) {
         if (m_timer >= m_deployInterval) {
             m_isDeployed = true;
+            SoundManager::GetInstance()->PlaySE("Resource/se_barrier.wav");
             m_timer = 0.0f;
             mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, m_radius);
         }

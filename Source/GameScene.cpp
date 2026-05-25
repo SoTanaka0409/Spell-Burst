@@ -1,4 +1,4 @@
-#include "GameScene.h"
+﻿#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include "Utility.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 #include "HUD.h"
 
 int GameScene::s_currentStage = 1;
@@ -46,7 +47,15 @@ void GameScene::Initialize() {
     mpEnemyManager->Initialize();
 
     m_cutinTimer = 0;
-    m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_mackerel.png");
+    
+    int charType = Player::s_selectedCharacterType;
+    if (charType == 1) {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
+    } else if (charType == 2) {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
+    } else {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
+    }
 
     m_screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
     m_shakeTimer = 0;
@@ -58,6 +67,7 @@ void GameScene::Initialize() {
     mpEnemyManager->SpawnEnemy(1330.0f, 150.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 350.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
 }
 
 void GameScene::Update() {

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Scene.h"
 
 #include <vector>
@@ -18,4 +18,5 @@ public:
 private:
     int m_bgGraph;
     float m_bgScrollX;
+    int m_uiButtonGraph;
 };
