@@ -1,56 +1,34 @@
-#pragma once
+﻿#pragma once
 #include "Scene.h"
 
 class EnemyManager;
 
-// ゲームのメインプレイ画面を管理するシーンクラス
+// Scene class that manages the main play screen of the game
 class GameScene : public Scene {
 private:
-    // 敵の出現やWAVEの進行を管理するマネージャー
+    // Manager who manages enemy appearance and WAVE progress
     EnemyManager* mpEnemyManager;
 
-    // カットイン関連
+    // Cut-in related
     int m_cutinTimer;
     int m_cutinImageHandle;
 
-<<<<<<< HEAD
 public:
-=======
-    // 演出用
-    int m_screenHandle;
-    int m_shakeTimer;
-    float m_shakeMagnitude;
-    int m_hitStopTimer;
-
-public:
-    static int s_currentStage; // 1: Normal, 2: Hard, 3: Very Hard
-    
->>>>>>> main
     GameScene();
     virtual ~GameScene() override;
 
-    // シーン遷移時に呼ばれ、プレイヤーやマネージャーの生成・初期化を行う
+    // Called during scene transition, creates and initializes players and managers.
     void Initialize() override;
 
-    // 毎フレーム呼ばれ、ゲーム全体のロジック（ポーズ、オブジェクト更新、当たり判定）を処理する
+    // Called every frame, handles the entire game's logic (pose, object updates, hit detection)
     void Update() override;
 
-    // 毎フレーム呼ばれ、背景や各オブジェクト、HUD（HPや経験値）を描画する
+    // Called every frame, draws the background, each object, and HUD (HP and experience points)
     void Draw() override;
 
-    // シーン終了時に呼ばれ、確保したメモリを解放する
+    // Called when the scene ends to release the allocated memory
     void Finalize() override;
 
-    // スペルカードカットインを発動する
+    // Activate spell card cut-in
     void TriggerCutin();
-<<<<<<< HEAD
-=======
-
-    // 敵マネージャーの取得
-    EnemyManager* GetEnemyManager() const { return mpEnemyManager; }
-
-    // 演出のトリガー
-    void AddScreenShake(int duration, float magnitude);
-    void AddHitStop(int duration);
->>>>>>> main
 };

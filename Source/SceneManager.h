@@ -12,14 +12,14 @@ public:
 		SCENE_NAME,
 		SCENE_TITLE,
 		SCENE_OPERATION,
-		SCENE_RULE,//ï¿½^ï¿½Cï¿½gï¿½ï¿½
+		SCENE_RULE,// E½^EbCE½gE¸E½
 		SCENE_TUTORIAL,
 		SCENE_LEVEL,
-		SCENE_GAME,    //ï¿½Qï¿½[ï¿½ï¿½
+		SCENE_GAME,    // EbQEb[EbEs
 		SCENE_3DHARD,
-		SCENE_RESULT,   //ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½g
+		SCENE_RESULT,   // Ebbbbbbb½½½¸g
 		SCENE_RESULTWIN,
-		SCENE_NORMALRESULTSCENE,//ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+		SCENE_NORMALRESULTSCENE,// EbQEb[EbE½E²IE½[EbEb]
 		SCENE_3D
 
 	};
@@ -36,10 +36,10 @@ public:
 	void Update();
 
 	void Finalize();
-	//ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½Úiï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½Kï¿½vï¿½Èï¿½Ô‚È‚ï¿½Jï¿½Úï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ESVES
 	void ChangeSceneIfNeeded();
-	//ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½
-	//note:ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Rï¿½ï¿½ï¿½Ä‘Jï¿½Ú‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ESuEsuEsuno transfer sourceEsuEsuEsuEsu JEslezukusosuEsuEsuEsu VEsu [EsuEsuEsuEsu installation resistance source
+	// note: ESVES[ESESESJ 
 	void SetNextScene(SCENE_TYPE next) { mnNextSceneType = next; }
 
 	void SetSceneHard(bool Hard) { SceneHard = Hard; }
@@ -49,13 +49,13 @@ public:
 	bool GetSceneNormal() { return SceneNormal; }
 
 
-	//ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½Ìæ“¾
+	// ESESESun's ESESES
 	Scene* GetCurrentScene() { return mpCurrentScene; }
 
 private:
-	SCENE_TYPE mnSceneType;     //ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½Ìƒ^ï¿½Cï¿½v
-	SCENE_TYPE mnNextSceneType;//ï¿½ï¿½ï¿½ÌƒVï¿½[ï¿½ï¿½ï¿½Ìƒ^ï¿½Cï¿½v
-	Scene* mpCurrentScene;    //ï¿½ï¿½ï¿½İƒVï¿½[ï¿½ï¿½ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
+	SCENE_TYPE mnSceneType;     // ESESESUN's SES[ESESESfutaESCESv
+	SCENE_TYPE mnNextSceneType;// EsEsEsufushiEs [EsEsEsuftaEscEsv
+	Scene* mpCurrentScene;    // ESESESES
 	Scene* mp;
 
 	bool SceneHard;

@@ -1,55 +1,33 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-<<<<<<< HEAD
-// ボスキャラクターのデータや振る舞い、弾幕パターンを管理するクラス
+// A class that manages boss character data, behavior, and barrage patterns.
 class Boss : public Object2D {
 private:
-    float m_x, m_y;       // ボスの画面上のXY座標
-    float m_speed;        // 移動速度
-    int m_hp;             // 現在の体力
-    int m_maxHp;          // 最大体力
-    bool m_isActive;      // ボスが活動中かどうかのフラグ
-    int m_bossType;       // ボスの種類（1〜3）
+    float m_x, m_y;       // XY coordinates of the boss on the screen
+    float m_speed;        // movement speed
+    int m_hp;             // current physical strength
+    int m_maxHp;          // maximum health
+    bool m_isActive;      // Flag for whether the boss is active or not
+    int m_bossType;       // Boss type (1-3)
     
-    // ランダム移動の目的地（ターゲット座標）
+    // Random movement destination (target coordinates)
     float m_targetX, m_targetY;
     
-    // 攻撃パターンと発射間隔を管理するタイマー
+    // Timer to manage attack patterns and firing intervals
     int m_attackTimer;
     int m_patternIndex;
 
-    // 撃破された際の死亡演出を管理するステータスとタイマー
+    // Status and timer to manage death effect when defeated
     bool m_isDying;
     int m_deathTimer;
     
-    // フェーズ（残機）と無敵時間を管理する変数
+    // Variables that manage phase (remaining lives) and invincibility time
     int m_lives;
     int m_invincibleTimer;
-    int m_invincibleCycleTimer; // 5秒ごとの無敵を管理するタイマー
-=======
-class Boss : public Object2D {
-private:
-    float m_speed;
-    int m_hp;
-    int m_maxHp;
-    bool m_isActive;
-    int m_bossType;
-    
-    float m_targetX, m_targetY;
-    
-    int m_attackTimer;
-    int m_patternIndex;
-
-    bool m_isDying;
-    int m_deathTimer;
-    
-    int m_lives;
-    int m_invincibleTimer;
-    int m_invincibleCycleTimer;
->>>>>>> main
+    int m_invincibleCycleTimer; // Timer to manage invincibility every 5 seconds
     
     CapsuleCollider* mpCollider;
 
@@ -57,15 +35,10 @@ public:
     Boss(float x, float y, int bossType = 3);
     virtual ~Boss() override;
 
-<<<<<<< HEAD
-    // 毎フレーム呼ばれ、移動処理や攻撃処理、死亡時の演出を行う
+    // It is called every frame and performs movement processing, attack processing, and death effects.
     void Update() override;
 
-    // 毎フレーム呼ばれ、ボスの画像や被ダメージ時の点滅効果を描画する
-=======
-    void Update() override;
-
->>>>>>> main
+    // Called every frame, draws the boss image and the flashing effect when receiving damage.
     void Draw() override;
 
     int GetHp() const { return m_hp; }
@@ -73,48 +46,27 @@ public:
     bool IsActive() const { return m_isActive; }
     int GetLives() const { return m_lives; }
 
-<<<<<<< HEAD
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
     float GetRadius() const { return 80.0f; }
 
-    // プレイヤーの攻撃を受けた際に呼ばれるダメージ処理
+    // Damage processing called when attacked by a player
     void TakeDamage(int damage);
 
-    // ボスを完全に消滅させる処理
+    // Process to completely eliminate the boss
     void Kill();
 
-    // 他のオブジェクトと重なっている時の処理（弾との当たり判定）
+    // Processing when overlapping with other objects (determination of collision with bullet)
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    // ボスの弾幕パターン処理群
-    void ShootRadialBarrage();    // 全方位（放射状）への弾幕
-    void ShootFanBarrage();       // 扇状（前方広範囲）への弾幕
-    void ShootTargetedBarrage();  // プレイヤーを狙う自機狙い弾幕
-    void ShootSimpleBarrage();    // タイプ1用の単純な弾
-    void ShootBouncingBarrage();  // タイプ2用の反射弾
+    // Boss barrage pattern processing group
+    void ShootRadialBarrage();    // Barrage in all directions (radial)
+    void ShootFanBarrage();       // Barrage in fan shape (wide area in front)
+    void ShootTargetedBarrage();  // A barrage aimed at the player
+    void ShootSimpleBarrage();    // Simple bullet for type 1
+    void ShootBouncingBarrage();  // Reflector bullet for type 2
     
-    // 次のランダム移動の目的地を決定する
-=======
-    float GetX() const { return mvPosition.x; }
-    float GetY() const { return mvPosition.y; }
-    float GetRadius() const { return 80.0f; }
-
-    void TakeDamage(int damage);
-
-    void Kill();
-
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
-
-private:
-    void ShootRadialBarrage();
-    void ShootFanBarrage();
-    void ShootTargetedBarrage();
-    void ShootSimpleBarrage();
-    void ShootBouncingBarrage();
-    void ShootSpellCardBarrage();
-    
->>>>>>> main
+    // Determine the destination of the next random move
     void SelectNewTarget();
 };
