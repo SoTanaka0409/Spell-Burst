@@ -2,14 +2,23 @@
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "DxLib.h"
+<<<<<<< HEAD
+=======
+#include "Utility.h"
+>>>>>>> main
 
 SpecialBullet::SpecialBullet(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet); // So it's recognized as a player projectile
+<<<<<<< HEAD
     m_x = x;
     m_y = y;
+=======
+    mvPosition.x = x;
+    mvPosition.y = y;
+>>>>>>> main
     m_speed = 12.0f;
     m_isActive = true;
     m_damage = 5; // Ultimate piercing damage!
@@ -25,25 +34,42 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
+<<<<<<< HEAD
 // 毎フレーム呼ばれる更新処理
 // 必殺技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます。
 void SpecialBullet::Update() {
     m_y -= m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
+=======
+// 毎フレーム呼ばれる更新処琁E
+// 忁E��技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+void SpecialBullet::Update() {
+    mvPosition.y -= m_speed * Utility::TimeScale;
+    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+>>>>>>> main
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
 
+<<<<<<< HEAD
     if (m_y < -120.0f) {
+=======
+    if (mvPosition.y < -120.0f) {
+>>>>>>> main
         m_isActive = false;
         SetDeleteFlag(true);
     }
 }
 
+<<<<<<< HEAD
 // 描画処理
 // 必殺技のエフェクト（大きな光弾など）を描画します。
+=======
+// 描画処琁E
+// 忁E��技のエフェクト（大きな光弾など�E�を描画します、E
+>>>>>>> main
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 
@@ -53,6 +79,7 @@ void SpecialBullet::Draw() {
     unsigned int colorWhite = GetColor(255, 255, 255);
 
     // Draw concentric circles for a nice glowing effect
+<<<<<<< HEAD
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 90, colorOrange, TRUE);
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 75, colorGold, TRUE);
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 45, colorWhite, TRUE);
@@ -60,6 +87,15 @@ void SpecialBullet::Draw() {
     // Add cross lines to make it look like a giant ultimate energy blast
     DrawLine(static_cast<int>(m_x - 90), static_cast<int>(m_y), static_cast<int>(m_x + 90), static_cast<int>(m_y), colorGold);
     DrawLine(static_cast<int>(m_x), static_cast<int>(m_y - 90), static_cast<int>(m_x), static_cast<int>(m_y + 90), colorGold);
+=======
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 90, colorOrange, TRUE);
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 75, colorGold, TRUE);
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, colorWhite, TRUE);
+
+    // Add cross lines to make it look like a giant ultimate energy blast
+    DrawLine(static_cast<int>(mvPosition.x - 90), static_cast<int>(mvPosition.y), static_cast<int>(mvPosition.x + 90), static_cast<int>(mvPosition.y), colorGold);
+    DrawLine(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y - 90), static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y + 90), colorGold);
+>>>>>>> main
 }
 
 void SpecialBullet::Kill() {

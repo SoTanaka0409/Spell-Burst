@@ -10,11 +10,23 @@
 #include "SceneManager.h"
 #include "ResultScene.h"
 #include "MeleeAttack.h"
+<<<<<<< HEAD
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
 #include "SpellCardBullet.h"
 #include "GameScene.h"
 
+=======
+#include "MasterSpark.h"
+#include "RainbowWaveManager.h"
+#include "SpellCardBullet.h"
+#include "SpecialBullet.h"
+#include "ResourceManager.h"
+#include "GameScene.h"
+
+int Player::s_selectedCharacterType = 1;
+
+>>>>>>> main
 Player::Player() 
     : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
     , mpCollider(nullptr)
@@ -28,6 +40,13 @@ Player::~Player() {
         delete mpCollider;
         mpCollider = nullptr;
     }
+<<<<<<< HEAD
+=======
+    if (mpBarrier) {
+        mpBarrier->SetDeleteFlag(true);
+        mpBarrier = nullptr;
+    }
+>>>>>>> main
     m_levelUpTimer = 0;
     m_stunTimer = 0;
 }
@@ -35,8 +54,13 @@ Player::~Player() {
 // プレイヤーの初期化�E琁E
 // ゲーム開始時めE��トライ時に呼ばれ、HPめE��ベル、座標などを�E期状態に戻します、E
 void Player::Initialize() {
+<<<<<<< HEAD
     m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
     m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
+=======
+    mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
+    mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
+>>>>>>> main
     m_speed = 5.0f;
     m_maxHp = 10;
     m_hp = m_maxHp;
@@ -45,13 +69,25 @@ void Player::Initialize() {
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 1;
+<<<<<<< HEAD
     m_attackTimer = 20; // 発封E��隔を短く（連封E��E
+=======
+<<<<<<< HEAD
+    m_attackTimer = 20; // 発射間隔を短く（連射）
+>>>>>>> 240f2f277102418da5ddb286e12d12d717854dca
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
+=======
+    m_attackTimer = 20; // 逋ｺ蟆・俣髫斐ｒ遏ｭ縺擾ｼ磯€｣蟆・ｼ・
+    m_AttackInterval =0 ;
+    m_AttackTimer_2 = 60;
+    m__BarrierCount = 0;
+>>>>>>> main
     // Level & XP system initialization
     m_level = 1;
     m_xp = 0;
     m_xpNeeded = 5; // Level 1 needs 5 XP to level up
+<<<<<<< HEAD
     m_levelUpTimer = 0;
     
     m_spellGauge = 0;
@@ -59,6 +95,16 @@ void Player::Initialize() {
 
     // Create a circular collider with small radius (Touhou style)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
+=======
+    m_levelUpTimer = 0;                  
+    
+    m_spellGauge = 0;
+    m_maxSpellGauge = 10; // 謨ｵ10菴灘・縺ｧ繧ｲ繝ｼ繧ｸMAX
+
+    // Create a circular collider with small radius (Touhou style)
+    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
+	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
+>>>>>>> main
 }
 
 // 毎フレーム呼ばれる更新処琁E
@@ -81,6 +127,7 @@ void Player::Update()
 
     // 低速移動（フォーカス�E�モーチE
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
+<<<<<<< HEAD
     float currentSpeed = isFocus ? 2.0f : m_speed;
 
     if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= currentSpeed; }
@@ -95,6 +142,27 @@ void Player::Update()
     if (m_y > Utility::SCREEN_HEIGHT - 45.0f) m_y = Utility::SCREEN_HEIGHT - 45.0f;
 
     mvPosition = VGet(m_x, m_y, 0.0f);
+=======
+    float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
+
+    if (InputManager::CheckPressKey(KEY_INPUT_W)) { mvPosition.y -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_S)) { mvPosition.y += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
+
+    // Clamp inside screen with 45.0f padding
+    if (mvPosition.x < 45.0f) mvPosition.x = 45.0f;
+    if (mvPosition.x > Utility::SCREEN_WIDTH - 45.0f) mvPosition.x = Utility::SCREEN_WIDTH - 45.0f;
+    if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
+    if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
+
+    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    
+    // バリアをプレイヤーに追従させる
+    if (mpBarrier) {
+        mpBarrier->SetPosition(mvPosition);
+    }
+>>>>>>> main
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -131,7 +199,18 @@ void Player::Draw() {
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
+<<<<<<< HEAD
     int s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+=======
+    int s_playerGraphHandle = -1;
+    if (s_selectedCharacterType == 1) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    } else if (s_selectedCharacterType == 2) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+    } else if (s_selectedCharacterType == 3) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+    }
+>>>>>>> main
 
     if (s_playerGraphHandle != -1) {
         DrawExtendGraph(
@@ -163,8 +242,18 @@ void Player::TakeDamage(int damage) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
+<<<<<<< HEAD
 // 攻撁E�E琁E
 // 選択されてぁE��攻撁E��ード（通常弾、近接、忁E��技�E�に応じて弾を生成�E発封E��ます、E
+=======
+// 攻撃処理
+// 選択されている攻撃モード（通常弾、近接、必殺技）に応じて弾を生成・発射します。
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
+>>>>>>> 240f2f277102418da5ddb286e12d12d717854dca
 void Player::Attack()
 {
     int mouseInput = GetMouseInput(); // マウスの状態を取征E
@@ -183,10 +272,17 @@ void Player::Attack()
         m_AttackInterval = 0;//intervalの初期匁E
             int numBullets = m_level;
             float spacing = 20.0f;
+<<<<<<< HEAD
             float startX = m_x - (numBullets - 1) * spacing / 2.0f;
             for (int i = 0; i < numBullets; ++i) 
             {
                 new Bullet(startX + i * spacing, m_y - 45.0f, mfAttack);
+=======
+            float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
+            for (int i = 0; i < numBullets; ++i) 
+            {
+                new Bullet(startX + i * spacing, mvPosition.y - 45.0f, mfAttack);
+>>>>>>> main
             }
             
         
@@ -197,19 +293,28 @@ void Player::Attack()
     {
         m_AttackInterval_2 = 0;
         if (m_attackMode == AttackMode_Melee) {
+<<<<<<< HEAD
             new MeleeAttack(m_x, m_y - 70.0f);
+=======
+            new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
+>>>>>>> main
         }
         else if (m_attackMode == AttackMode_Special)
         {
             if (m_specialCooldown == 0)
             {
+<<<<<<< HEAD
                 new SpecialBullet(m_x, m_y - 90.0f);
+=======
+                new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+>>>>>>> main
                 m_specialCooldown = 180; // 3 seconds cooldown
             }
         }
     }
     if (mouseInput & MOUSE_INPUT_LEFT)
     {
+<<<<<<< HEAD
         new SpecialBullet(m_x, m_y - 90.0f);
     }
 
@@ -218,6 +323,23 @@ void Player::Attack()
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
             new SpellCardBullet(m_x, m_y - 90.0f);
+=======
+        new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+    }
+
+    // スペルカードの発動（Xキー）
+    if (InputManager::CheckDownKey(KEY_INPUT_X)) {
+        if (m_spellGauge >= m_maxSpellGauge) {
+            m_spellGauge = 0; // ゲージ消費
+            
+            if (s_selectedCharacterType == 1) {
+                new MasterSpark(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 2) {
+                new RainbowWaveManager(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 3) {
+                new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
+            }
+>>>>>>> main
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {
@@ -250,9 +372,20 @@ void Player::AddXp(int amount) {
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
 
+<<<<<<< HEAD
 // 他�Eオブジェクトと重なってぁE��時�E処琁E
 // 敵本体とぶつかった場合にダメージを受けます、E
+=======
+// 他のオブジェクトと重なっている時の処理
+// 敵本体とぶつかった場合にダメージを受けます。
+<<<<<<< HEAD
+>>>>>>> 240f2f277102418da5ddb286e12d12d717854dca
 void Player::OnTrigger(Collider* collider, Collider* check) {
+=======
+void Player::OnTrigger(Collider* collider, Collider* check) 
+{
+   
+>>>>>>> main
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
             Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
