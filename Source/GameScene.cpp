@@ -115,14 +115,10 @@ void GameScene::Draw() {
 
     std::string bgPath = "Resource/background.png";
     if (mpEnemyManager) {
-        if (mpEnemyManager->IsBossSpawned()) {
-            bgPath = "Resource/bg_boss.png";
-        } else {
-            int phase = mpEnemyManager->GetCurrentPhase();
-            if (phase == 1) bgPath = "Resource/bg_phase1.png";
-            else if (phase == 2) bgPath = "Resource/bg_phase2.png";
-            else bgPath = "Resource/bg_phase3.png";
-        }
+        int phase = mpEnemyManager->GetCurrentPhase();
+        if (phase == 1) bgPath = "Resource/bg_phase1.png";
+        else if (phase == 2) bgPath = "Resource/bg_phase2.png";
+        else bgPath = "Resource/bg_phase3.png";
     }
     
     int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
