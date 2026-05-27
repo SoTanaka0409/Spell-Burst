@@ -20,7 +20,7 @@ EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool
     m_dy = dy;
     m_speed = speed;
     m_isActive = true;
-    m_canReflect = false; // ユーザーの要望により跳ね返り�E�反封E��を無効匁E
+    m_canReflect = false; // 繝ｦ繝ｼ繧ｶ繝ｼ縺ｮ隕∵悍縺ｫ繧医ｊ霍ｳ縺ｭ霑斐ｊ・亥渚蟆・ｼ峨ｒ辟｡蜉ｹ蛹・
     m_hasReflected = false;
     m_isStunBullet = isStunBullet;
     m_homingTimer = homingFrames;
@@ -46,8 +46,8 @@ EnemyBullet::~EnemyBullet() {
     }
 }
 
-// 毎フレーム呼ばれる更新処琁E
-// 持E��されたベクトル方向へ弾を移動させ、画面外に出たら削除フラグを立てます、E
+// 豈弱ヵ繝ｬ繝ｼ繝�蜻ｼ縺ｰ繧後ｋ譖ｴ譁ｰ蜃ｦ逅・
+// 謖・ｮ壹＆繧後◆繝吶け繝医Ν譁ｹ蜷代∈蠑ｾ繧堤ｧｻ蜍輔＆縺帙∫判髱｢螟悶↓蜃ｺ縺溘ｉ蜑企勁繝輔Λ繧ｰ繧堤ｫ九※縺ｾ縺吶・
 void EnemyBullet::Update() {
     if (m_homingDelayTimer > 0) {
         m_homingDelayTimer--;
@@ -59,11 +59,11 @@ void EnemyBullet::Update() {
             float targetAngle = std::atan2(player->GetY() - mvPosition.y, player->GetX() - mvPosition.x);
             
             float diff = targetAngle - currentAngle;
-            // 角度めE-PI ~ PI に正規化
+            // 隗貞ｺｦ繧・-PI ~ PI 縺ｫ豁｣隕丞喧
             while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
             while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
             
-            // 旋回速度�E�侁E 毎フレーム 0.05 ラジアン�E�E
+            // 譌句屓騾溷ｺｦ・井ｾ・ 豈弱ヵ繝ｬ繝ｼ繝� 0.05 繝ｩ繧ｸ繧｢繝ｳ・・
             float turnSpeed = 0.03f; 
             if (diff > turnSpeed) diff = turnSpeed;
             if (diff < -turnSpeed) diff = -turnSpeed;
@@ -83,32 +83,32 @@ void EnemyBullet::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // 画面外に出たら削除する�E�跳ね返り処琁E�E無効化されました�E�E
+    // 逕ｻ髱｢螟悶↓蜃ｺ縺溘ｉ蜑企勁縺吶ｋ・郁ｷｳ縺ｭ霑斐ｊ蜃ｦ逅・・辟｡蜉ｹ蛹悶＆繧後∪縺励◆・・
     if (mvPosition.x < -50.0f || mvPosition.x > Utility::SCREEN_WIDTH + 50.0f || mvPosition.y < -50.0f || mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
 }
 
-// 描画処琁E
-// 敵弾の画像を描画します、E
+// 謠冗判蜃ｦ逅・
+// 謨ｵ蠑ｾ縺ｮ逕ｻ蜒上ｒ謠冗判縺励∪縺吶・
 void EnemyBullet::Draw() {
     if (!m_isActive) return;
     
     if (m_isStunBullet) {
-        // スタン弾は水色系
+        // 繧ｹ繧ｿ繝ｳ蠑ｾ縺ｯ豌ｴ濶ｲ邉ｻ
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(0, 150, 255), TRUE); // オーラ
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(0, 150, 255), TRUE); // 繧ｪ繝ｼ繝ｩ
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(0, 255, 255), TRUE); // 外枠
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE); // コア
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(0, 255, 255), TRUE); // 螟匁棧
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE); // 繧ｳ繧｢
     } else {
-        // 通常の敵弾�E�弾幕用�E��Eマゼンタ�E�赤系
+        // 騾壼ｸｸ縺ｮ謨ｵ蠑ｾ・亥ｼｾ蟷慕畑・峨・繝槭ぞ繝ｳ繧ｿ・剰ｵ､邉ｻ
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(255, 0, 128), TRUE); // オーラ
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(255, 0, 128), TRUE); // 繧ｪ繝ｼ繝ｩ
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 100, 200), TRUE); // 外枠
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE); // コア
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 100, 200), TRUE); // 螟匁棧
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE); // 繧ｳ繧｢
     }
 }
 
@@ -117,9 +117,10 @@ void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
     if(check!=nullptr&&check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == tag2D_BarierPla)
         {
-          
+            // バリア側に衝突を通知してカウントを進めさせる
+            check->GetParentObject()->OnTrigger(check, collider);
             Kill();
-			return;//player�ƃo���A�ɓ����ɓ����������Ƀo���A�ɓ����������Ƃ�D�悳���邽�߁A�v���C���[�ւ̃_���[�W�������X�L�b�v
+            return;//playerとバリアに同時に当たった時にバリアを優先するため、プレイヤーへのダメージをスキップ
         }
 	}
     if (check != nullptr && check->GetParentObject() != nullptr) {
@@ -128,7 +129,7 @@ void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
             if (player != nullptr) {
                 player->TakeDamage(1);
                 if (m_isStunBullet) {
-                    player->Stun(60); // 1秒間スタン
+                    player->Stun(60); // 1遘帝俣繧ｹ繧ｿ繝ｳ
                 }
             }
             Kill();
