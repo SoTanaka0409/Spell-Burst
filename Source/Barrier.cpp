@@ -84,7 +84,7 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
             // 5発防いだらカウンター発動！
             if (m_hitCount >= 30) {
                 m_hitCount = 0; // カウントリセット
-                
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_destroy_glass01.mp3");
                 // 四方向に10発ずつ（計40発）放出
                 float baseSpeed = 10.0f; // 少し速めに設定
                 for (int dir = 0; dir < 4; ++dir) {
