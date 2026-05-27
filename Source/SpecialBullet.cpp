@@ -26,8 +26,8 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
-// 毎フレーム呼ばれる更新処琁E
-// 忁E��技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+// 豈弱ヵ繝ｬ繝ｼ繝�蜻ｼ縺ｰ繧後ｋ譖ｴ譁ｰ蜃ｦ逅・
+// 蠢・ｮｺ謚縺ｮ蠑ｾ繧剃ｸ頑婿蜷代↓遘ｻ蜍輔＆縺帙∫判髱｢螟悶↓蜃ｺ縺溘ｉ蜑企勁繝輔Λ繧ｰ繧堤ｫ九※縺ｾ縺吶・
 void SpecialBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
     mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
@@ -43,8 +43,8 @@ void SpecialBullet::Update() {
     }
 }
 
-// 描画処琁E
-// 忁E��技のエフェクト（大きな光弾など�E�を描画します、E
+// 謠冗判蜃ｦ逅・
+// 蠢・ｮｺ謚縺ｮ繧ｨ繝輔ぉ繧ｯ繝茨ｼ亥､ｧ縺阪↑蜈牙ｼｾ縺ｪ縺ｩ・峨ｒ謠冗判縺励∪縺吶・
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 
@@ -75,6 +75,9 @@ void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
                 // Deal high ultimate damage (does not call Kill() so it pierces through!)
                 enemy->TakeDamage(m_damage);
             }
+        } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
+            // 敵の弾を消す
+            check->GetParentObject()->SetDeleteFlag(true);
         }
     }
 }

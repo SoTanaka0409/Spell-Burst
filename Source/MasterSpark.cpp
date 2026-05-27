@@ -135,6 +135,9 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check) {
                     enemy->TakeDamage(m_damage);
                 }
             }
+        } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
+            // 敵の弾を消す
+            check->GetParentObject()->SetDeleteFlag(true);
         }
     }
 }

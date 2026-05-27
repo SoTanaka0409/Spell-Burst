@@ -84,6 +84,9 @@ void RainbowBullet::OnTrigger(Collider* collider, Collider* check) {
                     mpCollider->SetDeleteFlag(true);
                 }
             }
+        } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
+            // 敵の弾を消す
+            check->GetParentObject()->SetDeleteFlag(true);
         }
     }
 }
