@@ -118,6 +118,7 @@ void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
         if (check->GetParentObject()->GetTag() == tag2D_BarierPla)
         {
             // バリア側に衝突を通知してカウントを進めさせる
+            //ここで呼び出さないとバリアに当たる前に消える可能性があるため
             check->GetParentObject()->OnTrigger(check, collider);
             Kill();
             return;//playerとバリアに同時に当たった時にバリアを優先するため、プレイヤーへのダメージをスキップ

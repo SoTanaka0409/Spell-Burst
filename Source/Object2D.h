@@ -2,8 +2,7 @@
 #include <string>
 #include "vector"
 #include "Dxlib.h"
-#include "Collider.h"
-
+#include"Collider.h"
 class Object2D
 {
 public:

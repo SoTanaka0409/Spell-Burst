@@ -17,7 +17,7 @@ MasterSpark::MasterSpark(float x, float y)
     , m_lifeTimer(180)
     , m_maxLife(180)
     , m_radius(10.0f)
-    , m_damage(10) // 5 damage per frame means 300 damage per second (MASSIVE)
+    , m_damage(15) // 5 damage per frame means 300 damage per second (MASSIVE)
     , m_colorHue(0)
 {
     SetTag(Tag2D_PlayerBullet);

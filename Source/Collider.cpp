@@ -1,11 +1,9 @@
 #include "Collider.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
-#include "Master.h"
-#include "Scene.h"
-#include "SceneManager.h"
+#include"ObjectManager.h"
 #include <cassert>
-#include <algorithm>
+#include"Master.h"
 
 Collider::Collider(Object2D* parent)
 	: mpParentObject(parent)
@@ -13,99 +11,107 @@ Collider::Collider(Object2D* parent)
 	, mvPosition2(VGet(0.0f, 0.0f, 0.0f))
 	, mfRadius(0.0f)
 	, mbDeleteFlag(false)
-	, mpMyManager(nullptr)
 {
 	assert(parent);
 
-	// Register with current scene's ColliderManager
-	if (Master::sceneManager != nullptr && Master::sceneManager->GetCurrentScene() != nullptr)
-	{
-		mpMyManager = Master::sceneManager->GetCurrentScene()->GetCollisionManager();
-		if (mpMyManager != nullptr)
-		{
-			mpMyManager->AddCollider(this);
-		}
-	}
+	// ColliderManagerに Add しておく
+	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
+
+
+
+
 }
 
 Collider::~Collider()
 {
-	if (mpMyManager != nullptr)
-	{
-		mpMyManager->RemoveCollider(this);
-	}
+	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->RemoveCollider(this);
 }
 
 void Collider::HitCheck(Collider* check, bool isHit)
 {
+
+
 	if (isHit)
 	{
+
+		// 当たっていた場合 //
+
+		// すでに当たっているかチェック
 		auto itr = std::find_if(
 			mCollisionList.begin(),
 			mCollisionList.end(),
-			[&](Collider* col) { return col == check; }
+			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
 		if (itr != mCollisionList.end())
 		{
-			if (this->mpParentObject != nullptr)
-			{
-				mpParentObject->OnEnter(this, check);
-			}
+			// すでに当たっていた場合 //
+
+			// 当たっている状態の処理を呼び出す
+			this->mpParentObject->OnEnter(this, check);
 		}
 		else
-		{
-			mCollisionList.push_back(check);
+		{	// リストに登録しておく
+			mCollisionList.push_back(check);//任意のタイミングでしか追加しないようにすれば
+			// すでに当たっていなかった場合 //
 			if (this->mpParentObject != nullptr)
 			{
+				//// 当たった瞬間状態の処理を呼び出す
 				this->mpParentObject->OnTrigger(this, check);
 			}
 		}
 	}
 	else
 	{
+		// 当たっていなかった場合 //
+
+		// すでに当たっているかチェック
 		auto itr = std::find_if(
 			mCollisionList.begin(),
 			mCollisionList.end(),
-			[&](Collider* col) { return col == check; }
+			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
 		if (itr != mCollisionList.end())
 		{
+			// 当たっていた場合 //
+
+			// 離れた瞬間の処理を呼び出す
 			if (this->mpParentObject != nullptr)
 			{
 				this->mpParentObject->OnExit(this, check);
 			}
+
+			// 当たっていないのでリストからは除外する
 			mCollisionList.erase(itr);
 		}
 	}
 }
 
-void Collider::RemoveCollision(Collider* collider)
-{
-	auto itr = std::find(mCollisionList.begin(), mCollisionList.end(), collider);
-	if (itr != mCollisionList.end())
-	{
-		mCollisionList.erase(itr);
-	}
-}
+
+
 
 void Collider::Update(Collider* check)
 {
+
 }
 
 void Collider::Draw()
 {
+
 }
 
 void Collider::OnEnter()
 {
+
 }
 
 void Collider::OnTrigger()
 {
+
 }
 
 void Collider::OnExit()
 {
+
 }

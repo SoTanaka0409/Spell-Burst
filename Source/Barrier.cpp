@@ -76,13 +76,13 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
         auto tag = check->GetParentObject()->GetTag();
         
         // プレイヤーのバリアなら敵の弾のみを消す
-        if (GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet)
+        if (this->GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet)
         {
             check->GetParentObject()->SetDeleteFlag(true);
             m_hitCount++;
             
             // 5発防いだらカウンター発動！
-            if (m_hitCount >= 50) {
+            if (m_hitCount >= 30) {
                 m_hitCount = 0; // カウントリセット
                 
                 // 四方向に10発ずつ（計40発）放出
