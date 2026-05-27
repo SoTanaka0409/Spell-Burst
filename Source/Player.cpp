@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
@@ -45,9 +45,8 @@ Player::~Player() {
 void Player::Initialize() {
     mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
     mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
-    m_speed = 5.0f;
-    m_maxHp = 10;
-    m_hp = m_maxHp;
+   
+    
     m_levelUpTimer = 0;
     m_stunTimer = 0;
     m_attackMode = AttackMode_Melee;
@@ -65,6 +64,32 @@ void Player::Initialize() {
     
     m_spellGauge = 0;
     m_maxSpellGauge = 10; // 謨ｵ10菴灘・縺ｧ繧ｲ繝ｼ繧ｸMAX
+
+    if (s_selectedCharacterType == 1)//男性
+    {
+        m_speed = 5.0f;
+        m_maxHp = 15;
+        m_hp = m_maxHp;
+    }
+    else if (s_selectedCharacterType == 2)//女性
+    {
+        m_speed = 7.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+    }
+    else if (s_selectedCharacterType == 3)//おじさん
+    {
+        m_speed = 5.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+        mfAttack = 2;//純粋な火力をあげる
+    }
+    else
+    {
+        m_speed = 5.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+    }
 
     // Create a circular collider with small radius (Touhou style)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
@@ -264,10 +289,15 @@ void Player::Attack()
 void Player::AddXp(int amount) {
     m_xp += amount;
     
-    // スペルゲージも一緒に増加させる
+    // スペルゲージ上昇
+    int oldGauge = m_spellGauge;
     m_spellGauge += amount;
-    if (m_spellGauge > m_maxSpellGauge) {
+    if (m_spellGauge >= m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
+        if (oldGauge < m_maxSpellGauge) {
+            // ゲージがMAXになった瞬間にSEを一回だけ鳴らす
+            SoundManager::GetInstance()->PlaySE("Resource/SE/ステータス上昇魔法2.mp3");
+        }
     }
     // Level-up loop (handles multiple level-ups from one big XP gain)
     while (m_xp >= m_xpNeeded) {

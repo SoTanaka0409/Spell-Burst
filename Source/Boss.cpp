@@ -400,6 +400,14 @@ void Boss::Draw() {
     if (s_bossGraphHandle != -1) {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
             if (m_invincibleTimer > 0) {
+                // 無敵バリアの描画
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (m_invincibleTimer % 20) * 5);
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(200, 50, 255), TRUE); // 塗りつぶし
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(255, 150, 255), FALSE); // 縁取り
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 107, GetColor(255, 255, 255), FALSE); // 内側の縁取り
+                
+                // ボス本体の透過
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (m_invincibleTimer % 20) * 5);
             }
             DrawExtendGraph(
