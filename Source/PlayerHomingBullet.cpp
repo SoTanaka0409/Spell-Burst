@@ -1,4 +1,4 @@
-﻿#include "PlayerHomingBullet.h"
+#include "PlayerHomingBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "DxLib.h"
@@ -108,11 +108,37 @@ void PlayerHomingBullet::Update() {
 void PlayerHomingBullet::Draw() {
     if (!m_isActive) return;
 
+    // バリアが割れた破片のように見せるため、不規則な三角形を回転させながら描画する
+    // 個体ごとに回転や形をバラけさせるためのシード
+    float seed = (m_x + m_y) * 0.01f;
+    float angle1 = m_lifeTimer * (0.15f + seed * 0.01f) + seed;
+    float angle2 = angle1 + 2.0f; // 約114度
+    float angle3 = angle1 + 4.0f; // 約229度
+
+    // いびつな形にするために半径をばらけさせる
+    float r1 = 16.0f + std::sin(seed) * 4.0f;
+    float r2 = 10.0f + std::cos(seed * 2.0f) * 3.0f;
+    float r3 = 18.0f + std::sin(seed * 3.0f) * 5.0f;
+
+    int x1 = static_cast<int>(m_x + std::cos(angle1) * r1);
+    int y1 = static_cast<int>(m_y + std::sin(angle1) * r1);
+    int x2 = static_cast<int>(m_x + std::cos(angle2) * r2);
+    int y2 = static_cast<int>(m_y + std::sin(angle2) * r2);
+    int x3 = static_cast<int>(m_x + std::cos(angle3) * r3);
+    int y3 = static_cast<int>(m_y + std::sin(angle3) * r3);
+
+    // バリアと同じ色を使う（水色・青色系）
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 15, GetColor(0, 255, 100), TRUE);
+    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(0, 150, 255), TRUE); // 塗りつぶし
+    
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(150, 255, 255), FALSE); // 縁取り
+    
+    // 中心にキラッと光る白いコア
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 3, GetColor(255, 255, 255), TRUE);
+
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 8, GetColor(150, 255, 200), TRUE);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 4, GetColor(255, 255, 255), TRUE);
 }
 
 void PlayerHomingBullet::Kill() {
