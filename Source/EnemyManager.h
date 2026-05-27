@@ -34,4 +34,5 @@ public:
     int GetDefeatedCount() const { return m_defeatedCount; }
     int GetRequiredKills() const { return m_requiredKills; }
     bool IsBossSpawned() const { return m_bossSpawned; }
+    int GetCurrentPhase() const { return m_currentPhase; }
 };

@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -113,7 +113,24 @@ void GameScene::Draw() {
         ClearDrawScreen();
     }
 
-    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    std::string bgPath = "Resource/background.png";
+    if (mpEnemyManager) {
+        if (mpEnemyManager->IsBossSpawned()) {
+            bgPath = "Resource/bg_boss.png";
+        } else {
+            int phase = mpEnemyManager->GetCurrentPhase();
+            if (phase == 1) bgPath = "Resource/bg_phase1.png";
+            else if (phase == 2) bgPath = "Resource/bg_phase2.png";
+            else bgPath = "Resource/bg_phase3.png";
+        }
+    }
+    
+    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
+    // 指定の背景が見つからない場合はデフォルトのbackground.pngを使用
+    if (s_bgGraphHandle == -1) {
+        s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    }
+    
     if (s_bgGraphHandle != -1) {
         DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
     }
