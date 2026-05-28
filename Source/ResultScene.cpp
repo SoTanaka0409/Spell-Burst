@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "Utility.h"
+#include "GameScene.h"
 #include "Player.h"
 #include <DxLib.h>
 #include <cmath>
@@ -18,7 +19,8 @@ void ResultScene::Initialize() {
     
     if (s_isVictory) {
         SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.mp3");
-        m_bgGraph = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase1.png"); 
+        m_bgGraph = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase1.png");
+        Utility::SaveTimeRanking((GameScene::s_playFrameCount * 1000) / 60); 
     } else {
         SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.mp3");
         m_bgGraph = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase3.png"); 
@@ -39,7 +41,7 @@ void ResultScene::Update() {
     if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z) || 
        (GetMouseInput() & MOUSE_INPUT_LEFT)) {
         if (m_stateTimer > 60) {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
         }
     }

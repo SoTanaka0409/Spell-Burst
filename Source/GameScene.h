@@ -21,6 +21,8 @@ private:
 
 public:
     static int s_currentStage; // 1: Normal, 2: Hard, 3: Very Hard
+    static int s_playFrameCount;
+    static bool s_isTimeAttackActive;
     
     GameScene();
     virtual ~GameScene() override;

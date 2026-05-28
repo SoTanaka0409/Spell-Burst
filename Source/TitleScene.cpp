@@ -1,4 +1,4 @@
-ï»¿#include "TitleScene.h"
+#include "TitleScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "Player.h"
@@ -22,6 +22,7 @@ void TitleScene::Initialize()
     m_uiButtonGraph = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
     m_bgScrollX = 0.0f;
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.mp3");
+    Utility::LoadTimeRanking(m_rankings);
 }
 
 void TitleScene::Update()
@@ -43,15 +44,15 @@ void TitleScene::Update()
     
     if (isLeftClicked) {
         if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("Resource/SE//Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_LEVEL);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_RULE);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_NONE);
         }
     }
@@ -75,6 +76,19 @@ void TitleScene::Draw() {
         DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(15, 20, 30), TRUE);
     }
     Scene::Draw();
+    
+        int rankFont = ResourceManager::GetInstance()->GetFont(32, 2);
+    DrawStringToHandle(Utility::SCREEN_WIDTH - 320, 50, "TIME ATTACK TOP 3", GetColor(200, 200, 255), rankFont);
+    for (size_t i = 0; i < m_rankings.size() && i < 3; ++i) {
+        int totalMs = m_rankings[i];
+        int ms = totalMs % 1000;
+        int totalSec = totalMs / 1000;
+        int sec = totalSec % 60;
+        int min = totalSec / 60;
+        char rankStr[64];
+        sprintf_s(rankStr, "%dˆÊ %02d:%02d.%03d", (int)i+1, min, sec, ms);
+        DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 100 + i * 50, rankStr, GetColor(255, 215, 0), rankFont);
+    }
     
     int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
     int subFont = ResourceManager::GetInstance()->GetFont(32, 4);

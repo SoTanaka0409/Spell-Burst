@@ -15,6 +15,8 @@
 #include "HUD.h"
 
 int GameScene::s_currentStage = 1;
+int GameScene::s_playFrameCount = 0;
+bool GameScene::s_isTimeAttackActive = false;
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
@@ -39,6 +41,8 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Initialize() {
+    s_playFrameCount = 0;
+    s_isTimeAttackActive = true;
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
     HUD::Initialize();
@@ -71,6 +75,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+    if (s_isTimeAttackActive) s_playFrameCount++;
     if (m_hitStopTimer > 0) {
         m_hitStopTimer--;
         return; 
@@ -143,6 +148,15 @@ void GameScene::Draw() {
         }
     }
     HUD::Draw(player, mpEnemyManager, boss, m_cutinTimer, m_cutinImageHandle);
+
+    int totalMs = (s_playFrameCount * 1000) / 60;
+    int ms = totalMs % 1000;
+    int totalSec = totalMs / 1000;
+    int sec = totalSec % 60;
+    int min = totalSec / 60;
+    char timeStr[64];
+    sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
+    DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
 
     if (m_screenHandle != -1) {
         SetDrawScreen(DX_SCREEN_BACK);

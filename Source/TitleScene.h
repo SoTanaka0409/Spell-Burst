@@ -1,10 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include "Scene.h"
+#include <vector>
 
 #include <vector>
 #include <DxLib.h>
 
-// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã‚¯ãƒ©ã‚¹
+// ƒ^ƒCƒgƒ‹‰æ–ÊƒNƒ‰ƒX
 class TitleScene : public Scene {
 public:
 
@@ -19,4 +20,5 @@ private:
     int m_bgGraph;
     float m_bgScrollX;
     int m_uiButtonGraph;
+    std::vector<int> m_rankings;
 };
