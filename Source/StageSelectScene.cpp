@@ -34,7 +34,7 @@ void StageSelectScene::Update()
     
     // Back button
     if (isLeftClicked && mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60) {
-        SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
         if (m_phase == 1) {
             m_phase = 0;
         } else {
@@ -57,15 +57,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 Player::s_selectedCharacterType = 1;
                 m_phase = 1;
             } else if (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 Player::s_selectedCharacterType = 2;
                 m_phase = 1;
             } else if (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 Player::s_selectedCharacterType = 3;
                 m_phase = 1;
             }
@@ -80,15 +80,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 GameScene::s_currentStage = 1;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 GameScene::s_currentStage = 2;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
                 GameScene::s_currentStage = 3;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             }

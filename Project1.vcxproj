@@ -69,7 +69,6 @@
     <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\ExplosionParticle.h" />
     <ClInclude Include="Source\GameScene.h" />
-    <ClInclude Include="Source\HpBar.h" />
     <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Master.h" />
@@ -224,4 +223,3 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>
-

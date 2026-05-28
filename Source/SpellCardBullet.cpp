@@ -5,7 +5,7 @@
 #include "PlayerSpellParticle.h"
 #include <cmath>
 #include "Utility.h"
-
+#include"SoundManager.h"
 SpellCardBullet::SpellCardBullet(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
@@ -70,6 +70,7 @@ void SpellCardBullet::Explode() {
             float angle = baseAngle + (i * 2.0f * PI / 16.0f);
             float dx = std::cos(angle);
             float dy = std::sin(angle);
+            SoundManager::GetInstance()->PlaySE("Resource/SE/氷魔法1.mp3");
             new PlayerSpellParticle(mvPosition.x, mvPosition.y, dx, dy, speed);
         }
     }

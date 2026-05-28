@@ -16,6 +16,7 @@
 #include "ResourceManager.h"
 #include "GameScene.h"
 #include "SoundManager.h"
+#include"DebugLog.h"
 
 int Player::s_selectedCharacterType = 1;
 
@@ -204,6 +205,7 @@ void Player::Draw() {
 // 敵や敵の弾と当たった際に呼ばれ、HPを減らします。HPが0になるとリザルト画面（敗北）に移行します。
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
+    SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.mp3");
     if (m_hp <= 0) {
         m_hp = 0;
         ResultScene::s_isVictory = false;
@@ -241,38 +243,48 @@ void Player::Attack()
         
         
     }
-
-    if (mouseInput & MOUSE_INPUT_LEFT&&m_AttackInterval_2>=m_AttackTimer_2)
+    if (DebugOn)
     {
-        m_AttackInterval_2 = 0;
-        if (m_attackMode == AttackMode_Melee) {
-            new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
-        }
-        else if (m_attackMode == AttackMode_Special)
+        if (mouseInput & MOUSE_INPUT_LEFT && m_AttackInterval_2 >= m_AttackTimer_2)
         {
-            if (m_specialCooldown == 0)
+            m_AttackInterval_2 = 0;
+            if (m_attackMode == AttackMode_Melee) {
+                new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
+            }
+            else if (m_attackMode == AttackMode_Special)
             {
-                new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
-                m_specialCooldown = 180; // 3 seconds cooldown
+                if (m_specialCooldown == 0)
+                {
+                    new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+                    m_specialCooldown = 180; // 3 seconds cooldown
+                }
             }
         }
     }
     if (mouseInput & MOUSE_INPUT_LEFT)
     {
-        new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+        if (DebugOn)
+        {
+            new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+        }
     }
 
     // スペルカードの発動（Xキー）
-    if (InputManager::CheckDownKey(KEY_INPUT_X)) {
+    if (mouseInput&&MOUSE_INPUT_LEFT) 
+    {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
             SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬る1.mp3");
             
-            if (s_selectedCharacterType == 1) {
+            if (s_selectedCharacterType == 1)
+            {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
                 new MasterSpark(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 2) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/聖魔法.mp3");
                 new RainbowWaveManager(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 3) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
                 new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
             }
             
