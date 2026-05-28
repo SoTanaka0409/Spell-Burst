@@ -13,3 +13,4 @@ inline void DebugLog(const char* format, ...) {
         fclose(fp);
     }
 }
+inline bool DebugOn = false;

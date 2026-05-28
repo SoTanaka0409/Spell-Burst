@@ -1,5 +1,6 @@
 #include "ColliderManager.h"
 #include "Collider.h"
+#include "DebugLog.h"
 #include"Master.h"
 #include <vector>
 
@@ -65,7 +66,7 @@ void ColliderManager::Draw()
 {
     for (auto itr = mColliderList.begin(); itr != mColliderList.end(); itr++)
     {
-         //if (Master::mpDebug->Getdebug())
+         if (DebugOn)
         {
             (*itr)->Draw();
         }

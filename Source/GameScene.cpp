@@ -102,7 +102,7 @@ void GameScene::Update() {
     }
     HUD::Update(player, mpEnemyManager, boss);
 
-    if (InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
+    if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
@@ -122,7 +122,7 @@ void GameScene::Draw() {
     }
     
     int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
-    // 指定の背景が見つからない場合はデフォルトのbackground.pngを使用
+    // 持E���E背景が見つからなぁE��合�EチE��ォルト�Ebackground.pngを使用
     if (s_bgGraphHandle == -1) {
         s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     }
