@@ -298,6 +298,12 @@ void Boss::TakeDamage(int damage) {
         m_hp = 0;
         m_lives--;
         
+        // ボスの各形態を倒した（あるいは完全に倒した）時にすべての敵弾を消す
+        std::vector<Object2D*> bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
+        for (auto* b : bullets) {
+            b->SetDeleteFlag(true);
+        }
+        
         if (m_lives > 0) {
             // Heal back to max and become invincible for a while
             m_hp = m_maxHp;
