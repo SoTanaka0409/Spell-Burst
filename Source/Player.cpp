@@ -221,7 +221,7 @@ void Player::Draw() {
     }
 
     // 菴朱溽ｧｻ蜍穂ｸｭ縺ｯ蠖薙◆繧雁愛螳夲ｼ医さ繧｢・峨ｒ謠冗判縺吶ｋ
-    if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
+    if (true) {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 螟匁棧・育區・・
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 荳ｭ蠢・ｼ郁ｵ､・・
     }

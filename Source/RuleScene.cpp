@@ -103,10 +103,18 @@ void RuleScene::Draw() {
     const char* descs2[] = {
         "",
         "",
-        "一定数倒すとボスが出現するぞ！",
-        "下のゲージは必殺技のチャージ量だ！",
-        "最後に溜め攻撃として放出するぞ！うまく活用しよう！",
-        "最後まであきらめずに戦い抜こう！"
+        "一定数倒すとボスが出るぞ！",
+        "必殺技のゲージが表示されているぞ！",
+        "最後に強力な反撃として放出するぞ！うまく使おう！",
+        "最後まで諦めずに戦え！"
+    };
+    const char* descs3[] = {
+        "※自機の中心にある小さな光る玉が当たり判定です！",
+        "",
+        "",
+        "",
+        "",
+        ""
     };
     
     DrawBox(300, 700, 1300, 830, GetColor(20, 20, 40), TRUE);
@@ -115,7 +123,8 @@ void RuleScene::Draw() {
     if (m_currentSlide >= 0 && m_currentSlide < 6) {
         DrawStringToHandle(320, 710, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
         DrawStringToHandle(320, 755, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
-        DrawStringToHandle(320, 790, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 785, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 815, descs3[m_currentSlide], GetColor(255, 100, 100), font24);
     }
     
     int mouseX, mouseY;
