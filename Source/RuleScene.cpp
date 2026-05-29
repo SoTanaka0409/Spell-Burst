@@ -29,14 +29,14 @@ void RuleScene::Update() {
     
     if (isLeftClicked) {
         // Back Button
-        if (mouseX >= 440 && mouseX <= 540 && mouseY >= 620 && mouseY <= 670) {
+        if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
         // Next Button
-        if (mouseX >= 740 && mouseX <= 840 && mouseY >= 620 && mouseY <= 670) {
+        if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide < 5) {
                 m_currentSlide++;
@@ -47,7 +47,7 @@ void RuleScene::Update() {
         }
         
         // Prev Button
-        if (mouseX >= 590 && mouseX <= 690 && mouseY >= 620 && mouseY <= 670) {
+        if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide > 0) {
                 m_currentSlide--;
@@ -65,8 +65,8 @@ void RuleScene::Draw() {
         GetGraphSize(m_ruleGraphs[m_currentSlide], &imgW, &imgH);
         
         if (imgW > 0 && imgH > 0) {
-            float maxWidth = 1000.0f;
-            float maxHeight = 460.0f; // Expand height
+            float maxWidth = 1400.0f;
+            float maxHeight = 650.0f; // Expand height
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -74,7 +74,7 @@ void RuleScene::Draw() {
             int drawW = (int)(imgW * scale);
             int drawH = (int)(imgH * scale);
             int drawX = (Utility::SCREEN_WIDTH - drawW) / 2;
-            int drawY = 140 + (460 - drawH) / 2;
+            int drawY = 20 + (650 - drawH) / 2;
             
             DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, m_ruleGraphs[m_currentSlide], FALSE);
         }
@@ -109,40 +109,40 @@ void RuleScene::Draw() {
         "ÅŒã‚Ü‚Å‚ ‚«‚ç‚ß‚¸‚Éí‚¢”²‚±‚¤I"
     };
     
-    DrawBox(20, 20, 800, 130, GetColor(20, 20, 40), TRUE);
-    DrawBox(20, 20, 800, 130, GetColor(255, 255, 255), FALSE);
+    DrawBox(300, 700, 1300, 830, GetColor(20, 20, 40), TRUE);
+    DrawBox(300, 700, 1300, 830, GetColor(255, 255, 255), FALSE);
     
     if (m_currentSlide >= 0 && m_currentSlide < 6) {
-        DrawStringToHandle(40, 30, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
-        DrawStringToHandle(40, 65, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
-        DrawStringToHandle(40, 90, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 710, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
+        DrawStringToHandle(320, 755, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 790, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
     }
     
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
     // Draw Back button
-    bool hoverBack = (mouseX >= 440 && mouseX <= 540 && mouseY >= 620 && mouseY <= 670);
-    DrawBox(440, 620, 540, 670, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-    DrawBox(440, 620, 540, 670, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(455, 635, "BACK", GetColor(255, 255, 255), font24);
+    bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
+    DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+    DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
+    DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
     
     // Draw Prev button
     if (m_currentSlide > 0) {
-        bool hoverPrev = (mouseX >= 590 && mouseX <= 690 && mouseY >= 620 && mouseY <= 670);
-        DrawBox(590, 620, 690, 670, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-        DrawBox(590, 620, 690, 670, GetColor(255, 255, 255), FALSE);
-        DrawStringToHandle(610, 635, "PREV", GetColor(255, 255, 255), font24);
+        bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
+        DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+        DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
+        DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
     }
     
     // Draw Next button
-    bool hoverNext = (mouseX >= 740 && mouseX <= 840 && mouseY >= 620 && mouseY <= 670);
-    DrawBox(740, 620, 840, 670, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
-    DrawBox(740, 620, 840, 670, GetColor(255, 255, 255), FALSE);
+    bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
+    DrawBox(900, 840, 1000, 890, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
+    DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
     if (m_currentSlide < 5) {
-        DrawStringToHandle(760, 635, "NEXT", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(920, 855, "NEXT", GetColor(255, 255, 255), font24);
     } else {
-        DrawStringToHandle(760, 635, "DONE", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(920, 855, "DONE", GetColor(255, 255, 255), font24);
     }
     
     Scene::Draw();
