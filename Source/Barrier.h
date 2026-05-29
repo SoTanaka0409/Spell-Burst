@@ -12,6 +12,7 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void OnTrigger(Collider* collider, Collider* check) override;
+    int GetHitCount() const { return m_hitCount; }
 
 private:
     float m_deployInterval;
@@ -20,8 +21,8 @@ private:
     float m_radius;
     bool m_isDeployed;
 
-	//Object2D mpObj; // バリアを展開するオブジェクトへの参照（プレイヤーや敵など）
+	//Object2D mpObj; // バリアを展開するオブジェクトへの参�E�E��EレイヤーめE��など�E�E
 
     Collider* mpCollider;
-    int m_hitCount; // バリアが防いだ弾の数
+    int m_hitCount; // バリアが防ぁE��弾の数
 };

@@ -1,4 +1,4 @@
-ï»¿#include "SceneManager.h"
+#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -32,19 +32,19 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	// æœ€åˆã¯ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã‹ã‚‰é–‹å§‹ã™ã‚‹
+	// Å‰‚Íƒ^ƒCƒgƒ‹‰æ–Ê‚©‚çŠJŽn‚·‚é
 	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
 
-	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆå‡¦ç†ã‚’å‘¼ã³å‡ºã™
+	// ƒV[ƒ“Ø‚è‘Ö‚¦ˆ—‚ðŒÄ‚Ño‚·
 	ChangeSceneIfNeeded();
 }
 
 void SceneManager::Update()
 {
-	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãŒå¿…è¦ãªã‚‰å‡¦ç†ã™ã‚‹
+	// ƒV[ƒ“Ø‚è‘Ö‚¦‚ª•K—v‚È‚çˆ—‚·‚é
 	ChangeSceneIfNeeded();
 
-	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
+	// Œ»Ý‚ÌƒV[ƒ“‚ðXV‚·‚é
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Update();
@@ -55,7 +55,7 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene);
-	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
+	// Œ»Ý‚ÌƒV[ƒ“‚ð•`‰æ‚·‚é
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Draw();
@@ -74,16 +74,16 @@ void SceneManager::Finalize()
 
 void SceneManager::ChangeSceneIfNeeded()
 {
-	// ã‚·ãƒ¼ãƒ³ãŒå¤‰ã‚ã‚‰ãªã„å ´åˆã¯ä½•ã‚‚ã—ãªã„
+	// ƒV[ƒ“‚ª•Ï‚í‚ç‚È‚¢ê‡‚Í‰½‚à‚µ‚È‚¢
 	if (mnSceneType == mnNextSceneType)
 	{
 		return;
 	}
 
-	// ã‚·ãƒ¼ãƒ³ãŒå¤‰ã‚ã‚‹å ´åˆã¯å…¨ã¦ã®éŸ³ã‚’åœæ­¢
-	SoundManager::GetInstance()->StopAll();
+	// ƒV[ƒ“‚ª•Ï‚í‚éê‡‚Í‘S‚Ä‚Ì‰¹‚ð’âŽ~
+	SoundManager::GetInstance()->StopBGM();
 
-	// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ãŒã‚ã‚‹å ´åˆã¯çµ‚äº†å‡¦ç†ã‚’è¡Œã£ã¦ç ´æ£„ã™ã‚‹
+	// Œ»Ý‚ÌƒV[ƒ“‚ª‚ ‚éê‡‚ÍI—¹ˆ—‚ðs‚Á‚Ä”jŠü‚·‚é
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Finalize();
@@ -91,10 +91,10 @@ void SceneManager::ChangeSceneIfNeeded()
 		mpCurrentScene = nullptr;
 	}
 
-	// ã‚·ãƒ¼ãƒ³ã‚¿ã‚¤ãƒ—ã‚’æ›´æ–°
+	// ƒV[ƒ“ƒ^ƒCƒv‚ðXV
 	mnSceneType = mnNextSceneType;
 
-	// æ–°ã—ã„ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
+	// V‚µ‚¢ƒV[ƒ“‚ð¶¬‚·‚é
 	switch (mnSceneType)
 	{
 	case SCENE_TYPE::SCENE_TITLE:
@@ -117,7 +117,7 @@ void SceneManager::ChangeSceneIfNeeded()
 		break;
 	}
 
-	// ç”Ÿæˆã«æˆåŠŸã—ã¦ã„ã‚Œã°åˆæœŸåŒ–å‡¦ç†ã‚’å‘¼ã¶
+	// ¶¬‚É¬Œ÷‚µ‚Ä‚¢‚ê‚Î‰Šú‰»ˆ—‚ðŒÄ‚Ô
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Initialize();

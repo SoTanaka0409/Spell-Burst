@@ -15,5 +15,6 @@ private:
     static float s_displayHpRatio;
     static float s_displayXpRatio;
     static float s_displaySpellRatio;
+    static float s_displayBarrierRatio;
     static float s_bossHpRatio;
 };

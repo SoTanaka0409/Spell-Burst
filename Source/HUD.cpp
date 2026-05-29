@@ -1,4 +1,4 @@
-﻿#include "HUD.h"
+#include "HUD.h"
 #include "Player.h"
 #include "Boss.h"
 #include "EnemyManager.h"
@@ -8,12 +8,14 @@
 float HUD::s_displayHpRatio = 1.0f;
 float HUD::s_displayXpRatio = 0.0f;
 float HUD::s_displaySpellRatio = 0.0f;
+float HUD::s_displayBarrierRatio = 0.0f;
 float HUD::s_bossHpRatio = 1.0f;
 
 void HUD::Initialize() {
     s_displayHpRatio = 1.0f;
     s_displayXpRatio = 0.0f;
     s_displaySpellRatio = 0.0f;
+    s_displayBarrierRatio = 0.0f;
     s_bossHpRatio = 1.0f;
 }
 
@@ -42,9 +44,9 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
     if (player != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); 
+        DrawBox(10, 10, 320, 270, GetColor(0, 15, 30), TRUE); 
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); 
+        DrawBox(10, 10, 320, 270, GetColor(0, 128, 255), FALSE); 
 
         // Player HP
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
