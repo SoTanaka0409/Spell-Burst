@@ -1,8 +1,14 @@
-﻿#include "Obstacle.h"
+#include "Obstacle.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 #include "Player.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
+#include "MasterSpark.h"
+#include "SpecialBullet.h"
+#include "SpellCardBullet.h"
+#include "RainbowBullet.h"
+#include "ExplosionParticle.h"
 #include <DxLib.h>
 
 Obstacle::Obstacle(float x, float y)
@@ -55,14 +61,32 @@ void Obstacle::Draw() {
 
 void Obstacle::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
-        // If a player bullet hits the obstacle, delete the bullet (Obstacle is invincible)
-        if (check->GetParentObject()->GetTag() == Tag2D_PlayerBullet) {
-            check->GetParentObject()->SetDeleteFlag(true);
-            check->SetDeleteFlag(true);
+        Object2D* parent = check->GetParentObject();
+        // If a player bullet hits the obstacle
+        if (parent->GetTag() == Tag2D_PlayerBullet) {
+            bool isSpecial = false;
+            if (dynamic_cast<MasterSpark*>(parent) != nullptr ||
+                dynamic_cast<RainbowBullet*>(parent) != nullptr ||
+                dynamic_cast<SpellCardBullet*>(parent) != nullptr ||
+                dynamic_cast<SpecialBullet*>(parent) != nullptr) {
+                isSpecial = true;
+            }
+
+            if (isSpecial) {
+                this->SetDeleteFlag(true);
+                if (mpCollider) mpCollider->SetDeleteFlag(true);
+                SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
+                for (int i = 0; i < 5; i++) {
+                    new ExplosionParticle(mvPosition.x, mvPosition.y, 2.0f, static_cast<float>(rand() % 360) * 3.14159f / 180.0f, GetColor(150, 150, 150), 30, 10.0f);
+                }
+            } else {
+                parent->SetDeleteFlag(true);
+                check->SetDeleteFlag(true);
+            }
         }
         // If player touches it, damage player
-        if (check->GetParentObject()->GetTag() == Tag2D_Player) {
-            Player* p = dynamic_cast<Player*>(check->GetParentObject());
+        if (parent->GetTag() == Tag2D_Player) {
+            Player* p = dynamic_cast<Player*>(parent);
             if (p) {
                 p->TakeDamage(2);
             }
