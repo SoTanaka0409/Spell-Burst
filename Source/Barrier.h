@@ -13,6 +13,7 @@ public:
     virtual void Draw() override;
     virtual void OnTrigger(Collider* collider, Collider* check) override;
     int GetHitCount() const { return m_hitCount; }
+    bool IsDeployed() const { return m_isDeployed; }
 
 private:
     float m_deployInterval;

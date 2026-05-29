@@ -167,7 +167,7 @@ void Player::Update()
 // プレイヤー自身の画像を描画します、E
 void Player::Draw() {
     // Draw Barrier Aura
-    if (mpBarrier != nullptr && mpBarrier->GetHitCount() > 0) {
+    if (mpBarrier != nullptr && mpBarrier->IsDeployed() && mpBarrier->GetHitCount() > 0) {
         int hitCount = mpBarrier->GetHitCount();
         float ratio = static_cast<float>(hitCount) / 30.0f;
         
