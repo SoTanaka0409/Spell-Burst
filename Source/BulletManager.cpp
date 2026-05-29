@@ -1,6 +1,9 @@
 #include "BulletManager.h"
 #include "Bullet.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
 BulletManager::BulletManager()
 {

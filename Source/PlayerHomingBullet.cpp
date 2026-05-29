@@ -1,6 +1,9 @@
 #include "PlayerHomingBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "Utility.h"
 #include "ObjectManager.h"
@@ -72,7 +75,9 @@ void PlayerHomingBullet::Update() {
         }
 
         if (target) {
-            float tx = target->GetPosition().x - m_x;
+            
+
+    float tx = target->GetPosition().x - m_x;
             float ty = target->GetPosition().y - m_y;
             float targetAngle = std::atan2(ty, tx);
             float currentAngle = std::atan2(m_dy, m_dx);
@@ -108,14 +113,16 @@ void PlayerHomingBullet::Update() {
 void PlayerHomingBullet::Draw() {
     if (!m_isActive) return;
 
-    // バリアが割れた破片のように見せるため、不規則な三角形を回転させながら描画する
-    // 個体ごとに回転や形をバラけさせるためのシード
+
+
+    
+    // sin/cos�ƃV�[�h�l��p���āA�s�K���ɕό`���Ȃ����]����3�̒��_���W�i�O�p�`�j���Z�o����
     float seed = (m_x + m_y) * 0.01f;
     float angle1 = m_lifeTimer * (0.15f + seed * 0.01f) + seed;
-    float angle2 = angle1 + 2.0f; // 約114度
-    float angle3 = angle1 + 4.0f; // 約229度
+    float angle2 = angle1 + 2.0f;
+    float angle3 = angle1 + 4.0f;
 
-    // いびつな形にするために半径をばらけさせる
+
     float r1 = 16.0f + std::sin(seed) * 4.0f;
     float r2 = 10.0f + std::cos(seed * 2.0f) * 3.0f;
     float r3 = 18.0f + std::sin(seed * 3.0f) * 5.0f;
@@ -127,14 +134,14 @@ void PlayerHomingBullet::Draw() {
     int x3 = static_cast<int>(m_x + std::cos(angle3) * r3);
     int y3 = static_cast<int>(m_y + std::sin(angle3) * r3);
 
-    // バリアと同じ色を使う（水色・青色系）
+
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(0, 150, 255), TRUE); // 塗りつぶし
+    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(0, 150, 255), TRUE);
     
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(150, 255, 255), FALSE); // 縁取り
+    DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(150, 255, 255), FALSE);
     
-    // 中心にキラッと光る白いコア
+
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 3, GetColor(255, 255, 255), TRUE);
 

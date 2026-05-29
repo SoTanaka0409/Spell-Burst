@@ -12,6 +12,7 @@ private:
     int m_damage;
     int m_colorHue;
     bool m_isActive;
+    int m_AttackCount;
 
 public:
     MasterSpark(float x, float y);
@@ -20,4 +21,5 @@ public:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnEnter(Collider* collider, Collider* check) override;
 };

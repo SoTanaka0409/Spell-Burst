@@ -1,6 +1,9 @@
 #include "PlayerSpellParticle.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "Utility.h"
 #include <cmath>

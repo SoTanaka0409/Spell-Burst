@@ -7,7 +7,10 @@
 #include "Utility.h"
 #include "GameScene.h"
 #include "Player.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 #include <cstdlib>
 
@@ -155,11 +158,11 @@ void ResultScene::Draw() {
     for (const auto& p : m_particles) {
         if (s_isVictory) {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 200) ? 255 : p.life);
-            // Confetti
+            // 勝利の祝福感を演出するため、紙吹雪に見立てたパーティクルを描画
             int s = static_cast<int>(p.size);
             int cx = static_cast<int>(p.x);
             int cy = static_cast<int>(p.y);
-            // Draw rotated rect manually or just circle if we can't be bothered with rotation math
+            // 複雑な回転計算を省き、描画負荷を下げるためシンプルな円で代用
             DrawCircle(cx, cy, s, p.color, TRUE);
         } else {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 100) ? 150 : p.life);

@@ -1,10 +1,10 @@
 #pragma once
 #include "Scene.h"
 
+// ƒQ[ƒ€‘S‘Ì‚ÌƒV[ƒ“‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class SceneManager
 {
 public:
-
 	enum SCENE_TYPE
 	{
 		SCENE_NONE = 0,
@@ -12,34 +12,49 @@ public:
 		SCENE_NAME,
 		SCENE_TITLE,
 		SCENE_OPERATION,
-		SCENE_RULE,//ï¿½^ï¿½Cï¿½gï¿½ï¿½
+		SCENE_RULE,
 		SCENE_TUTORIAL,
 		SCENE_LEVEL,
-		SCENE_GAME,    //ï¿½Qï¿½[ï¿½ï¿½
+		SCENE_GAME,
 		SCENE_3DHARD,
-		SCENE_RESULT,   //ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½g
+		SCENE_RESULT,
 		SCENE_RESULTWIN,
-		SCENE_NORMALRESULTSCENE,//ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[
+		SCENE_NORMALRESULTSCENE,
 		SCENE_3D
-
 	};
+
 public:
 	SceneManager();
-	
 	~SceneManager();
 
-
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Å‰‚ÌƒV[ƒ“i’Êí‚ÍTITLE“™j‚ÌInitialize‚ğŒÄ‚Ño‚µ‰Šú‰»‚·‚é
 	void Initialize();
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌDrawŠÖ”‚ğŒÄ‚Ño‚µA•`‰æˆ—‚ğˆÏ÷‚·‚é
 	void Draw();
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌUpdateŠÖ”‚ğŒÄ‚Ño‚·B‚Ü‚½AŸƒV[ƒ“‚ª—\–ñ‚³‚ê‚Ä‚¢‚ê‚Î‘JˆÚˆ—‚ğs‚¤
 	void Update();
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌFinalize‚ğŒÄ‚Ño‚µAƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
 	void Finalize();
-	//ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½Úiï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½Kï¿½vï¿½Èï¿½Ô‚È‚ï¿½Jï¿½Úï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] mnNextSceneType‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‹ŒƒV[ƒ“‚ğ”jŠü‚µ‚ÄVƒV[ƒ“‚ğ¶¬E‰Šú‰»‚·‚é
 	void ChangeSceneIfNeeded();
-	//ï¿½ï¿½ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½
-	//note:ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍAï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Rï¿½ï¿½ï¿½Ä‘Jï¿½Ú‚ï¿½ï¿½ï¿½ï¿½ï¿½
+
+    // [“ü—Í] next: Ÿ‚É‘JˆÚ‚µ‚½‚¢ƒV[ƒ“‚Ìí•Ê—ñ‹“q
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Ÿ‰ñUpdate‚ÉƒV[ƒ“‘JˆÚ‚ªs‚í‚ê‚é‚æ‚¤ƒtƒ‰ƒO(mnNextSceneType)‚ğƒZƒbƒg‚·‚é
 	void SetNextScene(SCENE_TYPE next) { mnNextSceneType = next; }
 
 	void SetSceneHard(bool Hard) { SceneHard = Hard; }
@@ -48,17 +63,14 @@ public:
 	void SetSceneNormal(bool Normal) {SceneNormal=Normal; }
 	bool GetSceneNormal() { return SceneNormal; }
 
-
-	//ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½Ìæ“¾
 	Scene* GetCurrentScene() { return mpCurrentScene; }
 
 private:
-	SCENE_TYPE mnSceneType;     //ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½Ìƒ^ï¿½Cï¿½v
-	SCENE_TYPE mnNextSceneType;//ï¿½ï¿½ï¿½ÌƒVï¿½[ï¿½ï¿½ï¿½Ìƒ^ï¿½Cï¿½v
-	Scene* mpCurrentScene;    //ï¿½ï¿½ï¿½İƒVï¿½[ï¿½ï¿½ï¿½Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
+	SCENE_TYPE mnSceneType;     
+	SCENE_TYPE mnNextSceneType;
+	Scene* mpCurrentScene;    
 	Scene* mp;
 
 	bool SceneHard;
 	bool SceneNormal;
-
 };

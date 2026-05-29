@@ -1,5 +1,8 @@
 ﻿#include "SoundManager.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
 SoundManager::SoundManager() : m_currentBGMHandle(-1) {
 }
@@ -44,8 +47,10 @@ void SoundManager::PlaySE(const std::string& path) {
     }
 }
 
-void SoundManager::StopBGM() {
-    if (m_currentBGMHandle != -1) {
+void SoundManager::StopBGM() 
+{//ＢＧＭの停止
+    if (m_currentBGMHandle != -1)
+    {
         StopSoundMem(m_currentBGMHandle);
         m_currentBGMHandle = -1;
     }
@@ -61,7 +66,8 @@ void SoundManager::StopAll() {
     m_currentBGMHandle = -1;
 }
 
-void SoundManager::ClearAll() {
+void SoundManager::ClearAll() 
+{
     StopAll();
     for (auto& pair : m_soundMap) {
         if (pair.second != -1) {

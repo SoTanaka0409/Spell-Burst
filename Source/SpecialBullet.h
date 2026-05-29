@@ -3,23 +3,33 @@
 
 class CapsuleCollider;
 
-// 繝励Ξ繧､繝､繝ｼ縺ｮ蠢・ｮｺ謚・郁ｲｫ騾壼ｼｾ繧・ｼｷ蜉帙↑謾ｻ謦・ｼ峨ｒ邂｡逅・☆繧九け繝ｩ繧ｹ
+// プレイヤーが発射する特殊弾（高威力または追尾等）を定義するクラス
 class SpecialBullet : public Object2D {
 private:
-    float m_speed;      // 蠑ｾ縺ｮ遘ｻ蜍暮溷ｺｦ
-    int m_damage;       // 荳弱∴繧九ム繝｡繝ｼ繧ｸ驥・
-    bool m_isActive;    // 蠑ｾ縺梧怏蜉ｹ縺九←縺・°
+    float m_speed;      
+    int m_damage;       
+    bool m_isActive;    
     CapsuleCollider* mpCollider;
 
 public:
     SpecialBullet(float x, float y);
     virtual ~SpecialBullet() override;
 
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 弾を上昇させ、画面外に出た場合は破棄する
     virtual void Update() override;
+
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 特殊弾のグラフィックを描画する
     virtual void Draw() override;
 
     int GetDamage() const { return m_damage; }
     void Kill();
 
+    // [入力] collider: 自身のコライダー, check: 相手のコライダー
+    // [出力] なし
+    // [副作用] 敵と衝突した際にダメージを与えて自身を破棄する
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

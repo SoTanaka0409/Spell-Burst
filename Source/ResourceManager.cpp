@@ -1,5 +1,8 @@
 #include "ResourceManager.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
 ResourceManager::ResourceManager() {
 }

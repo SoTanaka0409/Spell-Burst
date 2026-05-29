@@ -4,8 +4,8 @@
 
 RainbowWaveManager::RainbowWaveManager(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
-    , m_lifeTimer(120) // 3 seconds duration
-    , m_spawnInterval(10) // Spawn a row every 5 frames
+    , m_lifeTimer(120) // 管理オブジェクト自体の生存期間（3秒）
+    , m_spawnInterval(10) // 弾を生成するインターバル（5フレームごと）
     , m_spawnTimer(0)
 {
     SetTag(Tag2D_PlayerBullet);
@@ -25,11 +25,11 @@ void RainbowWaveManager::Update() {
     if (m_spawnTimer >= m_spawnInterval) {
         m_spawnTimer = 0;
         
-        // Spawn a horizontal line of colorful bullets at the bottom of the screen
+        // 画面下部から画面全体を覆うように弾を配置するため、等間隔に座標を計算
         int numBullets = 10;
         float spacing = static_cast<float>(Utility::SCREEN_WIDTH) / static_cast<float>(numBullets);
         float startX = spacing / 2.0f;
-        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // Just below screen
+        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // 画面外から出現させるため下部にオフセット
 
         for (int i = 0; i < numBullets; i++) {
             new RainbowBullet(startX + i * spacing, yPos);
@@ -38,9 +38,9 @@ void RainbowWaveManager::Update() {
 }
 
 void RainbowWaveManager::Draw() {
-    // This manager is invisible, it just spawns bullets
+    // 弾の生成管理のみを行う不可視オブジェクトであるため描画処理は不要
 }
 
 void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check) {
-    // No collision for the manager itself
+    // 自身は当たり判定を持たず、生成した弾に判定を委ねるため空処理
 }

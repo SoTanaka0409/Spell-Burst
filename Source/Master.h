@@ -5,6 +5,6 @@
 class Master
 {
 public:
-	static SceneManager* sceneManager;
+	static SceneManager* sceneManager;//ƒ|ƒCƒ“ƒ^
 
 };

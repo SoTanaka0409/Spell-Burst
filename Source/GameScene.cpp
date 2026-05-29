@@ -6,7 +6,10 @@
 #include "Enemy.h"
 #include "EnemyManager.h"
 #include "Boss.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include "DebugLog.h"
 #include <cstdlib>
 #include "Utility.h"
@@ -127,7 +130,6 @@ void GameScene::Draw() {
     }
     
     int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
-    // 謖・ｮ壹・閭梧勹縺瑚ｦ九▽縺九ｉ縺ｪ縺・ｴ蜷医・繝・ヵ繧ｩ繝ｫ繝医・background.png繧剃ｽｿ逕ｨ
     if (s_bgGraphHandle == -1) {
         s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     }

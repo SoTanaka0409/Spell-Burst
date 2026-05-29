@@ -6,7 +6,7 @@
 
 Scene::Scene()
 {
-	// Create object manager
+	// シーン固有のオブジェクトおよび当たり判定を管理するため専用のマネージャーを生成
 	mpObjectManager = new ObjectManager();
 	mpColliderManager = new ColliderManager();
 }
@@ -25,7 +25,7 @@ Scene::~Scene()
 	}
 }
 
-// Draw
+// 全オブジェクトの描画処理をマネージャー経由で一括実行
 void Scene::Draw()
 {
 	if (mpObjectManager != nullptr)
@@ -38,7 +38,7 @@ void Scene::Draw()
 	}
 }
 
-// Update
+// 全オブジェクトの状態更新および当たり判定処理を一括実行
 void Scene::Update()
 {
 	if (mpObjectManager != nullptr)

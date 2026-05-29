@@ -1,11 +1,15 @@
 #include "SpellCardBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "PlayerSpellParticle.h"
 #include <cmath>
 #include "Utility.h"
-#include"SoundManager.h"
+#include "SoundManager.h"
+
 SpellCardBullet::SpellCardBullet(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
@@ -16,7 +20,7 @@ SpellCardBullet::SpellCardBullet(float x, float y)
     m_speed = 8.0f;
     m_isActive = true;
     m_damage = 10;
-    m_lifeTimer = 60; // 2 seconds until explode
+    m_lifeTimer = 60;
 
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 40.0f);
 }
@@ -61,8 +65,8 @@ void SpellCardBullet::Explode() {
     if (!m_isActive) return;
     
     const float PI = 3.14159265f;
-    // Yuyuko style full scatter (cherry blossom pattern)
-    // 5 rings of 16 bullets
+    
+    // 5‘w‚ÉL‚ª‚é‘½d‚Ì“¯S‰~i÷ƒpƒ^[ƒ“j‚Æ‚È‚é’e–‹‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ‚·‚é
     for (int ring = 1; ring <= 5; ring++) {
         float speed = 3.0f + ring * 1.5f;
         float baseAngle = ring * (PI / 8.0f);
@@ -70,7 +74,7 @@ void SpellCardBullet::Explode() {
             float angle = baseAngle + (i * 2.0f * PI / 16.0f);
             float dx = std::cos(angle);
             float dy = std::sin(angle);
-            SoundManager::GetInstance()->PlaySE("Resource/SE/æ°·é­”æ³•1.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/•X–‚–@1.mp3");
             new PlayerSpellParticle(mvPosition.x, mvPosition.y, dx, dy, speed);
         }
     }
@@ -87,13 +91,11 @@ void SpellCardBullet::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
             Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
-            // Ignore enemies that are already dead
             if (enemy != nullptr && enemy->IsActive() && !enemy->IsDeleteFlag()) {
                 enemy->TakeDamage(m_damage);
-                Explode(); // Explode on impact!
+                Explode();
             }
         } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
-            // æ•µã®å¼¾ã‚’æ¶ˆã™
             check->GetParentObject()->SetDeleteFlag(true);
         }
     }

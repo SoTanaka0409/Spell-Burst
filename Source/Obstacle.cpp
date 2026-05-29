@@ -9,14 +9,17 @@
 #include "SpellCardBullet.h"
 #include "RainbowBullet.h"
 #include "ExplosionParticle.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
 Obstacle::Obstacle(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
     , m_fallSpeed(3.0f)
 {
-    SetTag(Tag2D_Enemy); // Treated like an enemy so bullets hit it
+    SetTag(Tag2D_Enemy); // プレイヤーの弾や体当たり判定の対象とするため便宜上敵タグを付与
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 40.0f);
 }
 
@@ -62,7 +65,7 @@ void Obstacle::Draw() {
 void Obstacle::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         Object2D* parent = check->GetParentObject();
-        // If a player bullet hits the obstacle
+        // プレイヤー側の攻撃と衝突した場合の処理（特殊弾かどうかで分岐）
         if (parent->GetTag() == Tag2D_PlayerBullet) {
             bool isSpecial = false;
             if (dynamic_cast<MasterSpark*>(parent) != nullptr ||
@@ -84,7 +87,7 @@ void Obstacle::OnTrigger(Collider* collider, Collider* check) {
                 check->SetDeleteFlag(true);
             }
         }
-        // If player touches it, damage player
+        // プレイヤー自身が障害物に衝突した場合、回避ペナルティとしてダメージを与える
         if (parent->GetTag() == Tag2D_Player) {
             Player* p = dynamic_cast<Player*>(parent);
             if (p) {

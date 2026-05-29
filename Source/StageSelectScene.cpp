@@ -1,4 +1,4 @@
-ï»¿#include "StageSelectScene.h"
+#include "StageSelectScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "GameScene.h"
@@ -6,7 +6,10 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cstring>
 
 void StageSelectScene::Initialize()
@@ -34,7 +37,7 @@ void StageSelectScene::Update()
     
     // Back button
     if (isLeftClicked && mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60) {
-        SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
         if (m_phase == 1) {
             m_phase = 0;
         } else {
@@ -57,15 +60,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 Player::s_selectedCharacterType = 1;
                 m_phase = 1;
             } else if (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 Player::s_selectedCharacterType = 2;
                 m_phase = 1;
             } else if (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 Player::s_selectedCharacterType = 3;
                 m_phase = 1;
             }
@@ -80,15 +83,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 GameScene::s_currentStage = 1;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 GameScene::s_currentStage = 2;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
                 GameScene::s_currentStage = 3;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             }
@@ -132,7 +135,7 @@ void StageSelectScene::Draw() {
         }
     };
     
-    // Draw Back button
+    // Œë‘€ì‚ð–h‚®‚½‚ßA‰æ–Ê¶ã‚É–¾Šm‚Èu–ß‚évƒ{ƒ^ƒ“‚ð”z’u‚µ‚Äƒzƒo[”»’è
     bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60);
     drawBtn(20, 20, 100, 40, "BACK", hoverBack, GetColor(150, 150, 150));
     
@@ -156,7 +159,7 @@ void StageSelectScene::Draw() {
         int char2X = cx - charW / 2;
         int char3X = cx + gap - charW / 2;
         
-        // Char 1
+        // ƒvƒŒƒCƒ„[1iƒm[ƒ}ƒ‹ƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
         bool hover1 = (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char1X, charY, charW, charH, nullptr, hover1, GetColor(100, 100, 255));
         int s1 = hover1 ? 55 : 45;
@@ -165,7 +168,7 @@ void StageSelectScene::Draw() {
         DrawStringToHandle(char1X + (charW - cw1) / 2, charY + charH + 10, "NORMAL CHEF", GetColor(200, 200, 255), font24);
         if (hover1) DrawStringToHandle(char1X - 10, charY + charH + 40, "MASTER SPARK", GetColor(255, 255, 0), font24);
         
-        // Char 2
+        // ƒvƒŒƒCƒ„[2iƒK[ƒ‹ƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
         bool hover2 = (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char2X, charY, charW, charH, nullptr, hover2, GetColor(255, 100, 100));
         int s2 = hover2 ? 55 : 45;
@@ -174,7 +177,7 @@ void StageSelectScene::Draw() {
         DrawStringToHandle(char2X + (charW - cw2) / 2, charY + charH + 10, "GIRL CHEF", GetColor(255, 200, 200), font24);
         if (hover2) DrawStringToHandle(char2X - 10, charY + charH + 40, "RAINBOW WAVE", GetColor(255, 255, 0), font24);
         
-        // Char 3
+        // ƒvƒŒƒCƒ„[3iƒI[ƒ‹ƒhƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
         bool hover3 = (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char3X, charY, charW, charH, nullptr, hover3, GetColor(100, 255, 100));
         int s3 = hover3 ? 55 : 45;

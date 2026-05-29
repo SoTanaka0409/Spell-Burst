@@ -4,7 +4,10 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <algorithm>
 
 void RuleScene::Initialize() {
@@ -12,7 +15,7 @@ void RuleScene::Initialize() {
     m_ruleGraphs[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
     m_ruleGraphs[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
     m_ruleGraphs[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
-    m_ruleGraphs[4] = -1; // Or load new images if available
+    m_ruleGraphs[4] = -1; // 将来的なスライド追加に備えてあらかじめ枠を確保し初期化
     m_ruleGraphs[5] = -1;
     m_currentSlide = 0;
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
@@ -28,14 +31,14 @@ void RuleScene::Update() {
     GetMousePoint(&mouseX, &mouseY);
     
     if (isLeftClicked) {
-        // Back Button
+        // プレイヤーがタイトルへ戻る操作を行った際の遷移処理
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
-        // Next Button
+        // 次のページへ進む処理（最終ページの場合はタイトルへ戻る）
         if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide < 5) {
@@ -46,7 +49,7 @@ void RuleScene::Update() {
             }
         }
         
-        // Prev Button
+        // 前のページへ戻る処理（最初のページでは無効）
         if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide > 0) {
@@ -66,7 +69,7 @@ void RuleScene::Draw() {
         
         if (imgW > 0 && imgH > 0) {
             float maxWidth = 1400.0f;
-            float maxHeight = 650.0f; // Expand height
+            float maxHeight = 650.0f; // 説明画像が見やすくなるよう描画領域を大きめに設定
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -130,13 +133,13 @@ void RuleScene::Draw() {
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    // Draw Back button
+    // 直感的な操作を促すため、戻るボタンにマウスが重なった際に色を変化させる
     bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
     DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
     DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
     DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
     
-    // Draw Prev button
+    // 現在位置を明示するため、2ページ目以降のみ前へ戻るボタンを描画
     if (m_currentSlide > 0) {
         bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
         DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
@@ -144,7 +147,7 @@ void RuleScene::Draw() {
         DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
     }
     
-    // Draw Next button
+    // スライド進行状況に合わせて、次へボタンと完了ボタンの表示を切り替えつつ描画
     bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
     DrawBox(900, 840, 1000, 890, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
     DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);

@@ -5,7 +5,10 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 
 TitleScene::TitleScene() : m_bgGraph(-1), m_bgScrollX(0.0f), m_uiButtonGraph(-1)
@@ -57,7 +60,7 @@ void TitleScene::Update()
         }
     }
     
-    // Update Background scroll
+    // 背景画像を常に左方向へスクロールさせ、躍動感のあるタイトル画面を演出
     m_bgScrollX += 1.0f * Utility::TimeScale;
     if (m_bgScrollX >= Utility::SCREEN_WIDTH) {
         m_bgScrollX -= Utility::SCREEN_WIDTH;
@@ -87,7 +90,7 @@ void TitleScene::Draw() {
         int min = totalSec / 60;
         char rankStr[64];
         sprintf_s(rankStr, "%d位 %02d:%02d.%03d", (int)i+1, min, sec, ms);
-        DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 100 + i * 50, rankStr, GetColor(255, 215, 0), rankFont);
+        DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 100 + static_cast<int>(i) * 50, rankStr, GetColor(255, 215, 0), rankFont);
     }
     
     int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
@@ -112,7 +115,7 @@ void TitleScene::Draw() {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
                 DrawExtendGraph(x, y, x + btnW, y + btnH, m_uiButtonGraph, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
-                DrawBox(x, y, x + btnW, y + btnH, GetColor(0, 200, 255), TRUE); // Glow effect
+                DrawBox(x, y, x + btnW, y + btnH, GetColor(0, 200, 255), TRUE); // 選択可能なUIであることを強調するため発光エフェクトを加算
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             } else {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);

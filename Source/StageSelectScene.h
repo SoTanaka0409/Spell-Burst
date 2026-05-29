@@ -1,15 +1,30 @@
-ï»¿#pragma once
+#pragma once
 #include "Scene.h"
 
+// ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ‚¨‚æ‚Ñ“ïˆÕ“xiƒXƒe[ƒWj‘I‘ğ‚ğŠÇ—‚·‚éƒV[ƒ“ƒNƒ‰ƒX
 class StageSelectScene : public Scene {
 public:
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ‘I‘ğUI‰æ‘œ‚È‚Ç‚ğ“Ç‚İ‚Ş
     void Initialize() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] –îˆóƒL[“ü—Í‚Å‘I‘ğ€–Ú‚ğXV‚µAŒˆ’è(Z)‚ÅƒtƒF[ƒYis‚âƒQ[ƒ€ŠJn(GameScene‘JˆÚ)‚ğs‚¤
     void Update() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Œ»İ‚ÌƒtƒF[ƒY(ƒLƒƒƒ‰‘I‘ğ/“ïˆÕ“x‘I‘ğ)‚É‰‚¶‚½ƒƒjƒ…[‰æ–Ê‚ğ•`‰æ‚·‚é
     void Draw() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “Ç‚İ‚ñ‚¾‰æ‘œƒŠƒ\[ƒX‚ğ”jŠü‚·‚é
     void Finalize() override;
 private:
     int m_phase; // 0: Character, 1: Stage
     int m_uiButtonGraph;
-
     int m_WaitCount;
 };

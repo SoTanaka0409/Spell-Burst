@@ -1,5 +1,8 @@
 #include "Barrier.h"
 #include "CapsuleCollider.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "Utility.h"
 #include "PlayerHomingBullet.h"
@@ -11,8 +14,8 @@ Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
     , mpCollider(nullptr)
 {
     SetTag(obj); 
-    m_deployInterval = 300.0f; // 5 seconds
-    m_activeDuration = 180.0f; // 3 seconds
+    m_deployInterval = 300.0f;
+    m_activeDuration = 180.0f;
     m_timer = 0.0f;
     m_radius = radius;
     m_isDeployed = false;
@@ -78,36 +81,27 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
 
     if (check != nullptr && check->GetParentObject() != nullptr) {
         auto tag = check->GetParentObject()->GetTag();
-        
-        // プレイヤーのバリアなら敵の弾のみを消す
         if (this->GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet)
         {
             check->GetParentObject()->SetDeleteFlag(true);
             m_hitCount++;
-            
-            // 5発防いだらカウンター発動！
             if (m_hitCount >= 30) {
-                m_hitCount = 0; // カウントリセット
-                SoundManager::GetInstance()->PlaySE("Resource/SE/ガラスが割れる1.mp3");
-                // 四方向に10発ずつ（計40発）放出
-                float baseSpeed = 10.0f; // 少し速めに設定
+                m_hitCount = 0;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/?K???X???????1.mp3");
+                float baseSpeed = 10.0f;
                 for (int dir = 0; dir < 4; ++dir) {
-                    float baseAngle = dir * (3.14159265f / 2.0f); // 0, 90, 180, 270度
+                    float baseAngle = dir * (3.14159265f / 2.0f);
                     for (int i = 0; i < 10; ++i) {
-                        // 各方向で扇状に少しずつ角度をずらして発射 (-0.45 ～ +0.45 ラジアン)
                         float spread = (i - 4.5f) * 0.1f; 
                         float angle = baseAngle + spread;
                         
                         float dx = std::cos(angle);
                         float dy = std::sin(angle);
-                        
-                        // バリアの中心から少し離した位置から発生させる
                         new PlayerHomingBullet(mvPosition.x + dx * 30.0f, mvPosition.y + dy * 30.0f, dx, dy, baseSpeed);
                     }
                 }
             }
         }
-        // 敵のバリアならプレイヤーの弾のみを消す
         else if (GetTag() == tag2D_BarierEne && tag == Tag2D_PlayerBullet) {
             check->GetParentObject()->SetDeleteFlag(true);
         }

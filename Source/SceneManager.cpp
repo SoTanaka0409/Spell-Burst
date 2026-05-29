@@ -32,19 +32,13 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	// 最初はタイトル画面から開始する
 	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
-
-	// シーン切り替え処理を呼び出す
 	ChangeSceneIfNeeded();
 }
 
 void SceneManager::Update()
 {
-	// シーン切り替えが必要なら処理する
 	ChangeSceneIfNeeded();
-
-	// 現在のシーンを更新する
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Update();
@@ -55,7 +49,6 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene);
-	// 現在のシーンを描画する
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Draw();
@@ -74,27 +67,18 @@ void SceneManager::Finalize()
 
 void SceneManager::ChangeSceneIfNeeded()
 {
-	// シーンが変わらない場合は何もしない
 	if (mnSceneType == mnNextSceneType)
 	{
 		return;
 	}
-
-	// シーンが変わる場合は全ての音を停止
 	SoundManager::GetInstance()->StopBGM();
-
-	// 現在のシーンがある場合は終了処理を行って破棄する
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Finalize();
 		delete mpCurrentScene;
 		mpCurrentScene = nullptr;
 	}
-
-	// シーンタイプを更新
 	mnSceneType = mnNextSceneType;
-
-	// 新しいシーンを生成する
 	switch (mnSceneType)
 	{
 	case SCENE_TYPE::SCENE_TITLE:
@@ -116,8 +100,6 @@ void SceneManager::ChangeSceneIfNeeded()
 		mpCurrentScene = nullptr;
 		break;
 	}
-
-	// 生成に成功していれば初期化処理を呼ぶ
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Initialize();

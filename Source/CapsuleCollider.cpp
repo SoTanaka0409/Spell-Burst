@@ -17,7 +17,6 @@ void CapsuleCollider::Update(Collider* check)
 {
 	if (check != nullptr)
 	{
-		// ‘Šè‚ªƒJƒvƒZƒ‹‚Ìê‡
 		CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(check);
 		
 		if (capsule != nullptr)

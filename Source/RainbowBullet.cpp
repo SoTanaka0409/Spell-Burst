@@ -3,7 +3,10 @@
 #include "Enemy.h"
 #include "Boss.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 
 RainbowBullet::RainbowBullet(float x, float y)
@@ -15,7 +18,7 @@ RainbowBullet::RainbowBullet(float x, float y)
     SetTag(Tag2D_PlayerBullet);
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 15.0f);
     
-    // Generate an initial hue based on X position and current time for a rainbow effect
+
     m_colorHue = (static_cast<int>(x) * 2 + GetNowCount() / 5) % 360;
 }
 
@@ -42,7 +45,7 @@ void RainbowBullet::Update() {
         }
     }
     
-    // Animate color
+
     m_colorHue = (m_colorHue + 10) % 360;
 }
 
@@ -85,7 +88,7 @@ void RainbowBullet::OnTrigger(Collider* collider, Collider* check) {
                 }
             }
         } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
-            // 敵の弾を消す
+
             check->GetParentObject()->SetDeleteFlag(true);
         }
     }

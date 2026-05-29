@@ -1,8 +1,13 @@
 #pragma once
 #include <string>
 #include "vector"
-#include "Dxlib.h"
-#include"Collider.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
+#include "Collider.h"
+
+// ‰æ–Êã‚É•`‰æE”z’u‚³‚ê‚é‚·‚×‚Ä‚ÌƒQ[ƒ€“àƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
 class Object2D
 {
 public:
@@ -11,22 +16,26 @@ public:
 		None2D = 0,
 		Tag2D_Player = 1,
 		Tag2D_Enemy = 2,
-		Tag2D_PlayerBullet=3,
-		Tag2D_EnemyBullet=4,
+		Tag2D_PlayerBullet = 3,
+		Tag2D_EnemyBullet = 4,
 		tag2D_BarierEne = 5,
 		tag2D_BarierPla = 6,
 	};
 
 public:
 	Object2D(VECTOR initPos);
-
 	virtual ~Object2D();
 
+	// [“ü—Í] ‚È‚µ
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚âó‘Ô‚ğƒtƒŒ[ƒ€‚²‚Æ‚ÉXV‚·‚éi”h¶æ‚ÅÀ‘•j
 	virtual void Update();
 
+	// [“ü—Í] ‚È‚µ
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ƒIƒuƒWƒFƒNƒg‚ÌƒOƒ‰ƒtƒBƒbƒN‚ğ‰æ–Ê‚É•`‰æ‚·‚éi”h¶æ‚ÅÀ‘•j
 	virtual void Draw();
 
-public://ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼//
 	void SetPosition(VECTOR pos) { mvPosition = pos; };
 	VECTOR GetPosition() { return mvPosition; }
 
@@ -36,25 +45,32 @@ public://ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼//
 	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
 	bool IsDeleteFlag() { return mbDeleteFlag; }
 
-	void SetDrawFlag(bool flag) { mbDrawFlag = flag; } //æ•µã®å‰Šé™¤ãƒ•ãƒ©ã‚°è¨­å®šã€€
-	bool IsDrawFlag() { return mbDrawFlag; }          //æ•µã®å‰Šé™¤ãƒ•ãƒ©ã‚°ã®ä½œæˆ
-
-	//ã‚¿ã‚°
+	void SetDrawFlag(bool flag) { mbDrawFlag = flag; }
+	bool IsDrawFlag() { return mbDrawFlag; }
 	void SetTag(Tag2D tag) { mnTag = tag; }
 	Tag2D GetTag() { return mnTag; }
 
+	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚ğŠJn‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
 	virtual void OnEnter(Collider* collider, Collider* check);
+
+	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚µ‚Ä‚¢‚éŠÔ‚É–ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
 	virtual void OnTrigger(Collider* collider, Collider* check);
+
+	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ª—£’E‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
 	virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	VECTOR mvPosition;  //åº§æ¨™
-	VECTOR mvRotation;   //å›è»¢
+	VECTOR mvPosition;
+	VECTOR mvRotation;
 
 private:
-	bool mbDeleteFlag;  //å‰Šé™¤ãƒ•ãƒ©ã‚°
-	Tag2D mnTag;   //ã‚¿ã‚°
-	bool mbDrawFlag;//æç”»ãƒ•ãƒ©ã‚°
-
-
+	bool mbDeleteFlag;
+	Tag2D mnTag;
+	bool mbDrawFlag;
 };

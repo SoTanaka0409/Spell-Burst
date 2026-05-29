@@ -3,49 +3,70 @@
 
 class EnemyManager;
 
-// ã‚²ãƒ¼ãƒ ã®ãƒ¡ã‚¤ãƒ³ãƒ—ãƒ¬ã‚¤ç”»é¢ã‚’ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹
+// ƒƒCƒ“ƒQ[ƒ€is‚ğŠÇ—‚·‚éƒV[ƒ“ƒNƒ‰ƒX
+// ‰æ–Ê—h‚ê‚âƒqƒbƒgƒXƒgƒbƒv“™‚Ì‘S‘ÌƒGƒtƒFƒNƒgó‘Ô‚à•¹‚¹‚ÄŠÇ—‚·‚é
 class GameScene : public Scene {
 private:
-    // æ•µã®å‡ºç¾ã‚„WAVEã®é€²è¡Œã‚’ç®¡ç†ã™ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
-    EnemyManager* mpEnemyManager;
+    EnemyManager* mpEnemyManager;   // “G‚Ì¶¬‚âisƒtƒF[ƒY‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ[‚Ìƒ|ƒCƒ“ƒ^
 
-    // ã‚«ãƒƒãƒˆã‚¤ãƒ³é–¢é€£
-    int m_cutinTimer;
-    int m_cutinImageHandle;
+    int m_cutinTimer;               // ƒJƒbƒgƒCƒ“‰‰oi‘å‹Z”­“®‚È‚Çj‚Ìis“x‚ğ‘ª‚éƒ^ƒCƒ}[
+    int m_cutinImageHandle;         // ƒJƒbƒgƒCƒ“—p‰æ‘œ‚ÌƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹iDxLib—pj
 
-    // æ¼”å‡ºç”¨
-    int m_screenHandle;
-    int m_shakeTimer;
-    float m_shakeMagnitude;
-    int m_hitStopTimer;
+    int m_screenHandle;             // ƒIƒtƒXƒNƒŠ[ƒ“•`‰æi‰æ–Ê—h‚ê“™‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒg—pj‚Ì‰æ‘œƒnƒ“ƒhƒ‹
+
+    int m_shakeTimer;               // ‰æ–Ê—h‚êiƒXƒNƒŠ[ƒ“ƒVƒFƒCƒNj‚Ìc‚èƒtƒŒ[ƒ€”
+    float m_shakeMagnitude;         // ‰æ–Ê—h‚ê‚Ì‹­‚³iƒsƒNƒZƒ‹•‚È‚Çj
+
+    int m_hitStopTimer;             // ƒqƒbƒgƒXƒgƒbƒviˆê“I‚ÈŠÔ’â~‰‰oj‚Ìc‚èƒtƒŒ[ƒ€”
 
 public:
-    static int s_currentStage; // 1: Normal, 2: Hard, 3: Very Hard
-    static int s_playFrameCount;
-    static bool s_isTimeAttackActive;
-    
+    // --- Ã“Iistaticjƒƒ“ƒo•Ï” ---
+    static int s_currentStage;         // Œ»İƒvƒŒƒC’†‚ÌƒXƒe[ƒW”Ô†
+    static int s_playFrameCount;       // ƒvƒŒƒCŠJn‚©‚ç‚ÌŒo‰ßƒtƒŒ[ƒ€”iƒXƒRƒAŒvZ‚âƒ^ƒCƒ€ƒAƒ^ƒbƒN—pj
+    static bool s_isTimeAttackActive;  // ƒ^ƒCƒ€ƒAƒ^ƒbƒNƒ‚[ƒh‚ª—LŒø‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+
+    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒIƒuƒWƒFƒNƒg‚Ì¶¬E”jŠü‚ğs‚¤iÀÛ‚Ì‰Šú‰»ˆ—‚ÍInitialize‚ÅÀsj
     GameScene();
     virtual ~GameScene() override;
 
-    // ã‚·ãƒ¼ãƒ³é·ç§»æ™‚ã«å‘¼ã°ã‚Œã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚„ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ç”Ÿæˆãƒ»åˆæœŸåŒ–ã‚’è¡Œã†
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ}ƒl[ƒWƒƒ[—Ş‚Ì¶¬AŠeíƒŠƒ\[ƒXi‰æ‘œ‚âƒTƒEƒ“ƒhj‚ÌŠm•ÛAƒ^ƒCƒ}[‚Ì‰Šú‰»‚ğs‚¤
     void Initialize() override;
 
-    // æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã€ã‚²ãƒ¼ãƒ å…¨ä½“ã®ãƒ­ã‚¸ãƒƒã‚¯ï¼ˆãƒãƒ¼ã‚ºã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°ã€å½“ãŸã‚Šåˆ¤å®šï¼‰ã‚’å‡¦ç†ã™ã‚‹
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒqƒbƒgƒXƒgƒbƒv”ñ“K—p‚ÍŠeƒIƒuƒWƒFƒNƒgi©‹@A“GA’e‚È‚Çj‚Ìó‘Ô‚ğXV‚µAÕ“Ë”»’è‚ğˆ—‚·‚é
     void Update() override;
 
-    // æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã€èƒŒæ™¯ã‚„å„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€HUDï¼ˆHPã‚„çµŒé¨“å€¤ï¼‰ã‚’æç”»ã™ã‚‹
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒIƒtƒXƒNƒŠ[ƒ“(m_screenHandle)‚Éˆê“x•`‰æ‚µ‚½ŒãA‰æ–Ê—h‚ê(ƒVƒFƒCƒN)‚ÌƒYƒŒ‚ğ‰Á–¡‚µ‚ÄƒƒCƒ“‰æ–Ê‚Ö“]‘—‚·‚é
     void Draw() override;
 
-    // ã‚·ãƒ¼ãƒ³çµ‚äº†æ™‚ã«å‘¼ã°ã‚Œã€ç¢ºä¿ã—ãŸãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Šm•Û‚µ‚½ƒ}ƒl[ƒWƒƒ[‚âƒŠƒ\[ƒX‚ğ”jŠü‚µAƒƒ‚ƒŠƒŠ[ƒN‚ğ–h‚®
     void Finalize() override;
 
-    // ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ã‚«ãƒƒãƒˆã‚¤ãƒ³ã‚’ç™ºå‹•ã™ã‚‹
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ{ƒX‚ÌƒXƒyƒ‹ƒJ[ƒh”­“®‚â©‹@ƒ{ƒ€”­“®‚È‚Ç‚ÌƒJƒbƒgƒCƒ“‰‰oƒ^ƒCƒ}[‚ğ‹N“®‚·‚é
     void TriggerCutin();
 
-    // æ•µãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®å–å¾—
+    // “Gƒ}ƒl[ƒWƒƒ[‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é
     EnemyManager* GetEnemyManager() const { return mpEnemyManager; }
 
-    // æ¼”å‡ºã®ãƒˆãƒªã‚¬ãƒ¼
+    // [“ü—Í] duration: —h‚ç‚·ƒtƒŒ[ƒ€”, magnitude: —h‚ê‚Ì‹­‚³
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ‰æ–Ê—h‚êƒ^ƒCƒ}[‚ğİ’è‚µAŒ»İ‚Ì‰‰o‚ğã‘‚«E“K—p‚·‚éi”í’e‚â”š”­‚Ég—pj
     void AddScreenShake(int duration, float magnitude);
+
+    // [“ü—Í] duration: ’â~ƒtƒŒ[ƒ€”
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ‹­‚¢UŒ‚‚ª“–‚½‚Á‚½Û‚È‚ÇAƒQ[ƒ€‘S‘Ì‚ÌXVˆ—‚ğˆê’â~iƒqƒbƒgƒXƒgƒbƒvj‚³‚¹A‘ÅŒ‚Š´‚ğ‰‰o‚·‚é
     void AddHitStop(int duration);
 };

@@ -1,6 +1,9 @@
 #include "ExplosionParticle.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 
 ExplosionParticle::ExplosionParticle(float x, float y, float speed, float angle, int color, int lifeTime, float size)

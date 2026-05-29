@@ -1,6 +1,9 @@
 #include "SpecialBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "Utility.h"
 
@@ -8,14 +11,14 @@ SpecialBullet::SpecialBullet(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
-    SetTag(Tag2D_PlayerBullet); // So it's recognized as a player projectile
+    SetTag(Tag2D_PlayerBullet); // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚Æ‚µ‚Ä”»’è‚³‚¹‚é‚½‚ß‚Ìƒ^ƒOİ’è
     mvPosition.x = x;
     mvPosition.y = y;
     m_speed = 12.0f;
     m_isActive = true;
-    m_damage = 5; // Ultimate piercing damage!
+    m_damage = 5; // •KE‹Z‚Æ‚µ‚Ä‚ÌˆĞ—Í‚ğ•\Œ»‚·‚é‚½‚ß‚Ì‚ƒ_ƒ[ƒWİ’è
 
-    // Create a giant circular collider with radius 90 (previously 60)
+    // ‰æ–ÊL”ÍˆÍ‚Ì“G‚ğŠª‚«‚Ş‚½‚ßA’Êí’e‚æ‚è‚à‹É‚ß‚Ä‹‘å‚È“–‚½‚è”»’è‚ğİ’è
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 90.0f);
 }
 
@@ -26,8 +29,8 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
-// è±ˆå¼±ãƒµç¹ï½¬ç¹ï½¼ç¹ï¿½èœ»ï½¼ç¸ºï½°ç¹§å¾Œï½‹è­–ï½´è­ï½°èœƒï½¦é€…ãƒ»
-// è ¢ãƒ»ï½®ï½ºè¬šÂ€ç¸ºï½®è ‘ï½¾ç¹§å‰ƒï½¸é ‘å©¿èœ·ä»£â†“é˜ï½»èœè¼”ï¼†ç¸ºå¸™Â€âˆ«åˆ¤é«±ï½¢èŸæ‚¶â†“èœƒï½ºç¸ºæº˜ï½‰èœ‘ä¼å‹ç¹è¼”Î›ç¹§ï½°ç¹§å ¤ï½«ä¹â€»ç¸ºï½¾ç¸ºå¶Â€ãƒ»
+// è±ˆå¼±ãƒµç¹ï½¬ç¹ï½¼ç¹ï¿½èœ»E¼ç¸ºE°ç¹§å¾Œï½‹è­–ï½´è­E½°èœE½¦é€EE
+// è ¢ãƒ»E®Eºè¬šÂ€ç¸ºE®è ‘ï½¾ç¹§å‰E½¸é ‘å©¿èœ·ä»£â†“é˜E»èœè¼”ï¼E¸ºå¸™Â€âˆ«åˆ¤é«±E¢èŸæ‚¶â†“èœƒEºç¸ºæº˜ï½‰èœ‘ä¼å‹ç¹è¼”Î›ç¹§E°ç¹§å ¤E«ä¹â€»ç¸ºE¾ç¸ºå¶Â€ãƒ»
 void SpecialBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
     mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
@@ -43,28 +46,28 @@ void SpecialBullet::Update() {
     }
 }
 
-// è¬ å†—åˆ¤èœƒï½¦é€…ãƒ»
-// è ¢ãƒ»ï½®ï½ºè¬šÂ€ç¸ºï½®ç¹§ï½¨ç¹è¼”ã‰ç¹§ï½¯ç¹èŒ¨ï½¼äº¥ï½¤ï½§ç¸ºé˜ªâ†‘èœˆç‰™ï½¼ï½¾ç¸ºï½ªç¸ºï½©ãƒ»å³¨ï½’è¬ å†—åˆ¤ç¸ºåŠ±âˆªç¸ºå¶Â€ãƒ»
+// è¬ å†—åˆ¤èœE½¦é€EE
+// è ¢ãƒ»E®Eºè¬šÂ€ç¸ºE®ç¹§E¨ç¹è¼”ã‰ç¹§E¯ç¹èŒ¨E¼äº¥E¤E§ç¸ºé˜ªâ†‘èœˆç‰™ï½¼E¾ç¸ºEªç¸ºE©ãƒ»å³¨E’è¬ å†—åˆ¤ç¸ºåŠ±âˆªç¸ºå¶Â€ãƒ»
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 
-    // Draw a giant glowing golden energy sphere representing the ultimate sushi attack!
+    // ‹­—Í‚ÈƒGƒlƒ‹ƒM[’e‚Å‚ ‚é‚±‚Æ‚ğ‹Šo“I‚É‹­’²‚·‚é‚½‚ßA‹P‚­‹àF‚Ì‹…‘Ì‚ğ•`‰æ
     unsigned int colorGold = GetColor(255, 215, 0);
     unsigned int colorOrange = GetColor(255, 140, 0);
     unsigned int colorWhite = GetColor(255, 255, 255);
 
-    // Draw concentric circles for a nice glowing effect
+    // Œõ‚Ìd‚È‚è‚É‚æ‚é”­ŒõŠ´‚ğo‚·‚½‚ßAF‚ÆƒTƒCƒY‚ğ•Ï‚¦‚½•¡”‚Ì‰~‚ğ“¯S‰~ó‚É•`‰æ
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 90, colorOrange, TRUE);
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 75, colorGold, TRUE);
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, colorWhite, TRUE);
 
-    // Add cross lines to make it look like a giant ultimate energy blast
+    // \š‚Ìƒ‰ƒCƒ“‚ğd‚Ë‚é‚±‚Æ‚ÅAƒGƒlƒ‹ƒM[‚ª‹Ãk‚³‚êˆì‚êo‚µ‚Ä‚¢‚é‚æ‚¤‚È‰‰o‚ğ’Ç‰Á
     DrawLine(static_cast<int>(mvPosition.x - 90), static_cast<int>(mvPosition.y), static_cast<int>(mvPosition.x + 90), static_cast<int>(mvPosition.y), colorGold);
     DrawLine(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y - 90), static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y + 90), colorGold);
 }
 
 void SpecialBullet::Kill() {
-    // Ultimate piercing bullet does not get killed on impact!
+    // “G‚ğŠÑ’Ê‚µ‚Äˆê–Ô‘Ås‚É‚·‚éd—l‚Æ‚·‚é‚½‚ßAÕ“Ë‚ÌÁ–Åˆ—‚ğs‚í‚È‚¢
 }
 
 void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
@@ -72,7 +75,7 @@ void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
             Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
             if (enemy != nullptr) {
-                // Deal high ultimate damage (does not call Kill() so it pierces through!)
+                // ŠÑ’Ê’e‚Å‚ ‚é‚½‚ßA“G‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚Â‚Â©g‚Í‚»‚Ì‚Ü‚Ü’¼i‚³‚¹‚é
                 enemy->TakeDamage(m_damage);
             }
         } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {

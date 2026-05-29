@@ -1,4 +1,7 @@
 #include "InputManager.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 
 int InputManager::mDownBuffer[256] = { 0 };
@@ -6,32 +9,40 @@ int InputManager::mUpBuffer[256] = { 0 };
 
 InputManager::InputManager()
 {
-
 }
 
 InputManager::~InputManager()
 {
-
 }
 
-int InputManager::CheckDownKey(int KeyCode)
+int InputManager::CheckDownKey(int KeyCode)//‰Ÿ‚µ‚Ä‚¢‚éŠÔ‚¸‚Á‚Æ1‚ğ•Ô‚·
 {
-	// ï¿½ß‚ï¿½lï¿½pï¿½Ì•Ïï¿½ï¿½ï¿½pï¿½ï¿½wwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 	int result = 0;
-
-	// ï¿½wï¿½ï¿½Lï¿½[ï¿½ÌŒï¿½ï¿½İ‚Ìï¿½Ô‚ï¿½æ“¾
 	int keyState = CheckHitKey(KeyCode);
 	
-	//ï¿½Oï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ç‚¸ï¿½Aï¿½ï¿½ï¿½İƒLï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (mDownBuffer[KeyCode] == 0 && keyState == 1)
 	{
 		result = 1;
 	}
 
-	//ï¿½ï¿½ï¿½İ‚ÌƒLï¿½[ï¿½Ìï¿½Ô‚ï¿½oï¿½bï¿½tï¿½@ï¿½ÉŠiï¿½[
 	mDownBuffer[KeyCode] = keyState;
 	return result;
 }
+
+int InputManager::CheckUpKey(int KeyCode)
+{
+	int result = 0;
+	int keyState = CheckHitKey(KeyCode);
+	
+	if (mUpBuffer[KeyCode] == 1 && keyState == 0)
+	{
+		result = 1;
+	}
+
+	mUpBuffer[KeyCode] = keyState;
+	return result;
+}
+
 int InputManager::CheckPressKey(int KeyCode)
 {
 	return CheckHitKey(KeyCode);

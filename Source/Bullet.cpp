@@ -1,9 +1,12 @@
 #include "Bullet.h"
 #include "CapsuleCollider.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include "DxLib.h"
 #include "Utility.h"
 
-Bullet::Bullet(float x, float y,float damage) 
+Bullet::Bullet(float x, float y, int damage) 
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
@@ -26,9 +29,6 @@ Bullet::~Bullet()
         mpCollider = nullptr;
     }
 }
-
-// 毎フレーム呼ばれる更新処琁E
-// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
 void Bullet::Update() 
 {
     mvPosition.y -= m_speed * Utility::TimeScale;
@@ -46,9 +46,6 @@ void Bullet::Update()
     }
 
 }
-
-// 弾の消滁E�E琁E
-// 敵に当たった際などに呼ばれ、オブジェクト管琁E��ら削除されるよぁE��します、E
 void Bullet::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -76,9 +73,6 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
         }
     }
 }
-
-// 描画処琁E
-// 弾の画像を描画します、E
 void Bullet::Draw()
 {
     if (!m_isActive) return;

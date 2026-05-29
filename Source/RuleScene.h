@@ -1,11 +1,27 @@
-ï»¿#pragma once
+#pragma once
 #include "Scene.h"
 
+// ‘€ìà–¾‚âƒ‹[ƒ‹iƒ`ƒ…[ƒgƒŠƒAƒ‹j‚ğƒXƒ‰ƒCƒhŒ`®‚Å•\¦‚·‚éƒV[ƒ“ƒNƒ‰ƒX
 class RuleScene : public Scene {
 public:
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ŠeƒXƒ‰ƒCƒhi‰æ‘œj‚ğ“Ç‚İ‚İ”z—ñ‚ÉŠi”[‚·‚é
     void Initialize() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ¶‰EƒL[‚ÅƒXƒ‰ƒCƒh‚ğØ‚è‘Ö‚¦AZƒL[‚Ü‚½‚ÍÅIƒXƒ‰ƒCƒhŸƒy[ƒW‚ÅStageSelectScene‚Ö‘JˆÚ‚·‚é
     void Update() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚éƒ‹[ƒ‹‚ÌƒXƒ‰ƒCƒh‰æ‘œ‚¨‚æ‚ÑA‰º•”‚ÌƒiƒrƒQ[ƒVƒ‡ƒ“ƒeƒLƒXƒg‚ğ•`‰æ‚·‚é
     void Draw() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “Ç‚İ‚ñ‚¾‘S‚Ä‚ÌƒXƒ‰ƒCƒh‰æ‘œ‚ğ”jŠü‚·‚é
     void Finalize() override;
 private:
     int m_ruleGraphs[6];
