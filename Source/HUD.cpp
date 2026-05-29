@@ -44,15 +44,15 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
     if (player != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); 
+        DrawBox(10, 10, 350, 135, GetColor(0, 15, 30), TRUE); 
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); 
+        DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE); 
 
         // Player HP
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
 
         // Player HP Bar (New!)
-        int hpBarX = 160;
+        int hpBarX = 200;
         int hpBarY = 22;
         int hpBarWidth = 140;
         DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
@@ -62,31 +62,14 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         }
         DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
 
-        // Attack Mode HUD
-        DrawString(20, 45, "ATTACK MODE [Q / 1-2 to switch]:", GetColor(255, 255, 255));
         
-        Player::AttackMode mode = player->GetAttackMode();
-        unsigned int colorSelected = GetColor(255, 215, 0); 
-        unsigned int colorUnselected = GetColor(120, 180, 200); 
-
-        DrawFormatString(35, 92, (mode == Player::AttackMode_Melee) ? colorSelected : colorUnselected, 
-            "[1] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
-
-        int cd = player->GetSpecialCooldown();
-        if (cd > 0) {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [CD: %.1fs]", cd / 60.0f);
-        } else {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
-        }
 
         // Level & XP HUD
-        DrawFormatString(20, 140, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
+        DrawFormatString(20, 50, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
 
         int xpBarWidth = 260;
         int xpBarX = 35;
-        int xpBarY = 162;
+        int xpBarY = 70;
         int xpFill = static_cast<int>(xpBarWidth * s_displayXpRatio);
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
         if (xpFill > 0) {
@@ -96,8 +79,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
 
         // Spell Card Gauge
-        DrawFormatString(20, 180, GetColor(255, 100, 200), "SPELL");
-        int spellBarY = 195;
+        DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
+        int spellBarY = 105;
         int spellFill = static_cast<int>(xpBarWidth * s_displaySpellRatio);
         
         DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
