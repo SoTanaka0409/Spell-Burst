@@ -34,7 +34,7 @@ Boss::Boss(float x, float y, int bossType)
     m_bossType = bossType;
     if (m_bossType == 1) {
         m_speed = 1.5f;
-        m_hp = 60; // 譚ｱ譁E��鬚ｨ縺�E�縺�E�縺�E�HP螟壹�E�E
+        m_hp = 60; // 隴夲ｽｱ隴・ｽｹ鬯夲ｽｨ邵ｺ・ｪ邵ｺ・ｮ邵ｺ・ｧHP陞溷｣ｹ・・
     } else if (m_bossType == 2) {
         m_speed = 2.0f;
         m_hp = 80;
@@ -42,6 +42,13 @@ Boss::Boss(float x, float y, int bossType)
         m_speed = 2.5f;
         m_hp = 150;
     }
+
+    if (GameScene::s_currentStage == 2) {
+        m_hp = static_cast<int>(m_hp * 1.3f);
+    } else if (GameScene::s_currentStage == 3) {
+        m_hp = static_cast<int>(m_hp * 1.5f);
+    }
+
     m_maxHp = m_hp;
     m_isActive = true;
     m_attackTimer = 0;
@@ -69,16 +76,16 @@ Boss::~Boss() {
     }
 }
 
-// 繝ｩ繝ｳ繝€繝遘�E�蜍輔�E繧�E�繝ｼ繧�E�繝�Eヨ蠎ｧ讓吶�E�譖ｴ譁E��縺吶�E�蜃�E�送E�E
-// 逕ｻ髱�E�荳企Κ�E医・繝ｬ繧�E�繝､繝ｼ縺梧判謦・�E�繧・☁E��・�E�・峁E�E峨°繧峨Λ繝ｳ繝€繝縺�E�谺�E�縺�E�遘ｻ蜍募・繧呈ｱ�E�繧√∪縺吶€・
+// 郢晢ｽｩ郢晢ｽｳ郢昶ぎ郢晞§・ｻ陷崎ｼ斐・郢ｧ・ｿ郢晢ｽｼ郢ｧ・ｲ郢昴・繝ｨ陟趣ｽｧ隶灘生・定ｭ厄ｽｴ隴・ｽｰ邵ｺ蜷ｶ・玖怎・ｦ騾・・
+// 騾包ｽｻ鬮ｱ・｢闕ｳ莨∃壹・蛹ｻ繝ｻ郢晢ｽｬ郢ｧ・､郢晢ｽ､郢晢ｽｼ邵ｺ譴ｧ蛻､隰ｦ繝ｻ・�郢ｧ繝ｻ笘・ｸｺ繝ｻ・ｯ繝ｻ蟲・・蟲ｨﾂｰ郢ｧ蟲ｨﾎ帷ｹ晢ｽｳ郢昶ぎ郢晉ｸｺ・ｫ隹ｺ・｡邵ｺ・ｮ驕假ｽｻ陷榊供繝ｻ郢ｧ蜻茨ｽｱ・ｺ郢ｧ竏壺穐邵ｺ蜷ｶ竄ｬ繝ｻ
 void Boss::SelectNewTarget() {
     // Top half boundary: X between 100 and 1180, Y between 80 and 260
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
-// 繝懊せ縺�E�豈弱ヵ繝ｬ繝ｼ繝縺�E�譖ｴ譁E��蜁E��送E�E
-// 豁E��莠�E�貍泌�E荳�E�縺�E�繧我ｸ翫↓繝輔ぉ繝ｼ繝峨ぁE���E�繝医�E�縲∫函蟁E��E���E�縺�E�繧峨ち繝ｼ繧�E�繝�Eヨ蠎ｧ讓吶↓蜷代°縺�E�縺�E�遘ｻ蜍輔＠縺�E�縺後ｉ蠑ｾ蟷輔ｒ謦・■縺�E�縺吶€・
+// 郢晄㈱縺帷ｸｺ・ｮ雎亥ｼｱ繝ｵ郢晢ｽｬ郢晢ｽｼ郢晉ｸｺ・ｮ隴厄ｽｴ隴・ｽｰ陷・ｽｦ騾・・
+// 雎・ｽｻ闔�・｡雋肴ｳ後・闕ｳ・ｭ邵ｺ・ｪ郢ｧ謌托ｽｸ鄙ｫ竊鍋ｹ晁ｼ斐♂郢晢ｽｼ郢晏ｳｨ縺・ｹｧ・ｦ郢晏現・�邵ｲ竏ｫ蜃ｽ陝・・ｽｸ・ｭ邵ｺ・ｪ郢ｧ蟲ｨ縺｡郢晢ｽｼ郢ｧ・ｲ郢昴・繝ｨ陟趣ｽｧ隶灘生竊楢惺莉｣ﾂｰ邵ｺ・｣邵ｺ・ｦ驕假ｽｻ陷崎ｼ費ｼ�邵ｺ・ｪ邵ｺ蠕鯉ｽ芽�托ｽｾ陝ｷ霈費ｽ定ｬｦ繝ｻ笆�邵ｺ・ｾ邵ｺ蜷ｶ竄ｬ繝ｻ
 void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
@@ -94,14 +101,14 @@ void Boss::Update() {
         m_invincibleTimer--;
     }
 
-    // 譛€邨めE�E繧�E�・医ち繧�E�繝�E・峨・縺�E�縲・遘抵�E�・00繝輔Ξ繝ｼ繝�E峨♀縺阪ↁE遘帝俣・・20繝輔Ξ繝ｼ繝�E臥┌謨�E�縺�E�縺�E�繧・
+    // 隴帚ぎ驍ｨ繧・・郢ｧ・ｹ繝ｻ蛹ｻ縺｡郢ｧ・､郢昴・繝ｻ蟲ｨ繝ｻ邵ｺ・ｿ邵ｲ繝ｻ驕俶慣・ｼ繝ｻ00郢晁ｼ釆樒ｹ晢ｽｼ郢昴・蟲ｨ笙邵ｺ髦ｪ竊・驕伜ｸ昜ｿ｣繝ｻ繝ｻ20郢晁ｼ釆樒ｹ晢ｽｼ郢昴・閾･笏瑚ｬｨ・ｵ邵ｺ・ｫ邵ｺ・ｪ郢ｧ繝ｻ
     if (m_bossType == 3) {
         m_invincibleCycleTimer++;
         if (m_invincibleCycleTimer >= 300) {
             m_invincibleTimer = 120; // 2 seconds invincibility
             m_invincibleCycleTimer = 0;
             
-            // 辟｡謨�E�蛹悶→蜷梧凾縺�E�蜿悶�E�蟾�E�縺阪�E�蜿�E�蝟�E
+            // 霎滂ｽ｡隰ｨ・ｵ陋ｹ謔ｶ竊定惺譴ｧ蜃ｾ邵ｺ・ｫ陷ｿ謔ｶ・願淦・ｻ邵ｺ髦ｪ・定愾・ｬ陜溘・
             new Enemy(mvPosition.x - 60.0f, mvPosition.y + 60.0f, 1);
             new Enemy(mvPosition.x + 60.0f, mvPosition.y + 60.0f, 1);
         }
@@ -129,7 +136,7 @@ void Boss::Update() {
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    // 謾�E�謦・─隕�E
+    // 隰ｾ・ｻ隰ｦ繝ｻ笏髫輔・
     m_attackTimer++;
     if (m_bossType == 1) {
         if (m_attackTimer >= 60) {
@@ -142,13 +149,13 @@ void Boss::Update() {
             ShootBouncingBarrage();
         }
     } else {
-        if (m_attackTimer >= 100) { // 逋ｺ蟁E�E俣髫斐ｒ遏�E�縺擾�E�・00 -> 40・牙ｼ�E�蟷募喧
+        if (m_attackTimer >= 100) { // 騾具ｽｺ陝・・菫｣鬮ｫ譁撰ｽ帝￥・ｭ邵ｺ謫ｾ・ｼ繝ｻ00 -> 40繝ｻ迚呻ｽｼ・ｾ陝ｷ蜍溷密
             m_attackTimer = 0;
             
-            // スチE�Eジ3の場合�E確玁E��スペルカード発勁E
+            // 繧ｹ繝・・繧ｸ3縺ｮ蝣ｴ蜷医・遒ｺ邇・〒繧ｹ繝壹Ν繧ｫ繝ｼ繝臥匱蜍・
             bool usedSpellCard = false;
             if (GameScene::s_currentStage == 3) {
-                if ((rand() % 100) < 20) { // 20%の確玁E
+                if ((rand() % 100) < 20) { // 20%縺ｮ遒ｺ邇・
                     ShootSpellCardBarrage();
                     usedSpellCard = true;
                 }
@@ -168,33 +175,33 @@ void Boss::Update() {
     }
 }
 
-// 蜈ｨ譁E��菴榊ｼ�E�蟷輔ｒ謦・▽蜁E��送E�E�E�医せ繝壹Ν繧�E�繝ｼ繝蛾�E��E�・壽�E��E�蟾�E�縺榊ｼ�E�蟷匁E��・
+// 陷茨ｽｨ隴・ｽｹ闖ｴ讎奇ｽｼ・ｾ陝ｷ霈費ｽ定ｬｦ繝ｻ笆ｽ陷・ｽｦ騾・・・ｼ蛹ｻ縺帷ｹ晏｣ｹﾎ晉ｹｧ・ｫ郢晢ｽｼ郢晁崟・｢・ｨ繝ｻ螢ｽ・ｸ・ｦ陝ｾ・ｻ邵ｺ讎奇ｽｼ・ｾ陝ｷ蛹・ｽｼ繝ｻ
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 36; // 蠑ｾ謨�E�繧貞€榊｢・
+    const int bulletCount = 36; // 陟托ｽｾ隰ｨ・ｰ郢ｧ雋樞ぎ讎奇ｽ｢繝ｻ
     static float spiralAngle = 0.0f;
-    spiralAngle += 0.15f; // 逋ｺ蟁E�E�E�E���E�縺�E�隗貞ｺ�E�繧偵☁E��峨�E�縺�E�貂ｦ蟾�E�縺阪↓縺吶�E�E
+    spiralAngle += 0.15f; // 騾具ｽｺ陝・・・・ｸｺ・ｨ邵ｺ・ｨ髫苓ｲ橸ｽｺ・ｦ郢ｧ蛛ｵ笘・ｹｧ蟲ｨ・�邵ｺ・ｦ雋ゑｽｦ陝ｾ・ｻ邵ｺ髦ｪ竊鍋ｸｺ蜷ｶ・・
 
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
         float dx = std::cos(angle);
         float dy = std::sin(angle);
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.5f, reflect); // 蠑ｾ騾溘ｒ關�E�縺�E�縺励※驕ｿ縺代�E�E��吶�E�
+        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.5f, reflect); // 陟托ｽｾ鬨ｾ貅假ｽ帝梨・ｽ邵ｺ・ｨ邵ｺ蜉ｱ窶ｻ鬩包ｽｿ邵ｺ莉｣・・ｸｺ蜷ｶ・･
     }
 }
 
-// 謁E�E憾蠑ｾ蟷輔ｒ謦・▽蜁E��送E�E�E�医せ繝壹Ν繧�E�繝ｼ繝蛾�E��E�・壼�E�壼�E��E�莠�E�蟾�E�蠑ｾ蟷匁E��・
+// 隰・・諞ｾ陟托ｽｾ陝ｷ霈費ｽ定ｬｦ繝ｻ笆ｽ陷・ｽｦ騾・・・ｼ蛹ｻ縺帷ｹ晏｣ｹﾎ晉ｹｧ・ｫ郢晢ｽｼ郢晁崟・｢・ｨ繝ｻ螢ｼ・､螢ｼ・ｱ・､闔�・､陝ｾ・ｮ陟托ｽｾ陝ｷ蛹・ｽｼ繝ｻ
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 15;
     bool reflect = (m_lives == 2);
-    // 逵滉ｸ九ｒ荳�E�蠢・↓蠎�E�E�・峁E���E�謦・▽
+    // 騾ｵ貊会ｽｸ荵晢ｽ定叉・ｭ陟｢繝ｻ竊楢�弱・・ｯ繝ｻ蟲・ｸｺ・ｫ隰ｦ繝ｻ笆ｽ
     float baseAngle = PI / 2.0f;
     
-    // 2螻�E�縺�E�騾溷�E��E�縺碁E��E��・�E��E�蟷輔ｒ蜷梧凾縺�E�謦・▽
+    // 2陞ｻ・､邵ｺ・ｮ鬨ｾ貅ｷ・ｺ・ｦ邵ｺ遒・ｼ・ｸｺ繝ｻ・ｼ・ｾ陝ｷ霈費ｽ定惺譴ｧ蜃ｾ邵ｺ・ｫ隰ｦ繝ｻ笆ｽ
     for (int layer = 0; layer < 4; layer++) {
-        float speed = 2.0f + layer * 1.5f; // 驕�E�E�蠑ｾ縺�E�騾溘＞蠑ｾ
+        float speed = 2.0f + layer * 1.5f; // 鬩輔・・櫁�托ｽｾ邵ｺ・ｨ鬨ｾ貅假ｼ櫁�托ｽｾ
         for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
             float dx = std::cos(angle);
@@ -204,8 +211,8 @@ void Boss::ShootFanBarrage() {
     }
 }
 
-// 閾�E�讖溽漁縺・�E��E�蟷輔ｒ謦・▽蜁E��送E�E
-// 繝励Ξ繧�E�繝､繝ｼ縺�E�迴�E�蝨�E�菴咲�E��E�繧定ｨ育�E�励�E�縲√◎縺薙�E蜷代°縺�E�縺�E�3WAY縺�E�蠑ｾ繧堤匱蟁E�E�E�縺�E�縺吶€・
+// 髢ｾ・ｪ隶匁ｺｽ貍∫ｸｺ繝ｻ・ｼ・ｾ陝ｷ霈費ｽ定ｬｦ繝ｻ笆ｽ陷・ｽｦ騾・・
+// 郢晏干ﾎ樒ｹｧ・､郢晢ｽ､郢晢ｽｼ邵ｺ・ｮ霑ｴ・ｾ陜ｨ・ｨ闖ｴ蜥ｲ・ｽ・ｮ郢ｧ螳夲ｽｨ閧ｲ・ｮ蜉ｱ・�邵ｲ竏壺落邵ｺ阮吮・陷ｷ莉｣ﾂｰ邵ｺ・｣邵ｺ・ｦ3WAY邵ｺ・ｮ陟托ｽｾ郢ｧ蝣､蛹ｱ陝・・・�邵ｺ・ｾ邵ｺ蜷ｶ竄ｬ繝ｻ
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
@@ -231,12 +238,12 @@ void Boss::ShootTargetedBarrage() {
 
     float baseAngle = std::atan2(dy, dx);
 
-    // 蟁E�EↁEWAY閾�E�讖溽漁縺・
+    // 陝・・竊・WAY髢ｾ・ｪ隶匁ｺｽ貍∫ｸｺ繝ｻ
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
         new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 3.5f);
     }
-    // 蟁E���E�驕�E�E�蠎�E�E�縺�E�3WAY繧る㍾縺�E�繧・
+    // 陝・ｻ｣・�鬩輔・・櫁�弱・・∫ｸｺ・ｮ3WAY郢ｧ繧九裟邵ｺ・ｭ郢ｧ繝ｻ
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
         new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 2.5f);
@@ -246,8 +253,8 @@ void Boss::ShootTargetedBarrage() {
 void Boss::ShootSimpleBarrage() {
     const float PI = 3.14159265f;
     
-    // 繝ｩ繝ｳ繝€繝縺�E�蝓ｺ貁E�E�E�偵°繧峨€∝屁譁E��・亥・譁E��菴搾�E�峨ↁE逋ｺ縺�E�蠑ｾ繧堤匱蟁E�E☁E��・
-    // 60繝輔Ξ繝ｼ繝�E・遘帝俣・峨・縺昴・縺�E�縺�E�逶�E�騾�E�縺励€√◎縺�E�蠕�E20繝輔Ξ繝ｼ繝�E・遘帝俣・峨・繝ｬ繧�E�繝､繝ｼ繧定ｿ�E�蟁E��縺吶�E�E
+    // 郢晢ｽｩ郢晢ｽｳ郢昶ぎ郢晉ｸｺ・ｪ陜難ｽｺ雋・・・ｧ蛛ｵﾂｰ郢ｧ蟲ｨ竄ｬ竏晏ｱ∬ｭ・ｽｹ繝ｻ莠･繝ｻ隴・ｽｹ闖ｴ謳ｾ・ｼ蟲ｨ竊・騾具ｽｺ邵ｺ・ｮ陟托ｽｾ郢ｧ蝣､蛹ｱ陝・・笘・ｹｧ繝ｻ
+    // 60郢晁ｼ釆樒ｹ晢ｽｼ郢昴・繝ｻ驕伜ｸ昜ｿ｣繝ｻ蟲ｨ繝ｻ邵ｺ譏ｴ繝ｻ邵ｺ・ｾ邵ｺ・ｾ騾ｶ・ｴ鬨ｾ・ｲ邵ｺ蜉ｱ竄ｬ竏壺落邵ｺ・ｮ陟輔・20郢晁ｼ釆樒ｹ晢ｽｼ郢昴・繝ｻ驕伜ｸ昜ｿ｣繝ｻ蟲ｨ繝ｻ郢晢ｽｬ郢ｧ・､郢晢ｽ､郢晢ｽｼ郢ｧ螳夲ｽｿ・ｽ陝・ｽｾ邵ｺ蜷ｶ・・
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
@@ -271,14 +278,14 @@ void Boss::ShootBouncingBarrage() {
 
 void Boss::ShootSpellCardBarrage() {
     const float PI = 3.14159265f;
-    // 巨大な弾を�E形に大量に放ち、さらにそれが反封E��る（スペルカード級�E難易度�E�E
+    // 蟾ｨ螟ｧ縺ｪ蠑ｾ繧貞・蠖｢縺ｫ螟ｧ驥上↓謾ｾ縺｡縲√＆繧峨↓縺昴ｌ縺悟渚蟆・☆繧具ｼ医せ繝壹Ν繧ｫ繝ｼ繝臥ｴ壹・髮｣譏灘ｺｦ・・
     for (int i = 0; i < 24; i++) {
         float angle = (i * 2.0f * PI) / 24.0f;
         float dx = std::cos(angle);
         float dy = std::sin(angle);
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.0f, true); // 反封E��る遅ぁE��
+        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.0f, true); // 蜿榊ｰ・☆繧矩≦縺・ｼｾ
     }
-    // 時間差で速い弾を放つ
+    // 譎る俣蟾ｮ縺ｧ騾溘＞蠑ｾ繧呈叛縺､
     for (int i = 0; i < 12; i++) {
         float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
         float dx = std::cos(angle);
@@ -287,19 +294,19 @@ void Boss::ShootSpellCardBarrage() {
     }
 }
 
-// 繝€繝｡繝ｼ繧�E�繧貞女縺代�E�蜃�E�送E�E
-// 繝励Ξ繧�E�繝､繝ｼ縺�E�謾�E�謦・→蠖薙◁E���E�縺滁E��縺�E�蜻�E�縺�E�繧後€�E�P繧呈ｸ帙ｉ縺励∪縺吶€・莉･荳九�E縺�E�縺�E�縺溘ｉ豁E��莠�E�貍泌�E(m_isDying)繧帝幕蟋九＠縺�E�縺吶€・
+// 郢昶ぎ郢晢ｽ｡郢晢ｽｼ郢ｧ・ｸ郢ｧ雋槫･ｳ邵ｺ莉｣・玖怎・ｦ騾・・
+// 郢晏干ﾎ樒ｹｧ・､郢晢ｽ､郢晢ｽｼ邵ｺ・ｮ隰ｾ・ｻ隰ｦ繝ｻ竊定�冶侭笳・ｸｺ・｣邵ｺ貊・怙邵ｺ・ｫ陷ｻ・ｼ邵ｺ・ｰ郢ｧ蠕娯ぎ・蘖郢ｧ蜻茨ｽｸ蟶呻ｽ臥ｸｺ蜉ｱ竏ｪ邵ｺ蜷ｶ竄ｬ繝ｻ闔会ｽ･闕ｳ荵昶・邵ｺ・ｪ邵ｺ・｣邵ｺ貅假ｽ芽ｱ・ｽｻ闔�・｡雋肴ｳ後・(m_isDying)郢ｧ蟶晏ｹ戊沂荵晢ｼ�邵ｺ・ｾ邵ｺ蜷ｶ竄ｬ繝ｻ
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
 
-    // m_lives 縺�E�謁E��虚貂帛ｰ代Ο繧�E�繝�Eけ繧貞炎髯�E�縺励€・縺�E�縺�E�縺�E�縺滓�E縺�E�縺�E�蛻�E�螳・
+    // m_lives 邵ｺ・ｮ隰・唱陌夊ｲょｸ幢ｽｰ莉｣ﾎ溽ｹｧ・ｸ郢昴・縺醍ｹｧ雋樒ｎ鬮ｯ・､邵ｺ蜉ｱ竄ｬ繝ｻ邵ｺ・ｫ邵ｺ・ｪ邵ｺ・｣邵ｺ貊灘・邵ｺ・ｮ邵ｺ・ｿ陋ｻ・､陞ｳ繝ｻ
 
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
         m_lives--;
         
-        // ボスの吁E��態を倒した（あるいは完�Eに倒した）時にすべての敵弾を消す
+        // 繝懊せ縺ｮ蜷・ｽ｢諷九ｒ蛟偵＠縺滂ｼ医≠繧九＞縺ｯ螳悟・縺ｫ蛟偵＠縺滂ｼ画凾縺ｫ縺吶∋縺ｦ縺ｮ謨ｵ蠑ｾ繧呈ｶ医☆
         std::vector<Object2D*> bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
         for (auto* b : bullets) {
             b->SetDeleteFlag(true);
@@ -347,8 +354,8 @@ void Boss::TakeDamage(int damage) {
     }
 }
 
-// 螳悟�E縺�E�豸域ｻ・�E�E��帙ｋ蜃�E�送E�E
-// 豁E��莠�E�貍泌�E縺檎ｵめE��縺�E�縺溷�E�後�E蜻�E�縺�E�繧後√ご繝ｼ繝�繧�E�繝ｪ繧�E�・・esultScene縺�E�縺�E�遘ｻ陦鯉ｼ峨�E�繝医Μ繧�E�繝ｼ縺励∪縺吶・
+// 陞ｳ謔溘・邵ｺ・ｫ雎ｸ蝓滂ｽｻ繝ｻ・・ｸｺ蟶呻ｽ玖怎・ｦ騾・・
+// 雎・ｽｻ闔�・｡雋肴ｳ後・邵ｺ讙趣ｽｵ繧・ｽ冗ｸｺ・｣邵ｺ貅ｷ・ｾ蠕娯・陷ｻ・ｼ邵ｺ・ｰ郢ｧ蠕個竏壹＃郢晢ｽｼ郢晢ｿｽ郢ｧ・ｯ郢晢ｽｪ郢ｧ・｢繝ｻ繝ｻesultScene邵ｺ・ｸ邵ｺ・ｮ驕假ｽｻ髯ｦ魃会ｽｼ蟲ｨ・堤ｹ晏現ﾎ懃ｹｧ・ｬ郢晢ｽｼ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
 void Boss::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -363,8 +370,8 @@ void Boss::Kill() {
     }
 }
 
-// 莉悶・繧�E�繝悶ず繧�E�繧�E�繝医→驥阪↑縺�E�縺�E�縺・�E�譎ゅ・蜁E��送E�E�E�亥�E�薙◆繧雁�E螳壹ぁE��吶Φ繝茨�E�・
-// 繝励Ξ繧�E�繝､繝ｼ縺�E�蠑ｾ・磯壼�E��E�蠑ｾ縲∬�E�第磁縲∝ｿ・�E��E�謚・峨→蠖薙◁E���E�縺溷�E��E�蜷医↓縲∬・霁E��縺�E�TakeDamage繧貞他縺�E�蜁E��縺励∪縺吶・
+// 闔画じ繝ｻ郢ｧ・ｪ郢晄じ縺夂ｹｧ・ｧ郢ｧ・ｯ郢晏現竊帝ｩ･髦ｪ竊醍ｸｺ・｣邵ｺ・ｦ邵ｺ繝ｻ・玖ｭ弱ｅ繝ｻ陷・ｽｦ騾・・・ｼ莠･・ｽ阮吮螺郢ｧ髮∵・陞ｳ螢ｹ縺・ｹ晏生ﾎｦ郢晁肩・ｼ繝ｻ
+// 郢晏干ﾎ樒ｹｧ・､郢晢ｽ､郢晢ｽｼ邵ｺ・ｮ陟托ｽｾ繝ｻ逎ｯﾂ螢ｼ・ｸ・ｸ陟托ｽｾ邵ｲ竏ｬ・ｿ隨ｬ逎∫ｸｲ竏晢ｽｿ繝ｻ・ｮ・ｺ隰堋繝ｻ蟲ｨ竊定�冶侭笳・ｸｺ・｣邵ｺ貅ｷ・ｽ・ｴ陷ｷ蛹ｻ竊鍋ｸｲ竏ｬ繝ｻ髴・ｽｫ邵ｺ・ｮTakeDamage郢ｧ雋樔ｻ也ｸｺ・ｳ陷・ｽｺ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
 void Boss::OnTrigger(Collider* collider, Collider* check) {
     if (m_isDying) return;
 
@@ -398,8 +405,8 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
     }
 }
 
-// 謠冗判蜁E��送E�E
-// 繝懊せ縺�E�逕ｻ蜒上ｒ謠冗判縺励∪縺吶よｭ�E�莠�E�貍泌�E荳�E�縺�E�繝�Eき繝�Eき縺�E�轤�E�貊�E�E�E��帙∬恭隱槭・繝｡繝�Eそ繝ｼ繧�E�繧定｡�E�遉ｺ縺励∪縺吶・
+// 隰�蜀怜愛陷・ｽｦ騾・・
+// 郢晄㈱縺帷ｸｺ・ｮ騾包ｽｻ陷剃ｸ奇ｽ定ｬ�蜀怜愛邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繧茨ｽｭ・ｻ闔�・｡雋肴ｳ後・闕ｳ・ｭ邵ｺ・ｯ郢昶・縺咲ｹ昶・縺咲ｸｺ・ｨ霓､・ｹ雋翫・・・ｸｺ蟶卍竏ｬ諱ｭ髫ｱ讒ｭ繝ｻ郢晢ｽ｡郢昴・縺晉ｹ晢ｽｼ郢ｧ・ｸ郢ｧ螳夲ｽ｡・ｨ驕会ｽｺ邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
 void Boss::Draw() {
     if (!m_isActive) return;
 
@@ -408,14 +415,14 @@ void Boss::Draw() {
     if (s_bossGraphHandle != -1) {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
             if (m_invincibleTimer > 0) {
-                // 無敵バリアの描画
+                // 辟｡謨ｵ繝舌Μ繧｢縺ｮ謠冗判
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (m_invincibleTimer % 20) * 5);
-                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(200, 50, 255), TRUE); // 塗りつぶぁE
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(200, 50, 255), TRUE); // 蝪励ｊ縺､縺ｶ縺・
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(255, 150, 255), FALSE); // 縁取めE
-                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 107, GetColor(255, 255, 255), FALSE); // 冁E�Eの縁取めE
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(255, 150, 255), FALSE); // 邵∝叙繧・
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 107, GetColor(255, 255, 255), FALSE); // 蜀・・縺ｮ邵∝叙繧・
                 
-                // ボス本体�E透過
+                // 繝懊せ譛ｬ菴薙・騾城℃
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (m_invincibleTimer % 20) * 5);
             }
             DrawExtendGraph(
