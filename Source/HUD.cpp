@@ -44,9 +44,9 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
     if (player != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 270, GetColor(0, 15, 30), TRUE); 
+        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); 
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 270, GetColor(0, 128, 255), FALSE); 
+        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); 
 
         // Player HP
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <cmath>
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
@@ -41,8 +42,8 @@ Player::~Player() {
     m_stunTimer = 0;
 }
 
-// プレイヤーの初期化処理
-// ゲーム開始時やリトライ時に呼ばれ、HPやレベル、座標などを初期状態に戻します。
+// プレイヤーの初期化�E琁E
+// ゲーム開始時めE��トライ時に呼ばれ、HPめE��ベル、座標などを�E期状態に戻します、E
 void Player::Initialize() {
     mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
     mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
@@ -53,7 +54,7 @@ void Player::Initialize() {
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 1;
-    m_attackTimer = 20; // 逋ｺ蟆・俣髫斐ｒ遏ｭ縺擾ｼ磯€｣蟆・ｼ・
+    m_attackTimer = 20; // 逋ｺ蟁E�E俣髫斐ｒ遏�E�縺擾�E�磯€�E�蟁E�E�E�・
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
     m__BarrierCount = 0;
@@ -64,7 +65,7 @@ void Player::Initialize() {
     m_levelUpTimer = 0;                  
     
     m_spellGauge = 0;
-    m_maxSpellGauge = 10; // 謨ｵ10菴灘・縺ｧ繧ｲ繝ｼ繧ｸMAX
+    m_maxSpellGauge = 10; // 謨�E�10菴灘�E縺�E�繧�E�繝ｼ繧�E�MAX
 
     if (s_selectedCharacterType == 1)//男性
     {
@@ -83,7 +84,7 @@ void Player::Initialize() {
         m_speed = 5.0f;
         m_maxHp = 10;
         m_hp = m_maxHp;
-        mfAttack = 2;//純粋な火力をあげる
+        mfAttack = 2;//純粋な火力をあげめE
     }
     else
     {
@@ -97,8 +98,8 @@ void Player::Initialize() {
 	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
 }
 
-// 毎フレーム呼ばれる更新処理
-// キー入力による移動や、画面外に出ないようにする制限、各種タイマーの更新を行います。
+// 毎フレーム呼ばれる更新処琁E
+// キー入力による移動や、画面外に出なぁE��ぁE��する制限、各種タイマ�Eの更新を行います、E
 void Player::Update()
 {
     if (m_levelUpTimer > 0) {
@@ -112,10 +113,10 @@ void Player::Update()
             mpCollider->mvPosition = mvPosition;
             mpCollider->mvPosition2 = mvPosition;
         }
-        return; // スタン中は入力と攻撃をスキップ
+        return; // スタン中は入力と攻撁E��スキチE�E
     }
 
-    // 低速移動（フォーカス）モード
+    // 低速移動（フォーカス�E�モーチE
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
     float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
 
@@ -132,7 +133,7 @@ void Player::Update()
 
     mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
     
-    // バリアをプレイヤーに追従させる
+    // バリアを�Eレイヤーに追従させる
     if (mpBarrier) {
         mpBarrier->SetPosition(mvPosition);
     }
@@ -162,11 +163,36 @@ void Player::Update()
    
 }
 
-// プレイヤーの描画処理
-// プレイヤー自身の画像を描画します。
+// プレイヤーの描画処琁E
+// プレイヤー自身の画像を描画します、E
 void Player::Draw() {
+    // Draw Barrier Aura
+    if (mpBarrier != nullptr && mpBarrier->GetHitCount() > 0) {
+        int hitCount = mpBarrier->GetHitCount();
+        float ratio = static_cast<float>(hitCount) / 30.0f;
+        
+        SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
+        int auraColor = (hitCount >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
+        
+        for (int i = 0; i < 5; i++) {
+            float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
+            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
+        }
+        
+        int time = GetNowCount();
+        int numParticles = static_cast<int>(15 * ratio);
+        for (int i = 0; i < numParticles; i++) {
+            float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
+            float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
+            int px = static_cast<int>(mvPosition.x + cosf(angle) * dist);
+            int py = static_cast<int>(mvPosition.y + sinf(angle) * dist);
+            DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
+        }
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
     if (m_stunTimer > 0) {
-        // スタン中は青い円を描画
+        // スタン中は青い冁E��描画
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -194,15 +220,15 @@ void Player::Draw() {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
 
-    // 低速移動中は当たり判定（コア）を描画する
+    // 低速移動中は当たり判定（コア�E�を描画する
     if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠（白）
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中心（赤）
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // 外枠�E�白�E�E
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // 中忁E��赤�E�E
     }
 }
 
-// ダメージを受ける処理
-// 敵や敵の弾と当たった際に呼ばれ、HPを減らします。HPが0になるとリザルト画面（敗北）に移行します。
+// ダメージを受ける処琁E
+// 敵めE��の弾と当たった際に呼ばれ、HPを減らします、EPぁEになるとリザルト画面�E�敗北）に移行します、E
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
     SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.mp3");
@@ -212,13 +238,13 @@ void Player::TakeDamage(int damage) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-// 攻撃処理
-// 選択されている攻撃モード（通常弾、近接、必殺技）に応じて弾を生成・発射します。
+// 攻撁E�E琁E
+// 選択されてぁE��攻撁E��ード（通常弾、近接、忁E��技�E�に応じて弾を生成�E発封E��ます、E
 
 
 void Player::Attack()
 {
-    int mouseInput = GetMouseInput(); // マウスの状態を取得
+    int mouseInput = GetMouseInput(); // マウスの状態を取征E
     bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
     
     m_AttackInterval++;
@@ -228,10 +254,10 @@ void Player::Attack()
         m_specialCooldown--;
     }
     
-    // Zキーが押されている間、メインショットを発射
+    // Zキーが押されてぁE��間、メインショチE��を発封E
     if ( m_AttackInterval >= m_attackTimer)
     {
-        m_AttackInterval = 0;//intervalの初期化
+        m_AttackInterval = 0;//intervalの初期匁E
             int numBullets = m_level;
             float spacing = 20.0f;
             float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
@@ -269,19 +295,19 @@ void Player::Attack()
         }
     }
 
-    // スペルカードの発動（Xキー）
+    // スペルカード�E発動！Eキー�E�E
     if (mouseInput&&MOUSE_INPUT_LEFT) 
     {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0; // ゲージ消費
-            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬る1.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬めE.mp3");
             
             if (s_selectedCharacterType == 1)
             {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
                 new MasterSpark(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 2) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/聖魔法.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/聖魔況Emp3");
                 new RainbowWaveManager(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 3) {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
@@ -296,26 +322,26 @@ void Player::Attack()
     }
 }
 
-// 経験値（XP）の獲得とレベルアップ処理
-// 敵を倒した時に呼ばれ、一定値を超えるとレベルアップしてHPを全回復します。
+// 経験値�E�EP�E��E獲得とレベルアチE�E処琁E
+// 敵を倒した時に呼ばれ、一定値を趁E��るとレベルアチE�EしてHPを�E回復します、E
 void Player::AddXp(int amount) {
     m_xp += amount;
     
-    // スペルゲージ上昇
+    // スペルゲージ上�E
     int oldGauge = m_spellGauge;
     m_spellGauge += amount;
     if (m_spellGauge >= m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
         if (oldGauge < m_maxSpellGauge) {
             // ゲージがMAXになった瞬間にSEを一回だけ鳴らす
-            SoundManager::GetInstance()->PlaySE("Resource/SE/ステータス上昇魔法2.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/スチE�Eタス上�E魔況E.mp3");
         }
     }
     // Level-up loop (handles multiple level-ups from one big XP gain)
     while (m_xp >= m_xpNeeded) {
         m_xp -= m_xpNeeded;
         m_level++;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/ステータス上昇魔法2.mp3");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/スチE�Eタス上�E魔況E.mp3");
         m_xpNeeded = m_level * 5; // Each level requires (level * 5) XP
         // Bonus on level up: full HP restore
         m_hp = m_maxHp;
@@ -325,8 +351,8 @@ void Player::AddXp(int amount) {
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
 
-// 他のオブジェクトと重なっている時の処理
-// 敵本体とぶつかった場合にダメージを受けます。
+// 他�Eオブジェクトと重なってぁE��時�E処琁E
+// 敵本体とぶつかった場合にダメージを受けます、E
 void Player::OnTrigger(Collider* collider, Collider* check) 
 {
    
