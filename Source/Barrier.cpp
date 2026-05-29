@@ -1,4 +1,4 @@
-﻿#include "Barrier.h"
+#include "Barrier.h"
 #include "CapsuleCollider.h"
 #include "DxLib.h"
 #include "Utility.h"
@@ -61,10 +61,14 @@ void Barrier::Update() {
 
 void Barrier::Draw() {
     if (m_isDeployed) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(0, 150, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(150, 255, 255), FALSE);
+        int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
+        SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
+        
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(0, 50, 150), TRUE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(255, 255, 255), FALSE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius) - 1, GetColor(0, 255, 255), FALSE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius) + 1, GetColor(0, 255, 255), FALSE);
+        
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 }
