@@ -79,12 +79,12 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,12 +114,12 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>
@@ -143,19 +143,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Barrier.h" />
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\BulletManager.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\CapsuleCollider.h" />
     <ClInclude Include="Source\ColliderManager.h" />
+    <ClInclude Include="Source\DebugLog.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\EnemyManager.h" />
+    <ClInclude Include="Source\ExplosionParticle.h" />
     <ClInclude Include="Source\GameScene.h" />
+    <ClInclude Include="Source\HpBar.h" />
+    <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Master.h" />
+    <ClInclude Include="Source\MasterSpark.h" />
     <ClInclude Include="Source\Object2D.h" />
     <ClInclude Include="Source\ObjectManager.h" />
+    <ClInclude Include="Source\Obstacle.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\RainbowBullet.h" />
+    <ClInclude Include="Source\RainbowWaveManager.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\TitleScene.h" />
@@ -173,6 +182,7 @@
     <ClInclude Include="Source\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Barrier.cpp" />
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\BulletManager.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
@@ -180,12 +190,18 @@
     <ClCompile Include="Source\ColliderManager.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EnemyManager.cpp" />
+    <ClCompile Include="Source\ExplosionParticle.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
+    <ClCompile Include="Source\HUD.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
+    <ClCompile Include="Source\MasterSpark.cpp" />
     <ClCompile Include="Source\Object2D.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\ObjectManager.cpp" />
+    <ClCompile Include="Source\Obstacle.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\RainbowBullet.cpp" />
+    <ClCompile Include="Source\RainbowWaveManager.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
@@ -200,6 +216,10 @@
     <ClCompile Include="Source\EnemyBullet.cpp" />
     <ClCompile Include="Source\Boss.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\refactor.ps1" />
+    <None Include="Source\refactor.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

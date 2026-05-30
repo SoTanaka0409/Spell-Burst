@@ -1,8 +1,53 @@
-﻿  SpellCardBullet.cpp
-C:\Users\student\Desktop\Aigame\Source\Object2D.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SpellCardBullet.cpp' をコンパイルしています)
+﻿  Barrier.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(27,32): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
   
-C:\Users\student\Desktop\Aigame\Source\Enemy.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/SpellCardBullet.cpp' をコンパイルしています)
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(27,32): error C2065: 'TimeScale': 定義されていない識別子です。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(75,25): error C2065: 'tag2D_BarierPla': 定義されていない識別子です。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(80,30): error C2065: 'tag2D_BarierEne': 定義されていない識別子です。
+  ExplosionParticle.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(21,37): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
   
-  Project1.vcxproj -> C:\Users\student\Desktop\Aigame\x64\Debug\Project1_v2.exe
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(21,37): error C2065: 'TimeScale': 定義されていない識別子です。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(22,37): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(22,37): error C2065: 'TimeScale': 定義されていない識別子です。
+  HUD.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/HUD.cpp' をコンパイルしています)
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\HUD.cpp(21,39): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\HUD.cpp(21,39): error C2065: 'TimeScale': 定義されていない識別子です。
+  MasterSpark.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/MasterSpark.cpp' をコンパイルしています)
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\MasterSpark.cpp(79,13): error C2039: 'AddScreenShake': 'GameScene' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\GameScene.h(7,7):
+      'GameScene' の宣言を確認してください
+  
+  Obstacle.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  (ソース ファイル 'Source/Obstacle.cpp' をコンパイルしています)
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Obstacle.cpp(24,44): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Obstacle.cpp(24,44): error C2065: 'TimeScale': 定義されていない識別子です。
+  RainbowBullet.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RainbowBullet.cpp(30,40): error C2039: 'TimeScale': 'Utility' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
+      'Utility' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RainbowBullet.cpp(30,40): error C2065: 'TimeScale': 定義されていない識別子です。
+  コードを生成中...
