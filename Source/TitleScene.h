@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include "Scene.h"
 
-// タイトル画面クラス
+// title screen class
 class TitleScene : public Scene {
 public:
 

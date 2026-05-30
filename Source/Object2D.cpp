@@ -12,22 +12,22 @@ Object2D::Object2D(VECTOR initPos)
 	, mnTag(Tag2D::None2D)
 	, mbDrawFlag(true)
 {
-	//ï¿½ï¿½ï¿½İ‚ÌƒVï¿½[ï¿½ï¿½ï¿½ï¿½objectManagerï¿½Éï¿½ï¿½Mï¿½ithis)ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½wwwwwwwwwwwwwwww
+	// ESuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsuEsusu
 	Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
 }
 
-//ï¿½fï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
+// EsfEsXEsgEsEsEsNEs^
 Object2D::~Object2D()
 {
 
 }
-//ï¿½`ï¿½ï¿½
+// E½`EbEs
 void Object2D::Draw()
 {
 
 }
 
-//ï¿½Xï¿½V
+// EbXEbV
 void Object2D::Update()
 {
 

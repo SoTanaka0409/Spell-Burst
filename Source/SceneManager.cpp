@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+﻿#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -6,12 +6,6 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 #include "DebugLog.h"
-<<<<<<< HEAD
-=======
-#include "Master.h"
-
-SceneManager* Master::sceneManager = nullptr;
->>>>>>> main
 
 SceneManager::SceneManager()
 	: mnSceneType(SCENE_TYPE::SCENE_NONE)
@@ -33,19 +27,19 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	// 最初はタイトル画面から開始する
+	// Start from the title screen
 	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
 
-	// シーン切り替え処理を呼び出す
+	// Call scene switching process
 	ChangeSceneIfNeeded();
 }
 
 void SceneManager::Update()
 {
-	// シーン切り替えが必要なら処理する
+	// Process scene changes if necessary
 	ChangeSceneIfNeeded();
 
-	// 現在のシーンを更新する
+	// Update current scene
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Update();
@@ -56,7 +50,7 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene);
-	// 現在のシーンを描画する
+	// draw the current scene
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Draw();
@@ -75,13 +69,13 @@ void SceneManager::Finalize()
 
 void SceneManager::ChangeSceneIfNeeded()
 {
-	// シーンが変わらない場合は何もしない
+	// If the scene does not change, do nothing
 	if (mnSceneType == mnNextSceneType)
 	{
 		return;
 	}
 
-	// 現在のシーンがある場合は終了処理を行って破棄する
+	// If there is a current scene, perform end processing and discard it.
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Finalize();
@@ -89,10 +83,10 @@ void SceneManager::ChangeSceneIfNeeded()
 		mpCurrentScene = nullptr;
 	}
 
-	// シーンタイプを更新
+	// Update scene type
 	mnSceneType = mnNextSceneType;
 
-	// 新しいシーンを生成する
+	// generate a new scene
 	switch (mnSceneType)
 	{
 	case SCENE_TYPE::SCENE_TITLE:
@@ -112,7 +106,7 @@ void SceneManager::ChangeSceneIfNeeded()
 		break;
 	}
 
-	// 生成に成功していれば初期化処理を呼ぶ
+	// If the generation is successful, call the initialization process
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Initialize();

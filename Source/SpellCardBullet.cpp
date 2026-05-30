@@ -4,23 +4,14 @@
 #include "DxLib.h"
 #include "PlayerSpellParticle.h"
 #include <cmath>
-<<<<<<< HEAD
-=======
-#include "Utility.h"
->>>>>>> main
 
 SpellCardBullet::SpellCardBullet(float x, float y)
     : Object2D(VGet(x, y, 0.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet);
-<<<<<<< HEAD
     m_x = x;
     m_y = y;
-=======
-    mvPosition.x = x;
-    mvPosition.y = y;
->>>>>>> main
     m_speed = 8.0f;
     m_isActive = true;
     m_damage = 10;
@@ -39,13 +30,8 @@ SpellCardBullet::~SpellCardBullet() {
 void SpellCardBullet::Update() {
     if (!m_isActive) return;
 
-<<<<<<< HEAD
     m_y -= m_speed;
     mvPosition = VGet(m_x, m_y, 0.0f);
-=======
-    mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
->>>>>>> main
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -65,15 +51,9 @@ void SpellCardBullet::Draw() {
     unsigned int colorInner = GetColor(255, 200, 255);
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-<<<<<<< HEAD
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 45, colorOuter, TRUE);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 25, colorInner, TRUE);
-=======
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, colorOuter, TRUE);
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 25, colorInner, TRUE);
->>>>>>> main
 }
 
 void SpellCardBullet::Explode() {
@@ -89,11 +69,7 @@ void SpellCardBullet::Explode() {
             float angle = baseAngle + (i * 2.0f * PI / 16.0f);
             float dx = std::cos(angle);
             float dy = std::sin(angle);
-<<<<<<< HEAD
             new PlayerSpellParticle(m_x, m_y, dx, dy, speed);
-=======
-            new PlayerSpellParticle(mvPosition.x, mvPosition.y, dx, dy, speed);
->>>>>>> main
         }
     }
 

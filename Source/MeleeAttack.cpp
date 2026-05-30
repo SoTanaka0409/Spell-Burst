@@ -1,4 +1,4 @@
-#include "MeleeAttack.h"
+﻿#include "MeleeAttack.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "DxLib.h"
@@ -10,13 +10,8 @@ MeleeAttack::MeleeAttack(float x, float y)
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet); // So it's recognized as a player attack
-<<<<<<< HEAD
     m_x = x;
     m_y = y;
-=======
-    mvPosition.x = x;
-    mvPosition.y = y;
->>>>>>> main
     m_lifetime = 10; // Active for 10 frames
     m_damage = 3;    // High damage melee slash
 
@@ -31,13 +26,8 @@ MeleeAttack::~MeleeAttack() {
     }
 }
 
-<<<<<<< HEAD
-// 毎フレーム呼ばれる更新処理
-// 持続時間（寿命）を減らし、0になったら消滅させます。
-=======
-// 毎フレーム呼ばれる更新処琁E
-// 持続時間（寿命�E�を減らし、Eになったら消滁E��せます、E
->>>>>>> main
+// Update processing called every frame
+// Decrease the duration (lifespan), and when it reaches 0, it will disappear.
 void MeleeAttack::Update() {
     m_lifetime--;
     if (m_lifetime <= 0) {
@@ -48,13 +38,8 @@ void MeleeAttack::Update() {
     }
 }
 
-<<<<<<< HEAD
-// 描画処理
-// 近接攻撃のエフェクト（半透明の斬撃など）を描画します。
-=======
-// 描画処琁E
-// 近接攻撁E�Eエフェクト（半透�Eの斬撁E��ど�E�を描画します、E
->>>>>>> main
+// Drawing processing
+// Draws melee attack effects (such as translucent slashes).
 void MeleeAttack::Draw() {
     // Draw a beautiful white and cyan slash arc pointing upwards using overlapping circles
     unsigned int slashColor = GetColor(100, 255, 255);
@@ -63,13 +48,8 @@ void MeleeAttack::Draw() {
     // Draw 9 small circles forming an arc pointing upwards (from 210 degrees to 330 degrees)
     for (int i = 0; i <= 8; i++) {
         double angle = (PI + PI/6.0) + (i * (2.0 * PI / 3.0)) / 8.0;
-<<<<<<< HEAD
         int sx = static_cast<int>(m_x + std::cos(angle) * radius);
         int sy = static_cast<int>(m_y + std::sin(angle) * radius);
-=======
-        int sx = static_cast<int>(mvPosition.x + std::cos(angle) * radius);
-        int sy = static_cast<int>(mvPosition.y + std::sin(angle) * radius);
->>>>>>> main
         DrawCircle(sx, sy, 8, slashColor, TRUE);
         // Draw inner white circle for a glowing hot core effect
         DrawCircle(sx, sy, 4, GetColor(255, 255, 255), TRUE);

@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
@@ -11,24 +12,11 @@
 #include <cstdlib>
 #include "Utility.h"
 #include "ResourceManager.h"
-<<<<<<< HEAD
-=======
-#include "HUD.h"
-
-int GameScene::s_currentStage = 1;
->>>>>>> main
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
     , m_cutinTimer(0)
     , m_cutinImageHandle(-1)
-<<<<<<< HEAD
-=======
-    , m_screenHandle(-1)
-    , m_shakeTimer(0)
-    , m_shakeMagnitude(0.0f)
-    , m_hitStopTimer(0)
->>>>>>> main
 {
 }
 
@@ -37,81 +25,40 @@ GameScene::~GameScene() {
         delete mpEnemyManager;
         mpEnemyManager = nullptr;
     }
-<<<<<<< HEAD
 }
 
-// シーンの初期化処理
-// プレイヤー、敵マネージャー、各種オブジェクト管理クラスのインスタンスを生成・初期化します。
+// �ーヺの�f�期�l?�A琁E
+// Encouragement �� �, �, ーめ� �ゞ�Yースチh ー、�?����?���� ェク��
 void GameScene::Initialize() {
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
 
     // Create EnemyManager
-=======
-    if (m_screenHandle != -1) {
-        DeleteGraph(m_screenHandle);
-        m_screenHandle = -1;
-    }
-}
-
-void GameScene::Initialize() {
-    DebugLog("GameScene::Initialize() called!\n");
-    srand(static_cast<unsigned int>(GetNowCount()));
-    HUD::Initialize();
-
->>>>>>> main
     mpEnemyManager = new EnemyManager();
     mpEnemyManager->Initialize();
 
     m_cutinTimer = 0;
     m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_mackerel.png");
 
-<<<<<<< HEAD
     // Create player (automatically registered to current scene's ObjectManager)
     new Player();
 
     // Create initial test enemies through EnemyManager (horizontal scrolling)
-=======
-    m_screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
-    m_shakeTimer = 0;
-    m_shakeMagnitude = 0.0f;
-    m_hitStopTimer = 0;
-
-    new Player();
-
->>>>>>> main
     mpEnemyManager->SpawnEnemy(1330.0f, 150.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 350.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
 }
 
-<<<<<<< HEAD
-// 毎フレーム呼ばれる更新処理
-// ESCキーによるポーズ機能の処理、およびゲーム中であれば全オブジェクトや敵の出現を更新します。
+// If you are weak, you will be disappointed.
+// ESC キーに�Physician �sub�Eズ機�E?��b�琁E�お�Physician�Eゲーム中
 void GameScene::Update() {
     if (m_cutinTimer > 0) {
         m_cutinTimer--;
-        return; // 時間停止！オブジェクトや敵の更新を行わない
-=======
-void GameScene::Update() {
-    if (m_hitStopTimer > 0) {
-        m_hitStopTimer--;
-        return; 
-    }
-
-    if (m_shakeTimer > 0) {
-        m_shakeTimer--;
-    }
-
-    if (m_cutinTimer > 0) {
-        m_cutinTimer--;
-        return; 
->>>>>>> main
+        return; // I'm sorry, but I'm not in agony.
     }
 
     Scene::Update();
 
-<<<<<<< HEAD
     // Update EnemyManager (spawns enemies dynamically)
     if (mpEnemyManager != nullptr) {
         mpEnemyManager->Update();
@@ -122,8 +69,8 @@ void GameScene::Update() {
     }
 }
 
-// 毎フレーム呼ばれる描画処理
-// 背景画像、ゲーム内の全オブジェクト、HUD（プレイヤーのHPやレベル、経験値バーなど）を描画します。
+// If you are weak, you will not be able to meet the spider.
+// Do you want to go to the hospital? 
 void GameScene::Draw() {
     // Draw Stage Background (Underwater ocean world)
     int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
@@ -238,13 +185,6 @@ void GameScene::Draw() {
     }
 
     // Boss HP Bar (Top Center)
-=======
-    if (mpEnemyManager != nullptr) {
-        mpEnemyManager->Update();
-    }
-    
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
->>>>>>> main
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
         Boss* b = dynamic_cast<Boss*>(obj);
@@ -253,7 +193,6 @@ void GameScene::Draw() {
             break;
         }
     }
-<<<<<<< HEAD
 
     if (boss != nullptr && boss->IsActive()) {
         int barWidth = 400;
@@ -313,68 +252,8 @@ void GameScene::TriggerCutin() {
     m_cutinTimer = 90; // 1.5 seconds freeze
 }
 
-// シーン終了時の処理
-// シーン切り替え時などに呼ばれ、動的に確保したメモリ（敵マネージャーなど）を解放します。
-=======
-    HUD::Update(player, mpEnemyManager, boss);
-
-    if (InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
-    }
-}
-
-void GameScene::Draw() {
-    if (m_screenHandle != -1) {
-        SetDrawScreen(m_screenHandle);
-        ClearDrawScreen();
-    }
-
-    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
-    if (s_bgGraphHandle != -1) {
-        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
-    }
-
-    Scene::Draw();
-
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
-    Boss* boss = nullptr;
-    for (auto obj : GetObjectManager()->GetObjectList()) {
-        Boss* b = dynamic_cast<Boss*>(obj);
-        if (b != nullptr) {
-            boss = b;
-            break;
-        }
-    }
-    HUD::Draw(player, mpEnemyManager, boss, m_cutinTimer, m_cutinImageHandle);
-
-    if (m_screenHandle != -1) {
-        SetDrawScreen(DX_SCREEN_BACK);
-
-        int offsetX = 0;
-        int offsetY = 0;
-        if (m_shakeTimer > 0) {
-            offsetX = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
-            offsetY = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
-        }
-
-        DrawGraph(offsetX, offsetY, m_screenHandle, TRUE);
-    }
-}
-
-void GameScene::AddScreenShake(int duration, float magnitude) {
-    m_shakeTimer = duration;
-    m_shakeMagnitude = magnitude;
-}
-
-void GameScene::AddHitStop(int duration) {
-    m_hitStopTimer = duration;
-}
-
-void GameScene::TriggerCutin() {
-    m_cutinTimer = 90; 
-}
-
->>>>>>> main
+// Yuko Sono, ??��encounter,
+// �ーン?�Ej替?���なに�j�ば�?���皁E���غ保し�
 void GameScene::Finalize() {
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();

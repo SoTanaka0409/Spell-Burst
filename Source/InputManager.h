@@ -6,13 +6,13 @@ public:
 
 	~InputManager();
 
-	// ï¿½wï¿½è‚³ï¿½ê‚½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½uï¿½Ô‚ï¿½ï¿½ï¿½ 1 ï¿½ï¿½Ô‚ï¿½ï¿½Öï¿½
+	// ESWESUYUESUSUSUESUESU [ESUESUESUESUESUESUESUSUSUSUESUESUYASUSUSUESUESU 1
 	static int CheckDownKey(int KeyCode);
 
-	// ï¿½wï¿½è‚³ï¿½ê‚½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½uï¿½Ô‚ï¿½ï¿½ï¿½ 1 ï¿½ï¿½Ô‚ï¿½ï¿½Öï¿½
+	// ESWESUYUESUSUSUESUESU [ESUESUESUESUESUESUESUSUSUSUESUESUYASUSUSUESUESU 1
 	static int CheckUpKey(int KeyCode);
 
-	// ï¿½wï¿½è‚³ï¿½ê‚½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ô‚Pï¿½ï¿½Ô‚ï¿½ï¿½Öï¿½
+	// Ebb§§²½½½½²½½½½½
 	static int CheckPressKey(int KeyCode);
 
 private:

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -18,80 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-<<<<<<< HEAD
-=======
-  <ItemGroup>
-    <ClCompile Include="Source\Barrier.cpp" />
-    <ClCompile Include="Source\Boss.cpp" />
-    <ClCompile Include="Source\Bullet.cpp" />
-    <ClCompile Include="Source\BulletManager.cpp" />
-    <ClCompile Include="Source\CapsuleCollider.cpp" />
-    <ClCompile Include="Source\Collider.cpp" />
-    <ClCompile Include="Source\ColliderManager.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
-    <ClCompile Include="Source\EnemyBullet.cpp" />
-    <ClCompile Include="Source\EnemyManager.cpp" />
-    <ClCompile Include="Source\GameScene.cpp" />
-    <ClCompile Include="Source\HUD.cpp" />
-    <ClCompile Include="Source\ExplosionParticle.cpp" />
-    <ClCompile Include="Source\MasterSpark.cpp" />
-    <ClCompile Include="Source\RainbowWaveManager.cpp" />
-    <ClCompile Include="Source\RainbowBullet.cpp" />
-    <ClCompile Include="Source\Obstacle.cpp" />
-    <ClCompile Include="Source\InputManager.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\MeleeAttack.cpp" />
-    <ClCompile Include="Source\Object2D.cpp" />
-    <ClCompile Include="Source\ObjectManager.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\PlayerSpellParticle.cpp" />
-    <ClCompile Include="Source\ResourceManager.cpp" />
-    <ClCompile Include="Source\ResultScene.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
-    <ClCompile Include="Source\SceneManager.cpp" />
-    <ClCompile Include="Source\SpecialBullet.cpp" />
-    <ClCompile Include="Source\SpellCardBullet.cpp" />
-    <ClCompile Include="Source\StageSelectScene.cpp" />
-    <ClCompile Include="Source\TitleScene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\Barrier.h" />
-    <ClInclude Include="Source\Boss.h" />
-    <ClInclude Include="Source\Bullet.h" />
-    <ClInclude Include="Source\BulletManager.h" />
-    <ClInclude Include="Source\CapsuleCollider.h" />
-    <ClInclude Include="Source\Collider.h" />
-    <ClInclude Include="Source\ColliderManager.h" />
-    <ClInclude Include="Source\DebugLog.h" />
-    <ClInclude Include="Source\Enemy.h" />
-    <ClInclude Include="Source\EnemyBullet.h" />
-    <ClInclude Include="Source\EnemyManager.h" />
-    <ClInclude Include="Source\GameScene.h" />
-    <ClInclude Include="Source\HUD.h" />
-    <ClInclude Include="Source\ExplosionParticle.h" />
-    <ClInclude Include="Source\MasterSpark.h" />
-    <ClInclude Include="Source\RainbowWaveManager.h" />
-    <ClInclude Include="Source\RainbowBullet.h" />
-    <ClInclude Include="Source\Obstacle.h" />
-    <ClInclude Include="Source\HpBar.h" />
-    <ClInclude Include="Source\InputManager.h" />
-    <ClInclude Include="Source\Master.h" />
-    <ClInclude Include="Source\MeleeAttack.h" />
-    <ClInclude Include="Source\Object2D.h" />
-    <ClInclude Include="Source\ObjectManager.h" />
-    <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\PlayerSpellParticle.h" />
-    <ClInclude Include="Source\ResourceManager.h" />
-    <ClInclude Include="Source\ResultScene.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\SceneManager.h" />
-    <ClInclude Include="Source\SpecialBullet.h" />
-    <ClInclude Include="Source\SpellCardBullet.h" />
-    <ClInclude Include="Source\StageSelectScene.h" />
-    <ClInclude Include="Source\TitleScene.h" />
-    <ClInclude Include="Source\Utility.h" />
-  </ItemGroup>
->>>>>>> main
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -118,10 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
-<<<<<<< HEAD
     <TargetName>Project1_v2</TargetName>
-=======
->>>>>>> main
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -152,25 +75,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
-=======
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
->>>>>>> main
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
-=======
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
-      <OutputFile>C:\Users\student\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
->>>>>>> main
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -179,50 +93,33 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
-=======
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
->>>>>>> main
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
-=======
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>C:\Users\student\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
->>>>>>> main
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
-=======
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
->>>>>>> main
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
-=======
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
->>>>>>> main
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>
@@ -232,21 +129,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
-=======
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\team_T\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
->>>>>>> main
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -267,6 +159,8 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\TitleScene.h" />
+    <ClInclude Include="Source\RuleScene.h" />
+    <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\StageSelectScene.h" />
     <ClInclude Include="Source\ResultScene.h" />
     <ClInclude Include="Source\MeleeAttack.h" />
@@ -295,6 +189,8 @@
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
+    <ClCompile Include="Source\RuleScene.cpp" />
+    <ClCompile Include="Source\SoundManager.cpp" />
     <ClCompile Include="Source\StageSelectScene.cpp" />
     <ClCompile Include="Source\ResultScene.cpp" />
     <ClCompile Include="Source\MeleeAttack.cpp" />
@@ -305,11 +201,6 @@
     <ClCompile Include="Source\Boss.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
   </ItemGroup>
-=======
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\team_T\EFKforDxLib\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
-  </ItemDefinitionGroup>
->>>>>>> main
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

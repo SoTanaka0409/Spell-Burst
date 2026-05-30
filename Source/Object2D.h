@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include "vector"
 #include "Dxlib.h"
@@ -14,11 +14,6 @@ public:
 		Tag2D_Enemy = 2,
 		Tag2D_PlayerBullet=3,
 		Tag2D_EnemyBullet=4,
-<<<<<<< HEAD
-=======
-		tag2D_BarierEne = 5,
-		tag2D_BarierPla = 6,
->>>>>>> main
 	};
 
 public:
@@ -30,7 +25,7 @@ public:
 
 	virtual void Draw();
 
-public://ゲッター、セッター//
+public:// getter, setter //
 	void SetPosition(VECTOR pos) { mvPosition = pos; };
 	VECTOR GetPosition() { return mvPosition; }
 
@@ -40,10 +35,10 @@ public://ゲッター、セッター//
 	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
 	bool IsDeleteFlag() { return mbDeleteFlag; }
 
-	void SetDrawFlag(bool flag) { mbDrawFlag = flag; } //敵の削除フラグ設定　
-	bool IsDrawFlag() { return mbDrawFlag; }          //敵の削除フラグの作成
+	void SetDrawFlag(bool flag) { mbDrawFlag = flag; } // Enemy deletion flag setting
+	bool IsDrawFlag() { return mbDrawFlag; }          // Creating enemy deletion flags
 
-	//タグ
+	// tag
 	void SetTag(Tag2D tag) { mnTag = tag; }
 	Tag2D GetTag() { return mnTag; }
 
@@ -52,13 +47,13 @@ public://ゲッター、セッター//
 	virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	VECTOR mvPosition;  //座標
-	VECTOR mvRotation;   //回転
+	VECTOR mvPosition;  // coordinate
+	VECTOR mvRotation;   // rotate
 
 private:
-	bool mbDeleteFlag;  //削除フラグ
-	Tag2D mnTag;   //タグ
-	bool mbDrawFlag;//描画フラグ
+	bool mbDeleteFlag;  // Deletion flag
+	Tag2D mnTag;   // tag
+	bool mbDrawFlag;// drawing flag
 
 
 };

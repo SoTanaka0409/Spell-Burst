@@ -16,19 +16,19 @@ InputManager::~InputManager()
 
 int InputManager::CheckDownKey(int KeyCode)
 {
-	// ï¿½ß‚ï¿½lï¿½pï¿½Ì•Ïï¿½ï¿½ï¿½pï¿½ï¿½wwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+	// ESuweku sosu lEspEsufu change sauceEsuEspEsuEsu wwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 	int result = 0;
 
-	// ï¿½wï¿½ï¿½Lï¿½[ï¿½ÌŒï¿½ï¿½İ‚Ìï¿½Ô‚ï¿½æ“¾
+	// ESwESESLES
 	int keyState = CheckHitKey(KeyCode);
 	
-	//ï¿½Oï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ç‚¸ï¿½Aï¿½ï¿½ï¿½İƒLï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ES O E S L E S
 	if (mDownBuffer[KeyCode] == 0 && keyState == 1)
 	{
 		result = 1;
 	}
 
-	//ï¿½ï¿½ï¿½İ‚ÌƒLï¿½[ï¿½Ìï¿½Ô‚ï¿½oï¿½bï¿½tï¿½@ï¿½ÉŠiï¿½[
+	// ESuEsuEsun's kiss
 	mDownBuffer[KeyCode] = keyState;
 	return result;
 }

@@ -1,22 +1,14 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-<<<<<<< HEAD
-// プレイヤーの近接攻撃（ナイフや剣の振り）を管理するクラス
+// A class that manages the player's melee attacks (knife and sword swings)
 class MeleeAttack : public Object2D {
 private:
-    float m_x, m_y; // 攻撃の判定が発生している座標
-    int m_lifetime; // 攻撃の持続時間（フレーム数）
-    int m_damage;   // 与えるダメージ量
-=======
-// プレイヤーの近接攻撁E��ナイフや剣の振り）を管琁E��るクラス
-class MeleeAttack : public Object2D {
-private:
-    int m_lifetime; // 攻撁E�E持続時間（フレーム数�E�E
-    int m_damage;   // 与えるダメージ釁E
->>>>>>> main
+    float m_x, m_y; // Coordinates where attack judgment is occurring
+    int m_lifetime; // Duration of attack (number of frames)
+    int m_damage;   // Amount of damage dealt
     CapsuleCollider* mpCollider;
 
 public:
