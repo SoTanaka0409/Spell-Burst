@@ -5,7 +5,10 @@ class CapsuleCollider;
 
 class PlayerSpellParticle : public Object2D {
 private:
+<<<<<<< HEAD
     float m_x, m_y;
+=======
+>>>>>>> main
     float m_dx, m_dy;
     float m_speed;
     int m_damage;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Object2D.h"
+<<<<<<< HEAD
 
 class CapsuleCollider;
 
@@ -10,10 +11,26 @@ class Player : public Object2D
 public:
     // プレイヤーの攻撃方法を定義する列挙型
     enum AttackMode 
+=======
+#include"Barrier.h"
+class CapsuleCollider;
+
+// プレイヤー（操作キャラクター）のデータや振る舞いを管理するクラス
+// Object2Dを継承し、画面上の描画や当たり判定を持っています。class SpecialBullet;
+
+class Player : public Object2D
+{
+public:
+    static int s_selectedCharacterType; // 1: Normal, 2: Girl, 3: Old
+    
+    // プレイヤーの攻撃方法を定義する列挙型
+    enum AttackMode
+>>>>>>> main
     {
         AttackMode_Melee,   // 近接攻撃（ナイフ等）
         AttackMode_Special  // 必殺技（クールダウンあり）
     };
+<<<<<<< HEAD
 
 private:
     float m_x, m_y;       // プレイヤーの画面上のXY座標
@@ -28,6 +45,25 @@ private:
     AttackMode m_attackMode;      // 現在選択されている攻撃モード
     int m_specialCooldown;        // 必殺技が再度撃てるようになるまでのクールダウン時間（フレーム数）
     CapsuleCollider* mpCollider;  // 当たり判定を管理するコライダー（カプセル状/円形）
+=======
+    
+
+private:
+    float m_speed;            // プレイヤーの移動速度
+    int m_hp;                 // 現在の体力（HP）
+    int m_maxHp;              // 最大体力
+    float mfAttack;           // 基本攻撃力（レベルアップ等で変動可能）
+    float m_attackTimer{};    // 通常攻撃の発射間隔を管理するタイマー
+    float m_AttackInterval{}; // 通常攻撃の発射間隔（しきい値）
+    float m_AttackTimer_2{};  // サブ攻撃等の発射間隔を管理するタイマー
+    float m_AttackInterval_2{}; // サブ攻撃の発射間隔（しきい値）
+    float m__BarrierCount{};
+    AttackMode m_attackMode;  // 現在選択されている攻撃モード
+    int m_specialCooldown;    // 必殺技が再度撃てるようになるまでのクールダウン時間（フレーム数）
+    CapsuleCollider* mpCollider; // 当たり判定を管理するコライダー（カプセル状/円形）
+	Barrier* mpBarrier; // プレイヤーが展開するバリアオブジェクトへのポインタ（必要に応じて使用）
+
+>>>>>>> main
 
     // レベルアップと経験値（XP）の管理システム
     int m_level;          // 現在のレベル
@@ -54,9 +90,17 @@ public:
 
     // プレイヤーが攻撃を行う際の具体的な弾の生成や処理を行う
     void Attack();
+<<<<<<< HEAD
     // ゲッター関数群（外部からプレイヤーの状態を取得するための関数）
     float GetX() const { return m_x; }
     float GetY() const { return m_y; }
+=======
+    void Bariier();
+
+    // ゲッター関数群（外部からプレイヤーの状態を取得するための関数）
+    float GetX() const { return mvPosition.x; }
+    float GetY() const { return mvPosition.y; }
+>>>>>>> main
     int GetHp() const { return m_hp; }
     int GetMaxHp() const { return m_maxHp; }
     AttackMode GetAttackMode() const { return m_attackMode; }
@@ -80,9 +124,17 @@ public:
     // 当たり判定のイベントハンドラ（他のオブジェクトと衝突した瞬間に呼ばれる）
     virtual void OnEnter(Collider* collider, Collider* check) override;
 
+<<<<<<< HEAD
     // 当たり判定のイベントハンドラ（他のオブジェクトと重なっている間毎フレーム呼ばれる）
+=======
+    // 当たり判定のイベントハンドラ（他のオブジェクトと重なっている間、毎フレーム呼ばれる）
+>>>>>>> main
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
     // 当たり判定のイベントハンドラ（他のオブジェクトと離れた瞬間に呼ばれる）
     virtual void OnExit(Collider* collider, Collider* check) override;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> main
