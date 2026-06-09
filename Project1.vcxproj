@@ -25,6 +25,7 @@
     <ClCompile Include="Source\BulletManager.cpp" />
     <ClCompile Include="Source\CapsuleCollider.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
+    <ClCompile Include="Source\SphereCollider.cpp" />
     <ClCompile Include="Source\ColliderManager.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\EnemyBullet.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Source\BulletManager.h" />
     <ClInclude Include="Source\CapsuleCollider.h" />
     <ClInclude Include="Source\Collider.h" />
+    <ClInclude Include="Source\SphereCollider.h" />
     <ClInclude Include="Source\ColliderManager.h" />
     <ClInclude Include="Source\DebugLog.h" />
     <ClInclude Include="Source\Enemy.h" />
