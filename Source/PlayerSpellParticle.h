@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
 class PlayerSpellParticle : public Object2D {
 private:
-    float m_dx, m_dy;
+    Vector2 m_dir;
     float m_speed;
     int m_damage;
     bool m_isActive;
@@ -13,7 +13,7 @@ private:
     CapsuleCollider* mpCollider;
 
 public:
-    PlayerSpellParticle(float x, float y, float dx, float dy, float speed);
+    PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed);
     virtual ~PlayerSpellParticle() override;
 
     virtual void Update() override;

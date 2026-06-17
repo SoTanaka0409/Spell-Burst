@@ -1,4 +1,4 @@
-#include "Bullet.h"
+ï»¿#include "Bullet.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -7,7 +7,7 @@
 #include "Utility.h"
 
 Bullet::Bullet(float x, float y, int damage) 
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet);
@@ -17,7 +17,7 @@ Bullet::Bullet(float x, float y, int damage)
     m_isActive = true;
     m_damage = damage;
     m_recivedDamage = 0;
-    m_MaxrecivedDamage = 20; // ƒ_ƒ[ƒW‚ðŽó‚¯‚Ä‚©‚ç3‰ñ‚Å‹Z‚ðo‚·
+    m_MaxrecivedDamage = 20; // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦ã‹ã‚‰3å›žã§æŠ€ã‚’å‡ºã™
     // Create a circular collider with radius 10 (previously 5)
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
 }
@@ -32,7 +32,7 @@ Bullet::~Bullet()
 void Bullet::Update() 
 {
     mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;

@@ -1,4 +1,4 @@
-#include "MasterSpark.h"
+﻿#include "MasterSpark.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -15,7 +15,7 @@
 #include <cstdlib>
 
 MasterSpark::MasterSpark(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
     , m_lifeTimer(180)
     , m_maxLife(180)
@@ -28,7 +28,7 @@ MasterSpark::MasterSpark(float x, float y)
     m_isActive = true;
 
 
-    mpCollider = new CapsuleCollider(this, mvPosition, VGet(mvPosition.x, mvPosition.y - 1000.0f, 0.0f), m_radius);
+    mpCollider = new CapsuleCollider(this, mvPosition, Vector2(mvPosition.x, mvPosition.y - 1000.0f), m_radius);
 }
 
 MasterSpark::~MasterSpark() {
@@ -73,7 +73,7 @@ void MasterSpark::Update() {
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = VGet(mvPosition.x, mvPosition.y - 1200.0f, 0.0f);
+        mpCollider->mvPosition2 = Vector2(mvPosition.x, mvPosition.y - 1200.0f);
         mpCollider->mfRadius = m_radius;
     }
 

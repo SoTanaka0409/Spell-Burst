@@ -1,4 +1,4 @@
-#include "ExplosionParticle.h"
+﻿#include "ExplosionParticle.h"
 #include "Utility.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -7,7 +7,7 @@
 #include <cmath>
 
 ExplosionParticle::ExplosionParticle(float x, float y, float speed, float angle, int color, int lifeTime, float size)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
 {
     m_vx = std::cos(angle) * speed;
     m_vy = std::sin(angle) * speed;

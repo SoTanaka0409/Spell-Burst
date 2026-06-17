@@ -1,4 +1,4 @@
-#include "Scene.h"
+ï»¿#include "Scene.h"
 #include "ObjectManager.h"
 #include "Master.h"
 #include "ColliderManager.h"
@@ -6,9 +6,9 @@
 
 Scene::Scene()
 {
-	// ƒV[ƒ“ŒÅ—L‚ÌƒIƒuƒWƒFƒNƒg‚¨‚æ‚Ñ“–‚½‚è”»’è‚ğŠÇ—‚·‚é‚½‚ßê—p‚Ìƒ}ƒl[ƒWƒƒ[‚ğ¶¬
-	mpObjectManager = new ObjectManager();
-	mpColliderManager = new ColliderManager();
+	// ã‚·ãƒ¼ãƒ³å›ºæœ‰ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŠã‚ˆã³å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ãŸã‚å°‚ç”¨ã®ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’ç”Ÿæˆ
+	mpObjectManager = std::make_unique<ObjectManager>();
+	mpColliderManager = std::make_unique<ColliderManager>();
 }
 
 Scene::~Scene()
@@ -16,16 +16,16 @@ Scene::~Scene()
 	if (mpObjectManager != nullptr)
 	{
 		mpObjectManager->DeleteAll2D();
-		delete mpObjectManager;
+		mpObjectManager.reset();
 	}
 	if (mpColliderManager != nullptr)
 	{
 		mpColliderManager->DeleteAllCollider();
-		delete mpColliderManager;
+		mpColliderManager.reset();
 	}
 }
 
-// ‘SƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ğƒ}ƒl[ƒWƒƒ[Œo—R‚ÅˆêŠ‡Às
+// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼çµŒç”±ã§ä¸€æ‹¬å®Ÿè¡Œ
 void Scene::Draw()
 {
 	if (mpObjectManager != nullptr)
@@ -38,7 +38,7 @@ void Scene::Draw()
 	}
 }
 
-// ‘SƒIƒuƒWƒFƒNƒg‚Ìó‘ÔXV‚¨‚æ‚Ñ“–‚½‚è”»’èˆ—‚ğˆêŠ‡Às
+// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹æ›´æ–°ãŠã‚ˆã³å½“ãŸã‚Šåˆ¤å®šå‡¦ç†ã‚’ä¸€æ‹¬å®Ÿè¡Œ
 void Scene::Update()
 {
 	if (mpObjectManager != nullptr)

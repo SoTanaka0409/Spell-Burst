@@ -1,4 +1,4 @@
-#include "Enemy.h"
+Ôªø#include "Enemy.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -22,7 +22,7 @@ void Enemy::SelectNewTarget() {
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 Enemy::Enemy(float x, float y, int enemyType)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
@@ -45,7 +45,7 @@ Enemy::Enemy(float x, float y, int enemyType)
     }
     else if (m_enemyType == 4) {
         m_speed = 2.5f;
-        m_maxHp = 20; // íÜÉ{ÉXÇÕÉ^Ét
+        m_maxHp = 20; // ‰∏≠„Éú„Çπ„ÅØ„Çø„Éï
         SelectNewTarget();
     }
     m_hp = m_maxHp;
@@ -60,22 +60,20 @@ Enemy::~Enemy() {
 }
 void Enemy::Update() {
     if (m_enemyType == 4) {
-        float dx = m_targetX - mvPosition.x;
-        float dy = m_targetY - mvPosition.y;
-        float dist = std::sqrt(dx * dx + dy * dy);
+        Vector2 target(m_targetX, m_targetY);
+        float dist = mvPosition.DistanceTo(target);
 
         if (dist < 15.0f) {
             SelectNewTarget();
         }
         else {
-            mvPosition.x += (dx / dist) * m_speed * Utility::TimeScale;
-            mvPosition.y += (dy / dist) * m_speed * Utility::TimeScale;
+            mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
         }
     }
     else {
         mvPosition.y += m_speed * Utility::TimeScale;
     }
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    // mvPosition is already a Vector2
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
@@ -83,46 +81,37 @@ void Enemy::Update() {
     if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) 
     {
         m_attackTimer++;
-        int interval = (m_enemyType == 4) ? 120 : 150; // íÜÉ{ÉXÇÕïpî…Ç…åÇÇ¬
+        int interval = (m_enemyType == 4) ? 120 : 150; // ‰∏≠„Éú„Çπ„ÅØÈ†ªÁπÅ„Å´ÊíÉ„Å§
         if (m_attackTimer >= interval)
         {
             
             m_attackTimer = 0;
             Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-            float targetX = mvPosition.x;
-            float targetY = mvPosition.y + 100.0f;
+            Vector2 targetPos(mvPosition.x, mvPosition.y + 100.0f);
             if (player != nullptr) {
-                targetX = player->GetX();
-                targetY = player->GetY();
+                targetPos = Vector2(player->GetX(), player->GetY());
             }
-            float dx = targetX - mvPosition.x;
-            float dy = targetY - mvPosition.y;
-            float dist = std::sqrt(dx * dx + dy * dy);
-            if (dist > 0.0f) {
-                dx /= dist;
-                dy /= dist;
-            }
-            else {
-                dx = 0.0f;
-                dy = 1.0f;
+            Vector2 dir = (targetPos - mvPosition).Normalized();
+            if (dir.MagnitudeSq() == 0.0f) {
+                dir = Vector2(0.0f, 1.0f);
             }
             if (m_enemyType == 2) {
-                new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 4.0f, false, false); // í èÌíe
+                new EnemyBullet(mvPosition, dir, 4.0f, false, false); // ÈÄöÂ∏∏Âºæ
             }
             else if (m_enemyType == 3) {
-                new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 3.5f, false, true);  // ÉXÉ^Éìíe
+                new EnemyBullet(mvPosition, dir, 3.5f, false, true);  // „Çπ„Çø„É≥Âºæ
             }
             else if (m_enemyType == 4) {
                 static float mbAngle = 0.0f;
                 mbAngle += 0.2f;
                 for (int i = 0; i < 4; i++) {
                     float angle = mbAngle + (i * 2.0f * 3.14159265f) / 16;
-                    new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 2.0f);
+                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f);
                 }
-                float baseAngle = std::atan2(dy, dx);
+                float baseAngle = mvPosition.AngleTo(targetPos);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
-                    new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 3.5f);
+                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
                 }
             }
         }
@@ -165,7 +154,7 @@ void Enemy::OnTrigger(Collider* collider, Collider* check) {
             Bullet* bullet = dynamic_cast<Bullet*>(check->GetParentObject());
             if (bullet != nullptr) {
                 TakeDamage(bullet->GetDamage());
-                bullet->Kill(); // ìñÇΩÇ¡ÇΩÉvÉåÉCÉÑÅ[ÇÃíeÇè¡ñ≈Ç≥ÇπÇÈ
+                bullet->Kill(); // ÂΩì„Åü„Å£„Åü„Éó„É¨„Ç§„É§„Éº„ÅÆÂºæ„ÇíÊ∂àÊªÖ„Åï„Åõ„Çã
 
             }
         }
@@ -181,7 +170,7 @@ void Enemy::Draw()
         if (m_enemyType == 1) SetDrawBright(255, 255, 255);
         else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
         else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
-        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // íÜÉ{ÉXÇÕê‘Ç¡Ç€Ç¢
+        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // ‰∏≠„Éú„Çπ„ÅØËµ§„Å£„ÅΩ„ÅÑ
 
         float drawSize = (m_enemyType == 4) ? 45.0f : 35.0f;
         DrawExtendGraph(
@@ -193,7 +182,7 @@ void Enemy::Draw()
             TRUE
         );
 
-        SetDrawBright(255, 255, 255); // ãPìxê›íËÇå≥Ç…ñﬂÇ∑
+        SetDrawBright(255, 255, 255); // ËºùÂ∫¶Ë®≠ÂÆö„ÇíÂÖÉ„Å´Êàª„Åô
     }
     else {
         unsigned int color = GetColor(255, 100, 100);

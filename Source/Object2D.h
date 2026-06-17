@@ -1,3 +1,4 @@
+ï»¿#include "Vector2.h"
 #pragma once
 #include <string>
 #include "vector"
@@ -7,7 +8,7 @@
 #include "DxLib.h"
 #include "Collider.h"
 
-// ‰æ–Êã‚É•`‰æE”z’u‚³‚ê‚é‚·‚×‚Ä‚ÌƒQ[ƒ€“àƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
+// ç”»é¢ä¸Šã«æç”»ãƒ»é…ç½®ã•ã‚Œã‚‹ã™ã¹ã¦ã®ã‚²ãƒ¼ãƒ å†…ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class Object2D
 {
 public:
@@ -23,24 +24,24 @@ public:
 	};
 
 public:
-	Object2D(VECTOR initPos);
+	Object2D(Vector2 initPos);
 	virtual ~Object2D();
 
-	// [“ü—Í] ‚È‚µ
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚âó‘Ô‚ğƒtƒŒ[ƒ€‚²‚Æ‚ÉXV‚·‚éi”h¶æ‚ÅÀ‘•j
+	// [å…¥åŠ›] ãªã—
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚„çŠ¶æ…‹ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«æ›´æ–°ã™ã‚‹ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
 	virtual void Update();
 
-	// [“ü—Í] ‚È‚µ
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ƒIƒuƒWƒFƒNƒg‚ÌƒOƒ‰ƒtƒBƒbƒN‚ğ‰æ–Ê‚É•`‰æ‚·‚éi”h¶æ‚ÅÀ‘•j
+	// [å…¥åŠ›] ãªã—
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚’ç”»é¢ã«æç”»ã™ã‚‹ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
 	virtual void Draw();
 
-	void SetPosition(VECTOR pos) { mvPosition = pos; };
-	VECTOR GetPosition() { return mvPosition; }
+	void SetPosition(Vector2 pos) { mvPosition = pos; };
+	Vector2 GetPosition() { return mvPosition; }
 
-	void SetRotation(VECTOR rot) { mvRotation = rot; }
-	VECTOR GETRotation() { return mvRotation; }
+	void SetRotation(Vector2 rot) { mvRotation = rot; }
+	Vector2 GETRotation() { return mvRotation; }
 
 	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
 	bool IsDeleteFlag() { return mbDeleteFlag; }
@@ -50,24 +51,24 @@ public:
 	void SetTag(Tag2D tag) { mnTag = tag; }
 	Tag2D GetTag() { return mnTag; }
 
-	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚ğŠJn‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+	// [å…¥åŠ›] collider: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒæ¥è§¦ã‚’é–‹å§‹ã—ãŸç¬é–“ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 	virtual void OnEnter(Collider* collider, Collider* check);
 
-	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚µ‚Ä‚¢‚éŠÔ‚É–ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+	// [å…¥åŠ›] collider: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒæ¥è§¦ã—ã¦ã„ã‚‹é–“ã«æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 	virtual void OnTrigger(Collider* collider, Collider* check);
 
-	// [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ƒRƒ‰ƒCƒ_[“¯m‚ª—£’E‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
+	// [å…¥åŠ›] collider: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒé›¢è„±ã—ãŸç¬é–“ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
 	virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	VECTOR mvPosition;
-	VECTOR mvRotation;
+	Vector2 mvPosition;
+	Vector2 mvRotation;
 
 private:
 	bool mbDeleteFlag;

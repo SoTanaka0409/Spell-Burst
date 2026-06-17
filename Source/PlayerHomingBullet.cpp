@@ -1,4 +1,4 @@
-#include "PlayerHomingBullet.h"
+Ôªø#include "PlayerHomingBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -14,15 +14,13 @@
 #include <cmath>
 #include <vector>
 
-PlayerHomingBullet::PlayerHomingBullet(float x, float y, float dx, float dy, float speed)
-    : Object2D(VGet(x, y, 0.0f))
+PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed)
+    : Object2D(pos)
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet);
-    m_x = x;
-    m_y = y;
-    m_dx = dx;
-    m_dy = dy;
+    mvPosition = pos;
+    m_dir = dir.Normalized();
     m_speed = speed;
     m_isActive = true;
     m_damage = 2;
@@ -53,9 +51,7 @@ void PlayerHomingBullet::Update() {
         for (auto* obj : enemies) {
             Enemy* e = dynamic_cast<Enemy*>(obj);
             if (e && e->IsActive() && !e->IsDeleteFlag()) {
-                float dx = e->GetPosition().x - m_x;
-                float dy = e->GetPosition().y - m_y;
-                float distSq = dx * dx + dy * dy;
+                float distSq = e->GetPosition().DistanceSqTo(mvPosition);
                 if (nearestDistSq < 0 || distSq < nearestDistSq) {
                     nearestDistSq = distSq;
                     target = e;
@@ -63,9 +59,7 @@ void PlayerHomingBullet::Update() {
             } else {
                 Boss* b = dynamic_cast<Boss*>(obj);
                 if (b && b->IsActive() && !b->IsDeleteFlag()) {
-                    float dx = b->GetPosition().x - m_x;
-                    float dy = b->GetPosition().y - m_y;
-                    float distSq = dx * dx + dy * dy;
+                    float distSq = b->GetPosition().DistanceSqTo(mvPosition);
                     if (nearestDistSq < 0 || distSq < nearestDistSq) {
                         nearestDistSq = distSq;
                         target = b;
@@ -75,12 +69,8 @@ void PlayerHomingBullet::Update() {
         }
 
         if (target) {
-            
-
-    float tx = target->GetPosition().x - m_x;
-            float ty = target->GetPosition().y - m_y;
-            float targetAngle = std::atan2(ty, tx);
-            float currentAngle = std::atan2(m_dy, m_dx);
+            float currentAngle = Vector2(0, 0).AngleTo(m_dir);
+            float targetAngle = mvPosition.AngleTo(target->GetPosition());
 
             float diff = targetAngle - currentAngle;
             while (diff <= -3.14159265f) diff += 2.0f * 3.14159265f;
@@ -91,49 +81,40 @@ void PlayerHomingBullet::Update() {
             else if (diff < -turnSpeed) currentAngle -= turnSpeed;
             else currentAngle = targetAngle;
 
-            m_dx = std::cos(currentAngle);
-            m_dy = std::sin(currentAngle);
+            m_dir = Vector2::FromAngle(currentAngle);
         }
     }
 
-    m_x += m_dx * m_speed * Utility::TimeScale;
-    m_y += m_dy * m_speed * Utility::TimeScale;
-    mvPosition = VGet(m_x, m_y, 0.0f);
+    mvPosition += m_dir * (m_speed * Utility::TimeScale);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
 
-    if (m_x < -50.0f || m_x > Utility::SCREEN_WIDTH + 50.0f || m_y < -50.0f || m_y > Utility::SCREEN_HEIGHT + 50.0f) {
+    if (mvPosition.x < -50.0f || mvPosition.x > Utility::SCREEN_WIDTH + 50.0f || mvPosition.y < -50.0f || mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
         Kill();
     }
 }
 
 void PlayerHomingBullet::Draw() {
     if (!m_isActive) return;
-
-
-
     
-    // sin/cosÇ∆ÉVÅ[ÉhílÇópÇ¢ÇƒÅAïsãKë•Ç…ïœå`ÇµÇ»Ç™ÇÁâÒì]Ç∑ÇÈ3Ç¬ÇÃí∏ì_ç¿ïWÅiéOäpå`ÅjÇéZèoÇ∑ÇÈ
-    float seed = (m_x + m_y) * 0.01f;
+    float seed = (mvPosition.x + mvPosition.y) * 0.01f;
     float angle1 = m_lifeTimer * (0.15f + seed * 0.01f) + seed;
     float angle2 = angle1 + 2.0f;
     float angle3 = angle1 + 4.0f;
-
 
     float r1 = 16.0f + std::sin(seed) * 4.0f;
     float r2 = 10.0f + std::cos(seed * 2.0f) * 3.0f;
     float r3 = 18.0f + std::sin(seed * 3.0f) * 5.0f;
 
-    int x1 = static_cast<int>(m_x + std::cos(angle1) * r1);
-    int y1 = static_cast<int>(m_y + std::sin(angle1) * r1);
-    int x2 = static_cast<int>(m_x + std::cos(angle2) * r2);
-    int y2 = static_cast<int>(m_y + std::sin(angle2) * r2);
-    int x3 = static_cast<int>(m_x + std::cos(angle3) * r3);
-    int y3 = static_cast<int>(m_y + std::sin(angle3) * r3);
-
+    int x1 = static_cast<int>(mvPosition.x + std::cos(angle1) * r1);
+    int y1 = static_cast<int>(mvPosition.y + std::sin(angle1) * r1);
+    int x2 = static_cast<int>(mvPosition.x + std::cos(angle2) * r2);
+    int y2 = static_cast<int>(mvPosition.y + std::sin(angle2) * r2);
+    int x3 = static_cast<int>(mvPosition.x + std::cos(angle3) * r3);
+    int y3 = static_cast<int>(mvPosition.y + std::sin(angle3) * r3);
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
     DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(0, 150, 255), TRUE);
@@ -141,9 +122,8 @@ void PlayerHomingBullet::Draw() {
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
     DrawTriangle(x1, y1, x2, y2, x3, y3, GetColor(150, 255, 255), FALSE);
     
-
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-    DrawCircle(static_cast<int>(m_x), static_cast<int>(m_y), 3, GetColor(255, 255, 255), TRUE);
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 255, 255), TRUE);
 
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

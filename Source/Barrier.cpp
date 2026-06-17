@@ -10,7 +10,7 @@
 #include <cmath>
 
 Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(obj); 
@@ -95,9 +95,8 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
                         float spread = (i - 4.5f) * 0.1f; 
                         float angle = baseAngle + spread;
                         
-                        float dx = std::cos(angle);
-                        float dy = std::sin(angle);
-                        new PlayerHomingBullet(mvPosition.x + dx * 30.0f, mvPosition.y + dy * 30.0f, dx, dy, baseSpeed);
+                        Vector2 dir = Vector2::FromAngle(angle);
+                        new PlayerHomingBullet(mvPosition + dir * 30.0f, dir, baseSpeed);
                     }
                 }
             }

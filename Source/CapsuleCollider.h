@@ -1,10 +1,11 @@
+﻿#include "Vector2.h"
 #pragma once
 #include "Collider.h"
 #include"Object2D.h"
 class CapsuleCollider : public Collider
 {
 public:
-	CapsuleCollider(Object2D* parent, VECTOR pos1, VECTOR pos2, float radius);
+	CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius);
 	virtual ~CapsuleCollider();
 
 	void Update(Collider* check) override;

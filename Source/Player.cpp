@@ -1,4 +1,4 @@
-#include "Player.h"
+Ôªø#include "Player.h"
 #include <cmath>
 #include "InputManager.h"
 #include "Bullet.h"
@@ -25,7 +25,7 @@
 int Player::s_selectedCharacterType = 1;
 
 Player::Player() 
-    : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
+    : Object2D(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Player);
@@ -126,7 +126,7 @@ void Player::Update()
     if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
     if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
 
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
     if (mpBarrier) {
         mpBarrier->SetPosition(mvPosition);
     }
@@ -215,7 +215,7 @@ void Player::Draw() {
 }
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
-    SoundManager::GetInstance()->PlaySE("Resource/SE/ã|ñÓÇ™éhÇ≥ÇÈ.mp3");
+    SoundManager::GetInstance()->PlaySE("Resource/SE/ÂºìÁü¢„ÅåÂà∫„Åï„Çã.mp3");
     if (m_hp <= 0) {
         m_hp = 0;
         ResultScene::s_isVictory = false;
@@ -241,7 +241,7 @@ void Player::Attack()
             int numBullets = m_level;
             float spacing = 20.0f;
             
-    // åªç›ÇÃÉåÉxÉã(numBullets)Ç…âûÇ∂ÇƒÅAï°êîî≠ÇÃíeÇâ°àÍóÒÇ…ìôä‘äuÇ≈îzíuÇ∑ÇÈÇΩÇﬂÇÃÉIÉtÉZÉbÉgåvéZ
+    // ÁèæÂú®„ÅÆ„É¨„Éô„É´(numBullets)„Å´Âøú„Åò„Å¶„ÄÅË§áÊï∞Áô∫„ÅÆÂºæ„ÇíÊ®™‰∏ÄÂàó„Å´Á≠âÈñìÈöî„ÅßÈÖçÁΩÆ„Åô„Çã„Åü„ÇÅ„ÅÆ„Ç™„Éï„Çª„ÉÉ„ÉàË®àÁÆó
     float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
             for (int i = 0; i < numBullets; ++i) 
             {
@@ -280,17 +280,17 @@ void Player::Attack()
     {
         if (m_spellGauge >= m_maxSpellGauge) {
             m_spellGauge = 0;
-            SoundManager::GetInstance()->PlaySE("Resource/SE/åïÇ≈éaÇﬂE.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/Ââ£„ÅßÊñ¨„ÇÅE.mp3");
             
             if (s_selectedCharacterType == 1)
             {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/ãCíe2.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Ê∞óÂºæ2.mp3");
                 new MasterSpark(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 2) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/êπñÇãµEmp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ËÅñÈ≠îÊ≥ÅEmp3");
                 new RainbowWaveManager(mvPosition.x, mvPosition.y);
             } else if (s_selectedCharacterType == 3) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/ãCíe2.mp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/Ê∞óÂºæ2.mp3");
                 new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
             }
             
@@ -308,14 +308,14 @@ void Player::AddXp(int amount) {
     if (m_spellGauge >= m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
         if (oldGauge < m_maxSpellGauge) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/ÉXÉ`E?EÉ^ÉXè„?EñÇãµE.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/„Çπ„ÉÅE?E„Çø„Çπ‰∏ä?EÈ≠îÊ≥ÅE.mp3");
         }
     }
 
     while (m_xp >= m_xpNeeded) {
         m_xp -= m_xpNeeded;
         m_level++;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/ÉXÉ`E?EÉ^ÉXè„?EñÇãµE.mp3");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/„Çπ„ÉÅE?E„Çø„Çπ‰∏ä?EÈ≠îÊ≥ÅE.mp3");
         m_xpNeeded = m_level * 5;
 
         m_hp = m_maxHp;

@@ -1,4 +1,4 @@
-#include "Collider.h"
+ï»¿#include "Collider.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
 #include"ObjectManager.h"
@@ -7,8 +7,8 @@
 
 Collider::Collider(Object2D* parent)
 	: mpParentObject(parent)
-	, mvPosition(VGet(0.0f, 0.0f, 0.0f))
-	, mvPosition2(VGet(0.0f, 0.0f, 0.0f))
+	, mvPosition(Vector2(0.0f, 0.0f))
+	, mvPosition2(Vector2(0.0f, 0.0f))
 	, mfRadius(0.0f)
 	, mbDeleteFlag(false)
 {
@@ -34,7 +34,7 @@ void Collider::HitCheck(Collider* check, bool isHit)
 		auto itr = std::find_if(
 			mCollisionList.begin(),
 			mCollisionList.end(),
-			[&](Collider* col) { return col == check; } // ƒ‰ƒ€ƒ_®
+			[&](Collider* col) { return col == check; } // ãƒ©ãƒ ãƒ€å¼
 		);
 
 		if (itr != mCollisionList.end())
@@ -42,8 +42,8 @@ void Collider::HitCheck(Collider* check, bool isHit)
 			this->mpParentObject->OnEnter(this, check);
 		}
 		else
-		{	// ƒŠƒXƒg‚É“o˜^‚µ‚Ä‚¨‚­
-			mCollisionList.push_back(check);//”CˆÓ‚Ìƒ^ƒCƒ~ƒ“ƒO‚Å‚µ‚©’Ç‰Á‚µ‚È‚¢‚æ‚¤‚É‚·‚ê‚Î
+		{	// ãƒªã‚¹ãƒˆã«ç™»éŒ²ã—ã¦ãŠã
+			mCollisionList.push_back(check);//ä»»æ„ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã—ã‹è¿½åŠ ã—ãªã„ã‚ˆã†ã«ã™ã‚Œã°
 			if (this->mpParentObject != nullptr)
 			{
 				this->mpParentObject->OnTrigger(this, check);
@@ -55,7 +55,7 @@ void Collider::HitCheck(Collider* check, bool isHit)
 		auto itr = std::find_if(
 			mCollisionList.begin(),
 			mCollisionList.end(),
-			[&](Collider* col) { return col == check; } // ƒ‰ƒ€ƒ_®
+			[&](Collider* col) { return col == check; } // ãƒ©ãƒ ãƒ€å¼
 		);
 
 		if (itr != mCollisionList.end())

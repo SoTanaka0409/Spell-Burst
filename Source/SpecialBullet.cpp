@@ -1,4 +1,4 @@
-#include "SpecialBullet.h"
+﻿#include "SpecialBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -8,17 +8,17 @@
 #include "Utility.h"
 
 SpecialBullet::SpecialBullet(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
-    SetTag(Tag2D_PlayerBullet); // �v���C���[���̍U���Ƃ��Ĕ��肳���邽�߂̃^�O�ݒ�
+    SetTag(Tag2D_PlayerBullet); // プレイヤー側の攻撃として判定させるためのタグ設定
     mvPosition.x = x;
     mvPosition.y = y;
     m_speed = 12.0f;
     m_isActive = true;
-    m_damage = 5; // �K�E�Z�Ƃ��Ă̈З͂�\�����邽�߂̍��_���[�W�ݒ�
+    m_damage = 5; // 必殺技としての威力を表現するための高ダメージ設定
 
-    // ��ʍL�͈͂̓G���������ނ��߁A�ʏ�e�����ɂ߂ċ���ȓ����蔻���ݒ�
+    // 画面広範囲の敵を巻き込むため、通常弾よりも極めて巨大な当たり判定を設定
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 90.0f);
 }
 
@@ -29,11 +29,11 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
-// 豈弱ヵ繝ｬ繝ｼ繝�蜻�E�縺�E�繧後ｋ譖ｴ譁E��蜁E��送E�E
-// 蠢・�E��E�謚縺�E�蠑ｾ繧剁E��頑婿蜷代↓遘�E�蜍輔！E��帙∫判髱�E�螟悶↓蜃�E�縺溘ｉ蜑企勁繝輔Λ繧�E�繧堤�E�九※縺�E�縺吶・
+// 雎亥ｼｱ繝ｵ郢晢ｽｬ郢晢ｽｼ郢晢ｿｽ陷ｻ・ｼ邵ｺ・ｰ郢ｧ蠕鯉ｽ玖ｭ厄ｽｴ隴・ｽｰ陷・ｽｦ騾・・
+// 陟｢繝ｻ・ｮ・ｺ隰堋邵ｺ・ｮ陟托ｽｾ郢ｧ蜑・ｽｸ鬆大ｩｿ陷ｷ莉｣竊馴§・ｻ陷崎ｼ費ｼ・ｸｺ蟶卍竏ｫ蛻､鬮ｱ・｢陞滓じ竊楢怎・ｺ邵ｺ貅假ｽ芽恆莨∝求郢晁ｼ釆帷ｹｧ・ｰ郢ｧ蝣､・ｫ荵昶ｻ邵ｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ
 void SpecialBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -46,28 +46,28 @@ void SpecialBullet::Update() {
     }
 }
 
-// 謠冗判蜁E��送E�E
-// 蠢・�E��E�謚縺�E�繧�E�繝輔ぉ繧�E�繝茨�E�亥�E��E�縺阪↑蜈牙ｼ�E�縺�E�縺�E�・峨�E�謠冗判縺励∪縺吶・
+// 隰蜀怜愛陷・ｽｦ騾・・
+// 陟｢繝ｻ・ｮ・ｺ隰堋邵ｺ・ｮ郢ｧ・ｨ郢晁ｼ斐♂郢ｧ・ｯ郢晁肩・ｼ莠･・､・ｧ邵ｺ髦ｪ竊題怦迚呻ｽｼ・ｾ邵ｺ・ｪ邵ｺ・ｩ繝ｻ蟲ｨ・定ｬ蜀怜愛邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 
-    // ���͂ȃG�l���M�[�e�ł��邱�Ƃ����o�I�ɋ������邽�߁A�P�����F�̋��̂�`��
+    // 強力なエネルギー弾であることを視覚的に強調するため、輝く金色の球体を描画
     unsigned int colorGold = GetColor(255, 215, 0);
     unsigned int colorOrange = GetColor(255, 140, 0);
     unsigned int colorWhite = GetColor(255, 255, 255);
 
-    // ���̏d�Ȃ�ɂ�锭�������o�����߁A�F�ƃT�C�Y��ς��������̉~�𓯐S�~��ɕ`��
+    // 光の重なりによる発光感を出すため、色とサイズを変えた複数の円を同心円状に描画
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 90, colorOrange, TRUE);
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 75, colorGold, TRUE);
     DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, colorWhite, TRUE);
 
-    // �\���̃��C�����d�˂邱�ƂŁA�G�l���M�[���Ïk������o���Ă���悤�ȉ��o��ǉ�
+    // 十字のラインを重ねることで、エネルギーが凝縮され溢れ出しているような演出を追加
     DrawLine(static_cast<int>(mvPosition.x - 90), static_cast<int>(mvPosition.y), static_cast<int>(mvPosition.x + 90), static_cast<int>(mvPosition.y), colorGold);
     DrawLine(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y - 90), static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y + 90), colorGold);
 }
 
 void SpecialBullet::Kill() {
-    // �G���ђʂ��Ĉ�ԑŐs�ɂ���d�l�Ƃ��邽�߁A�Փˎ��̏��ŏ������s��Ȃ�
+    // 敵を貫通して一網打尽にする仕様とするため、衝突時の消滅処理を行わない
 }
 
 void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
@@ -75,11 +75,11 @@ void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
             Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
             if (enemy != nullptr) {
-                // �ђʒe�ł��邽�߁A�G�Ƀ_���[�W��^�����g�͂��̂܂ܒ��i������
+                // 貫通弾であるため、敵にダメージを与えつつ自身はそのまま直進させる
                 enemy->TakeDamage(m_damage);
             }
         } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
-            // 敵の弾を消す
+            // 謨ｵ縺ｮ蠑ｾ繧呈ｶ医☆
             check->GetParentObject()->SetDeleteFlag(true);
         }
     }

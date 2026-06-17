@@ -53,6 +53,7 @@
     <ClCompile Include="Source\StageSelectScene.cpp" />
     <ClCompile Include="Source\RuleScene.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />
+    <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +92,7 @@
     <ClInclude Include="Source\StageSelectScene.h" />
     <ClInclude Include="Source\RuleScene.h" />
     <ClInclude Include="Source\TitleScene.h" />
+    <ClInclude Include="Source\Vector2.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\SoundManager.h" />
   </ItemGroup>
@@ -155,12 +157,12 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
       <OutputFile>C:\Users\student\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -194,12 +196,12 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\Aigame\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\Aigame\EFKforDxLib\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>

@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+﻿#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -10,12 +10,11 @@
 #include "Master.h"
 #include "SoundManager.h"
 
-SceneManager* Master::sceneManager = nullptr;
+std::unique_ptr<SceneManager> Master::sceneManager = nullptr;
 
 SceneManager::SceneManager()
 	: mnSceneType(SCENE_TYPE::SCENE_NONE)
 	, mnNextSceneType(SCENE_TYPE::SCENE_NONE)
-	, mpCurrentScene(nullptr)
 	, SceneHard(false)
 	, SceneNormal(false)
 {
@@ -25,8 +24,7 @@ SceneManager::~SceneManager()
 {
 	if (mpCurrentScene != nullptr)
 	{
-		delete mpCurrentScene;
-		mpCurrentScene = nullptr;
+		mpCurrentScene.reset();
 	}
 }
 
@@ -48,7 +46,7 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
-	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene);
+	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene.get());
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Draw();
@@ -60,8 +58,7 @@ void SceneManager::Finalize()
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Finalize();
-		delete mpCurrentScene;
-		mpCurrentScene = nullptr;
+		mpCurrentScene.reset();
 	}
 }
 
@@ -75,26 +72,25 @@ void SceneManager::ChangeSceneIfNeeded()
 	if (mpCurrentScene != nullptr)
 	{
 		mpCurrentScene->Finalize();
-		delete mpCurrentScene;
-		mpCurrentScene = nullptr;
+		mpCurrentScene.reset();
 	}
 	mnSceneType = mnNextSceneType;
 	switch (mnSceneType)
 	{
 	case SCENE_TYPE::SCENE_TITLE:
-		mpCurrentScene = new TitleScene();
+		mpCurrentScene = std::make_unique<TitleScene>();
 		break;
 	case SCENE_TYPE::SCENE_LEVEL:
-		mpCurrentScene = new StageSelectScene();
+		mpCurrentScene = std::make_unique<StageSelectScene>();
 		break;
 	case SCENE_TYPE::SCENE_GAME:
-		mpCurrentScene = new GameScene();
+		mpCurrentScene = std::make_unique<GameScene>();
 		break;
 	case SCENE_TYPE::SCENE_RESULT:
-		mpCurrentScene = new ResultScene();
+		mpCurrentScene = std::make_unique<ResultScene>();
 		break;
 	case SCENE_TYPE::SCENE_RULE:
-		mpCurrentScene = new RuleScene();
+		mpCurrentScene = std::make_unique<RuleScene>();
 		break;
 	default:
 		mpCurrentScene = nullptr;

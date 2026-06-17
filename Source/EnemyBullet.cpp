@@ -12,15 +12,13 @@
 #include <cmath>
 #include "utility.h"
 
-EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool canReflect, bool isStunBullet, int homingFrames, int homingDelayFrames)
-    : Object2D(VGet(x, y, 0.0f))
+EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect, bool isStunBullet, int homingFrames, int homingDelayFrames)
+    : Object2D(pos)
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_EnemyBullet);
-    mvPosition.x = x;
-    mvPosition.y = y;
-    m_dx = dx;
-    m_dy = dy;
+    mvPosition = pos;
+    m_dir = dir.Normalized();
     m_speed = speed;
     m_isActive = true;
     m_canReflect = false;
@@ -30,13 +28,8 @@ EnemyBullet::EnemyBullet(float x, float y, float dx, float dy, float speed, bool
     m_homingDelayTimer = homingDelayFrames;
 
 
-    float len = std::sqrt(m_dx * m_dx + m_dy * m_dy);
-    if (len > 0.0f) {
-        m_dx /= len;
-        m_dy /= len;
-    } else {
-        m_dx = 0.0f;
-        m_dy = 1.0f;
+    if (m_dir.MagnitudeSq() == 0.0f) {
+        m_dir = Vector2(0.0f, 1.0f);
     }
 
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
@@ -55,25 +48,22 @@ void EnemyBullet::Update() {
         m_homingTimer--;
         Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
         if (player) {
-            float currentAngle = std::atan2(m_dy, m_dx);
-            float targetAngle = std::atan2(player->GetY() - mvPosition.y, player->GetX() - mvPosition.x);
-            
+            Vector2 targetPos(player->GetX(), player->GetY());
+            float currentAngle = Vector2(0, 0).AngleTo(m_dir);
+            float targetAngle = mvPosition.AngleTo(targetPos);
             float diff = targetAngle - currentAngle;
             while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
             while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
-            float turnSpeed = 0.03f; 
-            if (diff > turnSpeed) diff = turnSpeed;
-            if (diff < -turnSpeed) diff = -turnSpeed;
-            
-            currentAngle += diff;
-            m_dx = std::cos(currentAngle);
-            m_dy = std::sin(currentAngle);
+            float turnSpeed = 0.05f * Utility::TimeScale;
+            if (diff > turnSpeed) currentAngle += turnSpeed;
+            else if (diff < -turnSpeed) currentAngle -= turnSpeed;
+            else currentAngle = targetAngle;
+            m_dir = Vector2::FromAngle(currentAngle);
         }
     }
 
-    mvPosition.x += m_dx * m_speed * Utility::TimeScale;
-    mvPosition.y += m_dy * m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition += m_dir * (m_speed * Utility::TimeScale);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;

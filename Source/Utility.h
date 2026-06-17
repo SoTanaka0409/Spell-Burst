@@ -1,3 +1,4 @@
+ï»¿#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -7,27 +8,27 @@
 #include <fstream>
 #include <algorithm>
 
-// ƒQ[ƒ€‘S‘Ì‚Å‹¤’Ê‚µ‚Äg—p‚·‚é’è”A”®Aƒ‰ƒ“ƒLƒ“ƒOIOŠÖ”‚ğ’è‹`‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+// ã‚²ãƒ¼ãƒ å…¨ä½“ã§å…±é€šã—ã¦ä½¿ç”¨ã™ã‚‹å®šæ•°ã€æ•°å¼ã€ãƒ©ãƒ³ã‚­ãƒ³ã‚°IOé–¢æ•°ã‚’å®šç¾©ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
 class Utility
 {
 public:
 	static const int SCREEN_WIDTH = 1600; 
 	static const int SCREEN_HEIGHT = 900; 
 
-	static VECTOR StageSize;
+	static Vector2 StageSize;
 	static float TimeScale;
 
-	// [“ü—Í] deg: “x”–@‚É‚æ‚éŠp“x
-	// [o—Í] ŒÊ“x–@‚É‚æ‚éŠp“xiƒ‰ƒWƒAƒ“j
-	// [•›ì—p] ‚È‚µ
+	// [å…¥åŠ›] deg: åº¦æ•°æ³•ã«ã‚ˆã‚‹è§’åº¦
+	// [å‡ºåŠ›] å¼§åº¦æ³•ã«ã‚ˆã‚‹è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
+	// [å‰¯ä½œç”¨] ãªã—
 	static float DegToRad(float deg)
 	{
 		return deg * DX_PI_F / 180.0f;
 	}
 
-	// [“ü—Í] outTimes: ƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^‚ğŠi”[‚·‚é“®“I”z—ñ
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ranking.txt ‚©‚çƒXƒRƒA‚ğ“Ç‚İ‚İA¸‡ƒ\[ƒg‚µ‚Ä”z—ñ‚ÉŠi”[‚·‚é
+	// [å…¥åŠ›] outTimes: ãƒ©ãƒ³ã‚­ãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹å‹•çš„é…åˆ—
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ranking.txt ã‹ã‚‰ã‚¹ã‚³ã‚¢ã‚’èª­ã¿è¾¼ã¿ã€æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦é…åˆ—ã«æ ¼ç´ã™ã‚‹
 	static void LoadTimeRanking(std::vector<int>& outTimes) {
 		outTimes.clear();
 		std::ifstream ifs("ranking.txt");
@@ -41,9 +42,9 @@ public:
 		std::sort(outTimes.begin(), outTimes.end());
 	}
 
-	// [“ü—Í] timeMs: •Û‘¶‚·‚éƒNƒŠƒAƒ^ƒCƒ€iƒ~ƒŠ•bj
-	// [o—Í] ‚È‚µ
-	// [•›ì—p] ranking.txt ‚ÉãˆÊ5‚Â‚Ì‹L˜^‚ğ¸‡ƒ\[ƒg‚µ‚Ä‘‚«‚Ş
+	// [å…¥åŠ›] timeMs: ä¿å­˜ã™ã‚‹ã‚¯ãƒªã‚¢ã‚¿ã‚¤ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
+	// [å‡ºåŠ›] ãªã—
+	// [å‰¯ä½œç”¨] ranking.txt ã«ä¸Šä½5ã¤ã®è¨˜éŒ²ã‚’æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦æ›¸ãè¾¼ã‚€
 	static void SaveTimeRanking(int timeMs) {
 		std::vector<int> times;
 		LoadTimeRanking(times);

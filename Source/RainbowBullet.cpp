@@ -1,4 +1,4 @@
-#include "RainbowBullet.h"
+﻿#include "RainbowBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "Boss.h"
@@ -10,7 +10,7 @@
 #include <cmath>
 
 RainbowBullet::RainbowBullet(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
     , m_speed(15.0f)
     , m_damage(20)
@@ -31,7 +31,7 @@ RainbowBullet::~RainbowBullet() {
 
 void RainbowBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;

@@ -1,7 +1,8 @@
+ï»¿#include <memory>
 #pragma once
 #include "Scene.h"
 
-// ƒQ[ƒ€‘S‘Ì‚ÌƒV[ƒ“‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+// ã‚²ãƒ¼ãƒ å…¨ä½“ã®ã‚·ãƒ¼ãƒ³é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class SceneManager
 {
 public:
@@ -27,34 +28,34 @@ public:
 	SceneManager();
 	~SceneManager();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Å‰‚ÌƒV[ƒ“i’Êí‚ÍTITLE“™j‚ÌInitialize‚ğŒÄ‚Ño‚µ‰Šú‰»‚·‚é
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] æœ€åˆã®ã‚·ãƒ¼ãƒ³ï¼ˆé€šå¸¸ã¯TITLEç­‰ï¼‰ã®Initializeã‚’å‘¼ã³å‡ºã—åˆæœŸåŒ–ã™ã‚‹
 	void Initialize();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌDrawŠÖ”‚ğŒÄ‚Ño‚µA•`‰æˆ—‚ğˆÏ÷‚·‚é
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Drawé–¢æ•°ã‚’å‘¼ã³å‡ºã—ã€æç”»å‡¦ç†ã‚’å§”è­²ã™ã‚‹
 	void Draw();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌUpdateŠÖ”‚ğŒÄ‚Ño‚·B‚Ü‚½AŸƒV[ƒ“‚ª—\–ñ‚³‚ê‚Ä‚¢‚ê‚Î‘JˆÚˆ—‚ğs‚¤
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Updateé–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚ã¾ãŸã€æ¬¡ã‚·ãƒ¼ãƒ³ãŒäºˆç´„ã•ã‚Œã¦ã„ã‚Œã°é·ç§»å‡¦ç†ã‚’è¡Œã†
 	void Update();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Œ»İ‚ÌƒV[ƒ“‚ÌFinalize‚ğŒÄ‚Ño‚µAƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Finalizeã‚’å‘¼ã³å‡ºã—ã€ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
 	void Finalize();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] mnNextSceneType‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‹ŒƒV[ƒ“‚ğ”jŠü‚µ‚ÄVƒV[ƒ“‚ğ¶¬E‰Šú‰»‚·‚é
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] mnNextSceneTypeãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã€æ—§ã‚·ãƒ¼ãƒ³ã‚’ç ´æ£„ã—ã¦æ–°ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆãƒ»åˆæœŸåŒ–ã™ã‚‹
 	void ChangeSceneIfNeeded();
 
-    // [“ü—Í] next: Ÿ‚É‘JˆÚ‚µ‚½‚¢ƒV[ƒ“‚Ìí•Ê—ñ‹“q
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Ÿ‰ñUpdate‚ÉƒV[ƒ“‘JˆÚ‚ªs‚í‚ê‚é‚æ‚¤ƒtƒ‰ƒO(mnNextSceneType)‚ğƒZƒbƒg‚·‚é
+    // [å…¥åŠ›] next: æ¬¡ã«é·ç§»ã—ãŸã„ã‚·ãƒ¼ãƒ³ã®ç¨®åˆ¥åˆ—æŒ™å­
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] æ¬¡å›Updateæ™‚ã«ã‚·ãƒ¼ãƒ³é·ç§»ãŒè¡Œã‚ã‚Œã‚‹ã‚ˆã†ãƒ•ãƒ©ã‚°(mnNextSceneType)ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	void SetNextScene(SCENE_TYPE next) { mnNextSceneType = next; }
 
 	void SetSceneHard(bool Hard) { SceneHard = Hard; }
@@ -63,13 +64,13 @@ public:
 	void SetSceneNormal(bool Normal) {SceneNormal=Normal; }
 	bool GetSceneNormal() { return SceneNormal; }
 
-	Scene* GetCurrentScene() { return mpCurrentScene; }
+	Scene* GetCurrentScene() { return mpCurrentScene.get(); }
 
 private:
 	SCENE_TYPE mnSceneType;     
 	SCENE_TYPE mnNextSceneType;
-	Scene* mpCurrentScene;    
-	Scene* mp;
+	std::unique_ptr<Scene> mpCurrentScene;    
+	
 
 	bool SceneHard;
 	bool SceneNormal;

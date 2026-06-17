@@ -1,4 +1,4 @@
-#include "Boss.h"
+﻿#include "Boss.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
 #include "MeleeAttack.h"
@@ -28,7 +28,7 @@
 #include "SoundManager.h"
 
 Boss::Boss(float x, float y, int bossType)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
@@ -87,7 +87,7 @@ void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
         mvPosition.y -= 1.0f;
-        mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+        // mvPosition is already a Vector2
         if (m_deathTimer <= 0) {
             Kill();
         }
@@ -111,18 +111,16 @@ void Boss::Update() {
     }
 
 
-    float dx = m_targetX - mvPosition.x;
-    float dy = m_targetY - mvPosition.y;
-    float dist = std::sqrt(dx * dx + dy * dy);
+    Vector2 target(m_targetX, m_targetY);
+    float dist = mvPosition.DistanceTo(target);
 
     if (dist < 15.0f) {
         SelectNewTarget();
     } else {
-        mvPosition.x += (dx / dist) * m_speed * Utility::TimeScale;
-        mvPosition.y += (dy / dist) * m_speed * Utility::TimeScale;
+        mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
     }
 
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    // mvPosition is already a Vector2
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -172,9 +170,7 @@ void Boss::ShootRadialBarrage() {
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.5f, reflect);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.5f, reflect);
     }
 }
 void Boss::ShootFanBarrage() {
@@ -186,43 +182,27 @@ void Boss::ShootFanBarrage() {
         float speed = 2.0f + layer * 1.5f;
         for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
-            float dx = std::cos(angle);
-            float dy = std::sin(angle);
-            new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, speed, reflect);
+            new EnemyBullet(mvPosition, Vector2::FromAngle(angle), speed, reflect);
         }
     }
 }
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-    float targetX = mvPosition.x;
-    float targetY = mvPosition.y + 200.0f;
-
+    Vector2 targetPos(mvPosition.x, mvPosition.y + 200.0f);
     if (player != nullptr) {
-        targetX = player->GetX();
-        targetY = player->GetY();
+        targetPos = Vector2(player->GetX(), player->GetY());
     }
-
-    float dx = targetX - mvPosition.x;
-    float dy = targetY - mvPosition.y;
-    float dist = std::sqrt(dx * dx + dy * dy);
-    
-    if (dist > 0.0f) {
-        dx /= dist;
-        dy /= dist;
-    } else {
-        dx = 0.0f;
-        dy = 1.0f;
-    }
-
-    float baseAngle = std::atan2(dy, dx);
+    Vector2 dir = (targetPos - mvPosition).Normalized();
+    if (dir.MagnitudeSq() == 0.0f) dir = Vector2(0.0f, 1.0f);
+    float baseAngle = Vector2(0,0).AngleTo(dir);
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
-        new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 3.5f);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
     }
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
-        new EnemyBullet(mvPosition.x, mvPosition.y, std::cos(angle), std::sin(angle), 2.5f);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.5f);
     }
 }
 
@@ -231,10 +211,7 @@ void Boss::ShootSimpleBarrage() {
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
-        float bx = std::cos(angle);
-        float by = std::sin(angle);
-
-        new EnemyBullet(mvPosition.x, mvPosition.y, bx, by, 3.5f, false, false, 120, 60);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f, false, false, 120, 60);
     }
 }
 
@@ -242,10 +219,7 @@ void Boss::ShootBouncingBarrage() {
     const float PI = 3.14159265f;
     for (int i = 0; i < 6; i++) {
         float angle = (i * 2.0f * PI) / 6.0f;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 4.5f, true);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 4.5f, true);
     }
 }
 
@@ -253,15 +227,11 @@ void Boss::ShootSpellCardBarrage() {
     const float PI = 3.14159265f;
     for (int i = 0; i < 24; i++) {
         float angle = (i * 2.0f * PI) / 24.0f;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 2.0f, true);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f, true);
     }
     for (int i = 0; i < 12; i++) {
         float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        new EnemyBullet(mvPosition.x, mvPosition.y, dx, dy, 5.0f, false);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 5.0f, false);
     }
 }
 void Boss::TakeDamage(int damage) {

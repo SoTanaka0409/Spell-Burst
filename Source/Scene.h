@@ -1,3 +1,4 @@
+ï»¿#include <memory>
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -7,38 +8,38 @@
 class ObjectManager;
 class ColliderManager;
 
-// ‘S‚Ä‚ÌƒV[ƒ“‚ÌŠî’êƒNƒ‰ƒX
-// ƒIƒuƒWƒFƒNƒgŠÇ—‚ÆÕ“Ë”»’èŠÇ—‚Ìƒ}ƒl[ƒWƒƒ‚ğ•W€‚Å•Û‚·‚é
+// å…¨ã¦ã®ã‚·ãƒ¼ãƒ³ã®åŸºåº•ã‚¯ãƒ©ã‚¹
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã¨è¡çªåˆ¤å®šç®¡ç†ã®ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’æ¨™æº–ã§ä¿æŒã™ã‚‹
 class Scene
 {
 public:
 	Scene();
 	virtual ~Scene();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒV[ƒ“ŠJn‚É•K—v‚ÈƒŠƒ\[ƒX“Ç‚İ‚İ‚âƒIƒuƒWƒFƒNƒg¶¬‚ğs‚¤i”h¶æ‚ÅÀ‘•j
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ã‚·ãƒ¼ãƒ³é–‹å§‹æ™‚ã«å¿…è¦ãªãƒªã‚½ãƒ¼ã‚¹èª­ã¿è¾¼ã¿ã‚„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã‚’è¡Œã†ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
 	virtual void Initialize() = 0;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒIƒuƒWƒFƒNƒgƒ}ƒl[ƒWƒƒ‚¨‚æ‚ÑÕ“Ë”»’èƒ}ƒl[ƒWƒƒ‚ÌXVˆ—‚ğŒÄ‚Ô
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãŠã‚ˆã³è¡çªåˆ¤å®šãƒãƒãƒ¼ã‚¸ãƒ£ã®æ›´æ–°å‡¦ç†ã‚’å‘¼ã¶
 	virtual void Update();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒIƒuƒWƒFƒNƒgƒ}ƒl[ƒWƒƒ‚Ì•`‰æˆ—‚ğŒÄ‚Ô
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ã®æç”»å‡¦ç†ã‚’å‘¼ã¶
 	virtual void Draw();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒV[ƒ“I—¹‚É‰æ‘œ‚â‰¹‚È‚Ç‚ÌƒŠƒ\[ƒX‰ğ•ú‚ğs‚¤i”h¶æ‚ÅÀ‘•j
+    // [å…¥åŠ›] ãªã—
+    // [å‡ºåŠ›] ãªã—
+    // [å‰¯ä½œç”¨] ã‚·ãƒ¼ãƒ³çµ‚äº†æ™‚ã«ç”»åƒã‚„éŸ³ãªã©ã®ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾ã‚’è¡Œã†ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
 	virtual void Finalize() = 0;
 
-	ObjectManager* GetObjectManager() { return mpObjectManager; }
-	ColliderManager* GetCollisionManager() { return mpColliderManager; }
+	ObjectManager* GetObjectManager() { return mpObjectManager.get(); }
+	ColliderManager* GetCollisionManager() { return mpColliderManager.get(); }
 	
 private:
-	ObjectManager* mpObjectManager;
-	ColliderManager* mpColliderManager;
+	std::unique_ptr<ObjectManager> mpObjectManager;
+	std::unique_ptr<ColliderManager> mpColliderManager;
 };

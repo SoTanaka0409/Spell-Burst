@@ -1,4 +1,4 @@
-#ifndef NOMINMAX
+ï»¿#ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
@@ -9,24 +9,24 @@
 #include "Utility.h"
 
 
-//SceneManager* Master::sceneManager = new SceneManager();
+//SceneManager* Master::sceneManager = std::make_unique<SceneManager>();
 
 float Utility::TimeScale = 1.0f;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    // ‹N“®–ˆ‚ÉÅV‚ÌƒƒO‚ğo—Í‚·‚é‚½‚ßAŠù‘¶‚ÌƒƒOƒtƒ@ƒCƒ‹‚ğ”jŠü‚µ‚Ä‰Šú‰»
+    // èµ·å‹•æ¯ã«æœ€æ–°ã®ãƒ­ã‚°ã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã€æ—¢å­˜ã®ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç ´æ£„ã—ã¦åˆæœŸåŒ–
     FILE* fpLog = nullptr;
     fopen_s(&fpLog, "debug.log", "w");
     if (fpLog) fclose(fpLog);
 
-    // ŠJ”­’†‚Ì“®ìŠm”F‚¨‚æ‚ÑƒGƒ‰[’²¸‚ğ—eˆÕ‚É‚·‚é‚½‚ßƒRƒ“ƒ\[ƒ‹‚ğŠ„‚è“–‚Ä
+    // é–‹ç™ºä¸­ã®å‹•ä½œç¢ºèªãŠã‚ˆã³ã‚¨ãƒ©ãƒ¼èª¿æŸ»ã‚’å®¹æ˜“ã«ã™ã‚‹ãŸã‚ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’å‰²ã‚Šå½“ã¦
     AllocConsole();
     FILE* fp = nullptr;
     freopen_s(&fp, "CONOUT$", "w", stdout);
     freopen_s(&fp, "CONOUT$", "w", stderr);
     printf("Debug Console Started!\n");
 
-    // DxLib‚ÌŠî–{İ’è‚¨‚æ‚Ñ‰Šú‰»iƒƒOƒtƒ@ƒCƒ‹o—Í‚ğ–³Œø‰»j
+    // DxLibã®åŸºæœ¬è¨­å®šãŠã‚ˆã³åˆæœŸåŒ–ï¼ˆãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã‚’ç„¡åŠ¹åŒ–ï¼‰
     SetOutApplicationLogValidFlag(FALSE);
     ChangeWindowMode(TRUE);
     SetGraphMode(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, 32);
@@ -36,14 +36,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return -1;
     }
 
-    // •`‰ææ‚ğ— ‰æ–Ê‚Éİ’è‚µAƒ`ƒ‰‚Â‚«‚Ì‚È‚¢ƒ_ƒuƒ‹ƒoƒbƒtƒ@ƒŠƒ“ƒO‚ğÀŒ»`r`n    SetDrawScreen(DX_SCREEN_BACK);
+    // æç”»å…ˆã‚’è£ç”»é¢ã«è¨­å®šã—ã€ãƒãƒ©ã¤ãã®ãªã„ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡ãƒªãƒ³ã‚°ã‚’å®Ÿç¾`r`n    SetDrawScreen(DX_SCREEN_BACK);
 
-    Master::sceneManager = new SceneManager();
+    Master::sceneManager = std::make_unique<SceneManager>();
     Master::sceneManager->Initialize();
 
     LONGLONG lastTime = GetNowHiPerformanceCount();
 
-    // OS‚ÌƒƒbƒZ[ƒWˆ—‚ÆESCƒL[‚É‚æ‚éˆÀ‘S‚ÈI—¹‚ğ•ÛØ‚·‚é‚½‚ß‚ÌƒƒCƒ“ƒ‹[ƒv
+    // OSã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†ã¨ESCã‚­ãƒ¼ã«ã‚ˆã‚‹å®‰å…¨ãªçµ‚äº†ã‚’ä¿è¨¼ã™ã‚‹ãŸã‚ã®ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
     while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && Master::sceneManager->GetCurrentScene() != nullptr) {
         ClearDrawScreen();
 
@@ -58,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         ScreenFlip();
     }
 
-    delete Master::sceneManager;
+    
 
     DxLib_End();
 

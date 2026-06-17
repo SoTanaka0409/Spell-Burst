@@ -1,4 +1,4 @@
-#include "Obstacle.h"
+ï»¿#include "Obstacle.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 #include "Player.h"
@@ -15,11 +15,11 @@
 #include "DxLib.h"
 
 Obstacle::Obstacle(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
     , m_fallSpeed(3.0f)
 {
-    SetTag(Tag2D_Enemy); // ƒvƒŒƒCƒ„[‚Ì’e‚â‘Ì“–‚½‚è”»’è‚Ì‘ÎÛ‚Æ‚·‚é‚½‚ß•Ö‹Xã“Gƒ^ƒO‚ð•t—^
+    SetTag(Tag2D_Enemy); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã‚„ä½“å½“ãŸã‚Šåˆ¤å®šã®å¯¾è±¡ã¨ã™ã‚‹ãŸã‚ä¾¿å®œä¸Šæ•µã‚¿ã‚°ã‚’ä»˜ä¸Ž
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 40.0f);
 }
 
@@ -65,7 +65,7 @@ void Obstacle::Draw() {
 void Obstacle::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         Object2D* parent = check->GetParentObject();
-        // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚ÆÕ“Ë‚µ‚½ê‡‚Ìˆ—i“ÁŽê’e‚©‚Ç‚¤‚©‚Å•ªŠòj
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨è¡çªã—ãŸå ´åˆã®å‡¦ç†ï¼ˆç‰¹æ®Šå¼¾ã‹ã©ã†ã‹ã§åˆ†å²ï¼‰
         if (parent->GetTag() == Tag2D_PlayerBullet) {
             bool isSpecial = false;
             if (dynamic_cast<MasterSpark*>(parent) != nullptr ||
@@ -87,7 +87,7 @@ void Obstacle::OnTrigger(Collider* collider, Collider* check) {
                 check->SetDeleteFlag(true);
             }
         }
-        // ƒvƒŒƒCƒ„[Ž©g‚ªáŠQ•¨‚ÉÕ“Ë‚µ‚½ê‡A‰ñ”ðƒyƒiƒ‹ƒeƒB‚Æ‚µ‚Äƒ_ƒ[ƒW‚ð—^‚¦‚é
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è‡ªèº«ãŒéšœå®³ç‰©ã«è¡çªã—ãŸå ´åˆã€å›žé¿ãƒšãƒŠãƒ«ãƒ†ã‚£ã¨ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸Žãˆã‚‹
         if (parent->GetTag() == Tag2D_Player) {
             Player* p = dynamic_cast<Player*>(parent);
             if (p) {

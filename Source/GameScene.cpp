@@ -1,4 +1,4 @@
-#include "GameScene.h"
+﻿#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -34,8 +34,7 @@ GameScene::GameScene()
 
 GameScene::~GameScene() {
     if (mpEnemyManager != nullptr) {
-        delete mpEnemyManager;
-        mpEnemyManager = nullptr;
+        mpEnemyManager.reset();
     }
     if (m_screenHandle != -1) {
         DeleteGraph(m_screenHandle);
@@ -50,7 +49,7 @@ void GameScene::Initialize() {
     srand(static_cast<unsigned int>(GetNowCount()));
     HUD::Initialize();
 
-    mpEnemyManager = new EnemyManager();
+    mpEnemyManager = std::make_unique<EnemyManager>();
     mpEnemyManager->Initialize();
 
     m_cutinTimer = 0;
@@ -108,7 +107,7 @@ void GameScene::Update() {
             break;
         }
     }
-    HUD::Update(player, mpEnemyManager, boss);
+    HUD::Update(player, mpEnemyManager.get(), boss);
 
     if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
@@ -149,7 +148,7 @@ void GameScene::Draw() {
             break;
         }
     }
-    HUD::Draw(player, mpEnemyManager, boss, m_cutinTimer, m_cutinImageHandle);
+    HUD::Draw(player, mpEnemyManager.get(), boss, m_cutinTimer, m_cutinImageHandle);
 
     int totalMs = (s_playFrameCount * 1000) / 60;
     int ms = totalMs % 1000;

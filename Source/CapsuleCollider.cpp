@@ -1,6 +1,6 @@
-#include "CapsuleCollider.h"
+﻿#include "CapsuleCollider.h"
 
-CapsuleCollider::CapsuleCollider(Object2D* parent, VECTOR pos1, VECTOR pos2, float radius)
+CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
 	mvPosition = pos1;

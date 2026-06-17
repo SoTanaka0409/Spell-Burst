@@ -1,4 +1,4 @@
-#include "SpellCardBullet.h"
+﻿#include "SpellCardBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -11,7 +11,7 @@
 #include "SoundManager.h"
 
 SpellCardBullet::SpellCardBullet(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet);
@@ -36,7 +36,7 @@ void SpellCardBullet::Update() {
     if (!m_isActive) return;
 
     mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -66,16 +66,14 @@ void SpellCardBullet::Explode() {
     
     const float PI = 3.14159265f;
     
-    // 5�w�ɍL���鑽�d�̓��S�~�i���p�^�[���j�ƂȂ�e���̈ړ������x�N�g�����v�Z����
+    // 5層に広がる多重の同心円（桜パターン）となる弾幕の移動方向ベクトルを計算する
     for (int ring = 1; ring <= 5; ring++) {
         float speed = 3.0f + ring * 1.5f;
         float baseAngle = ring * (PI / 8.0f);
         for (int i = 0; i < 16; i++) {
             float angle = baseAngle + (i * 2.0f * PI / 16.0f);
-            float dx = std::cos(angle);
-            float dy = std::sin(angle);
-            SoundManager::GetInstance()->PlaySE("Resource/SE/�X���@1.mp3");
-            new PlayerSpellParticle(mvPosition.x, mvPosition.y, dx, dy, speed);
+            SoundManager::GetInstance()->PlaySE("Resource/SE/氷魔法1.mp3");
+            new PlayerSpellParticle(mvPosition, Vector2::FromAngle(angle), speed);
         }
     }
 

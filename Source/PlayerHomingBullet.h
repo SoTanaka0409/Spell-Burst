@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
 class PlayerHomingBullet : public Object2D {
 private:
-    float m_x, m_y;
-    float m_dx, m_dy;
+    
+    Vector2 m_dir;
     float m_speed;
     int m_damage;
     bool m_isActive;
@@ -14,7 +14,7 @@ private:
     CapsuleCollider* mpCollider;
 
 public:
-    PlayerHomingBullet(float x, float y, float dx, float dy, float speed);
+    PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed);
     virtual ~PlayerHomingBullet() override;
 
     int GetDamage() const { return m_damage; }
