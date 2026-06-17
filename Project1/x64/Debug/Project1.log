@@ -1,41 +1,9 @@
-﻿  Barrier.cpp
-  Boss.cpp
+﻿  Boss.cpp
   Bullet.cpp
   BulletManager.cpp
-  CapsuleCollider.cpp
-  Collider.cpp
-  SphereCollider.cpp
-  ColliderManager.cpp
   Enemy.cpp
   EnemyBullet.cpp
-  EnemyManager.cpp
-  ExplosionParticle.cpp
-  GameScene.cpp
-  HUD.cpp
-  InputManager.cpp
-  Main.cpp
-  MasterSpark.cpp
-  MeleeAttack.cpp
-  Object2D.cpp
-  ObjectManager.cpp
-  コードを生成中...
-  コンパイル中...
-  Obstacle.cpp
   Player.cpp
-  PlayerHomingBullet.cpp
-  PlayerSpellParticle.cpp
-  RainbowBullet.cpp
-  RainbowWaveManager.cpp
-  ResourceManager.cpp
-  ResultScene.cpp
-  Scene.cpp
-  SceneManager.cpp
   SpecialBullet.cpp
-  SpellCardBullet.cpp
-  StageSelectScene.cpp
-  RuleScene.cpp
-  TitleScene.cpp
-  Vector2.cpp
-  SoundManager.cpp
   コードを生成中...
   Project1.vcxproj -> C:\Users\Admin\Desktop\progtram\AiGame_net\x64\Debug\Project1.exe
