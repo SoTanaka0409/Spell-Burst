@@ -1,44 +1,44 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// A class that manages boss character data, behavior, and barrage patterns.
+// ƒ{ƒX—pƒNƒ‰ƒXiŠî’ê: Object2Dj
+// c‹@im_livesj‚âƒtƒF[ƒYˆÚs‚Ì–³“GŠÔ‚ğŠÇ—‚µA’e–‹ƒpƒ^[ƒ“‚ğØ‚è‘Ö‚¦‚é
 class Boss : public Object2D {
 private:
-    float m_x, m_y;       // XY coordinates of the boss on the screen
-    float m_speed;        // movement speed
-    int m_hp;             // current physical strength
-    int m_maxHp;          // maximum health
-    bool m_isActive;      // Flag for whether the boss is active or not
-    int m_bossType;       // Boss type (1-3)
+    float m_speed; // ƒ{ƒX‚ÌˆÚ“®‘¬“x
+    int m_hp; // ƒ{ƒX‚ÌŒ»İ‚Ì‘Ì—ÍiƒtƒF[ƒY‚²‚Æj
+    int m_maxHp; // Œ»İ‚ÌƒtƒF[ƒY‚É‚¨‚¯‚éÅ‘å‘Ì—Í
+    bool m_isActive; // ƒ{ƒX‚ªŒ»İƒAƒNƒeƒBƒuií“¬’†j‚©‚Ç‚¤‚©
+    int m_bossType; // ƒ{ƒX‚Ìí—Ş‚âs“®ƒpƒ^[ƒ“‚Ì¯•Êq
     
-    // Random movement destination (target coordinates)
-    float m_targetX, m_targetY;
+    float m_targetX, m_targetY; // ƒ{ƒX‚ªŸ‚ÉŒü‚©‚¤ˆÚ“®–Ú•WÀ•W
     
-    // Timer to manage attack patterns and firing intervals
-    int m_attackTimer;
-    int m_patternIndex;
+    int m_attackTimer; // ’e–‹UŒ‚‚ğ”­Ë‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒoƒ‹ŠÇ—ƒ^ƒCƒ}[
+    int m_patternIndex; // Œ»İÀs’†‚ÌUŒ‚ƒpƒ^[ƒ“‚ÌƒCƒ“ƒfƒbƒNƒX
 
-    // Status and timer to manage death effect when defeated
-    bool m_isDying;
-    int m_deathTimer;
+    bool m_isDying; // €–S‰‰o’†‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    int m_deathTimer; // €–S‰‰oi”š”­‚È‚Çj‚Ìis‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
     
-    // Variables that manage phase (remaining lives) and invincibility time
-    int m_lives;
-    int m_invincibleTimer;
-    int m_invincibleCycleTimer; // Timer to manage invincibility every 5 seconds
+    int m_lives; // ƒ{ƒX‚Ìc‚èƒtƒF[ƒY”ic‹@j
+    int m_invincibleTimer; // ƒtƒF[ƒYˆÚs‚È‚Ç‚Ì–³“GŠÔƒ^ƒCƒ}[
+    int m_invincibleCycleTimer; // –³“G‚Ì“_–ÅƒGƒtƒFƒNƒg—pƒ^ƒCƒ}[
     
-    CapsuleCollider* mpCollider;
+    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
 
 public:
     Boss(float x, float y, int bossType = 3);
     virtual ~Boss() override;
 
-    // It is called every frame and performs movement processing, attack processing, and death effects.
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] À•W‚ÌXVA”í’e‚Ì–³“Gó‘ÔŠÇ—AƒtƒF[ƒY–ˆ‚Ì’e–‹ˆ—‚ğs‚¤
     void Update() override;
 
-    // Called every frame, draws the boss image and the flashing effect when receiving damage.
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] –³“G“_–ÅŒø‰Ê‚Ì“K—p‚âA€–S‚Ì”š”­ƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
     void Draw() override;
 
     int GetHp() const { return m_hp; }
@@ -46,27 +46,35 @@ public:
     bool IsActive() const { return m_isActive; }
     int GetLives() const { return m_lives; }
 
-    float GetX() const { return m_x; }
-    float GetY() const { return m_y; }
+    float GetX() const { return mvPosition.x; }
+    float GetY() const { return mvPosition.y; }
     float GetRadius() const { return 80.0f; }
 
-    // Damage processing called when attacked by a player
+    // [“ü—Í] damage: ƒ_ƒ[ƒW—Ê
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] –³“GŠÔ’†‚Å‚È‚¯‚ê‚ÎHP‚ğŒ¸Z‚µA0ˆÈ‰º‚ÅŸƒtƒF[ƒY‚ÖˆÚs‚Ü‚½‚Í€–Sˆ—
     void TakeDamage(int damage);
 
-    // Process to completely eliminate the boss
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] €–Sƒtƒ‰ƒO(m_isDying)‚ğ—§‚ÄAÁ–ÅƒGƒtƒFƒNƒg—pƒ^ƒCƒ}[‚ğŠJn‚·‚é
     void Kill();
 
-    // Processing when overlapping with other objects (determination of collision with bullet)
+    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒvƒŒƒCƒ„[ƒ^ƒO‚ğŒŸ’m‚µ‚½ê‡‚Éƒ_ƒ[ƒWˆ—‚ğŒÄ‚Ño‚·
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    // Boss barrage pattern processing group
-    void ShootRadialBarrage();    // Barrage in all directions (radial)
-    void ShootFanBarrage();       // Barrage in fan shape (wide area in front)
-    void ShootTargetedBarrage();  // A barrage aimed at the player
-    void ShootSimpleBarrage();    // Simple bullet for type 1
-    void ShootBouncingBarrage();  // Reflector bullet for type 2
+    void ShootRadialBarrage();
+    void ShootFanBarrage();
+    void ShootTargetedBarrage();
+    void ShootSimpleBarrage();
+    void ShootBouncingBarrage();
+    void ShootSpellCardBarrage();
     
-    // Determine the destination of the next random move
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ{ƒX‚ÌŸ‚Ìƒ‰ƒ“ƒ_ƒ€ˆÚ“®æ(m_targetX, m_targetY)‚ğÄŒvZ‚·‚é
     void SelectNewTarget();
 };

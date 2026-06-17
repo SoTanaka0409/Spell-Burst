@@ -1,73 +1,93 @@
 #include "ColliderManager.h"
 #include "Collider.h"
+#include "DebugLog.h"
+#include"Master.h"
 #include <vector>
-
 ColliderManager* ColliderManager::Instance = nullptr;
+
 
 ColliderManager::ColliderManager()
 {
+
 }
 
 ColliderManager::~ColliderManager()
 {
-}
 
+}
 void ColliderManager::Update()
 {
-    // Make a copy of the list to prevent iterator invalidation if colliders are deleted during updates
-    std::vector<Collider*> activeColliders(mColliderList.begin(), mColliderList.end());
-
-    for (size_t i = 0; i < activeColliders.size(); ++i)
+    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); ++itr)
     {
-        Collider* c1 = activeColliders[i];
-        if (c1 == nullptr || c1->IsDeleteFlag()) continue;
-
-        for (size_t j = i + 1; j < activeColliders.size(); ++j)
+        if ((*itr) == nullptr)
         {
-            Collider* c2 = activeColliders[j];
-            if (c2 == nullptr || c2->IsDeleteFlag() || c1 == c2) continue;
+            continue;
+        }
+        if ((*itr)->IsDeleteFlag())
+        {
+            continue;
+        }
 
-            // Perform bidirectional collision checks
-            c1->Update(c2);
-            c2->Update(c1);
+        for (auto itr_check = mColliderList.begin(); itr_check != mColliderList.end(); ++itr_check)
+        {
+            if (itr == itr_check)//自分自身のコライダーなら戻る
+            {
+                continue;
+            }
+
+            if ((*itr_check) == nullptr)
+            {
+                continue;
+            }
+
+            if ((*itr_check)->IsDeleteFlag())
+            {
+                continue;
+            }
+
+            (*itr)->Update((*itr_check));
         }
     }
 
+
+
     DeleteAllColliderIfNeeded();
 }
-
 void ColliderManager::Draw()
 {
     for (auto itr = mColliderList.begin(); itr != mColliderList.end(); itr++)
     {
-        if (*itr != nullptr && !(*itr)->IsDeleteFlag())
+         if (DebugOn)
         {
             (*itr)->Draw();
         }
     }
 }
-
-void ColliderManager::AddCollider(Collider* collider)
+void ColliderManager::AddCollider(Collider* Collider)
 {
-    mColliderList.push_back(collider);
+    mColliderList.push_back(Collider);
 }
-
 void ColliderManager::DeleteAllCollider()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); )
+    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*ここは空っぽなので注意*/)
     {
+
         (*itr)->SetDeleteFlag(true);
         itr = mColliderList.erase(itr);
-    }
-}
+        itr++;
 
+    }
+    DeleteAllColliderIfNeeded();
+}
 void ColliderManager::DeleteAllColliderIfNeeded()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); )
+    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*ここは空っぽなので注意*/)
     {
         if ((*itr)->IsDeleteFlag())
         {
             itr = mColliderList.erase(itr);
+
+           
         }
         else
         {
@@ -79,9 +99,4 @@ void ColliderManager::DeleteAllColliderIfNeeded()
 void ColliderManager::RemoveCollider(Collider* collider)
 {
     mColliderList.remove(collider);
-}
-
-std::list<Collider*>& ColliderManager::GetColliderList()
-{
-    return mColliderList;
 }

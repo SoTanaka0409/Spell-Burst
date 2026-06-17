@@ -1,22 +1,31 @@
-#include "SoundManager.h"
-#include "Player.h"
+ï»¿#include "Player.h"
+#include <cmath>
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
-#include "dxlib.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include "Utility.h"
 #include "Enemy.h"
 #include "Master.h"
 #include "SceneManager.h"
 #include "ResultScene.h"
 #include "MeleeAttack.h"
+#include "MasterSpark.h"
+#include "RainbowWaveManager.h"
+#include "SpellCardBullet.h"
 #include "SpecialBullet.h"
 #include "ResourceManager.h"
-#include "SpellCardBullet.h"
 #include "GameScene.h"
+#include "SoundManager.h"
+#include"DebugLog.h"
+
+int Player::s_selectedCharacterType = 1;
 
 Player::Player() 
-    : Object2D(VGet((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f, 0.0f))
+    : Object2D(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Player);
@@ -28,41 +37,66 @@ Player::~Player() {
         delete mpCollider;
         mpCollider = nullptr;
     }
+    if (mpBarrier) {
+        mpBarrier->SetDeleteFlag(true);
+        mpBarrier = nullptr;
+    }
     m_levelUpTimer = 0;
     m_stunTimer = 0;
 }
-
-// Encouragement ƒ¬ connection, connection, connection
-// After the conclusion? 
 void Player::Initialize() {
-    m_x = (float)Utility::SCREEN_WIDTH / 2.0f;
-    m_y = (float)Utility::SCREEN_HEIGHT / 2.0f;
-    m_speed = 5.0f;
-    m_maxHp = 10;
-    m_hp = m_maxHp;
+    mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
+    mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
+   
+    
     m_levelUpTimer = 0;
     m_stunTimer = 0;
     m_attackMode = AttackMode_Melee;
     m_specialCooldown = 0;
     mfAttack = 1;
-    m_attackTimer = 20; // ç™qå°E¼éš”ãçŸãï‚µisohå°E¼E
+    m_attackTimer = 20;
     m_AttackInterval =0 ;
     m_AttackTimer_2 = 60;
-    // Level & XP system initialization
+    m__BarrierCount = 0;
+
     m_level = 1;
     m_xp = 0;
-    m_xpNeeded = 5; // Level 1 needs 5 XP to level up
-    m_levelUpTimer = 0;
+    m_xpNeeded = 5;
+    m_levelUpTimer = 0;                  
     
     m_spellGauge = 0;
-    m_maxSpellGauge = 10; // 10 ã‚ã‚‚¢ ã‚ã‚MAX
+    m_maxSpellGauge = 10;
 
-    // Create a circular collider with small radius (Touhou style)
+    if (s_selectedCharacterType == 1)
+    {
+        m_speed = 5.0f;
+        m_maxHp = 15;
+        m_hp = m_maxHp;
+    }
+    else if (s_selectedCharacterType == 2)
+    {
+        m_speed = 7.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+    }
+    else if (s_selectedCharacterType == 3)
+    {
+        m_speed = 5.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+        mfAttack = 2;
+    }
+    else
+    {
+        m_speed = 5.0f;
+        m_maxHp = 10;
+        m_hp = m_maxHp;
+    }
+
+
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
+	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
 }
-
-// If you are weak, you will be disappointed.
-// ã‚­ãƒ¼å…EåŠ›ã«ã‚Physiciank»»å‹•ãd?çå¤?«å‡º?ª?Eh?E«
 void Player::Update()
 {
     if (m_levelUpTimer > 0) {
@@ -71,30 +105,31 @@ void Player::Update()
 
     if (m_stunTimer > 0) {
         m_stunTimer--;
-        // Update collider position even when stunned so we can take more hits if needed
+
         if (mpCollider) {
             mpCollider->mvPosition = mvPosition;
             mpCollider->mvPosition2 = mvPosition;
         }
-        return; // ã‚¹ã‚¿ãƒ³ä¸­ã¯å…EåŠ›ã¨•T‚³æ’Erã‚­ã‚­ãƒEE
+        return;
     }
-
-    // ä½éŸç§»å‹ã‚¼Physician ã‚©ãƒ¼ã‚«ã‚¹E‰ãƒ¢ãƒ¼ãƒE
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
-    float currentSpeed = isFocus ? 2.0f : m_speed;
+    float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
 
-    if (InputManager::CheckPressKey(KEY_INPUT_W)) { m_y -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_S)) { m_y += currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_A)) { m_x -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_D)) { m_x += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_W)) { mvPosition.y -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_S)) { mvPosition.y += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
 
-    // Clamp inside screen with 45.0f padding
-    if (m_x < 45.0f) m_x = 45.0f;
-    if (m_x > Utility::SCREEN_WIDTH - 45.0f) m_x = Utility::SCREEN_WIDTH - 45.0f;
-    if (m_y < 45.0f) m_y = 45.0f;
-    if (m_y > Utility::SCREEN_HEIGHT - 45.0f) m_y = Utility::SCREEN_HEIGHT - 45.0f;
 
-    mvPosition = VGet(m_x, m_y, 0.0f);
+    if (mvPosition.x < 45.0f) mvPosition.x = 45.0f;
+    if (mvPosition.x > Utility::SCREEN_WIDTH - 45.0f) mvPosition.x = Utility::SCREEN_WIDTH - 45.0f;
+    if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
+    if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
+
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
+    if (mpBarrier) {
+        mpBarrier->SetPosition(mvPosition);
+    }
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -103,12 +138,12 @@ void Player::Update()
 
     
 
-    // Level-up flash timer decrement
+
     if (m_levelUpTimer > 0) {
         m_levelUpTimer--;
     }
 
-    // Switch attack modes
+
     if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
         
          if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
@@ -116,22 +151,50 @@ void Player::Update()
     }
    
 
-    // Firing attacks
+
     Attack();
    
 }
-
-// Encouragement ƒ¬ connection, connection, connection
-// Encouragement ƒ¬ ã‚AãƒAãƒ¼THRESHOLD
 void Player::Draw() {
+
+    if (mpBarrier != nullptr && mpBarrier->IsDeployed() && mpBarrier->GetHitCount() > 0) {
+        int hitCount = mpBarrier->GetHitCount();
+        float ratio = static_cast<float>(hitCount) / 30.0f;
+        
+        SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
+        int auraColor = (hitCount >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
+        
+        for (int i = 0; i < 5; i++) {
+            float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
+            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
+        }
+        
+        int time = GetNowCount();
+        int numParticles = static_cast<int>(15 * ratio);
+        for (int i = 0; i < numParticles; i++) {
+            float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
+            float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
+            int px = static_cast<int>(mvPosition.x + cosf(angle) * dist);
+            int py = static_cast<int>(mvPosition.y + sinf(angle) * dist);
+            DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
+        }
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
     if (m_stunTimer > 0) {
-        // ã‚¹ã‚¿ãƒ³ä¸­ã¯detective„ShuEryoban
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    int s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    int s_playerGraphHandle = -1;
+    if (s_selectedCharacterType == 1) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    } else if (s_selectedCharacterType == 2) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+    } else if (s_selectedCharacterType == 3) {
+        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+    }
 
     if (s_playerGraphHandle != -1) {
         DrawExtendGraph(
@@ -145,79 +208,91 @@ void Player::Draw() {
     } else {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
     }
-
-    // ä½éŸç§»å‹•äku­ã¯å½“ãŸã‚ã‚?å®šï¼Physicianã‚'E‰ãæs”Åã™ãk
-    if (InputManager::CheckPressKey(KEY_INPUT_LSHIFT)) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE); // å¤–æ E¶™½EE
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE); // Ikuo...
+    if (true) {
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE);
+        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE);
     }
 }
-
-// ãƒãƒB
-// ã‚ã‚Eambience®å¼¾ã¨å½“ãŸãh?Ÿéš›ã«å‘¼ã°ã‚after?
 void Player::TakeDamage(int damage) {
     m_hp -= damage;
+    SoundManager::GetInstance()->PlaySE("Resource/SE/å¼“çŸ¢ãŒåˆºã•ã‚‹.mp3");
     if (m_hp <= 0) {
         m_hp = 0;
         ResultScene::s_isVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-// Pleasure...Meeting...
-// After the arrogance and binding ¦?Ek??Eƒ¢ãƒ¼ãƒ‰ï¼ISOšå‚Šå¼¾ã€èth porcelain skewer 
+
+
 void Player::Attack()
 {
-    int mouseInput = GetMouseInput(); // It's a joke.
+    int mouseInput = GetMouseInput();
     bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
     
     m_AttackInterval++;
     m_AttackInterval_2++;
-    // Cooldown decrement
+
     if (m_specialCooldown > 0) {
         m_specialCooldown--;
     }
-    
-    // Z ã‚­ãƒ¼ãŒæŠ¼ã•ãlcãEké–“ããƒ¡ã‚Aãƒ³ã‚·ãƒ§ãƒEYOã‚ ã‚?å°E
     if ( m_AttackInterval >= m_attackTimer)
     {
-        m_AttackInterval = 0;// Interval ã®
+        m_AttackInterval = 0;
             int numBullets = m_level;
             float spacing = 20.0f;
-            float startX = m_x - (numBullets - 1) * spacing / 2.0f;
+            
+    // ç¾åœ¨ã®ãƒ¬ãƒ™ãƒ«(numBullets)ã«å¿œã˜ã¦ã€è¤‡æ•°ç™ºã®å¼¾ã‚’æ¨ªä¸€åˆ—ã«ç­‰é–“éš”ã§é…ç½®ã™ã‚‹ãŸã‚ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆè¨ˆç®—
+    float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
             for (int i = 0; i < numBullets; ++i) 
             {
-                new Bullet(startX + i * spacing, m_y - 45.0f, mfAttack);
+                new Bullet(startX + i * spacing, mvPosition.y - 45.0f, static_cast<int>(mfAttack));
             }
             
         
         
     }
-
-    if (mouseInput & MOUSE_INPUT_LEFT&&m_AttackInterval_2>=m_AttackTimer_2)
+    if (DebugOn)
     {
-        m_AttackInterval_2 = 0;
-        if (m_attackMode == AttackMode_Melee) {
-            new MeleeAttack(m_x, m_y - 70.0f);
-        }
-        else if (m_attackMode == AttackMode_Special)
+        if (mouseInput & MOUSE_INPUT_LEFT && m_AttackInterval_2 >= m_AttackTimer_2)
         {
-            if (m_specialCooldown == 0)
+            m_AttackInterval_2 = 0;
+            if (m_attackMode == AttackMode_Melee) {
+                new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
+            }
+            else if (m_attackMode == AttackMode_Special)
             {
-                new SpecialBullet(m_x, m_y - 90.0f);
-                m_specialCooldown = 180; // 3 seconds cooldown
+                if (m_specialCooldown == 0)
+                {
+                    new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+                    m_specialCooldown = 180; 
+                }
             }
         }
     }
     if (mouseInput & MOUSE_INPUT_LEFT)
     {
-        new SpecialBullet(m_x, m_y - 90.0f);
+        if (DebugOn)
+        {
+            new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+        }
     }
-
-    // ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ›˜Aç™bå‹”Ş¼Aã‚­ãƒ¼EE
-    if (InputManager::CheckPressKey(KEY_INPUT_X)) {
+    if (mouseInput&&MOUSE_INPUT_LEFT) 
+    {
         if (m_spellGauge >= m_maxSpellGauge) {
-            m_spellGauge = 0; // ã‚‚¢ãƒ¼ã‚
-            new SpellCardBullet(m_x, m_y - 90.0f);
+            m_spellGauge = 0;
+            SoundManager::GetInstance()->PlaySE("Resource/SE/å‰£ã§æ–¬ã‚E.mp3");
+            
+            if (s_selectedCharacterType == 1)
+            {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/æ°—å¼¾2.mp3");
+                new MasterSpark(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 2) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/è–é­”æ³Emp3");
+                new RainbowWaveManager(mvPosition.x, mvPosition.y);
+            } else if (s_selectedCharacterType == 3) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/æ°—å¼¾2.mp3");
+                new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
+            }
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {
@@ -226,48 +301,40 @@ void Player::Attack()
         }
     }
 }
-
-// çµ“å“å¤EEPE‰ãEç²??¨ãƒ¬ãƒ™ãƒ«ã‚``ãƒEEå‡¦çE
-// After the investigation, the investigation is completed.
 void Player::AddXp(int amount) {
     m_xp += amount;
-    
-    // ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸ã‚‚ä¸ç·detective«???•ã›ã‚E
+    int oldGauge = m_spellGauge;
     m_spellGauge += amount;
-    if (m_spellGauge > m_maxSpellGauge) {
+    if (m_spellGauge >= m_maxSpellGauge) {
         m_spellGauge = m_maxSpellGauge;
+        if (oldGauge < m_maxSpellGauge) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/ã‚¹ãƒE?Eã‚¿ã‚¹ä¸Š?Eé­”æ³E.mp3");
+        }
     }
-    // Level-up loop (handles multiple level-ups from one big XP gain)
+
     while (m_xp >= m_xpNeeded) {
         m_xp -= m_xpNeeded;
         m_level++;
-        m_xpNeeded = m_level * 5; // Each level requires (level * 5) XP
-        // Bonus on level up: full HP restore
+        SoundManager::GetInstance()->PlaySE("Resource/SE/ã‚¹ãƒE?Eã‚¿ã‚¹ä¸Š?Eé­”æ³E.mp3");
+        m_xpNeeded = m_level * 5;
+
         m_hp = m_maxHp;
-        m_levelUpTimer = 120; // Show "LEVEL UP!" for 120 frames (~2 seconds)
+        m_levelUpTimer = 120;
     }
 }
 
 void Player::OnEnter(Collider* collider, Collider* check) {}
-
-// ä»¦ªªªªªªªªªª¯¯¯¯¯?ã‚§§¯¯?ã‚º¦ººººººº¯¯b¦¯¯¯
-// æ•æœä½“ã¨?½ãAã‚X£ãŸå ´‰×Physician«ãƒãƒ¡ãƒ¼ã‚¸ã‚³—?‘ã¾?™ãE
-void Player::OnTrigger(Collider* collider, Collider* check) {
+void Player::OnTrigger(Collider* collider, Collider* check) 
+{
+   
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
             Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
             if (enemy != nullptr) {
-                TakeDamage(1); // Player takes 1 damage
-                //enemy->Kill(); // Destroy the enemy on crash
+                TakeDamage(1);
+
             }
         }
     }
 }
 void Player::OnExit(Collider* collider, Collider* check) {}
-
-void Player::Heal(int amount) {
-    m_hp += amount;
-    if (m_hp > m_maxHp) {
-        m_hp = m_maxHp;
-    }
-}

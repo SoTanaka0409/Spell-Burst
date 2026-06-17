@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-inline void DebugLog(const char* format, ...) {
+inline void DebugLog(const char* format, ...)//デバッグ用...
+{
     FILE* fp = nullptr;
     fopen_s(&fp, "debug.log", "a");
     if (fp) {
@@ -13,3 +14,4 @@ inline void DebugLog(const char* format, ...) {
         fclose(fp);
     }
 }
+inline bool DebugOn = false;//trueだった場合デバック状態

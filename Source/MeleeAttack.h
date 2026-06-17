@@ -1,25 +1,34 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// A class that manages the player's melee attacks (knife and sword swings)
+// ƒvƒŒƒCƒ„[‚É‚æ‚é‹ßÚUŒ‚”»’èiaŒ‚‚È‚Çj‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class MeleeAttack : public Object2D {
 private:
-    float m_x, m_y; // Coordinates where attack judgment is occurring
-    int m_lifetime; // Duration of attack (number of frames)
-    int m_damage;   // Amount of damage dealt
+    int m_lifetime; 
+    int m_damage;   
     CapsuleCollider* mpCollider;
 
 public:
     MeleeAttack(float x, float y);
     virtual ~MeleeAttack() override;
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] õ–½ƒ^ƒCƒ}[‚ğXV‚µAˆê’èŠÔŒo‰ßŒã‚É©g‚ğ”jŠü(Kill)‚·‚é
     virtual void Update() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] UŒ‚”ÍˆÍ‚ğ¦‚·aŒ‚ƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
 
     int GetDamage() const { return m_damage; }
     void Kill();
 
+    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] Õ“Ë‘Šè‚ª“GƒLƒƒƒ‰ƒNƒ^[‚Ìê‡Aƒ_ƒ[ƒW‚ğ—^‚¦‚é
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

@@ -1,8 +1,9 @@
-#include "SoundManager.h"
-
-#include "Enemy.h"
+Ôªø#include "Enemy.h"
 #include "CapsuleCollider.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include "Bullet.h"
 #include "EnemyBullet.h"
 #include "Player.h"
@@ -11,135 +12,115 @@
 #include "ObjectManager.h"
 #include "Utility.h"
 #include "ResourceManager.h"
+#include "GameScene.h"
+#include "EnemyManager.h"
+#include "SoundManager.h"
 #include <cmath>
 #include <cstdlib>
-
 void Enemy::SelectNewTarget() {
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
-
-
-Enemy::Enemy(float x, float y, int enemyType) 
-    : Object2D(VGet(x, y, 0.0f))
+Enemy::Enemy(float x, float y, int enemyType)
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
-    m_x = x;
-    m_y = y;
+    mvPosition.x = x;
+    mvPosition.y = y;
     m_isActive = true;
     m_enemyType = enemyType;
     m_attackTimer = 0;
-
     if (m_enemyType == 1) {
         m_speed = 3.0f;
         m_maxHp = 3;
-    } else if (m_enemyType == 2) {
+    }
+    else if (m_enemyType == 2) {
         m_speed = 2.0f;
         m_maxHp = 5;
-    } else if (m_enemyType == 3) {
+    }
+    else if (m_enemyType == 3) {
         m_speed = 1.5f;
         m_maxHp = 8;
-    } else if (m_enemyType == 4) {
+    }
+    else if (m_enemyType == 4) {
         m_speed = 2.5f;
-        m_maxHp = 20; // The binding is tied.
+        m_maxHp = 20; // ‰∏≠„Éú„Çπ„ÅØ„Çø„Éï
         SelectNewTarget();
     }
     m_hp = m_maxHp;
-
-    // Create a circular collider
     float colRadius = (m_enemyType == 4) ? 45.0f : 35.0f;
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, colRadius);
 }
-
 Enemy::~Enemy() {
     if (mpCollider) {
         delete mpCollider;
         mpCollider = nullptr;
     }
 }
-
-// If you are weak, you will be disappointed.
-// Êïµ„Ç? Ward Groom Å´ ÁßÂãï„ & ?õ„ ÅÁ Â§ñ„ Å´ Âá∫?ü„
 void Enemy::Update() {
     if (m_enemyType == 4) {
-        // ‰∏≠???ÆÇòìQRecruitingÅEé“ÅEºPhysicianÅE„Çπ„Å®After the spider ÅòÅEÅE
-        float dx = m_targetX - m_x;
-        float dy = m_targetY - m_y;
-        float dist = std::sqrt(dx * dx + dy * dy);
+        Vector2 target(m_targetX, m_targetY);
+        float dist = mvPosition.DistanceTo(target);
 
         if (dist < 15.0f) {
             SelectNewTarget();
-        } else {
-            m_x += (dx / dist) * m_speed;
-            m_y += (dy / dist) * m_speed;
         }
-    } else {
-        // Recruitment/Dating/
-        m_y += m_speed;
+        else {
+            mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
+        }
     }
-    mvPosition = VGet(m_x, m_y, 0.0f);
-
+    else {
+        mvPosition.y += m_speed * Utility::TimeScale;
+    }
+    // mvPosition is already a Vector2
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
-
-    // Á®Æ?ÅE, 3, 4 ?ÆÆ¥?PhysicianÅEÂÆjuúü?ÅEÅ´EncouragementÉ¨„ÇÅA„ÉÅA„Éº„Å∏?„ÅÅë„ÅÂºæ„Çpresent tea penÅA
-    if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) {
+    if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) 
+    {
         m_attackTimer++;
-        int interval = (m_enemyType == 4) ? 60 : 150; // ‰∏≠???È†∆ÁπÅ„Å´ÊíÅEÅ§
-        if (m_attackTimer >= interval) {
+        int interval = (m_enemyType == 4) ? 120 : 150; // ‰∏≠„Éú„Çπ„ÅØÈ†ªÁπÅ„Å´ÊíÉ„Å§
+        if (m_attackTimer >= interval)
+        {
+            
             m_attackTimer = 0;
             Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-            float targetX = m_x;
-            float targetY = m_y + 100.0f;
+            Vector2 targetPos(mvPosition.x, mvPosition.y + 100.0f);
             if (player != nullptr) {
-                targetX = player->GetX();
-                targetY = player->GetY();
+                targetPos = Vector2(player->GetX(), player->GetY());
             }
-            float dx = targetX - m_x;
-            float dy = targetY - m_y;
-            float dist = std::sqrt(dx * dx + dy * dy);
-            if (dist > 0.0f) {
-                dx /= dist;
-                dy /= dist;
-            } else {
-                dx = 0.0f;
-                dy = 1.0f;
+            Vector2 dir = (targetPos - mvPosition).Normalized();
+            if (dir.MagnitudeSq() == 0.0f) {
+                dir = Vector2(0.0f, 1.0f);
             }
-            
             if (m_enemyType == 2) {
-                new EnemyBullet(m_x, m_y, dx, dy, 4.0f, false, false); // The name
-            } else if (m_enemyType == 3) {
-                new EnemyBullet(m_x, m_y, dx, dy, 3.5f, false, true); // The string
-            } else if (m_enemyType == 4) {
-                // ??ú„ÇµÅAöËÅAÊ©üÁ??ÅAWAY„É®Ê∏?„Å„Å?æ„ÅãoÅA?ÅA???É´„Ç?„ã„É„É„É '...
+                new EnemyBullet(mvPosition, dir, 4.0f, false, false); // ÈÄöÂ∏∏Âºæ
+            }
+            else if (m_enemyType == 3) {
+                new EnemyBullet(mvPosition, dir, 3.5f, false, true);  // „Çπ„Çø„É≥Âºæ
+            }
+            else if (m_enemyType == 4) {
                 static float mbAngle = 0.0f;
                 mbAngle += 0.2f;
-                // Ê∏¶Â∑? Sakaki
                 for (int i = 0; i < 4; i++) {
                     float angle = mbAngle + (i * 2.0f * 3.14159265f) / 16;
-                    new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 2.0f);
+                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f);
                 }
-                // Threshold fishing line/WAY
-                float baseAngle = std::atan2(dy, dx);
+                float baseAngle = mvPosition.AngleTo(targetPos);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
-                    new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 3.5f);
+                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
                 }
             }
         }
     }
-
-    if (m_y > Utility::SCREEN_HEIGHT + 50.0f) {
+    if (mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
         m_isActive = false;
         SetDeleteFlag(true);
     }
 }
-
-// The place where you can meet...
-// I can't help but encourage you, but I can't help but educate you.
 void Enemy::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
@@ -147,69 +128,71 @@ void Enemy::Kill() {
         mpCollider->SetDeleteFlag(true);
     }
 }
-
-
-// „É„ÉÅB
-// EncouragementÉ¨„ÇÅA„ÉÅA„Éº„ÅÆïTÊíÅEÅ®ì„Åü„Å"„ÅüÈöõ„Å´Âëº„Å∞„Çafter?P„Çpresent∏?i„Å
 void Enemy::TakeDamage(int damage) {
+    if (!m_isActive) return;
+
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
+        SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
         Kill();
+        Player* player = dynamic_cast<Player*>(
+            Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player)
+        );
+        if (player != nullptr) {
+            player->AddXp(1);
+        }
+        GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+        if (gs != nullptr && gs->GetEnemyManager() != nullptr) {
+            gs->GetEnemyManager()->AddDefeatedCount();
+        }
     }
 }
-
-// „Çß„Ç„Ç„àPhysicianÅ®MusakaÅ™„ÅÅh„Å¶„ÅÅEk 
-// EncouragementÉ¨„ÇÅA„ÉÅA„Éº„ÅÆÂº?ÅAàÈöÂÇ≠Âºæ„ÄÅËø st porcelain „ÄÅÂøøØÇöÇöÅE?Å®ÂΩ?Åü
 void Enemy::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_PlayerBullet) {
             Bullet* bullet = dynamic_cast<Bullet*>(check->GetParentObject());
             if (bullet != nullptr) {
                 TakeDamage(bullet->GetDamage());
-                bullet->Kill(); // Destroy the bullet on impact
+                bullet->Kill(); // ÂΩì„Åü„Å£„Åü„Éó„É¨„Ç§„É§„Éº„ÅÆÂºæ„ÇíÊ∂àÊªÖ„Åï„Åõ„Çã
+
             }
         }
     }
 }
-
-// Encounter with a friend
-// Pass the threshold.
-void Enemy::Draw() 
+void Enemy::Draw()
 {
     if (!m_isActive) return;
 
     int s_enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
 
     if (s_enemyGraphHandle != -1) {
-        // „Çø„ÇÅA„É?Å´„ÇPhysicianÅ£„Å¶Ëâ≤„Çê≥ÅAïyÅà„ÇÅE
         if (m_enemyType == 1) SetDrawBright(255, 255, 255);
         else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
         else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
-        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // ?????ËµÅA?Åh??ÅE
+        else if (m_enemyType == 4) SetDrawBright(255, 50, 50); // ‰∏≠„Éú„Çπ„ÅØËµ§„Å£„ÅΩ„ÅÑ
 
         float drawSize = (m_enemyType == 4) ? 45.0f : 35.0f;
         DrawExtendGraph(
-            static_cast<int>(mvPosition.x - drawSize), 
-            static_cast<int>(mvPosition.y - drawSize), 
-            static_cast<int>(mvPosition.x + drawSize), 
-            static_cast<int>(mvPosition.y + drawSize), 
-            s_enemyGraphHandle, 
+            static_cast<int>(mvPosition.x - drawSize),
+            static_cast<int>(mvPosition.y - drawSize),
+            static_cast<int>(mvPosition.x + drawSize),
+            static_cast<int>(mvPosition.y + drawSize),
+            s_enemyGraphHandle,
             TRUE
         );
 
-        SetDrawBright(255, 255, 255); // ?Ç¢„Ç„ÅÅE??„ÅÅE
-    } else {
+        SetDrawBright(255, 255, 255); // ËºùÂ∫¶Ë®≠ÂÆö„ÇíÂÖÉ„Å´Êàª„Åô
+    }
+    else {
         unsigned int color = GetColor(255, 100, 100);
         if (m_enemyType == 2) color = GetColor(255, 200, 100);
         else if (m_enemyType == 3) color = GetColor(100, 100, 255);
         else if (m_enemyType == 4) color = GetColor(255, 50, 50);
-        
+
         int drawRadius = (m_enemyType == 4) ? 45 : 35;
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), drawRadius, color, TRUE);
     }
-
-    // Draw HP text above enemy
     int hpOffset = (m_enemyType == 4) ? 65 : 55;
     DrawFormatString(static_cast<int>(mvPosition.x) - 15, static_cast<int>(mvPosition.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", m_hp);
 }

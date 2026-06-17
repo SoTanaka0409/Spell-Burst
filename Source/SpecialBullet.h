@@ -1,26 +1,35 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// A class that manages the player's special moves (piercing bullets and powerful attacks)
+// ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é“Áê’ei‚ˆĞ—Í‚Ü‚½‚Í’Ç”ö“™j‚ğ’è‹`‚·‚éƒNƒ‰ƒX
 class SpecialBullet : public Object2D {
 private:
-    float m_x, m_y;     // Special bullet coordinates
-    float m_speed;      // Bullet movement speed
-    int m_damage;       // Amount of damage dealt
-    bool m_isActive;    // Is the bullet effective?
+    float m_speed;      
+    int m_damage;       
+    bool m_isActive;    
     CapsuleCollider* mpCollider;
 
 public:
     SpecialBullet(float x, float y);
     virtual ~SpecialBullet() override;
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ’e‚ğã¸‚³‚¹A‰æ–ÊŠO‚Éo‚½ê‡‚Í”jŠü‚·‚é
     virtual void Update() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “Áê’e‚ÌƒOƒ‰ƒtƒBƒbƒN‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
 
     int GetDamage() const { return m_damage; }
     void Kill();
 
+    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “G‚ÆÕ“Ë‚µ‚½Û‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚Ä©g‚ğ”jŠü‚·‚é
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

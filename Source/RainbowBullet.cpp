@@ -1,13 +1,16 @@
-#include "RainbowBullet.h"
+﻿#include "RainbowBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "Boss.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 
 RainbowBullet::RainbowBullet(float x, float y)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
     , m_speed(15.0f)
     , m_damage(20)
@@ -15,7 +18,7 @@ RainbowBullet::RainbowBullet(float x, float y)
     SetTag(Tag2D_PlayerBullet);
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 15.0f);
     
-    // Generate an initial hue based on X position and current time for a rainbow effect
+
     m_colorHue = (static_cast<int>(x) * 2 + GetNowCount() / 5) % 360;
 }
 
@@ -28,7 +31,7 @@ RainbowBullet::~RainbowBullet() {
 
 void RainbowBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = VGet(mvPosition.x, mvPosition.y, 0.0f);
+    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
@@ -42,7 +45,7 @@ void RainbowBullet::Update() {
         }
     }
     
-    // Animate color
+
     m_colorHue = (m_colorHue + 10) % 360;
 }
 
@@ -84,6 +87,9 @@ void RainbowBullet::OnTrigger(Collider* collider, Collider* check) {
                     mpCollider->SetDeleteFlag(true);
                 }
             }
+        } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
+
+            check->GetParentObject()->SetDeleteFlag(true);
         }
     }
 }

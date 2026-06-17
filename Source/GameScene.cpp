@@ -1,5 +1,4 @@
-#include "SoundManager.h"
-#include "GameScene.h"
+Ôªø#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -7,184 +6,99 @@
 #include "Enemy.h"
 #include "EnemyManager.h"
 #include "Boss.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include "DebugLog.h"
 #include <cstdlib>
 #include "Utility.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
+#include "HUD.h"
+
+int GameScene::s_currentStage = 1;
+int GameScene::s_playFrameCount = 0;
+bool GameScene::s_isTimeAttackActive = false;
 
 GameScene::GameScene() 
     : mpEnemyManager(nullptr)
     , m_cutinTimer(0)
     , m_cutinImageHandle(-1)
+    , m_screenHandle(-1)
+    , m_shakeTimer(0)
+    , m_shakeMagnitude(0.0f)
+    , m_hitStopTimer(0)
 {
 }
 
 GameScene::~GameScene() {
     if (mpEnemyManager != nullptr) {
-        delete mpEnemyManager;
-        mpEnemyManager = nullptr;
+        mpEnemyManager.reset();
+    }
+    if (m_screenHandle != -1) {
+        DeleteGraph(m_screenHandle);
+        m_screenHandle = -1;
     }
 }
 
-// „Ç„Éº„É∫„ÅÆ˙fùÊúüél?ÅAÁêÅE
-// Encouragement É¨ „Ç, „É, „Éº„ÇÅÊ „É„Çû„òY„Éº„Çπ„ÉÅh „Éº„ÄÅÂ?ÆÆ™™?ØØ„Ç„É „Çß„ÇØ„Ç„É
 void GameScene::Initialize() {
+    s_playFrameCount = 0;
+    s_isTimeAttackActive = true;
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
+    HUD::Initialize();
 
-    // Create EnemyManager
-    mpEnemyManager = new EnemyManager();
+    mpEnemyManager = std::make_unique<EnemyManager>();
     mpEnemyManager->Initialize();
 
     m_cutinTimer = 0;
-    m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_mackerel.png");
+    
+    int charType = Player::s_selectedCharacterType;
+    if (charType == 1) {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
+    } else if (charType == 2) {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
+    } else {
+        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
+    }
 
-    // Create player (automatically registered to current scene's ObjectManager)
+    m_screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
+    m_shakeTimer = 0;
+    m_shakeMagnitude = 0.0f;
+    m_hitStopTimer = 0;
+
     new Player();
 
-    // Create initial test enemies through EnemyManager (horizontal scrolling)
     mpEnemyManager->SpawnEnemy(1330.0f, 150.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 350.0f);
     mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
 }
 
-// If you are weak, you will be disappointed.
-// ESC „Ç≠„Éº„Å´„ÇPhysician „ÉsubÅE„Ç∫Ê©üËÅE?ÆÅb¶ÁêÅEÅ„Åä„ÇPhysicianÅE„Ç≤„Éº„É†‰∏≠
 void GameScene::Update() {
+    if (s_isTimeAttackActive) s_playFrameCount++;
+    if (m_hitStopTimer > 0) {
+        m_hitStopTimer--;
+        return; 
+    }
+
+    if (m_shakeTimer > 0) {
+        m_shakeTimer--;
+    }
+
     if (m_cutinTimer > 0) {
         m_cutinTimer--;
-        return; // I'm sorry, but I'm not in agony.
+        return; 
     }
 
     Scene::Update();
 
-    // Update EnemyManager (spawns enemies dynamically)
     if (mpEnemyManager != nullptr) {
         mpEnemyManager->Update();
     }
-
-    if (InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
-    }
-}
-
-// If you are weak, you will not be able to meet the spider.
-// Do you want to go to the hospital? 
-void GameScene::Draw() {
-    // Draw Stage Background (Underwater ocean world)
-    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
-    if (s_bgGraphHandle != -1) {
-        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
-    }
-
-    // Draw game objects
-    Scene::Draw();
-
-    // HUD Panel
+    
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
-    if (player != nullptr) {
-        // Draw elegant semi-transparent background box for HUD (taller to fit Level/XP and Spell Gauge)
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); // Ocean dark theme
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); // border
-
-        // Player HP
-        DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
-
-        // Attack Mode HUD
-        DrawString(20, 45, "ATTACK MODE [Q / 1-2 to switch]:", GetColor(255, 255, 255));
-        
-        Player::AttackMode mode = player->GetAttackMode();
-        unsigned int colorSelected = GetColor(255, 215, 0); // Gold
-        unsigned int colorUnselected = GetColor(120, 180, 200); // Aqua gray
-
-     
-        DrawFormatString(35, 92, (mode == Player::AttackMode_Melee) ? colorSelected : colorUnselected, 
-            "[1] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
-
-        int cd = player->GetSpecialCooldown();
-        if (cd > 0) {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [CD: %.1fs]", cd / 60.0f);
-        } else {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
-        }
-
-        // === Level & XP HUD ===
-        DrawFormatString(20, 140, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
-
-        // XP progress bar
-        int xpBarWidth = 260;
-        int xpBarX = 35;
-        int xpBarY = 162;
-        float xpRatio = (player->GetXpNeeded() > 0) 
-            ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) 
-            : 1.0f;
-        int xpFill = static_cast<int>(xpBarWidth * xpRatio);
-        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
-        if (xpFill > 0) {
-            DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
-        }
-        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
-        DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
-
-        // === Spell Card Gauge ===
-        DrawFormatString(20, 180, GetColor(255, 100, 200), "SPELL");
-        int spellBarY = 195;
-        float spellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
-        int spellFill = static_cast<int>(xpBarWidth * spellRatio);
-        
-        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
-        if (spellFill > 0) {
-            DrawBox(xpBarX, spellBarY, xpBarX + spellFill, spellBarY + 14, GetColor(255, 100, 200), TRUE);
-        }
-        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(255, 150, 220), FALSE);
-        
-        if (player->GetSpellGauge() >= player->GetMaxSpellGauge()) {
-            if ((GetNowCount() / 150) % 2 == 0) {
-                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "READY!! (PRESS X)");
-            } else {
-                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "READY!! (PRESS X)");
-            }
-        } else {
-            DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
-        }
-
-        // === LEVEL UP! Flash Effect (above player character) ===
-        int lvTimer = player->GetLevelUpTimer();
-        if (lvTimer > 0) {
-            // Flicker every 10 frames for a blinking effect
-            if ((lvTimer / 10) % 2 == 0) {
-                int px = static_cast<int>(player->GetX());
-                int py = static_cast<int>(player->GetY()) - 60;
-                // Shadow text
-                DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "LEVEL UP!");
-                // Main gold text
-                DrawFormatString(px - 60, py, GetColor(255, 215, 0), "LEVEL UP!");
-                DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100), 
-                    "LV.%d -> LV.%d", player->GetLevel() - 1, player->GetLevel());
-            }
-        }
-    }
-
-    // Defeated Enemies Score HUD (Top Right)
-    if (mpEnemyManager != nullptr) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 15, 30), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
-
-        if (mpEnemyManager->GetDefeatedCount() >= 10) {
-            DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
-        } else {
-            DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", mpEnemyManager->GetDefeatedCount());
-        }
-    }
-
-    // Boss HP Bar (Top Center)
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
         Boss* b = dynamic_cast<Boss*>(obj);
@@ -193,67 +107,85 @@ void GameScene::Draw() {
             break;
         }
     }
+    HUD::Update(player, mpEnemyManager.get(), boss);
 
-    if (boss != nullptr && boss->IsActive()) {
-        int barWidth = 400;
-        int barHeight = 20;
-        int barX = (Utility::SCREEN_WIDTH - barWidth) / 2;
-        int barY = 50;
+    if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
+        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    }
+}
 
-        // Semi-transparent panel
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(0, 15, 30), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE); // red border
-
-        // HP Fill
-        float hpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
-        int fillWidth = static_cast<int>(barWidth * hpRatio);
-        if (fillWidth > 0) {
-            DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
-        }
-        DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE); // bar outline
-
-        // Title and HP numeric text
-        DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "BOSS: FISHMAN KING (PHASE %d)", 4 - boss->GetLives());
-        DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
+void GameScene::Draw() {
+    if (m_screenHandle != -1) {
+        SetDrawScreen(m_screenHandle);
+        ClearDrawScreen();
     }
 
-    // Small debug stats on bottom right
-    DrawFormatString(1100, 680, GetColor(200, 200, 200), "Objects: %d", (int)GetObjectManager()->GetObjectCount());
-    DrawFormatString(1100, 660, GetColor(200, 200, 200), "FPS: 60");
+    std::string bgPath = "Resource/background.png";
+    if (mpEnemyManager) {
+        int phase = mpEnemyManager->GetCurrentPhase();
+        if (phase == 1) bgPath = "Resource/bg_phase1.png";
+        else if (phase == 2) bgPath = "Resource/bg_phase2.png";
+        else bgPath = "Resource/bg_phase3.png";
+    }
+    
+    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
+    if (s_bgGraphHandle == -1) {
+        s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    }
+    
+    if (s_bgGraphHandle != -1) {
+        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
+    }
 
-    // Draw Cut-in if active
-    if (m_cutinTimer > 0) {
-        int maxTimer = 90;
-        int progress = maxTimer - m_cutinTimer; 
-        
-        // Slide from right to left smoothly
-        float xOffset = Utility::SCREEN_WIDTH - (Utility::SCREEN_WIDTH * 2.0f * (progress / (float)maxTimer));
-        
-        if (m_cutinImageHandle != -1) {
-            DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, m_cutinImageHandle, TRUE);
-        }
+    Scene::Draw();
 
-        // Darken the rest of the screen slightly
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-        DrawBox(0, 0, Utility::SCREEN_WIDTH, 150, GetColor(0, 0, 0), TRUE);
-        DrawBox(0, 570, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-
-        // Flashy spell card text
-        if (progress > 10) {
-            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "SPELL CARD: SCHOOL OF MACKEREL!!");
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
+    Boss* boss = nullptr;
+    for (auto obj : GetObjectManager()->GetObjectList()) {
+        Boss* b = dynamic_cast<Boss*>(obj);
+        if (b != nullptr) {
+            boss = b;
+            break;
         }
     }
+    HUD::Draw(player, mpEnemyManager.get(), boss, m_cutinTimer, m_cutinImageHandle);
+
+    int totalMs = (s_playFrameCount * 1000) / 60;
+    int ms = totalMs % 1000;
+    int totalSec = totalMs / 1000;
+    int sec = totalSec % 60;
+    int min = totalSec / 60;
+    char timeStr[64];
+    sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
+    DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
+
+    if (m_screenHandle != -1) {
+        SetDrawScreen(DX_SCREEN_BACK);
+
+        int offsetX = 0;
+        int offsetY = 0;
+        if (m_shakeTimer > 0) {
+            offsetX = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
+            offsetY = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
+        }
+
+        DrawGraph(offsetX, offsetY, m_screenHandle, TRUE);
+    }
+}
+
+void GameScene::AddScreenShake(int duration, float magnitude) {
+    m_shakeTimer = duration;
+    m_shakeMagnitude = magnitude;
+}
+
+void GameScene::AddHitStop(int duration) {
+    m_hitStopTimer = duration;
 }
 
 void GameScene::TriggerCutin() {
-    m_cutinTimer = 90; // 1.5 seconds freeze
+    m_cutinTimer = 90; 
 }
 
-// Yuko Sono, ??Æ¶encounter,
-// „Ç„Éº„É≥?ÅEjÊõø?ôÇ„Å„Å™„Å´‰jº„Å∞„Ç?ÅÂãÛÁöÅEÅ´„ÿ∫‰øù„Åó„Å
 void GameScene::Finalize() {
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();

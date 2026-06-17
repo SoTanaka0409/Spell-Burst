@@ -1,56 +1,62 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// A class that manages general enemy character data and behavior.
-// It inherits Object2D and has on-screen drawing and collision detection.
+// “GƒLƒƒƒ‰ƒNƒ^[‚ÌŠî’êƒNƒ‰ƒXiObject2DŒp³j
+// “G‚Ìí—Ş‚²‚Æ‚Ìs“®ƒpƒ^[ƒ“‚âHPAƒvƒŒƒCƒ„[’e‚Æ‚ÌÕ“Ë”»’è‚ğŠÇ—‚·‚é
 class Enemy : public Object2D {
 private:
-    float m_x, m_y;       // Enemy's on-screen XY coordinates
-    float m_speed;        // enemy movement speed
-    bool m_isActive;      // Flag indicating whether an enemy is present on screen and active.
-    int m_hp;             // Enemy's current health
-    int m_maxHp;          // enemy's maximum health
-    CapsuleCollider* mpCollider; // Collider that manages hit detection (capsule-shaped/circular)
+    float m_speed; // “GƒLƒƒƒ‰ƒNƒ^[‚ÌˆÚ“®‘¬“x
+    bool m_isActive; // ‰æ–Ê“à‚É‘¶İ‚µŠˆ“®ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    int m_hp; // Œ»İ‚Ì‘Ì—Í’l
+    int m_maxHp; // ‘Ì—Í‚ÌÅ‘å’li•`‰æ—pj
+    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
 
-    int m_enemyType;      // Enemy type (1: Movement only, 2: Normal bullet, 3: Stun bullet, 4: Medium boss)
-    int m_attackTimer;    // timer for firing bullets
+    int m_enemyType;      // “G‚Ìí•ÊiŠOŒ©‚âs“®ƒpƒ^[ƒ“‚ğŒˆ’èj
+    int m_attackTimer;    // ’e‚ğ”­Ë‚·‚é‚Ü‚Å‚ÌƒCƒ“ƒ^[ƒoƒ‹ƒ^ƒCƒ}[
 
-    float m_targetX, m_targetY; // Random movement destination (for mid-boss)
-    void SelectNewTarget();     // Determine the destination of the next random move (for mid-boss)
+    float m_targetX, m_targetY; // ƒ‰ƒ“ƒ_ƒ€ˆÚ“®‚Ì–Ú“I’nÀ•W
+    void SelectNewTarget();     
 
 public:
     Enemy(float x, float y, int enemyType = 1);
     virtual ~Enemy() override;
 
-    // Called every frame, it processes the movement of enemies and deletes them when they go out of the screen.
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “G‚ÌˆÚ“®ˆ—A‰æ–ÊŠO”»’è‚É‚æ‚éíœA’e‚Ì”­Ëƒ^ƒCƒ}[XV‚ğs‚¤
     void Update() override;
 
-    // Called every frame, draws the enemy's image and HP bar
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “G‚ÌƒXƒvƒ‰ƒCƒgi“Gí•Ê‚É‰‚¶‚½‰æ‘œ‚â}Œ`j‚¨‚æ‚ÑHPƒo[‚ğ•`‰æ‚·‚é
     void Draw() override;
 
-    // Get active flag
     bool IsActive() const { return m_isActive; }
-
-    // Acquisition of HP information and damage processing
     int GetHp() const { return m_hp; }
+    int GetEnemyType() const { return m_enemyType; }
     int GetMaxHp() const { return m_maxHp; }
 
-    // A process called when attacked by a player to reduce HP.
+    // [“ü—Í] damage: ó‚¯‚éƒ_ƒ[ƒW—Ê
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] HP‚ğŒ¸Z‚µA0ˆÈ‰º‚Ìê‡‚Í€–SƒGƒtƒFƒNƒg‚ğ”­¶‚³‚¹ƒXƒRƒA“™‚ğ‰ÁZ‚·‚é
     void TakeDamage(int damage);
 
-    // Get coordinates and radius of hit detection
-    float GetX() const { return m_x; }
-    float GetY() const { return m_y; }
+    float GetX() const { return mvPosition.x; }
+    float GetY() const { return mvPosition.y; }
     float GetRadius() const { 
-        if (m_enemyType == 4) return 45.0f; // Make the mid-boss a little bigger
+        if (m_enemyType == 4) return 45.0f;
         return 15.0f; 
     }
 
-    // A process that is called when HP reaches 0, and causes the enemy to disappear.
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “GƒIƒuƒWƒFƒNƒg‚Ì¶‘¶ƒtƒ‰ƒO‚ğƒIƒt‚É‚µAƒ}ƒl[ƒWƒƒ[‚É‚æ‚éíœ‘ÎÛ‚Æ‚·‚é
     void Kill();
 
-    // Processing when it overlaps with another object (hit detection event)
+    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ©‹@‚Ü‚½‚Í©‹@’e‚Æ‚ÌÕ“Ë‚ğŒŸ’m‚µ‚½ê‡‚Éƒ_ƒ[ƒWˆ—‚ğŒÄ‚Ño‚·
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

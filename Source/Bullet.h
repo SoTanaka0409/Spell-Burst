@@ -1,31 +1,34 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// A class that manages normal bullets fired by the player.
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°E™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡çE™ã‚‹ã‚¯ãƒ©ã‚¹
 class Bullet : public Object2D
 {
 public:
-    Bullet(float x, float y,float damage);
+    Bullet(float x, float y, int damage);
     virtual ~Bullet() override;
     void Draw() override;
     void Update() override;
     bool IsActive() { return m_isActive; }
 
     // Collision helper
-    float GetX() { return m_x; }
-    float GetY() { return m_y; }
+    float GetX() { return mvPosition.x; }
+    float GetY() { return mvPosition.y; }
     float GetRadius() const { return 10.0f; }
     int GetDamage() const { return m_damage; }
     void Kill();
 
+	void AddReceivedDamage() { m_recivedDamage++; }
+
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    float m_x, m_y;       // bullet coordinates
-    float m_speed;        // Bullet movement speed
-    bool m_isActive;      // Is the bullet effective?
-    int m_damage;         // Amount of damage caused by bullets
-    CapsuleCollider* mpCollider;
+    float m_speed;        // ’e‚Ìis‘¬“x// å¼¾ã®ç§»å‹•é€Ÿåº¦
+    bool m_isActive;      // ’e‚ª‰æ–Ê“à‚É‘¶İ‚µ—LŒø‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO// å¼¾ãŒæœ‰åŠ¹ã‹ã©ãE‹
+    int m_damage;         // “G‚É—^‚¦‚éƒ_ƒ[ƒW—Ê// å¼¾ãŒä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡E
+	int m_recivedDamage;    // ƒ_ƒ[ƒW‚ğó‚¯‚½‰ñ”  
+	int m_MaxrecivedDamage; // ‚±‚Ì’e‚ª—^‚¦‚ç‚ê‚éÅ‘åƒ_ƒ[ƒWãŒÀiŠÑ’Ê§ŒÀj// ƒ_ƒ[ƒW‚ğó‚¯‚Ämax‚É‚È‚é‚Æ‹Z‚ğo‚·
+    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
 };

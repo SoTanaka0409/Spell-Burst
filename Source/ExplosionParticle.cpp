@@ -1,10 +1,13 @@
-#include "ExplosionParticle.h"
+﻿#include "ExplosionParticle.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 
 ExplosionParticle::ExplosionParticle(float x, float y, float speed, float angle, int color, int lifeTime, float size)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
 {
     m_vx = std::cos(angle) * speed;
     m_vy = std::sin(angle) * speed;

@@ -3,17 +3,22 @@
 #include "Boss.h"
 #include "EnemyManager.h"
 #include "Utility.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
 float HUD::s_displayHpRatio = 1.0f;
 float HUD::s_displayXpRatio = 0.0f;
 float HUD::s_displaySpellRatio = 0.0f;
+float HUD::s_displayBarrierRatio = 0.0f;
 float HUD::s_bossHpRatio = 1.0f;
 
 void HUD::Initialize() {
     s_displayHpRatio = 1.0f;
     s_displayXpRatio = 0.0f;
     s_displaySpellRatio = 0.0f;
+    s_displayBarrierRatio = 0.0f;
     s_bossHpRatio = 1.0f;
 }
 
@@ -42,15 +47,15 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
     if (player != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 320, 230, GetColor(0, 15, 30), TRUE); 
+        DrawBox(10, 10, 350, 135, GetColor(0, 15, 30), TRUE); 
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 320, 230, GetColor(0, 128, 255), FALSE); 
+        DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE); 
 
-        // Player HP
+        // プレイヤーの現在体力を数値で明示するためHPを描画
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
 
-        // Player HP Bar (New!)
-        int hpBarX = 160;
+        // 視覚的に直感的な体力把握を可能にするためゲージを描画
+        int hpBarX = 200;
         int hpBarY = 22;
         int hpBarWidth = 140;
         DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
@@ -60,31 +65,14 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         }
         DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
 
-        // Attack Mode HUD
-        DrawString(20, 45, "ATTACK MODE [Q / 1-2 to switch]:", GetColor(255, 255, 255));
         
-        Player::AttackMode mode = player->GetAttackMode();
-        unsigned int colorSelected = GetColor(255, 215, 0); 
-        unsigned int colorUnselected = GetColor(120, 180, 200); 
 
-        DrawFormatString(35, 92, (mode == Player::AttackMode_Melee) ? colorSelected : colorUnselected, 
-            "[1] Melee (Knife) %s", (mode == Player::AttackMode_Melee) ? "<SELECTED>" : "");
-
-        int cd = player->GetSpecialCooldown();
-        if (cd > 0) {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [CD: %.1fs]", cd / 60.0f);
-        } else {
-            DrawFormatString(35, 114, (mode == Player::AttackMode_Special) ? colorSelected : colorUnselected,
-                "[2] Special [READY] %s", (mode == Player::AttackMode_Special) ? "<SELECTED>" : "");
-        }
-
-        // Level & XP HUD
-        DrawFormatString(20, 140, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
+        // 成長度合いをフィードバックするためレベルと経験値枠を描画
+        DrawFormatString(20, 50, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
 
         int xpBarWidth = 260;
         int xpBarX = 35;
-        int xpBarY = 162;
+        int xpBarY = 70;
         int xpFill = static_cast<int>(xpBarWidth * s_displayXpRatio);
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
         if (xpFill > 0) {
@@ -93,9 +81,9 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
         DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
 
-        // Spell Card Gauge
-        DrawFormatString(20, 180, GetColor(255, 100, 200), "SPELL");
-        int spellBarY = 195;
+        // スペルカード（必殺技）の準備状況を視覚的に通知するためのゲージ処理
+        DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
+        int spellBarY = 105;
         int spellFill = static_cast<int>(xpBarWidth * s_displaySpellRatio);
         
         DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
@@ -114,7 +102,7 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
             DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
         }
 
-        // LEVEL UP! Flash Effect
+        // レベルアップ時の視覚的な報酬感を高めるため一定フレーム文字を点滅描画
         int lvTimer = player->GetLevelUpTimer();
         if (lvTimer > 0) {
             if ((lvTimer / 10) % 2 == 0) {
@@ -135,7 +123,7 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
 
         if (enemyManager->GetDefeatedCount() >= 10) {
-            DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
+            //DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
         } else {
             DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemyManager->GetDefeatedCount());
         }
@@ -166,7 +154,20 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         int maxTimer = 90;
         int progress = maxTimer - cutinTimer; 
         
-        float xOffset = Utility::SCREEN_WIDTH - (Utility::SCREEN_WIDTH * 2.0f * (progress / (float)maxTimer));
+        float xOffset = 0;
+        if (progress < 15) {
+            // カットイン登場時の勢いを演出するためイージングをかけて高速移動
+            float t = progress / 15.0f;
+            xOffset = Utility::SCREEN_WIDTH * (1.0f - t);
+        } else if (progress <= 75) {
+            // プレイヤーにカットイン内容を視認させるため中央付近で微速移動を維持
+            float t = (progress - 15) / 60.0f;
+            xOffset = -30.0f * t;
+        } else {
+            // 演出終了後に速やかに画面外へ退場させるための座標計算
+            float t = (progress - 75) / 15.0f;
+            xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
+        }
         
         if (cutinImageHandle != -1) {
             DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutinImageHandle, TRUE);
@@ -178,7 +179,10 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
         if (progress > 10) {
-            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "SPELL CARD: SCHOOL OF MACKEREL!!");
+            const char* spellName = "SPELL CARD: MASTER SPARK!!";
+            if (Player::s_selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
+            else if (Player::s_selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
+            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
         }
     }
 }

@@ -1,0 +1,6 @@
+$bytes = [System.IO.File]::ReadAllBytes('add_header_comments.ps1')
+$bom = [byte[]](239,187,191)
+$out = new-object byte[] ($bom.Length + $bytes.Length)
+$bom.CopyTo($out, 0)
+$bytes.CopyTo($out, $bom.Length)
+[System.IO.File]::WriteAllBytes('add_header_comments_bom.ps1', $out)

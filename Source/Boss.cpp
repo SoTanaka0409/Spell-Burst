@@ -1,5 +1,4 @@
-#include "SoundManager.h"
-#include "Boss.h"
+Ôªø#include "Boss.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
 #include "MeleeAttack.h"
@@ -7,26 +6,38 @@
 #include "Player.h"
 #include "EnemyBullet.h"
 #include "ObjectManager.h"
-#include "Master.h"
+#include "Math.h"
+#include "BulletManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
+#include "Master.h"
 #include "ResultScene.h"
+#include "GameScene.h"
 #include "Enemy.h"
-#include <DxLib.h>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 #include <cmath>
 #include <cstdlib>
 #include "ResourceManager.h"
+#include "Utility.h"
+#include "GameScene.h"
+#include "ExplosionParticle.h"
+#include "PlayerHomingBullet.h"
+#include "SoundManager.h"
 
 Boss::Boss(float x, float y, int bossType)
-    : Object2D(VGet(x, y, 0.0f))
+    : Object2D(Vector2(x, y))
     , mpCollider(nullptr)
 {
     SetTag(Tag2D_Enemy);
-    m_x = x;
-    m_y = y;
+    mvPosition.x = x;
+    mvPosition.y = y;
     m_bossType = bossType;
     if (m_bossType == 1) {
         m_speed = 1.5f;
-        m_hp = 60; // HP Â§ö„a
+        m_hp = 60;
     } else if (m_bossType == 2) {
         m_speed = 2.0f;
         m_hp = 80;
@@ -34,6 +45,13 @@ Boss::Boss(float x, float y, int bossType)
         m_speed = 2.5f;
         m_hp = 150;
     }
+
+    if (GameScene::s_currentStage == 2) {
+        m_hp = static_cast<int>(m_hp * 1.3f);
+    } else if (GameScene::s_currentStage == 3) {
+        m_hp = static_cast<int>(m_hp * 1.5f);
+    }
+
     m_maxHp = m_hp;
     m_isActive = true;
     m_attackTimer = 0;
@@ -49,7 +67,7 @@ Boss::Boss(float x, float y, int bossType)
     m_isDying = false;
     m_deathTimer = 0;
 
-    // Radius 80.0f for the giant boss
+
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
     SelectNewTarget();
 }
@@ -60,68 +78,54 @@ Boss::~Boss() {
         mpCollider = nullptr;
     }
 }
-
-// „É„É≥„É„É†ÁßªÂãï„ÅA„Çø„Éº„Ç≤„ÉÅAYOÂ∫ßÊ®ô„rÊõ¥Êñ∞„Åô„kÂá¶ÁêÅE
-// ÁîÈùÅu‰∏?ÅEMEDICINEÅE?„ÇÅA„ÉÅA„Éº„ÅåÊï∂ÊíÅEÅó„ÇÅEÅô„ÅÅEØÅEõ≤ÅE
 void Boss::SelectNewTarget() {
-    // Top half boundary: X between 100 and 1180, Y between 80 and 260
+
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
-
-// If you're a weak person, you're bound to see a story.
-// Ê≠‰∫ÅB 
 void Boss::Update() {
     if (m_isDying) {
         m_deathTimer--;
-        m_y -= 1.0f; // Move upwards while dying
-        mvPosition = VGet(m_x, m_y, 0.0f);
+        mvPosition.y -= 1.0f;
+        // mvPosition is already a Vector2
         if (m_deathTimer <= 0) {
             Kill();
         }
-        return; // Skip normal behavior
+        return;
     }
 
     if (m_invincibleTimer > 0) {
         m_invincibleTimer--;
     }
-
-    // ÊúÁµyuÅE„ÇΩÅEé°„ÇÅA„ÉÅEÅE?ÅE?ø„ÄÅEê´ºÅE00„Éï„É¨„Éº„É
     if (m_bossType == 3) {
         m_invincibleCycleTimer++;
         if (m_invincibleCycleTimer >= 300) {
-            m_invincibleTimer = 120; // 2 seconds invincibility
+            m_invincibleTimer = 120;
             m_invincibleCycleTimer = 0;
-            
-            // ÁÑÅB
-            new Enemy(m_x - 60.0f, m_y + 60.0f, 1);
-            new Enemy(m_x + 60.0f, m_y + 60.0f, 1);
+            new Enemy(mvPosition.x - 60.0f, mvPosition.y + 60.0f, 1);
+            new Enemy(mvPosition.x + 60.0f, mvPosition.y + 60.0f, 1);
         }
     } else {
         m_invincibleTimer = 0;
         m_invincibleCycleTimer = 0;
     }
 
-    // Move towards current target
-    float dx = m_targetX - m_x;
-    float dy = m_targetY - m_y;
-    float dist = std::sqrt(dx * dx + dy * dy);
+
+    Vector2 target(m_targetX, m_targetY);
+    float dist = mvPosition.DistanceTo(target);
 
     if (dist < 15.0f) {
         SelectNewTarget();
     } else {
-        m_x += (dx / dist) * m_speed;
-        m_y += (dy / dist) * m_speed;
+        mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
     }
 
-    mvPosition = VGet(m_x, m_y, 0.0f);
+    // mvPosition is already a Vector2
 
     if (mpCollider) {
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
-
-    // SatisfactionÅEÑüMeteorÅE
     m_attackTimer++;
     if (m_bossType == 1) {
         if (m_attackTimer >= 60) {
@@ -134,107 +138,80 @@ void Boss::Update() {
             ShootBouncingBarrage();
         }
     } else {
-        if (m_attackTimer >= 100) { // 00 -> 40 Recruitment
+        if (m_attackTimer >= 100) {
             m_attackTimer = 0;
-            if (m_patternIndex == 0) {
-                ShootRadialBarrage();
-            } else if (m_patternIndex == 1) {
-                ShootFanBarrage();
-            } else if (m_patternIndex == 2) {
-                ShootTargetedBarrage();
+            bool usedSpellCard = false;
+            if (GameScene::s_currentStage == 3) {
+                if ((rand() % 100) < 20) {
+                    ShootSpellCardBarrage();
+                    usedSpellCard = true;
+                }
             }
-            m_patternIndex = (m_patternIndex + 1) % 3;
+            
+            if (!usedSpellCard) {
+                if (m_patternIndex == 0) {
+                    ShootRadialBarrage();
+                } else if (m_patternIndex == 1) {
+                    ShootFanBarrage();
+                } else if (m_patternIndex == 2) {
+                    ShootTargetedBarrage();
+                }
+                m_patternIndex = (m_patternIndex + 1) % 3;
+            }
         }
     }
 }
-
-// The story of a ghost 
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
-    const int bulletCount = 36; // Sakaki "ÅE
+    const int bulletCount = 36;
     static float spiralAngle = 0.0f;
-    spiralAngle += 0.15f; // Áô∫Â∞ÅEÅî„Å®„Å´Ëßê≥¶„ÇdetectiveÅö„Ç?Åó„Å¶Ê∏¶Â∑Ø„ÅéRÅ´„Åô„k
+    spiralAngle += 0.15f;
 
     bool reflect = (m_lives == 2);
     for (int i = 0; i < bulletCount; i++) {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        new EnemyBullet(m_x, m_y, dx, dy, 2.5f, reflect); // Âº?ÈÄü„rËêΩ„Å®„Å?Å¶ÈÅø„Åë„d„Åô„Åè
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.5f, reflect);
     }
 }
-
-// ÊâÅE?ÂºæÂπï„rÊíÅEÅ§?é“ÅEº?„Éö„É´„Ç´„Éº„É„Ééq``®ÅEöÂÅA?IAÅA‰∫ÅAÂ∑Âº?Âπ?ÅE
 void Boss::ShootFanBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 15;
     bool reflect = (m_lives == 2);
-    // Áúü‰9‰∏≠‰ÀÅEÅ´Â∫ÅEØÅEõ≤?´ÊOÅEÅ§
     float baseAngle = PI / 2.0f;
-    
-    // 2 Go & String 2
     for (int layer = 0; layer < 4; layer++) {
-        float speed = 2.0f + layer * 1.5f; // ArroganceÅÑÂºï”„ÅÈÄü„ÅÑÂºSe
+        float speed = 2.0f + layer * 1.5f;
         for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
-            float dx = std::cos(angle);
-            float dy = std::sin(angle);
-            new EnemyBullet(m_x, m_y, dx, dy, speed, reflect);
+            new EnemyBullet(mvPosition, Vector2::FromAngle(angle), speed, reflect);
         }
     }
 }
-
-// Threshold fishing lineÅEShisemansukerÅEÅ§EncounterÅE
-// Encouragement, encouragement
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-    float targetX = m_x;
-    float targetY = m_y + 200.0f; // Default targeted direction (downwards)
-
+    Vector2 targetPos(mvPosition.x, mvPosition.y + 200.0f);
     if (player != nullptr) {
-        targetX = player->GetX();
-        targetY = player->GetY();
+        targetPos = Vector2(player->GetX(), player->GetY());
     }
-
-    float dx = targetX - m_x;
-    float dy = targetY - m_y;
-    float dist = std::sqrt(dx * dx + dy * dy);
-    
-    if (dist > 0.0f) {
-        dx /= dist;
-        dy /= dist;
-    } else {
-        dx = 0.0f;
-        dy = 1.0f;
-    }
-
-    float baseAngle = std::atan2(dy, dx);
-
-    // ToadÅEÅ™5WAY threshold fishing lineÅE
+    Vector2 dir = (targetPos - mvPosition).Normalized();
+    if (dir.MagnitudeSq() == 0.0f) dir = Vector2(0.0f, 1.0f);
+    float baseAngle = Vector2(0,0).AngleTo(dir);
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
-        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 3.5f);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
     }
-    // Â∞ë„ÅóÈÅÅEÅÑÂ∫ÅEa?Æ3WAY ??≠„ÇÅE
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
-        new EnemyBullet(m_x, m_y, std::cos(angle), std::sin(angle), 2.5f);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.5f);
     }
 }
 
 void Boss::ShootSimpleBarrage() {
     const float PI = 3.14159265f;
-    
-    // Confession
-    // 60 „Éï„É¨„Éº„É†ÅEÅEÁßTeimataÅE?ÅE„ÅsubÅE„Å„ÅéqæÁõäõ?„Å?Å„Åù„Å
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
-        float bx = std::cos(angle);
-        float by = std::sin(angle);
-        // speed: 3.5f, canReflect: false, stun: false, homingFrames: 120, homingDelayFrames: 60
-        new EnemyBullet(m_x, m_y, bx, by, 3.5f, false, false, 120, 60);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f, false, false, 120, 60);
     }
 }
 
@@ -242,58 +219,87 @@ void Boss::ShootBouncingBarrage() {
     const float PI = 3.14159265f;
     for (int i = 0; i < 6; i++) {
         float angle = (i * 2.0f * PI) / 6.0f;
-        float dx = std::cos(angle);
-        float dy = std::sin(angle);
-        // pass canReflect = true
-        new EnemyBullet(m_x, m_y, dx, dy, 4.5f, true);
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 4.5f, true);
     }
 }
 
-// „É„ÉÅB
-// EncouragementÉ¨„ÇÅA„ÉÅA„Éº„ÅÆ?ÊíÅEÅ®ì„Åü„Å"„ÅüÈöõ„Å´Âëº„Å∞„Çafter?
+void Boss::ShootSpellCardBarrage() {
+    const float PI = 3.14159265f;
+    for (int i = 0; i < 24; i++) {
+        float angle = (i * 2.0f * PI) / 24.0f;
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f, true);
+    }
+    for (int i = 0; i < 12; i++) {
+        float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
+        new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 5.0f, false);
+    }
+}
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
-
-    // m_lives ?ÆÆ ?ï∂ vain ? îõ∞ë„É≠„Çπ„ÉÅEKE„Çú§??ÅA??ÅE?´„Å™„ÅÅh??ôÇ„ÅÆ„ÅøÂàÅAÂÆÅE
 
     m_hp -= damage;
     if (m_hp <= 0) {
         m_hp = 0;
         m_lives--;
+        std::vector<Object2D*> bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
+        for (auto* b : bullets) {
+            b->SetDeleteFlag(true);
+        }
         
         if (m_lives > 0) {
-            // Heal back to max and become invincible for a while
+
             m_hp = m_maxHp;
-            m_invincibleTimer = 180; // 3 seconds invincibility on phase change
+            m_invincibleTimer = 180;
         } else {
             m_isDying = true;
-            SoundManager::GetInstance()->PlaySE("Resource/se_boss_death.wav");
-            m_deathTimer = 180; // 3 seconds flash and fly up
+            SoundManager::GetInstance()->PlaySE("Resource/se_boss_die.wav");
+            m_deathTimer = 180;
             if (mpCollider) {
-                mpCollider->SetDeleteFlag(true); // Disable collision
-                mpCollider = nullptr;
+                mpCollider->SetDeleteFlag(true);
+            }
+            
+
+            Scene* currentScene = Master::sceneManager->GetCurrentScene();
+            if (currentScene) {
+                auto bullets = currentScene->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
+                for (auto* b : bullets) {
+                    b->SetDeleteFlag(true);
+                }
+
+                Player* p = dynamic_cast<Player*>(currentScene->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
+                if (p) p->Heal(3);
+            }    mpCollider = nullptr;
+
+            GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+            if (gs != nullptr) {
+                gs->AddScreenShake(180, 20.0f);
+                gs->AddHitStop(30);
+            }
+
+            for(int i = 0; i < 40; i++) {
+                float angle = static_cast<float>(rand() % 360) * 3.14159f / 180.0f;
+                float speed = 3.0f + static_cast<float>(rand() % 50) / 10.0f;
+                int life = 60 + (rand() % 60);
+                float size = 15.0f + static_cast<float>(rand() % 40);
+                int color = GetColor(255, 100 + rand() % 155, 0);
+                new ExplosionParticle(mvPosition.x, mvPosition.y, speed, angle, color, life, size);
             }
         }
     }
 }
-
-// ÂÆ?ÅE?´Ê∂?ÅEÅï?õ„kÂá¶ÁêÅE
-// Ê≠âË‰∫°ÊºsecretionÅA?åÁ?„ÅÅxAfter the thread Å´ After the spider thread Å„ Go into the thread 
 void Boss::Kill() {
     m_isActive = false;
     SetDeleteFlag(true);
     if (mpCollider) {
         mpCollider->SetDeleteFlag(true);
     }
-    // Transition to victory result screen only if it's the phase 3 boss
+
     if (m_bossType == 3) {
         ResultScene::s_isVictory = true;
+          GameScene::s_isTimeAttackActive = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-
-// „Çß„Ç„Ç„àPhysicianÅ®MusakaÅ™„ÅÅh„Å¶„ÅÅEk 
-// EncouragementÉ¨„ÇÅA„ÉÅA„Éº„ÅÆÂº?ÅAàÈöÂÇ≠Âºæ„ÄÅËø st porcelain „ÄÅÂøøØÇöÇöÅE?Å®ÂΩ?Åü
 void Boss::OnTrigger(Collider* collider, Collider* check) {
     if (m_isDying) return;
 
@@ -304,15 +310,21 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
             Bullet* b = dynamic_cast<Bullet*>(parent);
             if (b != nullptr) {
                 damage = b->GetDamage();
-                b->Kill(); // Bullet is destroyed on impact
+                b->Kill();
             } else {
                 MeleeAttack* m = dynamic_cast<MeleeAttack*>(parent);
                 if (m != nullptr) {
-                    damage = m->GetDamage(); // Melee pierces/survives
+                    damage = m->GetDamage();
                 } else {
                     SpecialBullet* s = dynamic_cast<SpecialBullet*>(parent);
                     if (s != nullptr) {
-                        damage = s->GetDamage(); // Special piercing bullet pierces/survives
+                        damage = s->GetDamage();
+                    } else {
+                        PlayerHomingBullet* phb = dynamic_cast<PlayerHomingBullet*>(parent);
+                        if (phb != nullptr) {
+                            damage = phb->GetDamage();
+                            phb->Kill();
+                        }
                     }
                 }
             }
@@ -320,9 +332,6 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
         }
     }
 }
-
-// Encounter with a friend
-// If you want to keep your clothes closed, I encourage you to write your own sentences.
 void Boss::Draw() {
     if (!m_isActive) return;
 
@@ -331,6 +340,11 @@ void Boss::Draw() {
     if (s_bossGraphHandle != -1) {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
             if (m_invincibleTimer > 0) {
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (m_invincibleTimer % 20) * 5);
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(200, 50, 255), TRUE);
+                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 110, GetColor(255, 150, 255), FALSE);
+                DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 107, GetColor(255, 255, 255), FALSE);
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (m_invincibleTimer % 20) * 5);
             }
             DrawExtendGraph(
@@ -349,7 +363,7 @@ void Boss::Draw() {
         if (!m_isDying || (m_deathTimer / 5) % 2 == 0) {
             unsigned int color = GetColor(255, 0, 0);
             if (m_invincibleTimer > 0 && (m_invincibleTimer / 5) % 2 == 0) {
-                color = GetColor(255, 255, 0); // Blink yellow during invincibility
+                color = GetColor(255, 255, 0);
             }
             DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 80, color, TRUE);
         }

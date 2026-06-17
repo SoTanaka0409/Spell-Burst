@@ -1,0 +1,6 @@
+$bytes = [System.IO.File]::ReadAllBytes('fix_warnings.ps1')
+$bom = [byte[]](239,187,191)
+$out = new-object byte[] ($bom.Length + $bytes.Length)
+$bom.CopyTo($out, 0)
+$bytes.CopyTo($out, $bom.Length)
+[System.IO.File]::WriteAllBytes('fix_warnings_bom.ps1', $out)

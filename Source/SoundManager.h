@@ -1,28 +1,37 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <unordered_map>
 
 class SoundManager {
-public:
-    static SoundManager* GetInstance();
-    
-    void LoadBGM(const std::string& key, const std::string& path);
-    void LoadSE(const std::string& key, const std::string& path);
-    
-    void PlayBGM(const std::string& key);
-    void StopBGM();
-    
-    void PlaySE(const std::string& key);
-    
-    void StopAll();
-
 private:
     SoundManager();
     ~SoundManager();
+
+public:
+    SoundManager(const SoundManager&) = delete;
+    SoundManager& operator=(const SoundManager&) = delete;
+
+    static SoundManager* GetInstance();
+
+    // サウンドハンドルを取得（無ければロードする）
+    int GetSound(const std::string& path);
+
+    // BGMの再生（ループ）
+    void PlayBGM(const std::string& path);
     
-    static SoundManager* s_instance;
-    
-    std::unordered_map<std::string, int> m_bgms;
-    std::unordered_map<std::string, int> m_ses;
-    int m_currentBgmHandle;
+    // SEの再生（単発）
+    void PlaySE(const std::string& path);
+
+    // BGMの停止
+    void StopBGM();
+
+    // すべての音を停止
+    void StopAll();
+
+    // すべての音のメモリ解放
+    void ClearAll();
+
+private:
+    std::unordered_map<std::string, int> m_soundMap;
+    int m_currentBGMHandle;
 };

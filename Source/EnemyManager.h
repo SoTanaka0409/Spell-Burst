@@ -1,33 +1,73 @@
-ï»¿#pragma once
+#pragma once
 #include <vector>
 
 class Enemy;
 class Boss;
 
+// “GƒLƒƒƒ‰ƒNƒ^[‚Ì¶¬EisƒtƒF[ƒY‚ğ“Š‡‚·‚éŠÇ—ƒNƒ‰ƒX
+// ƒ{ƒXoŒ»ğŒ‚ÌŠÄ‹‚âAŒ»İ‚ÌƒtƒF[ƒYiƒEƒF[ƒuj‚É‰‚¶‚½“G‚ÌƒXƒ|[ƒ“‚ğ§Œä‚·‚é
 class EnemyManager {
 private:
-    std::vector<Enemy*> m_enemies; // Enemy list
-    int m_spawnTimer;              // Spawn timer
-    int m_defeatedCount;           // Defeated enemies count
-    bool m_bossSpawned;            // Flag if boss is spawned
+    int m_spawnTimer;              // “G‚ğoŒ»iƒXƒ|[ƒ“j‚³‚¹‚éŠÔŠu‚ğŒv‚éƒ^ƒCƒ}[
+    int m_defeatedCount;           // ƒvƒŒƒCƒ„[‚ª“|‚µ‚½“G‚Ì—İŒv”iƒtƒF[ƒYis‚ÌğŒ”»’è‚Ég—pj
+    bool m_bossSpawned;            // Œ»İ‚ÌƒtƒF[ƒY‚Åƒ{ƒX‚ªŠù‚ÉoŒ»‚µ‚½‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
 
-    // For phase management
-    int m_currentPhase;            // Current phase (1-3)
-    int m_requiredKills;           // Number of enemies defeated required for boss to appear
-    Boss* m_currentBoss;           // Pointer of emerging boss
+    int m_currentPhase;            // Œ»İ‚ÌisƒtƒF[ƒYiƒEƒF[ƒuj”Ô†
+    int m_requiredKills;           // Ÿ‚ÌƒtƒF[ƒY‚Ö‚ÌˆÚsA‚Ü‚½‚Íƒ{ƒXoŒ»‚É•K—v‚È“G‚Ì“¢”°”
+    Boss* m_currentBoss;           // Œ»İoŒ»‚µ‚Ä‚¢‚éƒ{ƒXƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^i–¢oŒ»‚Ínullptrj
 
 public:
+    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^ / ƒfƒXƒgƒ‰ƒNƒ^
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒIƒuƒWƒFƒNƒg‚Ì¶¬E”jŠü‚ğs‚¤
     EnemyManager();
     ~EnemyManager();
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒtƒF[ƒY‚â“¢”°”Aƒ^ƒCƒ}[‚È‚Ç‚Ìisó‹µ‚ğ‰Šú‰»iƒŠƒZƒbƒgj‚·‚é
     void Initialize();
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ^ƒCƒ}[‚É‰‚¶‚½“G‚Ì¶¬Aƒ{ƒX‚ÌoŒ»”»’èAƒtƒF[ƒYˆÚsˆ—‚È‚Ç‚ğs‚¤
     void Update();
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ‰æ–Êã‚ÉŸ‚ÌƒtƒF[ƒY‚Ü‚Å‚Ì—v“¢”°”‚âAƒ{ƒXoŒ»‚ÌŒxUI‚È‚Ç‚ğ•`‰æ‚·‚é
     void Draw();
 
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒIƒuƒWƒFƒNƒgƒŠƒXƒg‚ğ„‰ñ‚µA€–Só‘ÔiƒLƒ‹ˆ—Ï‚İj‚Ì“G‚ğˆÀ‘S‚Éƒƒ‚ƒŠ‚©‚çíœ‚·‚é
+    void DeleteEnemy();
+
+    // [“ü—Í] x, y: ¶¬À•W
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] w’è‚³‚ê‚½À•W‚ÉŠî–{“I‚È“GƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µAƒQ[ƒ€ƒV[ƒ“iƒŠƒXƒg“™j‚É“o˜^‚·‚é
     void SpawnEnemy(float x, float y);
 
-    const std::vector<Enemy*>& GetEnemies() const { return m_enemies; }
-    int GetDefeatedCount() const { return m_defeatedCount; }
-    int GetRequiredKills() const { return m_requiredKills; }
-    bool IsBossSpawned() const { return m_bossSpawned; }
+    // [“ü—Í] x, y: ¶¬Šî€À•W, spawnnum: ¶¬‚·‚é”
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒvƒŒƒCƒ„[‚ğ’Ç”ö‚·‚éƒ^ƒCƒvA‚Ü‚½‚Í“Á’èƒpƒ^[ƒ“‚Å“®‚­“G‚ğ•¡”¶¬‚µƒV[ƒ“‚É“o˜^‚·‚é
+    void SpawnEnemy_Target(float x, float y, int spawnnum);
+
+    // --- ƒQƒbƒ^[EƒZƒbƒ^[ŒQ ---
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] int: ’†ƒ{ƒXi“Á’èƒ^ƒCƒv‚Ì“Gj‚ªŒ»İ‰æ–Êã‚É‚¢‚é”
+    // [•›ì—p] ‚È‚µ
+    int GetMidBossCount() const;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “G‚ğ“|‚µ‚½ƒJƒEƒ“ƒg(m_defeatedCount)‚ğ1‰ÁZ‚·‚éi“G‚Ì€–S‚ÉŒÄ‚Î‚ê‚é‘z’èj
+    void AddDefeatedCount() { m_defeatedCount++; }
+
+    int GetDefeatedCount() const { return m_defeatedCount; }   // Œ»İ‚Ì“G“¢”°”‚ğæ“¾
+    int GetRequiredKills() const { return m_requiredKills; }   // ƒ{ƒXoŒ»“™‚É•K—v‚È–Ú•W“¢”°”‚ğæ“¾
+    bool IsBossSpawned() const { return m_bossSpawned; }       // ƒ{ƒX‚ªŠù‚ÉoŒ»‚µ‚Ä‚¢‚é‚©‚ğæ“¾
+    int GetCurrentPhase() const { return m_currentPhase; }     // Œ»İ‚ÌƒtƒF[ƒY”Ô†‚ğæ“¾
 };

@@ -1,10 +1,9 @@
-#pragma once
+﻿#pragma once
 #include "SceneManager.h"
-
+#include <memory>
 
 class Master
 {
 public:
-	static SceneManager* sceneManager;
-
+	static std::unique_ptr<SceneManager> sceneManager;
 };

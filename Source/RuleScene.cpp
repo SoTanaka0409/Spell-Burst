@@ -4,16 +4,19 @@
 #include "ResourceManager.h"
 #include "SoundManager.h"
 #include "Utility.h"
-#include <DxLib.h>
-
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
+#include <algorithm>
 
 void RuleScene::Initialize() {
     m_ruleGraphs[0] = ResourceManager::GetInstance()->GetGraph("Resource/rule1.png");
     m_ruleGraphs[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
     m_ruleGraphs[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
     m_ruleGraphs[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
-    m_ruleGraphs[4] = ResourceManager::GetInstance()->GetGraph("Resource/rule5.png");
-    m_ruleGraphs[5] = ResourceManager::GetInstance()->GetGraph("Resource/rule6.png");
+    m_ruleGraphs[4] = -1; // 将来的なスライド追加に備えてあらかじめ枠を確保し初期化
+    m_ruleGraphs[5] = -1;
     m_currentSlide = 0;
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
 }
@@ -28,15 +31,15 @@ void RuleScene::Update() {
     GetMousePoint(&mouseX, &mouseY);
     
     if (isLeftClicked) {
-        // Back Button
-        if (mouseX >= 20 && mouseX <= 120 && mouseY >= 530 && mouseY <= 580) {
+        // プレイヤーがタイトルへ戻る操作を行った際の遷移処理
+        if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
-        // Next Button
-        if (mouseX >= 650 && mouseX <= 750 && mouseY >= 530 && mouseY <= 580) {
+        // 次のページへ進む処理（最終ページの場合はタイトルへ戻る）
+        if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide < 5) {
                 m_currentSlide++;
@@ -46,8 +49,8 @@ void RuleScene::Update() {
             }
         }
         
-        // Prev Button
-        if (mouseX >= 150 && mouseX <= 250 && mouseY >= 530 && mouseY <= 580) {
+        // 前のページへ戻る処理（最初のページでは無効）
+        if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             if (m_currentSlide > 0) {
                 m_currentSlide--;
@@ -65,8 +68,8 @@ void RuleScene::Draw() {
         GetGraphSize(m_ruleGraphs[m_currentSlide], &imgW, &imgH);
         
         if (imgW > 0 && imgH > 0) {
-            float maxWidth = 760.0f;
-            float maxHeight = 400.0f; // Keep it between Y=120 and Y=520
+            float maxWidth = 1400.0f;
+            float maxHeight = 650.0f; // 説明画像が見やすくなるよう描画領域を大きめに設定
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -74,75 +77,84 @@ void RuleScene::Draw() {
             int drawW = (int)(imgW * scale);
             int drawH = (int)(imgH * scale);
             int drawX = (Utility::SCREEN_WIDTH - drawW) / 2;
-            int drawY = 120 + (400 - drawH) / 2;
+            int drawY = 20 + (650 - drawH) / 2;
             
             DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, m_ruleGraphs[m_currentSlide], FALSE);
         }
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
     
-    static int titleFont = CreateFontToHandle("メイリオ", 32, 4);
-    static int font24 = CreateFontToHandle("メイリオ", 24, 3);
+    int titleFont = ResourceManager::GetInstance()->GetFont(32, 4);
+    int font24 = ResourceManager::GetInstance()->GetFont(24, 3);
     
     const char* titles[] = {
-        "1. ?L?????N?^?[??I??",
-        "2. ???x??I??",
-        "3. ?G??|??????x????グ??{?X??|?????I",
-        "4. UI????",
-        "5. ?o???A??g????",
-        "6. ?{?X??|????HP?????I"
+        "1. キャラクターの選択",
+        "2. 難易度の選択",
+        "3. 敵を倒してレベルを上げてボスを倒そう！",
+        "4. UIの説明",
+        "5. バリアの使い方",
+        "6. ボスを倒すとHPが回復！"
     };
     const char* descs1[] = {
-        "?^?C?g????????GAME START??????A????L????V?F?t??I????B",
-        "??????????????x??I????BNORMAL, HARD, VERY HARD???????B",
-        "?G??|????o???l???????I?{???E?F?[?u????A",
-        "??????????HP???x???A",
-        "?o???A?W?J????G??e?????????????A",
-        "?{?X??|????HP??3???????I"
+        "タイトル画面からGAME STARTを押し、個性豊かなシェフを選ぼう。",
+        "自分にあった難易度を選ぼう。NORMAL, HARD, VERY HARDがあるぞ。",
+        "敵を倒して経験値を稼ごう！本作はウェーブ制で、",
+        "左上は自分のHPやレベル、",
+        "バリア展開中に敵の弾を受けると力が溜まり、",
+        "ボスを倒すとHPが3回復するぞ！"
     };
     const char* descs2[] = {
         "",
         "",
-        "????|????{?X???o???????I",
-        "????Q?[?W??K?E?Z??`???[?W????I",
-        "???????U?????????o?????I????????p?????I",
-        "??????????????????????I"
+        "一定数倒すとボスが出るぞ！",
+        "必殺技のゲージが表示されているぞ！",
+        "最後に強力な反撃として放出するぞ！うまく使おう！",
+        "最後まで諦めずに戦え！"
+    };
+    const char* descs3[] = {
+        "※自機の中心にある小さな光る玉が当たり判定です！",
+        "",
+        "",
+        "",
+        "",
+        ""
     };
     
-    DrawBox(20, 20, 780, 110, GetColor(20, 20, 40), TRUE);
-    DrawBox(20, 20, 780, 110, GetColor(255, 255, 255), FALSE);
+    DrawBox(300, 700, 1300, 830, GetColor(20, 20, 40), TRUE);
+    DrawBox(300, 700, 1300, 830, GetColor(255, 255, 255), FALSE);
     
     if (m_currentSlide >= 0 && m_currentSlide < 6) {
-        DrawStringToHandle(40, 30, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
-        DrawStringToHandle(40, 65, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
-        DrawStringToHandle(40, 90, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 710, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
+        DrawStringToHandle(320, 755, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 785, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 815, descs3[m_currentSlide], GetColor(255, 100, 100), font24);
     }
     
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    // Draw Back button
-    bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 530 && mouseY <= 580);
-    DrawBox(20, 530, 120, 580, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-    DrawBox(20, 530, 120, 580, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(40, 545, "BACK", GetColor(255, 255, 255), font24);
+    // 直感的な操作を促すため、戻るボタンにマウスが重なった際に色を変化させる
+    bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
+    DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+    DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
+    DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
     
-    // Draw Prev button
+    // 現在位置を明示するため、2ページ目以降のみ前へ戻るボタンを描画
     if (m_currentSlide > 0) {
-        bool hoverPrev = (mouseX >= 150 && mouseX <= 250 && mouseY >= 530 && mouseY <= 580);
-        DrawBox(150, 530, 250, 580, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
-        DrawBox(150, 530, 250, 580, GetColor(255, 255, 255), FALSE);
-        DrawStringToHandle(170, 545, "PREV", GetColor(255, 255, 255), font24);
+        bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
+        DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
+        DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
+        DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
     }
     
-    // Draw Next button
-    bool hoverNext = (mouseX >= 650 && mouseX <= 750 && mouseY >= 530 && mouseY <= 580);
-    DrawBox(650, 530, 750, 580, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
-    DrawBox(650, 530, 750, 580, GetColor(255, 255, 255), FALSE);
+    // スライド進行状況に合わせて、次へボタンと完了ボタンの表示を切り替えつつ描画
+    bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
+    DrawBox(900, 840, 1000, 890, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
+    DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
     if (m_currentSlide < 5) {
-        DrawStringToHandle(675, 545, "NEXT", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(920, 855, "NEXT", GetColor(255, 255, 255), font24);
     } else {
-        DrawStringToHandle(675, 545, "DONE", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(920, 855, "DONE", GetColor(255, 255, 255), font24);
     }
     
     Scene::Draw();

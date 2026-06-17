@@ -1,4 +1,4 @@
-#include "Scene.h"
+﻿#include "Scene.h"
 #include "ObjectManager.h"
 #include "Master.h"
 #include "ColliderManager.h"
@@ -6,9 +6,9 @@
 
 Scene::Scene()
 {
-	// Create object manager
-	mpObjectManager = new ObjectManager();
-	mpColliderManager = new ColliderManager();
+	// シーン固有のオブジェクトおよび当たり判定を管理するため専用のマネージャーを生成
+	mpObjectManager = std::make_unique<ObjectManager>();
+	mpColliderManager = std::make_unique<ColliderManager>();
 }
 
 Scene::~Scene()
@@ -16,16 +16,16 @@ Scene::~Scene()
 	if (mpObjectManager != nullptr)
 	{
 		mpObjectManager->DeleteAll2D();
-		delete mpObjectManager;
+		mpObjectManager.reset();
 	}
 	if (mpColliderManager != nullptr)
 	{
 		mpColliderManager->DeleteAllCollider();
-		delete mpColliderManager;
+		mpColliderManager.reset();
 	}
 }
 
-// Draw
+// 全オブジェクトの描画処理をマネージャー経由で一括実行
 void Scene::Draw()
 {
 	if (mpObjectManager != nullptr)
@@ -38,7 +38,7 @@ void Scene::Draw()
 	}
 }
 
-// Update
+// 全オブジェクトの状態更新および当たり判定処理を一括実行
 void Scene::Update()
 {
 	if (mpObjectManager != nullptr)

@@ -1,10 +1,11 @@
+﻿#include <memory>
 #pragma once
 #include "Scene.h"
 
+// ゲーム全体のシーン遷移を管理するクラス
 class SceneManager
 {
 public:
-
 	enum SCENE_TYPE
 	{
 		SCENE_NONE = 0,
@@ -12,34 +13,49 @@ public:
 		SCENE_NAME,
 		SCENE_TITLE,
 		SCENE_OPERATION,
-		SCENE_RULE,// �E�^�E�bC�E�g�E��E�
+		SCENE_RULE,
 		SCENE_TUTORIAL,
 		SCENE_LEVEL,
-		SCENE_GAME,    // �E�bQ�E�b[�E�b�Es
+		SCENE_GAME,
 		SCENE_3DHARD,
-		SCENE_RESULT,   // �E�b�b�b�b�b�b�b����g
+		SCENE_RESULT,
 		SCENE_RESULTWIN,
-		SCENE_NORMALRESULTSCENE,// �E�bQ�E�b[�E�b�E��E�I�E�[�E�b�E�b]
+		SCENE_NORMALRESULTSCENE,
 		SCENE_3D
-
 	};
+
 public:
 	SceneManager();
-	
 	~SceneManager();
 
-
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 最初のシーン（通常はTITLE等）のInitializeを呼び出し初期化する
 	void Initialize();
 
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 現在のシーンのDraw関数を呼び出し、描画処理を委譲する
 	void Draw();
 
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 現在のシーンのUpdate関数を呼び出す。また、次シーンが予約されていれば遷移処理を行う
 	void Update();
 
+    // [入力] なし
+    // [出力] なし
+    // [副作用] 現在のシーンのFinalizeを呼び出し、メモリを解放する
 	void Finalize();
-	// �ESV�ES
+
+    // [入力] なし
+    // [出力] なし
+    // [副作用] mnNextSceneTypeが設定されている場合、旧シーンを破棄して新シーンを生成・初期化する
 	void ChangeSceneIfNeeded();
-	// �ESu�Esu�Esuno transfer source�Esu�Esu�Esu�Esu J�Eslezukusosu�Esu�Esu�Esu V�Esu [�Esu�Esu�Esu�Esu installation resistance source
-	// note: �ESV�ES[�ES�ES�ESJ 
+
+    // [入力] next: 次に遷移したいシーンの種別列挙子
+    // [出力] なし
+    // [副作用] 次回Update時にシーン遷移が行われるようフラグ(mnNextSceneType)をセットする
 	void SetNextScene(SCENE_TYPE next) { mnNextSceneType = next; }
 
 	void SetSceneHard(bool Hard) { SceneHard = Hard; }
@@ -48,17 +64,14 @@ public:
 	void SetSceneNormal(bool Normal) {SceneNormal=Normal; }
 	bool GetSceneNormal() { return SceneNormal; }
 
-
-	// �ES�ES�ESun's �ES�ES�ES
-	Scene* GetCurrentScene() { return mpCurrentScene; }
+	Scene* GetCurrentScene() { return mpCurrentScene.get(); }
 
 private:
-	SCENE_TYPE mnSceneType;     // �ES�ES�ESUN's S�ES[�ES�ES�ESfuta�ESC�ESv
-	SCENE_TYPE mnNextSceneType;// �Es�Es�Esufushi�Es [�Es�Es�Esufta�Esc�Esv
-	Scene* mpCurrentScene;    // �ES�ES�ES�ES
-	Scene* mp;
+	SCENE_TYPE mnSceneType;     
+	SCENE_TYPE mnNextSceneType;
+	std::unique_ptr<Scene> mpCurrentScene;    
+	
 
 	bool SceneHard;
 	bool SceneNormal;
-
 };

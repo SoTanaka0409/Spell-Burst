@@ -1,14 +1,40 @@
-ï»¿#pragma once
+#pragma once
 #include "Scene.h"
+#include <vector>
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include "DxLib.h"
 
-// title screen class
+// ƒ^ƒCƒgƒ‹‰æ–Ê‚ğ•`‰æEŠÇ—‚·‚éƒV[ƒ“ƒNƒ‰ƒX
 class TitleScene : public Scene {
 public:
-
     TitleScene();
     ~TitleScene();
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ^ƒCƒgƒ‹”wŒi‰æ‘œ‚âUIƒ{ƒ^ƒ“‰æ‘œ‚ğƒƒ‚ƒŠ‚É“Ç‚İ‚Ş
     void Initialize() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒL[“ü—Í‚ğŠÄ‹‚µAZƒL[‚ÅStageSelectScene‚Ö‘JˆÚ‚³‚¹‚éB”wŒiƒXƒNƒ[ƒ‹XV‚às‚¤
     void Update() override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] ƒ^ƒCƒgƒ‹ƒƒSA”wŒiAUIƒ{ƒ^ƒ““™‚ğ‰æ–Ê‚É•`‰æ‚·‚é
     void Draw() override;
-    void Finalize()override;
+
+    // [“ü—Í] ‚È‚µ
+    // [o—Í] ‚È‚µ
+    // [•›ì—p] “Ç‚İ‚ñ‚¾‰æ‘œƒŠƒ\[ƒX‚ğ”jŠü‚·‚é
+    void Finalize() override;
+
+private:
+    int m_bgGraph; // ƒ^ƒCƒgƒ‹”wŒi‰æ‘œ‚Ìƒnƒ“ƒhƒ‹
+    float m_bgScrollX; // ”wŒiƒXƒNƒ[ƒ‹‰‰o‚Ì‚½‚ß‚ÌXÀ•WƒIƒtƒZƒbƒg
+    int m_uiButtonGraph; // ‘I‘ğƒ{ƒ^ƒ“UI‚Ì‰æ‘œƒnƒ“ƒhƒ‹
+    std::vector<int> m_rankings; // ƒNƒŠƒAƒ^ƒCƒ€‚È‚Ç‚Ìƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^•Û
 };
