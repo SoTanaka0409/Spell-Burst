@@ -1,53 +1,134 @@
 ﻿  Barrier.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(27,32): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
+  Boss.cpp
+  Bullet.cpp
+  BulletManager.cpp
+  CapsuleCollider.cpp
+  Collider.cpp
+  SphereCollider.cpp
+  ColliderManager.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,2): error C2679: 二項演算子 '=': 型 'DxLib::VECTOR' の右オペランドを扱う演算子が見つかりません (または変換できません)。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Vector2.h(45,1):
+      'Vector2 &Vector2::operator =(Vector2 &&)' の可能性があります
+          C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,2):
+          'Vector2 &Vector2::operator =(Vector2 &&)': 引数 2 を 'DxLib::VECTOR' から 'Vector2 &&' へ変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,15):
+              理由: 'DxLib::VECTOR' から 'Vector2' へは変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,15):
+              この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Vector2.h(45,1):
+      または 'Vector2 &Vector2::operator =(const Vector2 &)'
+          C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,2):
+          'Vector2 &Vector2::operator =(const Vector2 &)': 引数 2 を 'DxLib::VECTOR' から 'const Vector2 &' へ変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,15):
+              理由: 'DxLib::VECTOR' から 'const Vector2' へは変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,15):
+              この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(7,2):
+      引数リスト '(Vector2, DxLib::VECTOR)' を一致させようとしているとき
   
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(27,32): error C2065: 'TimeScale': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(75,25): error C2065: 'tag2D_BarierPla': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Barrier.cpp(80,30): error C2065: 'tag2D_BarierEne': 定義されていない識別子です。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,2): error C2679: 二項演算子 '=': 型 'DxLib::VECTOR' の右オペランドを扱う演算子が見つかりません (または変換できません)。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Vector2.h(45,1):
+      'Vector2 &Vector2::operator =(Vector2 &&)' の可能性があります
+          C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,2):
+          'Vector2 &Vector2::operator =(Vector2 &&)': 引数 2 を 'DxLib::VECTOR' から 'Vector2 &&' へ変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,16):
+              理由: 'DxLib::VECTOR' から 'Vector2' へは変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,16):
+              この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Vector2.h(45,1):
+      または 'Vector2 &Vector2::operator =(const Vector2 &)'
+          C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,2):
+          'Vector2 &Vector2::operator =(const Vector2 &)': 引数 2 を 'DxLib::VECTOR' から 'const Vector2 &' へ変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,16):
+              理由: 'DxLib::VECTOR' から 'const Vector2' へは変換できません。
+              C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,16):
+              この変換を実行可能なユーザー定義変換演算子がないか、または演算子を呼び出せません。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\SphereCollider.cpp(8,2):
+      引数リスト '(Vector2, DxLib::VECTOR)' を一致させようとしているとき
+  
+  Enemy.cpp
+  EnemyBullet.cpp
+  EnemyManager.cpp
   ExplosionParticle.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(21,37): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
+  GameScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\GameScene.cpp(160,123): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
   
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(21,37): error C2065: 'TimeScale': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(22,37): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\GameScene.cpp(160,5): error C2660: 'DxLib::DrawStringToHandle': 関数に 4 個の引数を指定できません。
+      C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用\DxLib.h(3851,14):
+      'DxLib::DrawStringToHandle' の宣言を確認してください
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\GameScene.cpp(160,5):
+      引数リスト '(int, int, char [64], unsigned int)' を一致させようとしているとき
   
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ExplosionParticle.cpp(22,37): error C2065: 'TimeScale': 定義されていない識別子です。
   HUD.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/HUD.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\HUD.cpp(21,39): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\HUD.cpp(21,39): error C2065: 'TimeScale': 定義されていない識別子です。
+  InputManager.cpp
+  Main.cpp
   MasterSpark.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/MasterSpark.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\MasterSpark.cpp(79,13): error C2039: 'AddScreenShake': 'GameScene' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\GameScene.h(7,7):
-      'GameScene' の宣言を確認してください
-  
+  MeleeAttack.cpp
+  Object2D.cpp
+  ObjectManager.cpp
+  コードを生成中...
+  コンパイル中...
   Obstacle.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
-  (ソース ファイル 'Source/Obstacle.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Obstacle.cpp(24,44): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Obstacle.cpp(24,44): error C2065: 'TimeScale': 定義されていない識別子です。
+  Player.cpp
+  PlayerHomingBullet.cpp
+  PlayerSpellParticle.cpp
   RainbowBullet.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RainbowBullet.cpp(30,40): error C2039: 'TimeScale': 'Utility' のメンバーではありません
-      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Utility.h(7,7):
-      'Utility' の宣言を確認してください
+  RainbowWaveManager.cpp
+  ResourceManager.cpp
+  ResultScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResultScene.cpp(174,53): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
   
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RainbowBullet.cpp(30,40): error C2065: 'TimeScale': 定義されていない識別子です。
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResultScene.cpp(175,51): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResultScene.cpp(176,54): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+  Scene.cpp
+  SceneManager.cpp
+  SpecialBullet.cpp
+  SpellCardBullet.cpp
+  StageSelectScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\StageSelectScene.cpp(107,53): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\StageSelectScene.cpp(108,51): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\StageSelectScene.cpp(109,50): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+  RuleScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RuleScene.cpp(87,53): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RuleScene.cpp(88,50): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+  TitleScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\TitleScene.cpp(83,56): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\TitleScene.cpp(96,53): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\TitleScene.cpp(97,51): error C2039: 'GetFont': 'ResourceManager' のメンバーではありません
+      C:\Users\Admin\Desktop\progtram\AiGame_net\Source\ResourceManager.h(5,7):
+      'ResourceManager' の宣言を確認してください
+  
+  Vector2.cpp
+  SoundManager.cpp
   コードを生成中...
