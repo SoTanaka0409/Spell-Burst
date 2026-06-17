@@ -5,6 +5,7 @@ class CapsuleCollider;
 
 class SpellCardBullet : public Object2D {
 private:
+    float m_x, m_y;
     float m_speed;
     int m_damage;
     bool m_isActive;

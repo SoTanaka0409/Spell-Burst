@@ -1,25 +1,20 @@
-#pragma once
+﻿#pragma once
+#include <map>
 #include <string>
-#include <unordered_map>
 
-class ResourceManager {
+class ResourceManager
+{
 private:
-    ResourceManager();
-    ~ResourceManager();
+    std::map<std::string, int> m_graphMap;
+    std::map<std::pair<int, int>, int> m_fontMap;
 
 public:
-    ResourceManager(const ResourceManager&) = delete;
-    ResourceManager& operator=(const ResourceManager&) = delete;
-
+    ResourceManager();
+    ~ResourceManager();
     static ResourceManager* GetInstance();
 
     int GetGraph(const std::string& path);
-    
-    int GetFont(int size, int thickness = -1);
+    int GetFont(int size, int thickness);
 
     void ClearAll();
-
-private:
-    std::unordered_map<std::string, int> m_graphMap;
-    std::unordered_map<int, int> m_fontMap;
 };

@@ -1,7 +1,7 @@
 ﻿#include "SphereCollider.h"
 #include "CapsuleCollider.h"
 
-SphereCollider::SphereCollider(Object2D* parent, VECTOR center, float radius)
+SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
 	mvPosition = center;
