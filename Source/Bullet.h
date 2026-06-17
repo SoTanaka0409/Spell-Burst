@@ -1,15 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°E™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡çE™ã‚‹ã‚¯ãƒ©ã‚¹
-=======
->>>>>>> Stashed changes
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°E™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡çE™ã‚‹ã‚¯ãƒ©ã‚¹
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Bullet : public Object2D
 {
 public:
@@ -26,27 +20,15 @@ public:
     int GetDamage() const { return m_damage; }
     void Kill();
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
-
-private:
-    float m_x, m_y;       // å¼¾ã®åº§æ¨E
-    float m_speed;        // å¼¾ã®ç§»å‹•é€Ÿåº¦
-    bool m_isActive;      // å¼¾ãŒæœ‰åŠ¹ã‹ã©ãE‹
-    int m_damage;         // å¼¾ãŒä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡E
-=======
->>>>>>> Stashed changes
 	void AddReceivedDamage() { m_recivedDamage++; }
 
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    float m_speed;        // ’e‚Ìis‘¬“x// å¼¾ã®ç§»å‹•é€Ÿåº¦
-    bool m_isActive;      // ’e‚ª‰æ–Ê“à‚É‘¶İ‚µ—LŒø‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO// å¼¾ãŒæœ‰åŠ¹ã‹ã©ãE‹
-    int m_damage;         // “G‚É—^‚¦‚éƒ_ƒ[ƒW—Ê// å¼¾ãŒä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡E
-	int m_recivedDamage;    // ƒ_ƒ[ƒW‚ğó‚¯‚½‰ñ”  
-	int m_MaxrecivedDamage; // ‚±‚Ì’e‚ª—^‚¦‚ç‚ê‚éÅ‘åƒ_ƒ[ƒWãŒÀiŠÑ’Ê§ŒÀj// ƒ_ƒ[ƒW‚ğó‚¯‚Ämax‚É‚È‚é‚Æ‹Z‚ğo‚·
-    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
+    float m_speed;          // å¼¾ã®é€²è¡Œé€Ÿåº¦
+    bool m_isActive;        // å¼¾ãŒç”»é¢å†…ã«å­˜åœ¨ã—æœ‰åŠ¹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+    int m_damage;           // æ•µã«ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+	int m_recivedDamage;    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸå›æ•°  
+	int m_MaxrecivedDamage; // ã“ã®å¼¾ãŒä¸ãˆã‚‰ã‚Œã‚‹æœ€å¤§ãƒ€ãƒ¡ãƒ¼ã‚¸ä¸Šé™ï¼ˆè²«é€šåˆ¶é™ï¼‰
+    CapsuleCollider* mpCollider; // å½“ãŸã‚Šåˆ¤å®šç”¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 };
