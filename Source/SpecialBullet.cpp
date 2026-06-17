@@ -29,8 +29,20 @@ SpecialBullet::~SpecialBullet() {
     }
 }
 
+<<<<<<< Updated upstream
 // 雎亥ｼｱ繝ｵ郢晢ｽｬ郢晢ｽｼ郢晢ｿｽ陷ｻ・ｼ邵ｺ・ｰ郢ｧ蠕鯉ｽ玖ｭ厄ｽｴ隴・ｽｰ陷・ｽｦ騾・・
 // 陟｢繝ｻ・ｮ・ｺ隰堋邵ｺ・ｮ陟托ｽｾ郢ｧ蜑・ｽｸ鬆大ｩｿ陷ｷ莉｣竊馴§・ｻ陷崎ｼ費ｼ・ｸｺ蟶卍竏ｫ蛻､鬮ｱ・｢陞滓じ竊楢怎・ｺ邵ｺ貅假ｽ芽恆莨∝求郢晁ｼ釆帷ｹｧ・ｰ郢ｧ蝣､・ｫ荵昶ｻ邵ｺ・ｾ邵ｺ蜷ｶﾂ繝ｻ
+=======
+<<<<<<< HEAD
+// 毎フレーム呼ばれる更新処琁E
+// 忁E��技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+void SpecialBullet::Update() {
+    m_y -= m_speed;
+    mvPosition = VGet(m_x, m_y, 0.0f);
+=======
+// 毎フレーム呼ばれる更新処琁E
+// 忁E��技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+>>>>>>> Stashed changes
 void SpecialBullet::Update() {
     mvPosition.y -= m_speed * Utility::TimeScale;
     mvPosition = Vector2(mvPosition.x, mvPosition.y);
@@ -46,8 +58,18 @@ void SpecialBullet::Update() {
     }
 }
 
+<<<<<<< Updated upstream
 // 隰蜀怜愛陷・ｽｦ騾・・
 // 陟｢繝ｻ・ｮ・ｺ隰堋邵ｺ・ｮ郢ｧ・ｨ郢晁ｼ斐♂郢ｧ・ｯ郢晁肩・ｼ莠･・､・ｧ邵ｺ髦ｪ竊題怦迚呻ｽｼ・ｾ邵ｺ・ｪ邵ｺ・ｩ繝ｻ蟲ｨ・定ｬ蜀怜愛邵ｺ蜉ｱ竏ｪ邵ｺ蜷ｶﾂ繝ｻ
+=======
+<<<<<<< HEAD
+// 描画処琁E
+// 忁E��技のエフェクト（大きな光弾など�E�を描画します、E
+=======
+// 描画処琁E
+// 忁E��技のエフェクト（大きな光弾など�E�を描画します、E
+>>>>>>> main
+>>>>>>> Stashed changes
 void SpecialBullet::Draw() {
     if (!m_isActive) return;
 

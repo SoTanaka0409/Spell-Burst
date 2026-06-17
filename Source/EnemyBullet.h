@@ -3,6 +3,7 @@
 
 class CapsuleCollider;
 
+<<<<<<< Updated upstream
 // 敵キャラクター（雑魚およびボス）が発射する弾クラス
 // 直進だけでなく、反射やプレイヤーへのホーミング（追尾）などの特殊軌道もサポートする
 class EnemyBullet : public Object2D {
@@ -17,6 +18,36 @@ private:
     bool m_isStunBullet; // 当たった相手を行動不能（スタン）にする状態異常弾かどうか
     int m_homingTimer;   // ホーミング（追尾）処理が有効な残りフレーム数
     int m_homingDelayTimer; // 発射後、ホーミングを開始するまでの遅延タイマー
+=======
+<<<<<<< HEAD
+// 敵キャラクター�E�雑魚やボス�E�が発封E��る弾を管琁E��るクラス
+class EnemyBullet : public Object2D {
+private:
+    float m_x, m_y;     // 弾の座樁E
+    float m_dx, m_dy;   // 移動方向�Eベクトル
+    float m_speed;      // 弾の移動速度
+    bool m_isActive;    // 弾が有効かどぁE��
+=======
+// 敵キャラクター�E�雑魚やボス�E�が発封E��る弾を管琁E��るクラス
+class EnemyBullet : public Object2D {
+private:
+    float m_dx, m_dy;   // 移動方向�Eベクトル
+    float m_speed;      // 弾の移動速度
+    bool m_isActive;    // 弾が有効かどぁE��
+>>>>>>> main
+    CapsuleCollider* mpCollider;
+
+    bool m_canReflect;
+    bool m_hasReflected;
+<<<<<<< HEAD
+    bool m_isStunBullet; // スタン効果を持つ弾かどぁE��
+    int m_homingTimer;   // 追尾�E��Eーミング�E�する残りフレーム数
+=======
+    bool m_isStunBullet; // スタン効果を持つ弾かどぁE��
+    int m_homingTimer;   // 追尾�E��Eーミング�E�する残りフレーム数
+>>>>>>> main
+    int m_homingDelayTimer;
+>>>>>>> Stashed changes
 
 public:
     EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect = false, bool isStunBullet = false, int homingFrames = 0, int homingDelayFrames = 0);

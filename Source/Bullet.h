@@ -3,6 +3,12 @@
 
 class CapsuleCollider;
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// 繝励Ξ繧､繝､繝ｼ縺檎匱蟆・☆繧矩壼ｸｸ縺ｮ蠑ｾ繧堤ｮ｡逅・☆繧九け繝ｩ繧ｹ
+=======
+>>>>>>> Stashed changes
 // 繝励Ξ繧､繝､繝ｼ縺檎匱蟆・☆繧矩壼ｸｸ縺ｮ蠑ｾ繧堤ｮ｡逅・☆繧九け繝ｩ繧ｹ
 class Bullet : public Object2D
 {
@@ -20,6 +26,18 @@ public:
     int GetDamage() const { return m_damage; }
     void Kill();
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+private:
+    float m_x, m_y;       // 蠑ｾ縺ｮ蠎ｧ讓・
+    float m_speed;        // 蠑ｾ縺ｮ遘ｻ蜍暮溷ｺｦ
+    bool m_isActive;      // 蠑ｾ縺梧怏蜉ｹ縺九←縺・°
+    int m_damage;         // 蠑ｾ縺御ｸ弱∴繧九ム繝｡繝ｼ繧ｸ驥・
+=======
+>>>>>>> Stashed changes
 	void AddReceivedDamage() { m_recivedDamage++; }
 
     virtual void OnTrigger(Collider* collider, Collider* check) override;

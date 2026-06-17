@@ -29,6 +29,20 @@ Bullet::~Bullet()
         mpCollider = nullptr;
     }
 }
+<<<<<<< Updated upstream
+=======
+
+<<<<<<< HEAD
+// 毎フレーム呼ばれる更新処琁E
+// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+void Bullet::Update() 
+{
+    m_y -= m_speed;
+    mvPosition = VGet(m_x, m_y, 0.0f);
+=======
+// 毎フレーム呼ばれる更新処琁E
+// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます、E
+>>>>>>> Stashed changes
 void Bullet::Update() 
 {
     mvPosition.y -= m_speed * Utility::TimeScale;
@@ -38,6 +52,20 @@ void Bullet::Update()
         mpCollider->mvPosition = mvPosition;
         mpCollider->mvPosition2 = mvPosition;
     }
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+    if (m_y < -20.0f) {
+        m_isActive = false;
+        SetDeleteFlag(true);
+    }
+}
+
+// 弾の消滁E�E琁E
+// 敵に当たった際などに呼ばれ、オブジェクト管琁E��ら削除されるよぁE��します、E
+=======
+>>>>>>> Stashed changes
    
 
     if (mvPosition.y < -20.0f) {
@@ -73,6 +101,20 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
         }
     }
 }
+<<<<<<< Updated upstream
+=======
+
+<<<<<<< HEAD
+// 描画処琁E
+// 弾の画像を描画します、E
+void Bullet::Draw()
+{
+    if (!m_isActive) return;
+    DrawCircle((int)m_x, (int)m_y, 10, GetColor(255, 255, 255), TRUE);
+=======
+// 描画処琁E
+// 弾の画像を描画します、E
+>>>>>>> Stashed changes
 void Bullet::Draw()
 {
     if (!m_isActive) return;
