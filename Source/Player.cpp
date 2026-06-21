@@ -25,29 +25,22 @@
 int Player::s_selectedCharacterType = 1;
 
 Player::Player() 
-    : Object2D(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f))
-    , mpCollider(nullptr)
+    : Character(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f), 15, 5.0f)
 {
     SetTag(Tag2D_Player);
     Initialize();
 }
 
 Player::~Player() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
     if (mpBarrier) {
         mpBarrier->SetDeleteFlag(true);
         mpBarrier = nullptr;
     }
-    m_levelUpTimer = 0;
-    m_stunTimer = 0;
 }
+
 void Player::Initialize() {
     mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
     mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
-   
     
     m_levelUpTimer = 0;
     m_stunTimer = 0;
@@ -55,7 +48,7 @@ void Player::Initialize() {
     m_specialCooldown = 0;
     mfAttack = 1;
     m_attackTimer = 20;
-    m_AttackInterval =0 ;
+    m_AttackInterval = 0;
     m_AttackTimer_2 = 60;
     m__BarrierCount = 0;
 
@@ -93,25 +86,23 @@ void Player::Initialize() {
         m_hp = m_maxHp;
     }
 
-
+    if (mpCollider) delete mpCollider;
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
 	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
 }
+
 void Player::Update()
 {
+    Character::Update(); // スタンタイマーなどの処理
+
     if (m_levelUpTimer > 0) {
         m_levelUpTimer--;
     }
 
     if (m_stunTimer > 0) {
-        m_stunTimer--;
-
-        if (mpCollider) {
-            mpCollider->mvPosition = mvPosition;
-            mpCollider->mvPosition2 = mvPosition;
-        }
         return;
     }
+
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
     float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
 
@@ -120,43 +111,24 @@ void Player::Update()
     if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
     if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
 
-
     if (mvPosition.x < 45.0f) mvPosition.x = 45.0f;
     if (mvPosition.x > Utility::SCREEN_WIDTH - 45.0f) mvPosition.x = Utility::SCREEN_WIDTH - 45.0f;
     if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
     if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
 
-    mvPosition = Vector2(mvPosition.x, mvPosition.y);
     if (mpBarrier) {
         mpBarrier->SetPosition(mvPosition);
     }
 
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
-
-    
-
-
-    if (m_levelUpTimer > 0) {
-        m_levelUpTimer--;
-    }
-
-
     if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
-        
-         if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
+        if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
         else m_attackMode = AttackMode_Melee;
     }
-   
-
 
     Attack();
-   
 }
-void Player::Draw() {
 
+void Player::Draw() {
     if (mpBarrier != nullptr && mpBarrier->IsDeployed() && mpBarrier->GetHitCount() > 0) {
         int hitCount = mpBarrier->GetHitCount();
         float ratio = static_cast<float>(hitCount) / 30.0f;
@@ -213,16 +185,15 @@ void Player::Draw() {
         DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE);
     }
 }
+
 void Player::TakeDamage(int damage) {
-    m_hp -= damage;
+    Character::TakeDamage(damage);
     SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.mp3");
     if (m_hp <= 0) {
-        m_hp = 0;
         ResultScene::s_isVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
-
 
 void Player::Attack()
 {
@@ -238,18 +209,14 @@ void Player::Attack()
     if ( m_AttackInterval >= m_attackTimer)
     {
         m_AttackInterval = 0;
-            int numBullets = m_level;
-            float spacing = 20.0f;
+        int numBullets = m_level;
+        float spacing = 20.0f;
             
-    // 現在のレベル(numBullets)に応じて、複数発の弾を横一列に等間隔で配置するためのオフセット計算
-    float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
-            for (int i = 0; i < numBullets; ++i) 
-            {
-                new Bullet(startX + i * spacing, mvPosition.y - 45.0f, static_cast<int>(mfAttack));
-            }
-            
-        
-        
+        float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
+        for (int i = 0; i < numBullets; ++i) 
+        {
+            new Bullet(startX + i * spacing, mvPosition.y - 45.0f, static_cast<int>(mfAttack));
+        }
     }
     if (DebugOn)
     {
@@ -301,6 +268,7 @@ void Player::Attack()
         }
     }
 }
+
 void Player::AddXp(int amount) {
     m_xp += amount;
     int oldGauge = m_spellGauge;
@@ -326,15 +294,14 @@ void Player::AddXp(int amount) {
 void Player::OnEnter(Collider* collider, Collider* check) {}
 void Player::OnTrigger(Collider* collider, Collider* check) 
 {
-   
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
-            Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
+            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
             if (enemy != nullptr) {
                 TakeDamage(1);
-
             }
         }
     }
 }
 void Player::OnExit(Collider* collider, Collider* check) {}
+void Player::Bariier() {}

@@ -66,7 +66,7 @@ void MeleeAttack::Kill() {
 void MeleeAttack::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
-            Enemy* enemy = dynamic_cast<Enemy*>(check->GetParentObject());
+            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
             if (enemy != nullptr) {
                 // 攻撃判定は短期間（10フレーム）であるため、ヒット間隔を管理せず即座にダメージを与える
                 enemy->TakeDamage(m_damage);

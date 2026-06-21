@@ -1,4 +1,4 @@
-#include "EnemyBullet.h"
+﻿#include "EnemyBullet.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Master.h"
@@ -13,20 +13,14 @@
 #include "utility.h"
 
 EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect, bool isStunBullet, int homingFrames, int homingDelayFrames)
-    : Object2D(pos)
-    , mpCollider(nullptr)
+    : Projectile(pos, dir.Normalized(), speed, 1)
 {
     SetTag(Tag2D_EnemyBullet);
-    mvPosition = pos;
-    m_dir = dir.Normalized();
-    m_speed = speed;
-    m_isActive = true;
     m_canReflect = false;
     m_hasReflected = false;
     m_isStunBullet = isStunBullet;
     m_homingTimer = homingFrames;
     m_homingDelayTimer = homingDelayFrames;
-
 
     if (m_dir.MagnitudeSq() == 0.0f) {
         m_dir = Vector2(0.0f, 1.0f);
@@ -36,11 +30,8 @@ EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect,
 }
 
 EnemyBullet::~EnemyBullet() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
 }
+
 void EnemyBullet::Update() {
     if (m_homingDelayTimer > 0) {
         m_homingDelayTimer--;
@@ -63,17 +54,14 @@ void EnemyBullet::Update() {
     }
 
     mvPosition += m_dir * (m_speed * Utility::TimeScale);
-    mvPosition = Vector2(mvPosition.x, mvPosition.y);
 
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
-    if (mvPosition.x < -50.0f || mvPosition.x > Utility::SCREEN_WIDTH + 50.0f || mvPosition.y < -50.0f || mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
-        m_isActive = false;
-        SetDeleteFlag(true);
+    Projectile::Update();
+
+    if (IsOutOfBounds()) {
+        Kill();
     }
 }
+
 void EnemyBullet::Draw() {
     if (!m_isActive) return;
     
@@ -113,14 +101,5 @@ void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
             }
             Kill();
         }
-    }
-}
-
-void EnemyBullet::Kill() 
-{
-    m_isActive = false;
-    SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
     }
 }

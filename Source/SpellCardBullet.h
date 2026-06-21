@@ -1,17 +1,11 @@
-#pragma once
-#include "Object2D.h"
+﻿#pragma once
+#include "Projectile.h"
 
 class CapsuleCollider;
 
-class SpellCardBullet : public Object2D {
+class SpellCardBullet : public Projectile {
 private:
-    float m_x, m_y;
-    float m_speed;
-    int m_damage;
-    bool m_isActive;
     int m_lifeTimer;
-    CapsuleCollider* mpCollider;
-
     void Explode();
 
 public:

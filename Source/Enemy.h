@@ -1,62 +1,33 @@
-#pragma once
-#include "Object2D.h"
+ï»¿#pragma once
+#include "Character.h"
 
 class CapsuleCollider;
 
-// “GƒLƒƒƒ‰ƒNƒ^[‚ÌŠî’êƒNƒ‰ƒXiObject2DŒp³j
-// “G‚Ìí—Ş‚²‚Æ‚Ìs“®ƒpƒ^[ƒ“‚âHPAƒvƒŒƒCƒ„[’e‚Æ‚ÌÕ“Ë”»’è‚ğŠÇ—‚·‚é
-class Enemy : public Object2D {
+// æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¯ãƒ©ã‚¹ï¼ˆCharacterç¶™æ‰¿ï¼‰
+class Enemy : public Character {
 private:
-    float m_speed; // “GƒLƒƒƒ‰ƒNƒ^[‚ÌˆÚ“®‘¬“x
-    bool m_isActive; // ‰æ–Ê“à‚É‘¶İ‚µŠˆ“®ó‘Ô‚É‚ ‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-    int m_hp; // Œ»İ‚Ì‘Ì—Í’l
-    int m_maxHp; // ‘Ì—Í‚ÌÅ‘å’li•`‰æ—pj
-    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
+    int m_enemyType;      
+    int m_attackTimer;    
 
-    int m_enemyType;      // “G‚Ìí•ÊiŠOŒ©‚âs“®ƒpƒ^[ƒ“‚ğŒˆ’èj
-    int m_attackTimer;    // ’e‚ğ”­Ë‚·‚é‚Ü‚Å‚ÌƒCƒ“ƒ^[ƒoƒ‹ƒ^ƒCƒ}[
-
-    float m_targetX, m_targetY; // ƒ‰ƒ“ƒ_ƒ€ˆÚ“®‚Ì–Ú“I’nÀ•W
+    float m_targetX, m_targetY; 
     void SelectNewTarget();     
 
 public:
     Enemy(float x, float y, int enemyType = 1);
     virtual ~Enemy() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “G‚ÌˆÚ“®ˆ—A‰æ–ÊŠO”»’è‚É‚æ‚éíœA’e‚Ì”­Ëƒ^ƒCƒ}[XV‚ğs‚¤
     void Update() override;
-
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “G‚ÌƒXƒvƒ‰ƒCƒgi“Gí•Ê‚É‰‚¶‚½‰æ‘œ‚â}Œ`j‚¨‚æ‚ÑHPƒo[‚ğ•`‰æ‚·‚é
     void Draw() override;
 
-    bool IsActive() const { return m_isActive; }
-    int GetHp() const { return m_hp; }
     int GetEnemyType() const { return m_enemyType; }
-    int GetMaxHp() const { return m_maxHp; }
 
-    // [“ü—Í] damage: ó‚¯‚éƒ_ƒ[ƒW—Ê
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] HP‚ğŒ¸Z‚µA0ˆÈ‰º‚Ìê‡‚Í€–SƒGƒtƒFƒNƒg‚ğ”­¶‚³‚¹ƒXƒRƒA“™‚ğ‰ÁZ‚·‚é
-    void TakeDamage(int damage);
+    virtual void TakeDamage(int damage) override;
+    virtual void Kill() override;
 
-    float GetX() const { return mvPosition.x; }
-    float GetY() const { return mvPosition.y; }
     float GetRadius() const { 
         if (m_enemyType == 4) return 45.0f;
         return 15.0f; 
     }
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “GƒIƒuƒWƒFƒNƒg‚Ì¶‘¶ƒtƒ‰ƒO‚ğƒIƒt‚É‚µAƒ}ƒl[ƒWƒƒ[‚É‚æ‚éíœ‘ÎÛ‚Æ‚·‚é
-    void Kill();
-
-    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ©‹@‚Ü‚½‚Í©‹@’e‚Æ‚ÌÕ“Ë‚ğŒŸ’m‚µ‚½ê‡‚Éƒ_ƒ[ƒWˆ—‚ğŒÄ‚Ño‚·
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

@@ -28,32 +28,28 @@
 #include "SoundManager.h"
 
 Boss::Boss(float x, float y, int bossType)
-    : Object2D(Vector2(x, y))
-    , mpCollider(nullptr)
+    : Character(Vector2(x, y), 150, 2.5f)
 {
     SetTag(Tag2D_Enemy);
-    mvPosition.x = x;
-    mvPosition.y = y;
     m_bossType = bossType;
     if (m_bossType == 1) {
         m_speed = 1.5f;
-        m_hp = 60;
+        m_maxHp = 60;
     } else if (m_bossType == 2) {
         m_speed = 2.0f;
-        m_hp = 80;
+        m_maxHp = 80;
     } else {
         m_speed = 2.5f;
-        m_hp = 150;
+        m_maxHp = 150;
     }
 
     if (GameScene::s_currentStage == 2) {
-        m_hp = static_cast<int>(m_hp * 1.3f);
+        m_maxHp = static_cast<int>(m_maxHp * 1.3f);
     } else if (GameScene::s_currentStage == 3) {
-        m_hp = static_cast<int>(m_hp * 1.5f);
+        m_maxHp = static_cast<int>(m_maxHp * 1.5f);
     }
 
-    m_maxHp = m_hp;
-    m_isActive = true;
+    m_hp = m_maxHp;
     m_attackTimer = 0;
     m_patternIndex = 0;
     m_isDying = false;
@@ -64,30 +60,29 @@ Boss::Boss(float x, float y, int bossType)
     }
     m_invincibleTimer = 0;
     m_invincibleCycleTimer = 0;
-    m_isDying = false;
     m_deathTimer = 0;
 
-
+    if (mpCollider) delete mpCollider;
     mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
     SelectNewTarget();
 }
 
 Boss::~Boss() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
 }
-void Boss::SelectNewTarget() {
 
+void Boss::SelectNewTarget() {
     m_targetX = 100.0f + static_cast<float>(rand() % 1080);
     m_targetY = 80.0f + static_cast<float>(rand() % 180);
 }
+
 void Boss::Update() {
+    Character::Update(); // スタン処理など
+
+    if (m_stunTimer > 0) return;
+
     if (m_isDying) {
         m_deathTimer--;
         mvPosition.y -= 1.0f;
-        // mvPosition is already a Vector2
         if (m_deathTimer <= 0) {
             Kill();
         }
@@ -110,7 +105,6 @@ void Boss::Update() {
         m_invincibleCycleTimer = 0;
     }
 
-
     Vector2 target(m_targetX, m_targetY);
     float dist = mvPosition.DistanceTo(target);
 
@@ -120,12 +114,6 @@ void Boss::Update() {
         mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
     }
 
-    // mvPosition is already a Vector2
-
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
     m_attackTimer++;
     if (m_bossType == 1) {
         if (m_attackTimer >= 60) {
@@ -161,6 +149,7 @@ void Boss::Update() {
         }
     }
 }
+
 void Boss::ShootRadialBarrage() {
     const float PI = 3.14159265f;
     const int bulletCount = 36;
@@ -234,12 +223,13 @@ void Boss::ShootSpellCardBarrage() {
         new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 5.0f, false);
     }
 }
+
 void Boss::TakeDamage(int damage) {
     if (m_isDying || m_invincibleTimer > 0) return;
 
-    m_hp -= damage;
+    Character::TakeDamage(damage);
+
     if (m_hp <= 0) {
-        m_hp = 0;
         m_lives--;
         std::vector<Object2D*> bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Tag2D_EnemyBullet);
         for (auto* b : bullets) {
@@ -247,7 +237,6 @@ void Boss::TakeDamage(int damage) {
         }
         
         if (m_lives > 0) {
-
             m_hp = m_maxHp;
             m_invincibleTimer = 180;
         } else {
@@ -257,7 +246,6 @@ void Boss::TakeDamage(int damage) {
             if (mpCollider) {
                 mpCollider->SetDeleteFlag(true);
             }
-            
 
             Scene* currentScene = Master::sceneManager->GetCurrentScene();
             if (currentScene) {
@@ -268,7 +256,8 @@ void Boss::TakeDamage(int damage) {
 
                 Player* p = dynamic_cast<Player*>(currentScene->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
                 if (p) p->Heal(3);
-            }    mpCollider = nullptr;
+            }
+            mpCollider = nullptr;
 
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
             if (gs != nullptr) {
@@ -287,19 +276,17 @@ void Boss::TakeDamage(int damage) {
         }
     }
 }
+
 void Boss::Kill() {
-    m_isActive = false;
-    SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
-    }
+    Character::Kill();
 
     if (m_bossType == 3) {
         ResultScene::s_isVictory = true;
-          GameScene::s_isTimeAttackActive = false;
+        GameScene::s_isTimeAttackActive = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
+
 void Boss::OnTrigger(Collider* collider, Collider* check) {
     if (m_isDying) return;
 
@@ -332,6 +319,7 @@ void Boss::OnTrigger(Collider* collider, Collider* check) {
         }
     }
 }
+
 void Boss::Draw() {
     if (!m_isActive) return;
 

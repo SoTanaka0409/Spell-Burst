@@ -1,36 +1,17 @@
-#pragma once
-#include "Object2D.h"
+ï»¿#pragma once
+#include "Projectile.h"
 
 class CapsuleCollider;
 
-// “øF‚Ì“Áê’eƒNƒ‰ƒX
-// ƒvƒŒƒCƒ„[‚Ü‚½‚Í“G‚ª”­Ë‚·‚éAF‚ª•Ï‰»‚·‚éi‚Ü‚½‚Í“øF‚Å•`‰æ‚³‚ê‚éj“Áê‚È’e
-class RainbowBullet : public Object2D {
+class RainbowBullet : public Projectile {
 private:
-    CapsuleCollider* mpCollider;    // “–‚½‚è”»’èiƒJƒvƒZƒ‹Œ^ƒRƒ‰ƒCƒ_[j‚Ìƒ|ƒCƒ“ƒ^
-    float m_speed;                  // ’e‚ÌˆÚ“®‘¬“x
-    int m_damage;                   // –½’†‚µ‚½‘ÎÛi“G‚Ü‚½‚Í©‹@j‚É—^‚¦‚éƒ_ƒ[ƒW—Ê
-    int m_colorHue;                 // ’e‚Ì•`‰æ‚Ég—p‚·‚éF‘Ši–ˆƒtƒŒ[ƒ€•Ï‰»‚³‚¹‚Ä“øF‚ğ•\Œ»‚·‚é‚½‚ß‚Ì•Ï”j
+    int m_colorHue;
 
 public:
-    // [“ü—Í] x, y: ’e‚Ì”­Ë‰ŠúÀ•W
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ‘¬“xAƒ_ƒ[ƒW—ÊA‰Šú‚ÌF‘Š‚È‚Ç‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è‚µAƒRƒ‰ƒCƒ_[‚ğ¶¬‚·‚é
     RainbowBullet(float x, float y);
     virtual ~RainbowBullet() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ’e‚ğ’¼ii‚Ü‚½‚Í“Á’è‚Ì‹O“¹‚ÅˆÚ“®j‚³‚¹Am_colorHue‚ğXV‚µ‚ÄF‚ğ•Ï‰»‚³‚¹‚éB‰æ–ÊŠO”»’è‚às‚¤
     virtual void Update() override;
-
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Œ»İ‚Ì m_colorHue ‚ğ—p‚¢‚ÄA’e‚Ì‰æ‘œ‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
-
-    // [“ü—Í] collider: ©‹@‚ÌƒRƒ‰ƒCƒ_[, check: Õ“Ë‘Šè‚ÌƒRƒ‰ƒCƒ_[
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Õ“Ë‘Šè‚ª“Gi‚Ü‚½‚Í“G‚Ì’ej‚Ìê‡Aƒ_ƒ[ƒWˆ—‚ğs‚¢©g‚ğÁ‹‚·‚é
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };
