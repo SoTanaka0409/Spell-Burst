@@ -1,17 +1,14 @@
-#pragma once
-#include "Object2D.h"
+﻿#pragma once
+#include "Projectile.h"
 
 class CapsuleCollider;
 
-class MasterSpark : public Object2D {
+class MasterSpark : public Projectile {
 private:
-    CapsuleCollider* mpCollider;
     int m_lifeTimer;
     int m_maxLife;
     float m_radius;
-    int m_damage;
     int m_colorHue;
-    bool m_isActive;
     int m_AttackCount;
 
 public:
@@ -20,6 +17,7 @@ public:
 
     virtual void Update() override;
     virtual void Draw() override;
+    virtual void Kill() override;
     virtual void OnTrigger(Collider* collider, Collider* check) override;
     virtual void OnEnter(Collider* collider, Collider* check) override;
 };

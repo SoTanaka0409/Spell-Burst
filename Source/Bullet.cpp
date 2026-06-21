@@ -7,15 +7,9 @@
 #include "Utility.h"
 
 Bullet::Bullet(float x, float y, int damage) 
-    : Object2D(Vector2(x, y))
-    , mpCollider(nullptr)
+    : Projectile(Vector2(x, y), Vector2(0, -1), 20.0f, damage)
 {
     SetTag(Tag2D_PlayerBullet);
-    mvPosition.x = x;
-    mvPosition.y = y;
-    m_speed = 20.0f;
-    m_isActive = true;
-    m_damage = damage;
     m_recivedDamage = 0;
     m_MaxrecivedDamage = 20; // ダメージを受けてから3回で技を出す
     // Create a circular collider with radius 10 (previously 5)
@@ -24,33 +18,18 @@ Bullet::Bullet(float x, float y, int damage)
 
 Bullet::~Bullet()
 {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
 }
+
+// 毎フレーム呼ばれる更新処理
+// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます
 void Bullet::Update() 
 {
-    mvPosition.y -= m_speed * Utility::TimeScale;
-    mvPosition = Vector2(mvPosition.x, mvPosition.y);
+    mvPosition += m_dir * (m_speed * Utility::TimeScale);
 
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
-   
+    Projectile::Update();
 
-    if (mvPosition.y < -20.0f) {
-        m_isActive = false;
-        SetDeleteFlag(true);
-    }
-
-}
-void Bullet::Kill() {
-    m_isActive = false;
-    SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
+    if (IsOutOfBounds()) {
+        Kill();
     }
 }
 
@@ -60,7 +39,6 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
     {
         if(check->GetParentObject()->GetTag() == tag2D_BarierEne)
         {
-           
             Kill();
             return;
 		}
@@ -73,8 +51,11 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
         }
     }
 }
+
+// 描画処理
+// 弾の画像を描画します
 void Bullet::Draw()
 {
     if (!m_isActive) return;
-    DrawCircle((int)mvPosition.x, (int)mvPosition.y, 10, GetColor(255, 255, 255), TRUE);
+    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 255, 255), TRUE);
 }

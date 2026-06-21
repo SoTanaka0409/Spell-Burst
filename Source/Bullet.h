@@ -1,34 +1,26 @@
-#pragma once
-#include "Object2D.h"
+ï»¿#pragma once
+#include "Projectile.h"
 
-class CapsuleCollider;
-
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°E™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡çE™ã‚‹ã‚¯ãƒ©ã‚¹
-class Bullet : public Object2D
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+class Bullet : public Projectile
 {
 public:
     Bullet(float x, float y, int damage);
     virtual ~Bullet() override;
+    
     void Draw() override;
     void Update() override;
-    bool IsActive() { return m_isActive; }
 
     // Collision helper
     float GetX() { return mvPosition.x; }
     float GetY() { return mvPosition.y; }
     float GetRadius() const { return 10.0f; }
-    int GetDamage() const { return m_damage; }
-    void Kill();
 
 	void AddReceivedDamage() { m_recivedDamage++; }
 
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-    float m_speed;        // ’e‚Ìis‘¬“x// å¼¾ã®ç§»å‹•é€Ÿåº¦
-    bool m_isActive;      // ’e‚ª‰æ–Ê“à‚É‘¶İ‚µ—LŒø‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO// å¼¾ãŒæœ‰åŠ¹ã‹ã©ãE‹
-    int m_damage;         // “G‚É—^‚¦‚éƒ_ƒ[ƒW—Ê// å¼¾ãŒä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡E
-	int m_recivedDamage;    // ƒ_ƒ[ƒW‚ğó‚¯‚½‰ñ”  
-	int m_MaxrecivedDamage; // ‚±‚Ì’e‚ª—^‚¦‚ç‚ê‚éÅ‘åƒ_ƒ[ƒWãŒÀiŠÑ’Ê§ŒÀj// ƒ_ƒ[ƒW‚ğó‚¯‚Ämax‚É‚È‚é‚Æ‹Z‚ğo‚·
-    CapsuleCollider* mpCollider; // “–‚½‚è”»’è—pƒRƒ‰ƒCƒ_[
+	int m_recivedDamage;    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸå›æ•°  
+	int m_MaxrecivedDamage; // ã“ã®å¼¾ãŒä¸ãˆã‚‰ã‚Œã‚‹æœ€å¤§ãƒ€ãƒ¡ãƒ¼ã‚¸ä¸Šé™ï¼ˆè²«é€šåˆ¶é™ï¼‰
 };

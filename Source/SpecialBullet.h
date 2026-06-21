@@ -1,35 +1,16 @@
-#pragma once
-#include "Object2D.h"
+ï»¿#pragma once
+#include "Projectile.h"
 
 class CapsuleCollider;
 
-// ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é“Áê’ei‚ˆĞ—Í‚Ü‚½‚Í’Ç”ö“™j‚ğ’è‹`‚·‚éƒNƒ‰ƒX
-class SpecialBullet : public Object2D {
-private:
-    float m_speed;      
-    int m_damage;       
-    bool m_isActive;    
-    CapsuleCollider* mpCollider;
-
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹ç‰¹æ®Šå¼¾ï¼ˆé«˜å¨åŠ›ã¾ãŸã¯è¿½å°¾ç­‰ï¼‰ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
+class SpecialBullet : public Projectile {
 public:
     SpecialBullet(float x, float y);
     virtual ~SpecialBullet() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ’e‚ğã¸‚³‚¹A‰æ–ÊŠO‚Éo‚½ê‡‚Í”jŠü‚·‚é
     virtual void Update() override;
-
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “Áê’e‚ÌƒOƒ‰ƒtƒBƒbƒN‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
-
-    int GetDamage() const { return m_damage; }
-    void Kill();
-
-    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “G‚ÆÕ“Ë‚µ‚½Û‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚Ä©g‚ğ”jŠü‚·‚é
+    virtual void Kill() override;
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

@@ -38,6 +38,8 @@
     <ClCompile Include="Source\MasterSpark.cpp" />
     <ClCompile Include="Source\MeleeAttack.cpp" />
     <ClCompile Include="Source\Object2D.cpp" />
+    <ClCompile Include="Source\Character.cpp" />
+    <ClCompile Include="Source\Projectile.cpp" />
     <ClCompile Include="Source\ObjectManager.cpp" />
     <ClCompile Include="Source\Obstacle.cpp" />
     <ClCompile Include="Source\Player.cpp" />
@@ -78,6 +80,8 @@
     <ClInclude Include="Source\MasterSpark.h" />
     <ClInclude Include="Source\MeleeAttack.h" />
     <ClInclude Include="Source\Object2D.h" />
+    <ClInclude Include="Source\Character.h" />
+    <ClInclude Include="Source\Projectile.h" />
     <ClInclude Include="Source\ObjectManager.h" />
     <ClInclude Include="Source\Obstacle.h" />
     <ClInclude Include="Source\Player.h" />
