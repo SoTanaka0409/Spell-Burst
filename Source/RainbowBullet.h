@@ -5,7 +5,7 @@ class CapsuleCollider;
 
 class RainbowBullet : public Projectile {
 private:
-    int m_colorHue;
+    int colorHue;
 
 public:
     RainbowBullet(float x, float y);

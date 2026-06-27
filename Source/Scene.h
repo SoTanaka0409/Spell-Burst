@@ -36,10 +36,10 @@ public:
     // [副作用] シーン終了時に画像や音などのリソース解放を行う（派生先で実装）
 	virtual void Finalize() = 0;
 
-	ObjectManager* GetObjectManager() { return mpObjectManager.get(); }
-	ColliderManager* GetCollisionManager() { return mpColliderManager.get(); }
+	ObjectManager* GetObjectManager() { return objectManager.get(); }
+	ColliderManager* GetCollisionManager() { return colliderManager.get(); }
 	
 private:
-	std::unique_ptr<ObjectManager> mpObjectManager;
-	std::unique_ptr<ColliderManager> mpColliderManager;
+	std::unique_ptr<ObjectManager> objectManager;
+	std::unique_ptr<ColliderManager> colliderManager;
 };

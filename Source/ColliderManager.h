@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <list>
 
 class Collider;
@@ -32,31 +32,31 @@ public:
     }
 
 public:
-    // ƒRƒ‰ƒCƒ_[’Ç‰Á
+    // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Ç‰ï¿½
     void AddCollider(Collider* Collider);
 
-    // ƒRƒ‰ƒCƒ_[‘Síœ
+    // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Sï¿½íœ
     void DeleteAllCollider();
 
-    // íœ‚·‚é•K—v‚Ì‚ ‚éƒIƒuƒWƒFƒNƒg‚ª‚ ‚ê‚Îíœ‚·‚é
-    // note: ‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ÌXV‚ªI‚í‚Á‚½Œã‚ÉŒÄ‚Ño‚·
+    // ï¿½íœï¿½ï¿½ï¿½ï¿½Kï¿½vï¿½Ì‚ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îíœï¿½ï¿½ï¿½ï¿½
+    // note: ï¿½Sï¿½Ä‚ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÌXï¿½Vï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉŒÄ‚Ñoï¿½ï¿½
     void DeleteAllColliderIfNeeded();
 
     void RemoveCollider(Collider* collider);
-    //// w’è‚µ‚½ƒ^ƒO‚ÌƒRƒ‰ƒCƒ_[‚ğæ“¾
-    //// note: ŠY“–‚·‚éƒIƒuƒWƒFƒNƒg‚ª•¡”‚ ‚éê‡AÅ‰‚ÉŒ©‚Â‚¯‚½ƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·
+    //// ï¿½wï¿½è‚µï¿½ï¿½ï¿½^ï¿½Oï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½æ“¾
+    //// note: ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Åï¿½ï¿½ÉŒï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½Ô‚ï¿½
     //Collider* GetColliderByTag(Collider::Tag tag);
 
-    //// w’è‚µ‚½ƒ^ƒO‚ÌƒRƒ‰ƒCƒ_[‚ÌƒŠƒXƒg‚ğæ“¾
-    //// note: ŠY“–‚·‚éƒIƒuƒWƒFƒNƒg‚ª•¡”‚ ‚éê‡AƒŠƒXƒg‰»‚µ‚Ä‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Ô‚·
+    //// ï¿½wï¿½è‚µï¿½ï¿½ï¿½^ï¿½Oï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½æ“¾
+    //// note: ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ä‘Sï¿½Ä‚ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½Ô‚ï¿½
     //std::vector<Collider*> GetColliderListByTag(Collider::Tag tag);
     
-    // š’Ç‰Á
+    // ï¿½ï¿½ï¿½Ç‰ï¿½
     std::list<Collider*>& GetColliderList();
 
 
 private:
-    std::list<Collider*> mColliderList;    // ƒRƒ‰ƒCƒ_[‚ğŠÇ—‚·‚éƒŠƒXƒg
+    std::list<Collider*> colliderList;    // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½éƒŠï¿½Xï¿½g
 
     
 

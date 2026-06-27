@@ -17,85 +17,85 @@
 #include "SoundManager.h"
 #include "HUD.h"
 
-int GameScene::s_currentStage = 1;
-int GameScene::s_playFrameCount = 0;
-bool GameScene::s_isTimeAttackActive = false;
+int GameScene::currentStage = 1;
+int GameScene::playFrameCount = 0;
+bool GameScene::isTimeAttackActive = false;
 
 GameScene::GameScene() 
-    : mpEnemyManager(nullptr)
-    , m_cutinTimer(0)
-    , m_cutinImageHandle(-1)
-    , m_screenHandle(-1)
-    , m_shakeTimer(0)
-    , m_shakeMagnitude(0.0f)
-    , m_hitStopTimer(0)
+    : enemyManager(nullptr)
+    , cutinTimer(0)
+    , cutinImageHandle(-1)
+    , screenHandle(-1)
+    , shakeTimer(0)
+    , shakeMagnitude(0.0f)
+    , hitStopTimer(0)
 {
 }
 
 GameScene::~GameScene() {
-    if (mpEnemyManager != nullptr) {
-        mpEnemyManager.reset();
+    if (enemyManager != nullptr) {
+        enemyManager.reset();
     }
-    if (m_screenHandle != -1) {
-        DeleteGraph(m_screenHandle);
-        m_screenHandle = -1;
+    if (screenHandle != -1) {
+        DeleteGraph(screenHandle);
+        screenHandle = -1;
     }
 }
 
 void GameScene::Initialize() {
-    s_playFrameCount = 0;
-    s_isTimeAttackActive = true;
+    playFrameCount = 0;
+    isTimeAttackActive = true;
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
     HUD::Initialize();
 
-    mpEnemyManager = std::make_unique<EnemyManager>();
-    mpEnemyManager->Initialize();
+    enemyManager = std::make_unique<EnemyManager>();
+    enemyManager->Initialize();
 
-    m_cutinTimer = 0;
+    cutinTimer = 0;
     
-    int charType = Player::s_selectedCharacterType;
+    int charType = Player::selectedCharacterType;
     if (charType == 1) {
-        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
+        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
     } else if (charType == 2) {
-        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
+        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
     } else {
-        m_cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
+        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
     }
 
-    m_screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
-    m_shakeTimer = 0;
-    m_shakeMagnitude = 0.0f;
-    m_hitStopTimer = 0;
+    screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
+    shakeTimer = 0;
+    shakeMagnitude = 0.0f;
+    hitStopTimer = 0;
 
     new Player();
 
-    mpEnemyManager->SpawnEnemy(1330.0f, 150.0f);
-    mpEnemyManager->SpawnEnemy(1330.0f, 350.0f);
-    mpEnemyManager->SpawnEnemy(1330.0f, 550.0f);
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
+    enemyManager->SpawnEnemy(1330.0f, 150.0f);
+    enemyManager->SpawnEnemy(1330.0f, 350.0f);
+    enemyManager->SpawnEnemy(1330.0f, 550.0f);
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.3");
 }
 
 void GameScene::Update() {
-    if (s_isTimeAttackActive) s_playFrameCount++;
-    if (m_hitStopTimer > 0) {
-        m_hitStopTimer--;
+    if (isTimeAttackActive) playFrameCount++;
+    if (hitStopTimer > 0) {
+        hitStopTimer--;
         return; 
     }
 
-    if (m_shakeTimer > 0) {
-        m_shakeTimer--;
+    if (shakeTimer > 0) {
+        shakeTimer--;
     }
 
-    if (m_cutinTimer > 0) {
-        m_cutinTimer--;
+    if (cutinTimer > 0) {
+        cutinTimer--;
         return; 
     }
 
     Scene::Update();
 
-    if (mpEnemyManager != nullptr) {
-        mpEnemyManager->Update();
+    if (enemyManager != nullptr) {
+        enemyManager->Update();
     }
     
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
@@ -107,7 +107,7 @@ void GameScene::Update() {
             break;
         }
     }
-    HUD::Update(player, mpEnemyManager.get(), boss);
+    HUD::Update(player, enemyManager.get(), boss);
 
     if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
@@ -115,26 +115,26 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
-    if (m_screenHandle != -1) {
-        SetDrawScreen(m_screenHandle);
+    if (screenHandle != -1) {
+        SetDrawScreen(screenHandle);
         ClearDrawScreen();
     }
 
     std::string bgPath = "Resource/background.png";
-    if (mpEnemyManager) {
-        int phase = mpEnemyManager->GetCurrentPhase();
+    if (enemyManager) {
+        int phase = enemyManager->GetCurrentPhase();
         if (phase == 1) bgPath = "Resource/bg_phase1.png";
         else if (phase == 2) bgPath = "Resource/bg_phase2.png";
         else bgPath = "Resource/bg_phase3.png";
     }
     
-    int s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
-    if (s_bgGraphHandle == -1) {
-        s_bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    int bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
+    if (bgGraphHandle == -1) {
+        bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     }
     
-    if (s_bgGraphHandle != -1) {
-        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, s_bgGraphHandle, FALSE);
+    if (bgGraphHandle != -1) {
+        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, bgGraphHandle, FALSE);
     }
 
     Scene::Draw();
@@ -148,9 +148,9 @@ void GameScene::Draw() {
             break;
         }
     }
-    HUD::Draw(player, mpEnemyManager.get(), boss, m_cutinTimer, m_cutinImageHandle);
+    HUD::Draw(player, enemyManager.get(), boss, cutinTimer, cutinImageHandle);
 
-    int totalMs = (s_playFrameCount * 1000) / 60;
+    int totalMs = (playFrameCount * 1000) / 60;
     int ms = totalMs % 1000;
     int totalSec = totalMs / 1000;
     int sec = totalSec % 60;
@@ -159,31 +159,31 @@ void GameScene::Draw() {
     sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
     DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
 
-    if (m_screenHandle != -1) {
+    if (screenHandle != -1) {
         SetDrawScreen(DX_SCREEN_BACK);
 
         int offsetX = 0;
         int offsetY = 0;
-        if (m_shakeTimer > 0) {
-            offsetX = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
-            offsetY = (rand() % static_cast<int>(m_shakeMagnitude * 2)) - static_cast<int>(m_shakeMagnitude);
+        if (shakeTimer > 0) {
+            offsetX = (rand() % static_cast<int>(shakeMagnitude * 2)) - static_cast<int>(shakeMagnitude);
+            offsetY = (rand() % static_cast<int>(shakeMagnitude * 2)) - static_cast<int>(shakeMagnitude);
         }
 
-        DrawGraph(offsetX, offsetY, m_screenHandle, TRUE);
+        DrawGraph(offsetX, offsetY, screenHandle, TRUE);
     }
 }
 
 void GameScene::AddScreenShake(int duration, float magnitude) {
-    m_shakeTimer = duration;
-    m_shakeMagnitude = magnitude;
+    shakeTimer = duration;
+    shakeMagnitude = magnitude;
 }
 
 void GameScene::AddHitStop(int duration) {
-    m_hitStopTimer = duration;
+    hitStopTimer = duration;
 }
 
 void GameScene::TriggerCutin() {
-    m_cutinTimer = 90; 
+    cutinTimer = 90; 
 }
 
 void GameScene::Finalize() {

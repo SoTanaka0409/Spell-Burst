@@ -8,11 +8,11 @@ class Collider;
 // 全ての弾（Bullet）の基底クラス
 class Projectile : public Object2D {
 protected:
-    Vector2 m_dir;               // 進行方向（正規化ベクトル）または移動ベクトル
-    float m_speed;               // 速度
-    int m_damage;                // ダメージ
-    bool m_isActive;             // 有効フラグ
-    CapsuleCollider* mpCollider; // 当たり判定コライダー
+    Vector2 dir;               // 進行方向（正規化ベクトル）または移動ベクトル
+    float speed;               // 速度
+    int damage;                // ダメージ
+    bool isActive;             // 有効フラグ
+    CapsuleCollider* collider; // 当たり判定コライダー
 
 public:
     // [入力] pos: 初期座標, dir: 進行方向, speed: 速度, damage: ダメージ
@@ -35,10 +35,10 @@ public:
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
     // --- ゲッター・セッター ---
-    bool IsActive() const { return m_isActive; }
-    int GetDamage() const { return m_damage; }
-    Vector2 GetDir() const { return m_dir; }
-    void SetDir(Vector2 dir) { m_dir = dir; }
+    bool IsActive() const { return isActive; }
+    int GetDamage() const { return damage; }
+    Vector2 GetDir() const { return dir; }
+    void SetDir(Vector2 dir) { dir = dir; }
 
     // [入力] なし
     // [出力] なし

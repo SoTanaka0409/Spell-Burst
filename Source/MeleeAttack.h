@@ -1,34 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-// ƒvƒŒƒCƒ„[‚É‚æ‚é‹ßÚUŒ‚”»’èiaŒ‚‚È‚Çj‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½É‚ï¿½ï¿½ßÚUï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½aï¿½ï¿½ï¿½È‚Çjï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class MeleeAttack : public Object2D {
 private:
-    int m_lifetime; 
-    int m_damage;   
-    CapsuleCollider* mpCollider;
+    int lifetime; 
+    int damage;   
+    CapsuleCollider* collider;
 
 public:
     MeleeAttack(float x, float y);
     virtual ~MeleeAttack() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] õ–½ƒ^ƒCƒ}[‚ğXV‚µAˆê’èŠÔŒo‰ßŒã‚É©g‚ğ”jŠü(Kill)‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½Aï¿½ï¿½èï¿½ÔŒoï¿½ßŒï¿½Éï¿½ï¿½gï¿½ï¿½jï¿½ï¿½(Kill)ï¿½ï¿½ï¿½ï¿½
     virtual void Update() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] UŒ‚”ÍˆÍ‚ğ¦‚·aŒ‚ƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Uï¿½ï¿½ï¿½ÍˆÍ‚ï¿½ï¿½ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
     virtual void Draw() override;
 
-    int GetDamage() const { return m_damage; }
+    int GetDamage() const { return damage; }
     void Kill();
 
-    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Õ“Ë‘Šè‚ª“GƒLƒƒƒ‰ƒNƒ^[‚Ìê‡Aƒ_ƒ[ƒW‚ğ—^‚¦‚é
+    // [ï¿½ï¿½ï¿½ï¿½] collider: ï¿½ï¿½ï¿½gï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[, check: ï¿½ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Õ“Ë‘ï¿½ï¿½è‚ªï¿½Gï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½Ìê‡ï¿½Aï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

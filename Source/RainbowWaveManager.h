@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "Object2D.h"
 
 class RainbowWaveManager : public Object2D {
 private:
-    int m_lifeTimer;
-    int m_spawnInterval;
-    int m_spawnTimer;
+    int lifeTimer;
+    int spawnInterval;
+    int spawnTimer;
 
 public:
     RainbowWaveManager(float x, float y);

@@ -4,9 +4,9 @@
 SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
-	mvPosition = center;
-	mvPosition2 = center;
-	mfRadius = radius;
+	position = center;
+	position2 = center;
+	radius = radius;
 }
 
 SphereCollider::~SphereCollider()
@@ -21,11 +21,11 @@ void SphereCollider::Update(Collider* check)
 		if (capsule != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Capsule(
-				this->mvPosition,
-				this->mfRadius,
-				capsule->mvPosition,
-				capsule->mvPosition2,
-				capsule->mfRadius
+				this->position,
+				this->radius,
+				capsule->position,
+				capsule->position2,
+				capsule->radius
 			);
 			HitCheck(check, isHit);
 		}
@@ -34,10 +34,10 @@ void SphereCollider::Update(Collider* check)
 		if (sphere != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Sphere(
-				this->mvPosition,
-				this->mfRadius,
-				sphere->mvPosition,
-				sphere->mfRadius
+				this->position,
+				this->radius,
+				sphere->position,
+				sphere->radius
 			);
 			HitCheck(check, isHit);
 		}
@@ -47,9 +47,9 @@ void SphereCollider::Update(Collider* check)
 void SphereCollider::Draw()
 {
 	DrawCircle(
-		static_cast<int>(mvPosition.x),
-		static_cast<int>(mvPosition.y),
-		static_cast<int>(mfRadius),
+		static_cast<int>(position.x),
+		static_cast<int>(position.y),
+		static_cast<int>(radius),
 		GetColor(255, 255, 255),
 		FALSE
 	);

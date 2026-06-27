@@ -12,15 +12,15 @@ public:
     void Update() override;
 
     // Collision helper
-    float GetX() { return mvPosition.x; }
-    float GetY() { return mvPosition.y; }
+    float GetX() { return position.x; }
+    float GetY() { return position.y; }
     float GetRadius() const { return 10.0f; }
 
-	void AddReceivedDamage() { m_recivedDamage++; }
+	void AddReceivedDamage() { recivedDamage++; }
 
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-	int m_recivedDamage;    // ダメージを受けた回数  
-	int m_MaxrecivedDamage; // この弾が与えられる最大ダメージ上限（貫通制限）
+	int recivedDamage;    // ダメージを受けた回数  
+	int maxrecivedDamage; // この弾が与えられる最大ダメージ上限（貫通制限）
 };

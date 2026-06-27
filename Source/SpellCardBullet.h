@@ -5,7 +5,7 @@ class CapsuleCollider;
 
 class SpellCardBullet : public Projectile {
 private:
-    int m_lifeTimer;
+    int lifeTimer;
     void Explode();
 
 public:

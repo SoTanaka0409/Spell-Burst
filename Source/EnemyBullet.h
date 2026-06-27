@@ -7,11 +7,11 @@ class CapsuleCollider;
 // 直進だけでなく、反射やプレイヤーへのホーミング（追尾）などの特殊軌道もサポートする
 class EnemyBullet : public Projectile {
 private:
-    bool m_canReflect; // 画面端で反射する仕様の弾かどうか
-    bool m_hasReflected; // すでに反射を一度行ったかどうかのフラグ
-    bool m_isStunBullet; // 当たった相手を行動不能（スタン）にする状態異常弾かどうか
-    int m_homingTimer;   // ホーミング（追尾）処理が有効な残りフレーム数
-    int m_homingDelayTimer; // 発射後、ホーミングを開始するまでの遅延タイマー
+    bool canReflect; // 画面端で反射する仕様の弾かどうか
+    bool hasReflected; // すでに反射を一度行ったかどうかのフラグ
+    bool isStunBullet; // 当たった相手を行動不能（スタン）にする状態異常弾かどうか
+    int homingTimer;   // ホーミング（追尾）処理が有効な残りフレーム数
+    int homingDelayTimer; // 発射後、ホーミングを開始するまでの遅延タイマー
 
 public:
     EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect = false, bool isStunBullet = false, int homingFrames = 0, int homingDelayFrames = 0);

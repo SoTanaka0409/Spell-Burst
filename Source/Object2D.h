@@ -19,8 +19,8 @@ public:
 		Tag2D_Enemy = 2,
 		Tag2D_PlayerBullet = 3,
 		Tag2D_EnemyBullet = 4,
-		tag2D_BarierEne = 5,
-		tag2D_BarierPla = 6,
+		Tag2D_BarrierEnemy = 5,
+		Tag2D_BarrierPlayer = 6,
 	};
 
 public:
@@ -37,19 +37,19 @@ public:
 	// [副作用] オブジェクトのグラフィックを画面に描画する（派生先で実装）
 	virtual void Draw();
 
-	void SetPosition(Vector2 pos) { mvPosition = pos; };
-	Vector2 GetPosition() { return mvPosition; }
+	void SetPosition(Vector2 pos) { position = pos; };
+	Vector2 GetPosition() { return position; }
 
-	void SetRotation(Vector2 rot) { mvRotation = rot; }
-	Vector2 GETRotation() { return mvRotation; }
+	void SetRotation(Vector2 rot) { rotation = rot; }
+	Vector2 GetRotation() { return rotation; }
 
-	void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
-	bool IsDeleteFlag() { return mbDeleteFlag; }
+	void SetDeleteFlag(bool flag) { deleteFlag = flag; }
+	bool IsDeleteFlag() { return deleteFlag; }
 
-	void SetDrawFlag(bool flag) { mbDrawFlag = flag; }
-	bool IsDrawFlag() { return mbDrawFlag; }
-	void SetTag(Tag2D tag) { mnTag = tag; }
-	Tag2D GetTag() { return mnTag; }
+	void SetDrawFlag(bool flag) { drawFlag = flag; }
+	bool IsDrawFlag() { return drawFlag; }
+	void SetTag(Tag2D tag) { tag = tag; }
+	Tag2D GetTag() { return tag; }
 
 	// [入力] collider: 自身のコライダー, check: 相手のコライダー
 	// [出力] なし
@@ -67,11 +67,11 @@ public:
 	virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	Vector2 mvPosition;
-	Vector2 mvRotation;
+	Vector2 position;
+	Vector2 rotation;
 
 private:
-	bool mbDeleteFlag;
-	Tag2D mnTag;
-	bool mbDrawFlag;
+	bool deleteFlag;
+	Tag2D tag;
+	bool drawFlag;
 };

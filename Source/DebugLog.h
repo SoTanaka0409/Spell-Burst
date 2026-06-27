@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include <stdio.h>
 #include <stdarg.h>
 
-inline void DebugLog(const char* format, ...)//ƒfƒoƒbƒO—p...
+inline void DebugLog(const char* format, ...)//ï¿½fï¿½oï¿½bï¿½Oï¿½p...
 {
     FILE* fp = nullptr;
     fopen_s(&fp, "debug.log", "a");
@@ -14,4 +14,4 @@ inline void DebugLog(const char* format, ...)//ƒfƒoƒbƒO—p...
         fclose(fp);
     }
 }
-inline bool DebugOn = false;//true‚¾‚Á‚½ê‡ƒfƒoƒbƒNó‘Ô
+inline bool DebugOn = false;//trueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½fï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½

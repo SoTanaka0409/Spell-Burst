@@ -6,11 +6,11 @@
 #include"Master.h"
 
 Collider::Collider(Object2D* parent)
-	: mpParentObject(parent)
-	, mvPosition(Vector2(0.0f, 0.0f))
-	, mvPosition2(Vector2(0.0f, 0.0f))
-	, mfRadius(0.0f)
-	, mbDeleteFlag(false)
+	: parentObject(parent)
+	, position(Vector2(0.0f, 0.0f))
+	, position2(Vector2(0.0f, 0.0f))
+	, radius(0.0f)
+	, deleteFlag(false)
 {
 	assert(parent);
 	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
@@ -32,39 +32,39 @@ void Collider::HitCheck(Collider* check, bool isHit)
 	if (isHit)
 	{
 		auto itr = std::find_if(
-			mCollisionList.begin(),
-			mCollisionList.end(),
+			collisionList.begin(),
+			collisionList.end(),
 			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
-		if (itr != mCollisionList.end())
+		if (itr != collisionList.end())
 		{
-			this->mpParentObject->OnEnter(this, check);
+			this->parentObject->OnEnter(this, check);
 		}
 		else
 		{	// リストに登録しておく
-			mCollisionList.push_back(check);//任意のタイミングでしか追加しないようにすれば
-			if (this->mpParentObject != nullptr)
+			collisionList.push_back(check);//任意のタイミングでしか追加しないようにすれば
+			if (this->parentObject != nullptr)
 			{
-				this->mpParentObject->OnTrigger(this, check);
+				this->parentObject->OnTrigger(this, check);
 			}
 		}
 	}
 	else
 	{
 		auto itr = std::find_if(
-			mCollisionList.begin(),
-			mCollisionList.end(),
+			collisionList.begin(),
+			collisionList.end(),
 			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
-		if (itr != mCollisionList.end())
+		if (itr != collisionList.end())
 		{
-			if (this->mpParentObject != nullptr)
+			if (this->parentObject != nullptr)
 			{
-				this->mpParentObject->OnExit(this, check);
+				this->parentObject->OnExit(this, check);
 			}
-			mCollisionList.erase(itr);
+			collisionList.erase(itr);
 		}
 	}
 }

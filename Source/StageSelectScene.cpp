@@ -1,4 +1,4 @@
-#include "StageSelectScene.h"
+ï»¿#include "StageSelectScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "GameScene.h"
@@ -14,16 +14,16 @@
 
 void StageSelectScene::Initialize()
 {
-    m_phase = 0;
-    m_uiButtonGraph = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
-    m_WaitCount = 0;
-    SoundManager::GetInstance()->PlayBGM("Resource/bgm_select.mp3");
+    phase = 0;
+    uiButtonGraph = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
+    waitCount = 0;
+    SoundManager::GetInstance()->PlayBGM("Resource/bgm_select.3");
 }
 
 void StageSelectScene::Update() 
 {
-    m_WaitCount++;
-    if (m_WaitCount < 60)
+    waitCount++;
+    if (waitCount < 60)
     {
         return;
     }
@@ -37,9 +37,9 @@ void StageSelectScene::Update()
     
     // Back button
     if (isLeftClicked && mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60) {
-        SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-        if (m_phase == 1) {
-            m_phase = 0;
+        SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+        if (phase == 1) {
+            phase = 0;
         } else {
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
         }
@@ -49,7 +49,7 @@ void StageSelectScene::Update()
     int cx = Utility::SCREEN_WIDTH / 2;
     int cy = Utility::SCREEN_HEIGHT / 2;
     
-    if (m_phase == 0) {
+    if (phase == 0) {
         int gap = 200;
         int charW = 120;
         int charH = 120;
@@ -60,20 +60,20 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                Player::s_selectedCharacterType = 1;
-                m_phase = 1;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                Player::selectedCharacterType = 1;
+                phase = 1;
             } else if (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                Player::s_selectedCharacterType = 2;
-                m_phase = 1;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                Player::selectedCharacterType = 2;
+                phase = 1;
             } else if (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                Player::s_selectedCharacterType = 3;
-                m_phase = 1;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                Player::selectedCharacterType = 3;
+                phase = 1;
             }
         }
-    } else if (m_phase == 1) {
+    } else if (phase == 1) {
         int btnW = 300;
         int btnH = 80;
         int btnX = cx - btnW / 2;
@@ -83,19 +83,19 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                GameScene::s_currentStage = 1;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                GameScene::currentStage = 1;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                GameScene::s_currentStage = 2;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                GameScene::currentStage = 2;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ð‰Ÿ‚·42.mp3");
-                GameScene::s_currentStage = 3;
+                SoundManager::GetInstance()->PlaySE("Resource/SE/ï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½42.3");
+                GameScene::currentStage = 3;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             }
-            m_WaitCount = 0;
+            waitCount = 0;
         }
     }
 }
@@ -112,16 +112,16 @@ void StageSelectScene::Draw() {
     GetMousePoint(&mouseX, &mouseY);
     
     auto drawBtn = [&](int x, int y, int w, int h, const char* text, bool hover, int color) {
-        if (m_uiButtonGraph != -1) {
+        if (uiButtonGraph != -1) {
             if (hover) {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-                DrawExtendGraph(x, y, x + w, y + h, m_uiButtonGraph, TRUE);
+                DrawExtendGraph(x, y, x + w, y + h, uiButtonGraph, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
                 DrawBox(x, y, x + w, y + h, color, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             } else {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-                DrawExtendGraph(x, y, x + w, y + h, m_uiButtonGraph, TRUE);
+                DrawExtendGraph(x, y, x + w, y + h, uiButtonGraph, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             }
         } else {
@@ -135,14 +135,14 @@ void StageSelectScene::Draw() {
         }
     };
     
-    // Œë‘€ì‚ð–h‚®‚½‚ßA‰æ–Ê¶ã‚É–¾Šm‚Èu–ß‚évƒ{ƒ^ƒ“‚ð”z’u‚µ‚Äƒzƒo[”»’è
+    // ï¿½ë‘€ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ßAï¿½ï¿½Êï¿½ï¿½ï¿½É–ï¿½ï¿½mï¿½Èuï¿½ß‚ï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½zï¿½uï¿½ï¿½ï¿½Äƒzï¿½oï¿½[ï¿½ï¿½ï¿½ï¿½
     bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60);
     drawBtn(20, 20, 100, 40, "BACK", hoverBack, GetColor(150, 150, 150));
     
     int cx = Utility::SCREEN_WIDTH / 2;
     int cy = Utility::SCREEN_HEIGHT / 2;
     
-    if (m_phase == 0) {
+    if (phase == 0) {
         const char* titleTxt = "- SELECT YOUR CHARACTER -";
         int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), subFont);
         DrawStringToHandle((Utility::SCREEN_WIDTH - tw) / 2, cy - 150, titleTxt, GetColor(200, 200, 200), subFont);
@@ -159,7 +159,7 @@ void StageSelectScene::Draw() {
         int char2X = cx - charW / 2;
         int char3X = cx + gap - charW / 2;
         
-        // ƒvƒŒƒCƒ„[1iƒm[ƒ}ƒ‹ƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[1ï¿½iï¿½mï¿½[ï¿½}ï¿½ï¿½ï¿½Vï¿½Fï¿½tï¿½jï¿½Ì‘Iï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½Ñƒzï¿½oï¿½[ï¿½ï¿½ï¿½oï¿½ï¿½`ï¿½ï¿½
         bool hover1 = (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char1X, charY, charW, charH, nullptr, hover1, GetColor(100, 100, 255));
         int s1 = hover1 ? 55 : 45;
@@ -168,7 +168,7 @@ void StageSelectScene::Draw() {
         DrawStringToHandle(char1X + (charW - cw1) / 2, charY + charH + 10, "NORMAL CHEF", GetColor(200, 200, 255), font24);
         if (hover1) DrawStringToHandle(char1X - 10, charY + charH + 40, "MASTER SPARK", GetColor(255, 255, 0), font24);
         
-        // ƒvƒŒƒCƒ„[2iƒK[ƒ‹ƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[2ï¿½iï¿½Kï¿½[ï¿½ï¿½ï¿½Vï¿½Fï¿½tï¿½jï¿½Ì‘Iï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½Ñƒzï¿½oï¿½[ï¿½ï¿½ï¿½oï¿½ï¿½`ï¿½ï¿½
         bool hover2 = (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char2X, charY, charW, charH, nullptr, hover2, GetColor(255, 100, 100));
         int s2 = hover2 ? 55 : 45;
@@ -177,7 +177,7 @@ void StageSelectScene::Draw() {
         DrawStringToHandle(char2X + (charW - cw2) / 2, charY + charH + 10, "GIRL CHEF", GetColor(255, 200, 200), font24);
         if (hover2) DrawStringToHandle(char2X - 10, charY + charH + 40, "RAINBOW WAVE", GetColor(255, 255, 0), font24);
         
-        // ƒvƒŒƒCƒ„[3iƒI[ƒ‹ƒhƒVƒFƒtj‚Ì‘I‘ðó‘Ô‚¨‚æ‚Ñƒzƒo[‰‰o‚ð•`‰æ
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[3ï¿½iï¿½Iï¿½[ï¿½ï¿½ï¿½hï¿½Vï¿½Fï¿½tï¿½jï¿½Ì‘Iï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½Ñƒzï¿½oï¿½[ï¿½ï¿½ï¿½oï¿½ï¿½`ï¿½ï¿½
         bool hover3 = (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH);
         drawBtn(char3X, charY, charW, charH, nullptr, hover3, GetColor(100, 255, 100));
         int s3 = hover3 ? 55 : 45;
@@ -186,7 +186,7 @@ void StageSelectScene::Draw() {
         DrawStringToHandle(char3X + (charW - cw3) / 2, charY + charH + 10, "OLD CHEF", GetColor(200, 255, 200), font24);
         if (hover3) DrawStringToHandle(char3X - 20, charY + charH + 40, "CHERRY BLOSSOM", GetColor(255, 255, 0), font24);
         
-    } else if (m_phase == 1) {
+    } else if (phase == 1) {
         const char* titleTxt = "- SELECT STAGE LEVEL -";
         int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), titleFont);
         DrawStringToHandle((Utility::SCREEN_WIDTH - tw) / 2, cy - 200, titleTxt, GetColor(255, 255, 255), titleFont);

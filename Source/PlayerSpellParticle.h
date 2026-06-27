@@ -5,12 +5,12 @@ class CapsuleCollider;
 
 class PlayerSpellParticle : public Object2D {
 private:
-    Vector2 m_dir;
-    float m_speed;
-    int m_damage;
-    bool m_isActive;
-    int m_lifeTimer;
-    CapsuleCollider* mpCollider;
+    Vector2 dir;
+    float speed;
+    int damage;
+    bool isActive;
+    int lifeTimer;
+    CapsuleCollider* collider;
 
 public:
     PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed);

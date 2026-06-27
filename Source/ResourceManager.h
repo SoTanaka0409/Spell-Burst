@@ -5,8 +5,8 @@
 class ResourceManager
 {
 private:
-    std::map<std::string, int> m_graphMap;
-    std::map<std::pair<int, int>, int> m_fontMap;
+    std::map<std::string, int> graphMap;
+    std::map<std::pair<int, int>, int> fontMap;
 
 public:
     ResourceManager();

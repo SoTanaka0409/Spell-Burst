@@ -1,41 +1,41 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class Collider;
 
-// ’e‚ğ‹zûE–hŒä‚·‚éƒoƒŠƒAƒNƒ‰ƒXiŠî’ê: Object2Dj
-// –h‚¢‚¾’e‚Ì”‚ğ’~Ï‚µA”½Œ‚‚âƒGƒtƒFƒNƒg‚É—˜—p‚·‚é§–ñ‚ğ‚Â
+// ï¿½eï¿½ï¿½zï¿½ï¿½ï¿½Eï¿½hï¿½ä‚·ï¿½ï¿½oï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½Xï¿½iï¿½ï¿½ï¿½: Object2Dï¿½j
+// ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Ìï¿½ï¿½ï¿½~ï¿½Ï‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½É—ï¿½ï¿½pï¿½ï¿½ï¿½é§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class Barrier : public Object2D
 {
 public:
     Barrier(float x, float y, float radius, Object2D::Tag2D obj);
     virtual ~Barrier();
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒoƒŠƒA‚Ì“WŠJEûkƒ^ƒCƒ}[‚ğXV‚µAƒRƒ‰ƒCƒ_[‚Ì—LŒøó‘Ô‚ğØ‚è‘Ö‚¦‚é
+    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½oï¿½ï¿½ï¿½Aï¿½Ì“Wï¿½Jï¿½Eï¿½ï¿½ï¿½kï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½Aï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Ì—Lï¿½ï¿½ï¿½ï¿½Ô‚ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½
     virtual void Update() override;
 
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “WŠJó‘Ô(m_isDeployed)‚Ìê‡‚Ì‚İAƒoƒŠƒA‚Ì‹ŠoƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Wï¿½Jï¿½ï¿½ï¿½(isDeployed)ï¿½Ìê‡ï¿½Ì‚İAï¿½oï¿½ï¿½ï¿½Aï¿½Ìï¿½ï¿½oï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
     virtual void Draw() override;
 
-    // [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: Õ“Ë‘Šè‚ÌƒRƒ‰ƒCƒ_[
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] “G‚Ì’e‚ÆÕ“Ë‚µ‚½ê‡A’e‚ğÁ–Å‚³‚¹‚Ä–h‚¢‚¾‰ñ”(m_hitCount)‚ğ‰ÁZ‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] collider: ï¿½ï¿½ï¿½gï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[, check: ï¿½Õ“Ë‘ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Gï¿½Ì’eï¿½ÆÕ“Ë‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½eï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Ä–hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(hitCount)ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    int GetHitCount() const { return m_hitCount; }
-    bool IsDeployed() const { return m_isDeployed; }
+    int GetHitCount() const { return hitCount; }
+    bool IsDeployed() const { return isDeployed; }
 
 private:
-    float m_deployInterval;
-    float m_activeDuration;
-    float m_timer;
-    float m_radius;
-    bool m_isDeployed;
+    float deployInterval;
+    float activeDuration;
+    float timer;
+    float radius;
+    bool isDeployed;
 
-    Collider* mpCollider;
-    int m_hitCount;
+    Collider* collider;
+    int hitCount;
 };

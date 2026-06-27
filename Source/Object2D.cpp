@@ -5,11 +5,11 @@
 #include "Scene.h"
 
 Object2D::Object2D(Vector2 initPos)
-	: mvPosition(initPos)
-	, mvRotation(Vector2(0.0f, 0.0f))
-	, mbDeleteFlag(false)
-	, mnTag(Tag2D::None2D)
-	, mbDrawFlag(true)
+	: position(initPos)
+	, rotation(Vector2(0.0f, 0.0f))
+	, deleteFlag(false)
+	, tag(Tag2D::None2D)
+	, drawFlag(true)
 {
 	Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
 }

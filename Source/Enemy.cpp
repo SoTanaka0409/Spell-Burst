@@ -19,39 +19,39 @@
 #include <cstdlib>
 
 void Enemy::SelectNewTarget() {
-    m_targetX = 100.0f + static_cast<float>(rand() % 1080);
-    m_targetY = 80.0f + static_cast<float>(rand() % 180);
+    targetX = 100.0f + static_cast<float>(rand() % 1080);
+    targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
 Enemy::Enemy(float x, float y, int enemyType)
     : Character(Vector2(x, y), 3, 3.0f)
 {
     SetTag(Tag2D_Enemy);
-    m_enemyType = enemyType;
-    m_attackTimer = 0;
+    enemyType = enemyType;
+    attackTimer = 0;
     
-    if (m_enemyType == 1) {
-        m_speed = 3.0f;
-        m_maxHp = 3;
+    if (enemyType == 1) {
+        speed = 3.0f;
+        maxHp = 3;
     }
-    else if (m_enemyType == 2) {
-        m_speed = 2.0f;
-        m_maxHp = 5;
+    else if (enemyType == 2) {
+        speed = 2.0f;
+        maxHp = 5;
     }
-    else if (m_enemyType == 3) {
-        m_speed = 1.5f;
-        m_maxHp = 8;
+    else if (enemyType == 3) {
+        speed = 1.5f;
+        maxHp = 8;
     }
-    else if (m_enemyType == 4) {
-        m_speed = 2.5f;
-        m_maxHp = 20; // 中ボス
+    else if (enemyType == 4) {
+        speed = 2.5f;
+        maxHp = 20; // 中ボス
         SelectNewTarget();
     }
-    m_hp = m_maxHp;
+    hp = maxHp;
     
-    if (mpCollider) delete mpCollider;
-    float colRadius = (m_enemyType == 4) ? 45.0f : 35.0f;
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, colRadius);
+    if (collider) delete collider;
+    float colRadius = (enemyType == 4) ? 45.0f : 35.0f;
+    collider = new CapsuleCollider(this, position, position, colRadius);
 }
 
 Enemy::~Enemy() {
@@ -60,62 +60,62 @@ Enemy::~Enemy() {
 void Enemy::Update() {
     Character::Update(); // スタン時間の減少など
 
-    if (m_stunTimer > 0) return; // スタン中は行動不能
+    if (stunTimer > 0) return; // スタン中は行動不能
 
-    if (m_enemyType == 4) {
-        Vector2 target(m_targetX, m_targetY);
-        float dist = mvPosition.DistanceTo(target);
+    if (enemyType == 4) {
+        Vector2 target(targetX, targetY);
+        float dist = position.DistanceTo(target);
 
         if (dist < 15.0f) {
             SelectNewTarget();
         }
         else {
-            mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
+            position += (target - position).Normalized() * (speed * Utility::TimeScale);
         }
     }
     else {
-        mvPosition.y += m_speed * Utility::TimeScale;
+        position.y += speed * Utility::TimeScale;
     }
 
-    if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) 
+    if (enemyType == 2 || enemyType == 3 || enemyType == 4) 
     {
-        m_attackTimer++;
-        int interval = (m_enemyType == 4) ? 120 : 150; 
-        if (m_attackTimer >= interval)
+        attackTimer++;
+        int interval = (enemyType == 4) ? 120 : 150; 
+        if (attackTimer >= interval)
         {
-            m_attackTimer = 0;
+            attackTimer = 0;
             Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-            Vector2 targetPos(mvPosition.x, mvPosition.y + 100.0f);
+            Vector2 targetPos(position.x, position.y + 100.0f);
             if (player != nullptr) {
                 targetPos = Vector2(player->GetX(), player->GetY());
             }
-            Vector2 dir = (targetPos - mvPosition).Normalized();
+            Vector2 dir = (targetPos - position).Normalized();
             if (dir.MagnitudeSq() == 0.0f) {
                 dir = Vector2(0.0f, 1.0f);
             }
-            if (m_enemyType == 2) {
-                new EnemyBullet(mvPosition, dir, 4.0f, false, false);
+            if (enemyType == 2) {
+                new EnemyBullet(position, dir, 4.0f, false, false);
             }
-            else if (m_enemyType == 3) {
-                new EnemyBullet(mvPosition, dir, 3.5f, false, true);  
+            else if (enemyType == 3) {
+                new EnemyBullet(position, dir, 3.5f, false, true);  
             }
-            else if (m_enemyType == 4) {
-                static float mbAngle = 0.0f;
-                mbAngle += 0.2f;
+            else if (enemyType == 4) {
+                static float angle = 0.0f;
+                angle += 0.2f;
                 for (int i = 0; i < 4; i++) {
-                    float angle = mbAngle + (i * 2.0f * 3.14159265f) / 16;
-                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f);
+                    float angle = angle + (i * 2.0f * 3.14159265f) / 16;
+                    new EnemyBullet(position, Vector2::FromAngle(angle), 2.0f);
                 }
-                float baseAngle = mvPosition.AngleTo(targetPos);
+                float baseAngle = position.AngleTo(targetPos);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
-                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
+                    new EnemyBullet(position, Vector2::FromAngle(angle), 3.5f);
                 }
             }
         }
     }
     
-    if (mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
+    if (position.y > Utility::SCREEN_HEIGHT + 50.0f) {
         Character::Kill();
     }
 }
@@ -125,11 +125,11 @@ void Enemy::Kill() {
 }
 
 void Enemy::TakeDamage(int damage) {
-    if (!m_isActive) return;
+    if (!isActive) return;
 
     Character::TakeDamage(damage); // HPを減らし、0になったらKillを呼ぶ処理など
 
-    if (m_hp <= 0) {
+    if (hp <= 0) {
         SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
         Player* player = dynamic_cast<Player*>(
             Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player)
@@ -158,29 +158,29 @@ void Enemy::OnTrigger(Collider* collider, Collider* check) {
 
 void Enemy::Draw()
 {
-    if (!m_isActive) return;
+    if (!isActive) return;
 
-    if (m_stunTimer > 0) {
+    if (stunTimer > 0) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 200, 255), TRUE);
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 45, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    int s_enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
+    int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
 
-    if (s_enemyGraphHandle != -1) {
-        if (m_enemyType == 1) SetDrawBright(255, 255, 255);
-        else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
-        else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
-        else if (m_enemyType == 4) SetDrawBright(255, 50, 50);
+    if (enemyGraphHandle != -1) {
+        if (enemyType == 1) SetDrawBright(255, 255, 255);
+        else if (enemyType == 2) SetDrawBright(255, 200, 100);
+        else if (enemyType == 3) SetDrawBright(100, 100, 255);
+        else if (enemyType == 4) SetDrawBright(255, 50, 50);
 
-        float drawSize = (m_enemyType == 4) ? 45.0f : 35.0f;
+        float drawSize = (enemyType == 4) ? 45.0f : 35.0f;
         DrawExtendGraph(
-            static_cast<int>(mvPosition.x - drawSize),
-            static_cast<int>(mvPosition.y - drawSize),
-            static_cast<int>(mvPosition.x + drawSize),
-            static_cast<int>(mvPosition.y + drawSize),
-            s_enemyGraphHandle,
+            static_cast<int>(position.x - drawSize),
+            static_cast<int>(position.y - drawSize),
+            static_cast<int>(position.x + drawSize),
+            static_cast<int>(position.y + drawSize),
+            enemyGraphHandle,
             TRUE
         );
 
@@ -188,13 +188,13 @@ void Enemy::Draw()
     }
     else {
         unsigned int color = GetColor(255, 100, 100);
-        if (m_enemyType == 2) color = GetColor(255, 200, 100);
-        else if (m_enemyType == 3) color = GetColor(100, 100, 255);
-        else if (m_enemyType == 4) color = GetColor(255, 50, 50);
+        if (enemyType == 2) color = GetColor(255, 200, 100);
+        else if (enemyType == 3) color = GetColor(100, 100, 255);
+        else if (enemyType == 4) color = GetColor(255, 50, 50);
 
-        int drawRadius = (m_enemyType == 4) ? 45 : 35;
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), drawRadius, color, TRUE);
+        int drawRadius = (enemyType == 4) ? 45 : 35;
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), drawRadius, color, TRUE);
     }
-    int hpOffset = (m_enemyType == 4) ? 65 : 55;
-    DrawFormatString(static_cast<int>(mvPosition.x) - 15, static_cast<int>(mvPosition.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", m_hp);
+    int hpOffset = (enemyType == 4) ? 65 : 55;
+    DrawFormatString(static_cast<int>(position.x) - 15, static_cast<int>(position.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", hp);
 }

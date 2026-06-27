@@ -17,17 +17,17 @@ PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed)
     : Projectile(pos, dir.Normalized(), speed, 2)
 {
     SetTag(Tag2D_PlayerBullet);
-    m_lifeTimer = 60 * 3;
+    lifeTimer = 60 * 3;
     
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 15.0f);
+    collider = new CapsuleCollider(this, position, position, 15.0f);
 }
 
 PlayerHomingBullet::~PlayerHomingBullet() {
 }
 
 void PlayerHomingBullet::Update() {
-    m_lifeTimer--;
-    if (m_lifeTimer <= 0) {
+    lifeTimer--;
+    if (lifeTimer <= 0) {
         Kill();
         return;
     }
@@ -39,7 +39,7 @@ void PlayerHomingBullet::Update() {
     for (auto* obj : enemies) {
         Character* e = dynamic_cast<Character*>(obj);
         if (e && !e->IsDeleteFlag() && e->GetY() > 0) {
-            float distSq = e->GetPosition().DistanceSqTo(mvPosition);
+            float distSq = e->GetPosition().DistanceSqTo(position);
             if (distSq < minDistSq && distSq < 400.0f * 400.0f) {
                 minDistSq = distSq;
                 targetEnemy = e;
@@ -48,8 +48,8 @@ void PlayerHomingBullet::Update() {
     }
 
     if (targetEnemy) {
-        float currentAngle = Vector2(0, 0).AngleTo(m_dir);
-        float targetAngle = mvPosition.AngleTo(targetEnemy->GetPosition());
+        float currentAngle = Vector2(0, 0).AngleTo(dir);
+        float targetAngle = position.AngleTo(targetEnemy->GetPosition());
         float diff = targetAngle - currentAngle;
         while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
         while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
@@ -57,10 +57,10 @@ void PlayerHomingBullet::Update() {
         if (diff > turnSpeed) currentAngle += turnSpeed;
         else if (diff < -turnSpeed) currentAngle -= turnSpeed;
         else currentAngle = targetAngle;
-        m_dir = Vector2::FromAngle(currentAngle);
+        dir = Vector2::FromAngle(currentAngle);
     }
 
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
+    position += dir * (speed * Utility::TimeScale);
 
     Projectile::Update();
 
@@ -70,16 +70,16 @@ void PlayerHomingBullet::Update() {
 }
 
 void PlayerHomingBullet::Draw() {
-    if (!m_isActive) return;
+    if (!isActive) return;
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 15, GetColor(0, 255, 128), TRUE);
+    DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 15, GetColor(0, 255, 128), TRUE);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 8, GetColor(100, 255, 200), TRUE);
+    DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 8, GetColor(100, 255, 200), TRUE);
 }
 
 void PlayerHomingBullet::OnTrigger(Collider* collider, Collider* check) {
     if(check!=nullptr&&check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == tag2D_BarierEne)
+        if (check->GetParentObject()->GetTag() == Tag2D_BarrierEnemy)
         {
             Kill();
             return;

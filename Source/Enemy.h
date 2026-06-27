@@ -6,10 +6,10 @@ class CapsuleCollider;
 // 敵キャラクターのクラス（Character継承）
 class Enemy : public Character {
 private:
-    int m_enemyType;      
-    int m_attackTimer;    
+    int enemyType;      
+    int attackTimer;    
 
-    float m_targetX, m_targetY; 
+    float targetX, targetY; 
     void SelectNewTarget();     
 
 public:
@@ -19,13 +19,13 @@ public:
     void Update() override;
     void Draw() override;
 
-    int GetEnemyType() const { return m_enemyType; }
+    int GetEnemyType() const { return enemyType; }
 
     virtual void TakeDamage(int damage) override;
     virtual void Kill() override;
 
     float GetRadius() const { 
-        if (m_enemyType == 4) return 45.0f;
+        if (enemyType == 4) return 45.0f;
         return 15.0f; 
     }
 

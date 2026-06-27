@@ -10,33 +10,33 @@
 
 MeleeAttack::MeleeAttack(float x, float y)
     : Object2D(Vector2(x, y))
-    , mpCollider(nullptr)
+    , collider(nullptr)
 {
     SetTag(Tag2D_PlayerBullet); // プレイヤーの攻撃として当たり判定を処理させるため専用タグを設定
-    mvPosition.x = x;
-    mvPosition.y = y;
-    m_lifetime = 10; // 近接攻撃であるため短期間（10フレーム）で消失させる
-    m_damage = 3;    // リスクに見合った高威力のダメージ設定
+    position.x = x;
+    position.y = y;
+    lifetime = 10; // 近接攻撃であるため短期間（10フレーム）で消失させる
+    damage = 3;    // リスクに見合った高威力のダメージ設定
 
     // 近接攻撃の当たり判定として、キャラクター前方に巨大な円形コライダーを配置
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 80.0f);
+    collider = new CapsuleCollider(this, position, position, 80.0f);
 }
 
 MeleeAttack::~MeleeAttack() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
+    if (collider) {
+        delete collider;
+        collider = nullptr;
     }
 }
 
 // 豈弱ヵ繝ｬ繝ｼ繝蜻ｼ縺ｰ繧後ｋ譖ｴ譁ｰ蜃ｦ逅・
 // 謖∫ｶ壽凾髢難ｼ亥ｯｿ蜻ｽ・峨ｒ貂帙ｉ縺励・縺ｫ縺ｪ縺｣縺溘ｉ豸域ｻ・＆縺帙∪縺吶・
 void MeleeAttack::Update() {
-    m_lifetime--;
-    if (m_lifetime <= 0) {
+    lifetime--;
+    if (lifetime <= 0) {
         SetDeleteFlag(true);
-        if (mpCollider) {
-            mpCollider->SetDeleteFlag(true);
+        if (collider) {
+            collider->SetDeleteFlag(true);
         }
     }
 }
@@ -51,8 +51,8 @@ void MeleeAttack::Draw() {
     // 210度から330度の範囲で円弧を描くように9つの点を計算して描画
     for (int i = 0; i <= 8; i++) {
         double angle = (PI + PI/6.0) + (i * (2.0 * PI / 3.0)) / 8.0;
-        int sx = static_cast<int>(mvPosition.x + std::cos(angle) * radius);
-        int sy = static_cast<int>(mvPosition.y + std::sin(angle) * radius);
+        int sx = static_cast<int>(position.x + std::cos(angle) * radius);
+        int sy = static_cast<int>(position.y + std::sin(angle) * radius);
         DrawCircle(sx, sy, 8, slashColor, TRUE);
         // 斬撃の中心が熱を帯びて光っているような演出のため内側に白い円を重ねる
         DrawCircle(sx, sy, 4, GetColor(255, 255, 255), TRUE);
@@ -69,7 +69,7 @@ void MeleeAttack::OnTrigger(Collider* collider, Collider* check) {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
             if (enemy != nullptr) {
                 // 攻撃判定は短期間（10フレーム）であるため、ヒット間隔を管理せず即座にダメージを与える
-                enemy->TakeDamage(m_damage);
+                enemy->TakeDamage(damage);
             }
         }
     }

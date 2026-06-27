@@ -1,4 +1,4 @@
-#include "EnemyManager.h"
+﻿#include "EnemyManager.h"
 #include "Enemy.h"
 #include "Boss.h"
 #include "Obstacle.h"
@@ -16,49 +16,49 @@
 #include <cstdlib>
 
 EnemyManager::EnemyManager() {
-    m_spawnTimer = 0;
-    m_defeatedCount = 0;
-    m_bossSpawned = false;
-    m_currentPhase = 1;
-    m_requiredKills = 10;
-    m_currentBoss = nullptr;
+    spawnTimer = 0;
+    defeatedCount = 0;
+    bossSpawned = false;
+    currentPhase = 1;
+    requiredKills = 10;
+    currentBoss = nullptr;
 }
 
 EnemyManager::~EnemyManager() {
 }
 
 void EnemyManager::Initialize() {
-    m_spawnTimer = 0;
-    m_defeatedCount = 0;
-    m_bossSpawned = false;
-    m_currentPhase = 1;
-    m_requiredKills = 10;
-    m_currentBoss = nullptr;
+    spawnTimer = 0;
+    defeatedCount = 0;
+    bossSpawned = false;
+    currentPhase = 1;
+    requiredKills = 10;
+    currentBoss = nullptr;
 }
 
 void EnemyManager::Update() {
-    if (!m_bossSpawned)
+    if (!bossSpawned)
     {
-        if (m_defeatedCount >= m_requiredKills)
+        if (defeatedCount >= requiredKills)
         {
             DeleteEnemy();
-            m_currentBoss = new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, m_currentPhase);
-            m_bossSpawned = true;
+            currentBoss = new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, currentPhase);
+            bossSpawned = true;
         }
         else
         {
-            m_spawnTimer++;
+            spawnTimer++;
             int interval = 45;
-            if (GameScene::s_currentStage == 2) interval = 40;
-            if (GameScene::s_currentStage == 3) interval = 35;
+            if (GameScene::currentStage == 2) interval = 40;
+            if (GameScene::currentStage == 3) interval = 35;
             
-            if (m_spawnTimer >= interval)
+            if (spawnTimer >= interval)
             {
-                m_spawnTimer = 0;
+                spawnTimer = 0;
                 float spawnX = 80.0f + static_cast<float>(rand() % 1120);
                 float spawnY = -50.0f;
                 bool spawnObstacle = false;
-                if (GameScene::s_currentStage >= 2 && (rand() % 100) < 30) {
+                if (GameScene::currentStage >= 2 && (rand() % 100) < 30) {
                     spawnObstacle = true;
                 }
                 
@@ -72,26 +72,26 @@ void EnemyManager::Update() {
     }
     else
     {
-        if (m_currentBoss != nullptr && m_currentBoss->IsDeleteFlag()) {
-            m_currentBoss = nullptr;
-            m_bossSpawned = false;
-            m_defeatedCount = 0;
+        if (currentBoss != nullptr && currentBoss->IsDeleteFlag()) {
+            currentBoss = nullptr;
+            bossSpawned = false;
+            defeatedCount = 0;
 			DeleteEnemy();
-            if (m_currentPhase == 1) {
-                m_currentPhase = 2;
-                m_requiredKills = 20;
+            if (currentPhase == 1) {
+                currentPhase = 2;
+                requiredKills = 20;
             }
-            else if (m_currentPhase == 2) {
-                m_currentPhase = 3;
-                m_requiredKills = 40;
+            else if (currentPhase == 2) {
+                currentPhase = 3;
+                requiredKills = 40;
             }
         }
-        if (m_currentPhase == 2)
+        if (currentPhase == 2)
         {
-            m_spawnTimer++;
-            if (m_spawnTimer >= 10)
+            spawnTimer++;
+            if (spawnTimer >= 10)
             {
-                m_spawnTimer = 0;
+                spawnTimer = 0;
                 float randEnemySpawnChance = static_cast<float>(rand() % 100);
                 if (randEnemySpawnChance < 10.0f)
                 {
@@ -109,12 +109,12 @@ void EnemyManager::Update() {
 void EnemyManager::SpawnEnemy(float x, float y)
 {
     int enemyType = 1;
-    if (m_currentPhase == 2) {
+    if (currentPhase == 2) {
         int r = rand() % 100;
         if (r < 10 && GetMidBossCount() < 5) enemyType = 4;
         else if (r < 40) enemyType = 2;
     }
-    else if (m_currentPhase >= 3) {
+    else if (currentPhase >= 3) {
         int r = rand() % 100;
         if (r < 10 && GetMidBossCount() < 5) enemyType = 4;
         else if (r < 30) enemyType = 3;

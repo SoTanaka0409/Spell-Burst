@@ -1,4 +1,4 @@
-#include "HUD.h"
+ï»¿#include "HUD.h"
 #include "Player.h"
 #include "Boss.h"
 #include "EnemyManager.h"
@@ -8,18 +8,18 @@
 #endif
 #include "DxLib.h"
 
-float HUD::s_displayHpRatio = 1.0f;
-float HUD::s_displayXpRatio = 0.0f;
-float HUD::s_displaySpellRatio = 0.0f;
-float HUD::s_displayBarrierRatio = 0.0f;
-float HUD::s_bossHpRatio = 1.0f;
+float HUD::displayHpRatio = 1.0f;
+float HUD::displayXpRatio = 0.0f;
+float HUD::displaySpellRatio = 0.0f;
+float HUD::displayBarrierRatio = 0.0f;
+float HUD::bossHpRatio = 1.0f;
 
 void HUD::Initialize() {
-    s_displayHpRatio = 1.0f;
-    s_displayXpRatio = 0.0f;
-    s_displaySpellRatio = 0.0f;
-    s_displayBarrierRatio = 0.0f;
-    s_bossHpRatio = 1.0f;
+    displayHpRatio = 1.0f;
+    displayXpRatio = 0.0f;
+    displaySpellRatio = 0.0f;
+    displayBarrierRatio = 0.0f;
+    bossHpRatio = 1.0f;
 }
 
 void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
@@ -27,20 +27,20 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
 
     if (player != nullptr) {
         float targetHpRatio = static_cast<float>(player->GetHp()) / static_cast<float>(player->GetMaxHp());
-        s_displayHpRatio += (targetHpRatio - s_displayHpRatio) * lerpSpeed;
+        displayHpRatio += (targetHpRatio - displayHpRatio) * lerpSpeed;
 
         float targetXpRatio = (player->GetXpNeeded() > 0) ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) : 1.0f;
-        s_displayXpRatio += (targetXpRatio - s_displayXpRatio) * lerpSpeed;
+        displayXpRatio += (targetXpRatio - displayXpRatio) * lerpSpeed;
 
         float targetSpellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
-        s_displaySpellRatio += (targetSpellRatio - s_displaySpellRatio) * lerpSpeed;
+        displaySpellRatio += (targetSpellRatio - displaySpellRatio) * lerpSpeed;
     }
 
     if (boss != nullptr && boss->IsActive()) {
         float targetBossHpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
-        s_bossHpRatio += (targetBossHpRatio - s_bossHpRatio) * lerpSpeed;
+        bossHpRatio += (targetBossHpRatio - bossHpRatio) * lerpSpeed;
     } else {
-        s_bossHpRatio = 1.0f;
+        bossHpRatio = 1.0f;
     }
 }
 
@@ -51,15 +51,15 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE); 
 
-        // ƒvƒŒƒCƒ„[‚ÌŒ»İ‘Ì—Í‚ğ”’l‚Å–¾¦‚·‚é‚½‚ßHP‚ğ•`‰æ
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½İ‘Ì—Í‚ğ”’lï¿½Å–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ï¿½HPï¿½ï¿½`ï¿½ï¿½
         DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
 
-        // ‹Šo“I‚É’¼Š´“I‚È‘Ì—Í”cˆ¬‚ğ‰Â”\‚É‚·‚é‚½‚ßƒQ[ƒW‚ğ•`‰æ
+        // ï¿½ï¿½ï¿½oï¿½Iï¿½É’ï¿½ï¿½ï¿½ï¿½Iï¿½È‘Ì—Í”cï¿½ï¿½ï¿½ï¿½Â”\ï¿½É‚ï¿½ï¿½é‚½ï¿½ßƒQï¿½[ï¿½Wï¿½ï¿½`ï¿½ï¿½
         int hpBarX = 200;
         int hpBarY = 22;
         int hpBarWidth = 140;
         DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
-        int hpFill = static_cast<int>(hpBarWidth * s_displayHpRatio);
+        int hpFill = static_cast<int>(hpBarWidth * displayHpRatio);
         if (hpFill > 0) {
             DrawBox(hpBarX, hpBarY, hpBarX + hpFill, hpBarY + 10, GetColor(100, 255, 100), TRUE);
         }
@@ -67,13 +67,13 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
 
         
 
-        // ¬’·“x‡‚¢‚ğƒtƒB[ƒhƒoƒbƒN‚·‚é‚½‚ßƒŒƒxƒ‹‚ÆŒoŒ±’l˜g‚ğ•`‰æ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Bï¿½[ï¿½hï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½é‚½ï¿½ßƒï¿½ï¿½xï¿½ï¿½ï¿½ÆŒoï¿½ï¿½ï¿½lï¿½gï¿½ï¿½`ï¿½ï¿½
         DrawFormatString(20, 50, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
 
         int xpBarWidth = 260;
         int xpBarX = 35;
         int xpBarY = 70;
-        int xpFill = static_cast<int>(xpBarWidth * s_displayXpRatio);
+        int xpFill = static_cast<int>(xpBarWidth * displayXpRatio);
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
         if (xpFill > 0) {
             DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
@@ -81,10 +81,10 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
         DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
 
-        // ƒXƒyƒ‹ƒJ[ƒhi•KE‹Zj‚Ì€”õó‹µ‚ğ‹Šo“I‚É’Ê’m‚·‚é‚½‚ß‚ÌƒQ[ƒWˆ—
+        // ï¿½Xï¿½yï¿½ï¿½ï¿½Jï¿½[ï¿½hï¿½iï¿½Kï¿½Eï¿½Zï¿½jï¿½Ìï¿½ï¿½ï¿½ï¿½ó‹µ‚ï¿½ï¿½ï¿½oï¿½Iï¿½É’Ê’mï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌƒQï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
         DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
         int spellBarY = 105;
-        int spellFill = static_cast<int>(xpBarWidth * s_displaySpellRatio);
+        int spellFill = static_cast<int>(xpBarWidth * displaySpellRatio);
         
         DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
         if (spellFill > 0) {
@@ -102,7 +102,7 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
             DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
         }
 
-        // ƒŒƒxƒ‹ƒAƒbƒv‚Ì‹Šo“I‚È•ñVŠ´‚ğ‚‚ß‚é‚½‚ßˆê’èƒtƒŒ[ƒ€•¶š‚ğ“_–Å•`‰æ
+        // ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½Ìï¿½ï¿½oï¿½Iï¿½È•ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß‚é‚½ï¿½ßˆï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Å•`ï¿½ï¿½
         int lvTimer = player->GetLevelUpTimer();
         if (lvTimer > 0) {
             if ((lvTimer / 10) % 2 == 0) {
@@ -140,7 +140,7 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE);
 
-        int fillWidth = static_cast<int>(barWidth * s_bossHpRatio);
+        int fillWidth = static_cast<int>(barWidth * bossHpRatio);
         if (fillWidth > 0) {
             DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
         }
@@ -156,15 +156,15 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         
         float xOffset = 0;
         if (progress < 15) {
-            // ƒJƒbƒgƒCƒ““oê‚Ì¨‚¢‚ğ‰‰o‚·‚é‚½‚ßƒC[ƒWƒ“ƒO‚ğ‚©‚¯‚Ä‚‘¬ˆÚ“®
+            // ï¿½Jï¿½bï¿½gï¿½Cï¿½ï¿½ï¿½oï¿½êï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½é‚½ï¿½ßƒCï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½Ú“ï¿½
             float t = progress / 15.0f;
             xOffset = Utility::SCREEN_WIDTH * (1.0f - t);
         } else if (progress <= 75) {
-            // ƒvƒŒƒCƒ„[‚ÉƒJƒbƒgƒCƒ““à—e‚ğ‹”F‚³‚¹‚é‚½‚ß’†‰›•t‹ß‚Å”÷‘¬ˆÚ“®‚ğˆÛ
+            // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÉƒJï¿½bï¿½gï¿½Cï¿½ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß’ï¿½ï¿½ï¿½ï¿½tï¿½ß‚Å”ï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½Ûï¿½
             float t = (progress - 15) / 60.0f;
             xOffset = -30.0f * t;
         } else {
-            // ‰‰oI—¹Œã‚É‘¬‚â‚©‚É‰æ–ÊŠO‚Ö‘Şê‚³‚¹‚é‚½‚ß‚ÌÀ•WŒvZ
+            // ï¿½ï¿½ï¿½oï¿½Iï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½â‚©ï¿½É‰ï¿½ÊŠOï¿½Ö‘Şê‚³ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ìï¿½ï¿½Wï¿½vï¿½Z
             float t = (progress - 75) / 15.0f;
             xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
         }
@@ -180,8 +180,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
 
         if (progress > 10) {
             const char* spellName = "SPELL CARD: MASTER SPARK!!";
-            if (Player::s_selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
-            else if (Player::s_selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
+            if (Player::selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
+            else if (Player::selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
             DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
         }
     }

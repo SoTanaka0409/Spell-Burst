@@ -5,7 +5,7 @@ class CapsuleCollider;
 
 class PlayerHomingBullet : public Projectile {
 private:
-    int m_lifeTimer;
+    int lifeTimer;
 
 public:
     PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed);

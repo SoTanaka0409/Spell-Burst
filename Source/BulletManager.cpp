@@ -1,4 +1,4 @@
-#include "BulletManager.h"
+﻿#include "BulletManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -10,26 +10,26 @@ BulletManager::BulletManager()
 }
 
 BulletManager::~BulletManager() {
-    for (auto bullet : m_bullets) {
+    for (auto bullet : bullets) {
         delete bullet;
     }
-    m_bullets.clear();
+    bullets.clear();
 }
 
 void BulletManager::Initialize() {
-    for (auto bullet : m_bullets) {
+    for (auto bullet : bullets) {
         delete bullet;
     }
-    m_bullets.clear();
+    bullets.clear();
 }
 
 void BulletManager::Update() {
 
 
-    for (auto it = m_bullets.begin(); it != m_bullets.end(); ) {
+    for (auto it = bullets.begin(); it != bullets.end(); ) {
         if (!(*it)->IsActive()) {
             delete *it;
-            it = m_bullets.erase(it);
+            it = bullets.erase(it);
         } else {
             it++;
         }
@@ -41,5 +41,5 @@ void BulletManager::Draw() {
 }
 
 void BulletManager::SpawnBullet(float x, float y) {
-    m_bullets.push_back(new Bullet(x, y,1));
+    bullets.push_back(new Bullet(x, y,1));
 }

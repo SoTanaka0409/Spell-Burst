@@ -32,6 +32,6 @@ public:
     void ClearAll();
 
 private:
-    std::unordered_map<std::string, int> m_soundMap;
-    int m_currentBGMHandle;
+    std::unordered_map<std::string, int> soundMap;
+    int currentBGMHandle;
 };

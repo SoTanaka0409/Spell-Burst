@@ -7,46 +7,46 @@
 Scene::Scene()
 {
 	// シーン固有のオブジェクトおよび当たり判定を管理するため専用のマネージャーを生成
-	mpObjectManager = std::make_unique<ObjectManager>();
-	mpColliderManager = std::make_unique<ColliderManager>();
+	objectManager = std::make_unique<ObjectManager>();
+	colliderManager = std::make_unique<ColliderManager>();
 }
 
 Scene::~Scene()
 {
-	if (mpObjectManager != nullptr)
+	if (objectManager != nullptr)
 	{
-		mpObjectManager->DeleteAll2D();
-		mpObjectManager.reset();
+		objectManager->DeleteAll2D();
+		objectManager.reset();
 	}
-	if (mpColliderManager != nullptr)
+	if (colliderManager != nullptr)
 	{
-		mpColliderManager->DeleteAllCollider();
-		mpColliderManager.reset();
+		colliderManager->DeleteAllCollider();
+		colliderManager.reset();
 	}
 }
 
 // 全オブジェクトの描画処理をマネージャー経由で一括実行
 void Scene::Draw()
 {
-	if (mpObjectManager != nullptr)
+	if (objectManager != nullptr)
 	{
-		mpObjectManager->Draw();
+		objectManager->Draw();
 	}
-	if (mpColliderManager != nullptr)
+	if (colliderManager != nullptr)
 	{
-		mpColliderManager->Draw();
+		colliderManager->Draw();
 	}
 }
 
 // 全オブジェクトの状態更新および当たり判定処理を一括実行
 void Scene::Update()
 {
-	if (mpObjectManager != nullptr)
+	if (objectManager != nullptr)
 	{
-		mpObjectManager->Update();
+		objectManager->Update();
 	}
-	if (mpColliderManager != nullptr)
+	if (colliderManager != nullptr)
 	{
-		mpColliderManager->Update();
+		colliderManager->Update();
 	}
 }

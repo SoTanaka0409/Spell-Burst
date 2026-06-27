@@ -1,4 +1,4 @@
-#include "RuleScene.h"
+ï»¿#include "RuleScene.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "ResourceManager.h"
@@ -11,14 +11,14 @@
 #include <algorithm>
 
 void RuleScene::Initialize() {
-    m_ruleGraphs[0] = ResourceManager::GetInstance()->GetGraph("Resource/rule1.png");
-    m_ruleGraphs[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
-    m_ruleGraphs[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
-    m_ruleGraphs[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
-    m_ruleGraphs[4] = -1; // «—ˆ“I‚ÈƒXƒ‰ƒCƒh’Ç‰Á‚É”õ‚¦‚Ä‚ ‚ç‚©‚¶‚ß˜g‚ğŠm•Û‚µ‰Šú‰»
-    m_ruleGraphs[5] = -1;
-    m_currentSlide = 0;
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
+    ruleGraphs[0] = ResourceManager::GetInstance()->GetGraph("Resource/rule1.png");
+    ruleGraphs[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
+    ruleGraphs[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
+    ruleGraphs[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
+    ruleGraphs[4] = -1; // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÈƒXï¿½ï¿½ï¿½Cï¿½hï¿½Ç‰ï¿½ï¿½É”ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ç‚©ï¿½ï¿½ï¿½ß˜gï¿½ï¿½mï¿½Û‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ruleGraphs[5] = -1;
+    currentSlide = 0;
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.3");
 }
 
 void RuleScene::Update() {
@@ -31,29 +31,29 @@ void RuleScene::Update() {
     GetMousePoint(&mouseX, &mouseY);
     
     if (isLeftClicked) {
-        // ƒvƒŒƒCƒ„[‚ªƒ^ƒCƒgƒ‹‚Ö–ß‚é‘€ì‚ğs‚Á‚½Û‚Ì‘JˆÚˆ—
+        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö–ß‚é‘€ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Û‚Ì‘Jï¿½Úï¿½ï¿½ï¿½
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
-        // Ÿ‚Ìƒy[ƒW‚Öi‚Şˆ—iÅIƒy[ƒW‚Ìê‡‚Íƒ^ƒCƒgƒ‹‚Ö–ß‚éj
+        // ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Öiï¿½Şï¿½ï¿½ï¿½ï¿½iï¿½ÅIï¿½yï¿½[ï¿½Wï¿½Ìê‡ï¿½Íƒ^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö–ß‚ï¿½j
         if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
-            if (m_currentSlide < 5) {
-                m_currentSlide++;
+            if (currentSlide < 5) {
+                currentSlide++;
             } else {
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
                 return;
             }
         }
         
-        // ‘O‚Ìƒy[ƒW‚Ö–ß‚éˆ—iÅ‰‚Ìƒy[ƒW‚Å‚Í–³Œøj
+        // ï¿½Oï¿½Ìƒyï¿½[ï¿½Wï¿½Ö–ß‚éˆï¿½ï¿½ï¿½iï¿½Åï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Å‚Í–ï¿½ï¿½ï¿½ï¿½j
         if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890) {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
-            if (m_currentSlide > 0) {
-                m_currentSlide--;
+            if (currentSlide > 0) {
+                currentSlide--;
             }
         }
     }
@@ -62,14 +62,14 @@ void RuleScene::Update() {
 void RuleScene::Draw() {
     DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
     
-    if (m_currentSlide >= 0 && m_currentSlide < 6 && m_ruleGraphs[m_currentSlide] != -1) {
+    if (currentSlide >= 0 && currentSlide < 6 && ruleGraphs[currentSlide] != -1) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
         int imgW = 1, imgH = 1;
-        GetGraphSize(m_ruleGraphs[m_currentSlide], &imgW, &imgH);
+        GetGraphSize(ruleGraphs[currentSlide], &imgW, &imgH);
         
         if (imgW > 0 && imgH > 0) {
             float maxWidth = 1400.0f;
-            float maxHeight = 650.0f; // à–¾‰æ‘œ‚ªŒ©‚â‚·‚­‚È‚é‚æ‚¤•`‰æ—Ìˆæ‚ğ‘å‚«‚ß‚Éİ’è
+            float maxHeight = 650.0f; // ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½È‚ï¿½æ‚¤ï¿½`ï¿½ï¿½Ìˆï¿½ï¿½å‚«ï¿½ß‚Éİ’ï¿½
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -79,7 +79,7 @@ void RuleScene::Draw() {
             int drawX = (Utility::SCREEN_WIDTH - drawW) / 2;
             int drawY = 20 + (650 - drawH) / 2;
             
-            DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, m_ruleGraphs[m_currentSlide], FALSE);
+            DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, ruleGraphs[currentSlide], FALSE);
         }
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
@@ -88,31 +88,31 @@ void RuleScene::Draw() {
     int font24 = ResourceManager::GetInstance()->GetFont(24, 3);
     
     const char* titles[] = {
-        "1. ƒLƒƒƒ‰ƒNƒ^[‚Ì‘I‘ğ",
-        "2. “ïˆÕ“x‚Ì‘I‘ğ",
-        "3. “G‚ğ“|‚µ‚ÄƒŒƒxƒ‹‚ğã‚°‚Äƒ{ƒX‚ğ“|‚»‚¤I",
-        "4. UI‚Ìà–¾",
-        "5. ƒoƒŠƒA‚Ìg‚¢•û",
-        "6. ƒ{ƒX‚ğ“|‚·‚ÆHP‚ª‰ñ•œI"
+        "1. ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½Ì‘Iï¿½ï¿½",
+        "2. ï¿½ï¿½Õ“xï¿½Ì‘Iï¿½ï¿½",
+        "3. ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½Äƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ã‚°ï¿½Äƒ{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½I",
+        "4. UIï¿½Ìï¿½ï¿½",
+        "5. ï¿½oï¿½ï¿½ï¿½Aï¿½Ìgï¿½ï¿½ï¿½ï¿½",
+        "6. ï¿½{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½HPï¿½ï¿½ï¿½ñ•œI"
     };
     const char* descs1[] = {
-        "ƒ^ƒCƒgƒ‹‰æ–Ê‚©‚çGAME START‚ğ‰Ÿ‚µAŒÂ«–L‚©‚ÈƒVƒFƒt‚ğ‘I‚Ú‚¤B",
-        "©•ª‚É‚ ‚Á‚½“ïˆÕ“x‚ğ‘I‚Ú‚¤BNORMAL, HARD, VERY HARD‚ª‚ ‚é‚¼B",
-        "“G‚ğ“|‚µ‚ÄŒoŒ±’l‚ğ‰Ò‚²‚¤I–{ì‚ÍƒEƒF[ƒu§‚ÅA",
-        "¶ã‚Í©•ª‚ÌHP‚âƒŒƒxƒ‹A",
-        "ƒoƒŠƒA“WŠJ’†‚É“G‚Ì’e‚ğó‚¯‚é‚Æ—Í‚ª—­‚Ü‚èA",
-        "ƒ{ƒX‚ğ“|‚·‚ÆHP‚ª3‰ñ•œ‚·‚é‚¼I"
+        "ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½GAME STARTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Âï¿½ï¿½Lï¿½ï¿½ï¿½ÈƒVï¿½Fï¿½tï¿½ï¿½Iï¿½Ú‚ï¿½ï¿½B",
+        "ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ“xï¿½ï¿½Iï¿½Ú‚ï¿½ï¿½BNORMAL, HARD, VERY HARDï¿½ï¿½ï¿½ï¿½ï¿½é‚¼ï¿½B",
+        "ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½ÄŒoï¿½ï¿½ï¿½lï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Iï¿½{ï¿½ï¿½ÍƒEï¿½Fï¿½[ï¿½uï¿½ï¿½ï¿½ÅA",
+        "ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½HPï¿½âƒŒï¿½xï¿½ï¿½ï¿½A",
+        "ï¿½oï¿½ï¿½ï¿½Aï¿½Wï¿½Jï¿½ï¿½ï¿½É“Gï¿½Ì’eï¿½ï¿½ó‚¯‚ï¿½Æ—Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½A",
+        "ï¿½{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½HPï¿½ï¿½3ï¿½ñ•œ‚ï¿½ï¿½é‚¼ï¿½I"
     };
     const char* descs2[] = {
         "",
         "",
-        "ˆê’è”“|‚·‚Æƒ{ƒX‚ªo‚é‚¼I",
-        "•KE‹Z‚ÌƒQ[ƒW‚ª•\¦‚³‚ê‚Ä‚¢‚é‚¼I",
-        "ÅŒã‚É‹­—Í‚È”½Œ‚‚Æ‚µ‚Ä•úo‚·‚é‚¼I‚¤‚Ü‚­g‚¨‚¤I",
-        "ÅŒã‚Ü‚Å’ú‚ß‚¸‚Éí‚¦I"
+        "ï¿½ï¿½è”ï¿½|ï¿½ï¿½ï¿½Æƒ{ï¿½Xï¿½ï¿½ï¿½oï¿½é‚¼ï¿½I",
+        "ï¿½Kï¿½Eï¿½Zï¿½ÌƒQï¿½[ï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚¼ï¿½I",
+        "ï¿½ÅŒï¿½É‹ï¿½ï¿½Í‚È”ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•ï¿½ï¿½oï¿½ï¿½ï¿½é‚¼ï¿½Iï¿½ï¿½ï¿½Ü‚ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½I",
+        "ï¿½ÅŒï¿½Ü‚Å’ï¿½ï¿½ß‚ï¿½ï¿½Éí‚¦ï¿½I"
     };
     const char* descs3[] = {
-        "¦©‹@‚Ì’†S‚É‚ ‚é¬‚³‚ÈŒõ‚é‹Ê‚ª“–‚½‚è”»’è‚Å‚·I",
+        "ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Ì’ï¿½ï¿½Sï¿½É‚ï¿½ï¿½é¬ï¿½ï¿½ï¿½ÈŒï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Å‚ï¿½ï¿½I",
         "",
         "",
         "",
@@ -123,35 +123,35 @@ void RuleScene::Draw() {
     DrawBox(300, 700, 1300, 830, GetColor(20, 20, 40), TRUE);
     DrawBox(300, 700, 1300, 830, GetColor(255, 255, 255), FALSE);
     
-    if (m_currentSlide >= 0 && m_currentSlide < 6) {
-        DrawStringToHandle(320, 710, titles[m_currentSlide], GetColor(255, 255, 0), titleFont);
-        DrawStringToHandle(320, 755, descs1[m_currentSlide], GetColor(255, 255, 255), font24);
-        DrawStringToHandle(320, 785, descs2[m_currentSlide], GetColor(255, 255, 255), font24);
-        DrawStringToHandle(320, 815, descs3[m_currentSlide], GetColor(255, 100, 100), font24);
+    if (currentSlide >= 0 && currentSlide < 6) {
+        DrawStringToHandle(320, 710, titles[currentSlide], GetColor(255, 255, 0), titleFont);
+        DrawStringToHandle(320, 755, descs1[currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 785, descs2[currentSlide], GetColor(255, 255, 255), font24);
+        DrawStringToHandle(320, 815, descs3[currentSlide], GetColor(255, 100, 100), font24);
     }
     
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    // ’¼Š´“I‚È‘€ì‚ğ‘£‚·‚½‚ßA–ß‚éƒ{ƒ^ƒ“‚Éƒ}ƒEƒX‚ªd‚È‚Á‚½Û‚ÉF‚ğ•Ï‰»‚³‚¹‚é
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½È‘ï¿½ï¿½ï¿½ğ‘£‚ï¿½ï¿½ï¿½ï¿½ßAï¿½ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½Éƒ}ï¿½Eï¿½Xï¿½ï¿½ï¿½dï¿½È‚ï¿½ï¿½ï¿½ï¿½Û‚ÉFï¿½ï¿½Ï‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
     DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
     DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
     DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
     
-    // Œ»İˆÊ’u‚ğ–¾¦‚·‚é‚½‚ßA2ƒy[ƒW–ÚˆÈ~‚Ì‚İ‘O‚Ö–ß‚éƒ{ƒ^ƒ“‚ğ•`‰æ
-    if (m_currentSlide > 0) {
+    // ï¿½ï¿½ï¿½İˆÊ’uï¿½ğ–¾ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßA2ï¿½yï¿½[ï¿½Wï¿½ÚˆÈ~ï¿½Ì‚İ‘Oï¿½Ö–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
+    if (currentSlide > 0) {
         bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
         DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
         DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
         DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
     }
     
-    // ƒXƒ‰ƒCƒhisó‹µ‚É‡‚í‚¹‚ÄAŸ‚Öƒ{ƒ^ƒ“‚ÆŠ®—¹ƒ{ƒ^ƒ“‚Ì•\¦‚ğØ‚è‘Ö‚¦‚Â‚Â•`‰æ
+    // ï¿½Xï¿½ï¿½ï¿½Cï¿½hï¿½iï¿½sï¿½ó‹µ‚Éï¿½ï¿½í‚¹ï¿½ÄAï¿½ï¿½ï¿½Öƒ{ï¿½^ï¿½ï¿½ï¿½ÆŠï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½Â‚Â•`ï¿½ï¿½
     bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
     DrawBox(900, 840, 1000, 890, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
     DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
-    if (m_currentSlide < 5) {
+    if (currentSlide < 5) {
         DrawStringToHandle(920, 855, "NEXT", GetColor(255, 255, 255), font24);
     } else {
         DrawStringToHandle(920, 855, "DONE", GetColor(255, 255, 255), font24);

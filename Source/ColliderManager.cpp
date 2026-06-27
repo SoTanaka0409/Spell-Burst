@@ -1,4 +1,4 @@
-#include "ColliderManager.h"
+ï»¿#include "ColliderManager.h"
 #include "Collider.h"
 #include "DebugLog.h"
 #include"Master.h"
@@ -17,7 +17,7 @@ ColliderManager::~ColliderManager()
 }
 void ColliderManager::Update()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); ++itr)
+    for (auto itr = colliderList.begin(); itr != colliderList.end(); ++itr)
     {
         if ((*itr) == nullptr)
         {
@@ -28,9 +28,9 @@ void ColliderManager::Update()
             continue;
         }
 
-        for (auto itr_check = mColliderList.begin(); itr_check != mColliderList.end(); ++itr_check)
+        for (auto itr_check = colliderList.begin(); itr_check != colliderList.end(); ++itr_check)
         {
-            if (itr == itr_check)//Ž©•ªŽ©g‚ÌƒRƒ‰ƒCƒ_[‚È‚ç–ß‚é
+            if (itr == itr_check)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½È‚ï¿½ß‚ï¿½
             {
                 continue;
             }
@@ -55,7 +55,7 @@ void ColliderManager::Update()
 }
 void ColliderManager::Draw()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); itr++)
+    for (auto itr = colliderList.begin(); itr != colliderList.end(); itr++)
     {
          if (DebugOn)
         {
@@ -65,15 +65,15 @@ void ColliderManager::Draw()
 }
 void ColliderManager::AddCollider(Collider* Collider)
 {
-    mColliderList.push_back(Collider);
+    colliderList.push_back(Collider);
 }
 void ColliderManager::DeleteAllCollider()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*‚±‚±‚Í‹ó‚Á‚Û‚È‚Ì‚Å’ˆÓ*/)
+    for (auto itr = colliderList.begin(); itr != colliderList.end(); /*ï¿½ï¿½ï¿½ï¿½ï¿½Í‹ï¿½ï¿½ï¿½Û‚È‚Ì‚Å’ï¿½ï¿½ï¿½*/)
     {
 
         (*itr)->SetDeleteFlag(true);
-        itr = mColliderList.erase(itr);
+        itr = colliderList.erase(itr);
         itr++;
 
     }
@@ -81,11 +81,11 @@ void ColliderManager::DeleteAllCollider()
 }
 void ColliderManager::DeleteAllColliderIfNeeded()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*‚±‚±‚Í‹ó‚Á‚Û‚È‚Ì‚Å’ˆÓ*/)
+    for (auto itr = colliderList.begin(); itr != colliderList.end(); /*ï¿½ï¿½ï¿½ï¿½ï¿½Í‹ï¿½ï¿½ï¿½Û‚È‚Ì‚Å’ï¿½ï¿½ï¿½*/)
     {
         if ((*itr)->IsDeleteFlag())
         {
-            itr = mColliderList.erase(itr);
+            itr = colliderList.erase(itr);
 
            
         }
@@ -98,5 +98,5 @@ void ColliderManager::DeleteAllColliderIfNeeded()
 
 void ColliderManager::RemoveCollider(Collider* collider)
 {
-    mColliderList.remove(collider);
+    colliderList.remove(collider);
 }

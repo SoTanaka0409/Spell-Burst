@@ -53,15 +53,15 @@ public:
     // [入力] flag: 削除フラグ（trueで削除予定）
     // [出力] なし
     // [副作用] コライダーの削除フラグを更新する
-    void SetDeleteFlag(bool flag) { mbDeleteFlag = flag; }
+    void SetDeleteFlag(bool flag) { deleteFlag = flag; }
 
     // 削除フラグの状態を取得する
-    bool IsDeleteFlag() { return mbDeleteFlag; }
+    bool IsDeleteFlag() { return deleteFlag; }
 
     // このコライダーを所有している親オブジェクトを取得する
     Object2D* GetParentObject()
     {
-        return mpParentObject;
+        return parentObject;
     }
 
     // [入力] なし
@@ -69,7 +69,7 @@ public:
     // [副作用] 親オブジェクトへのポインタを無効化する（親が破棄された際などに使用）
     void InvalidateParent()
     {
-        mpParentObject = nullptr;
+        parentObject = nullptr;
     }
 
     // [入力] collider: 衝突リストから削除するコライダー
@@ -78,14 +78,14 @@ public:
     void RemoveCollision(Collider* collider);
 
 public:
-    Object2D* mpParentObject;               // このコライダーを所有する親オブジェクト
+    Object2D* parentObject;               // このコライダーを所有する親オブジェクト
 
-    Vector2 mvPosition;                      // コライダーの座標（中心点など）
-    Vector2 mvPosition2;                     // コライダーの座標2（カプセル型の終点など、形状に応じて使用）
-    float mfRadius;                         // コライダーの半径（円形やカプセル型の太さ）
+    Vector2 position;                      // コライダーの座標（中心点など）
+    Vector2 position2;                     // コライダーの座標2（カプセル型の終点など、形状に応じて使用）
+    float radius;                         // コライダーの半径（円形やカプセル型の太さ）
 
-    bool mbDeleteFlag;                      // 削除フラグ（trueの場合、管理クラスによって破棄される）
+    bool deleteFlag;                      // 削除フラグ（trueの場合、管理クラスによって破棄される）
 
 protected:
-    std::vector<Collider*> mCollisionList;  // 現在衝突している（重なっている）他のコライダーのリスト
+    std::vector<Collider*> collisionList;  // 現在衝突している（重なっている）他のコライダーのリスト
 };

@@ -4,26 +4,26 @@
 
 Projectile::Projectile(Vector2 pos, Vector2 dir, float speed, int damage)
     : Object2D(pos)
-    , m_dir(dir)
-    , m_speed(speed)
-    , m_damage(damage)
-    , m_isActive(true)
-    , mpCollider(nullptr)
+    , dir(dir)
+    , speed(speed)
+    , damage(damage)
+    , isActive(true)
+    , collider(nullptr)
 {
-    mvPosition = pos;
+    position = pos;
 }
 
 Projectile::~Projectile() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
+    if (collider) {
+        delete collider;
+        collider = nullptr;
     }
 }
 
 void Projectile::Update() {
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
+    if (collider) {
+        collider->position = position;
+        collider->position2 = position;
     }
 }
 
@@ -36,16 +36,16 @@ void Projectile::OnTrigger(Collider* collider, Collider* check) {
 }
 
 void Projectile::Kill() {
-    m_isActive = false;
+    isActive = false;
     SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
+    if (collider) {
+        collider->SetDeleteFlag(true);
     }
 }
 
 bool Projectile::IsOutOfBounds(float margin) const {
-    if (mvPosition.x < -margin || mvPosition.x > Utility::SCREEN_WIDTH + margin ||
-        mvPosition.y < -margin || mvPosition.y > Utility::SCREEN_HEIGHT + margin) {
+    if (position.x < -margin || position.x > Utility::SCREEN_WIDTH + margin ||
+        position.y < -margin || position.y > Utility::SCREEN_HEIGHT + margin) {
         return true;
     }
     return false;

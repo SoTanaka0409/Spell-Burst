@@ -13,8 +13,8 @@
 std::unique_ptr<SceneManager> Master::sceneManager = nullptr;
 
 SceneManager::SceneManager()
-	: mnSceneType(SCENE_TYPE::SCENE_NONE)
-	, mnNextSceneType(SCENE_TYPE::SCENE_NONE)
+	: sceneType(SCENE_TYPE::SCENE_NONE)
+	, nextSceneType(SCENE_TYPE::SCENE_NONE)
 	, SceneHard(false)
 	, SceneNormal(false)
 {
@@ -22,82 +22,82 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	if (mpCurrentScene != nullptr)
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene.reset();
+		currentScene.reset();
 	}
 }
 
 void SceneManager::Initialize()
 {
-	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
+	nextSceneType = SCENE_TYPE::SCENE_TITLE;
 	ChangeSceneIfNeeded();
 }
 
 void SceneManager::Update()
 {
 	ChangeSceneIfNeeded();
-	if (mpCurrentScene != nullptr)
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene->Update();
+		currentScene->Update();
 	}
 }
 
 
 void SceneManager::Draw()
 {
-	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene.get());
-	if (mpCurrentScene != nullptr)
+	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)currentScene.get());
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene->Draw();
+		currentScene->Draw();
 	}
 }
 
 void SceneManager::Finalize()
 {
-	if (mpCurrentScene != nullptr)
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene->Finalize();
-		mpCurrentScene.reset();
+		currentScene->Finalize();
+		currentScene.reset();
 	}
 }
 
 void SceneManager::ChangeSceneIfNeeded()
 {
-	if (mnSceneType == mnNextSceneType)
+	if (sceneType == nextSceneType)
 	{
 		return;
 	}
 	SoundManager::GetInstance()->StopBGM();
-	if (mpCurrentScene != nullptr)
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene->Finalize();
-		mpCurrentScene.reset();
+		currentScene->Finalize();
+		currentScene.reset();
 	}
-	mnSceneType = mnNextSceneType;
-	switch (mnSceneType)
+	sceneType = nextSceneType;
+	switch (sceneType)
 	{
 	case SCENE_TYPE::SCENE_TITLE:
-		mpCurrentScene = std::make_unique<TitleScene>();
+		currentScene = std::make_unique<TitleScene>();
 		break;
 	case SCENE_TYPE::SCENE_LEVEL:
-		mpCurrentScene = std::make_unique<StageSelectScene>();
+		currentScene = std::make_unique<StageSelectScene>();
 		break;
 	case SCENE_TYPE::SCENE_GAME:
-		mpCurrentScene = std::make_unique<GameScene>();
+		currentScene = std::make_unique<GameScene>();
 		break;
 	case SCENE_TYPE::SCENE_RESULT:
-		mpCurrentScene = std::make_unique<ResultScene>();
+		currentScene = std::make_unique<ResultScene>();
 		break;
 	case SCENE_TYPE::SCENE_RULE:
-		mpCurrentScene = std::make_unique<RuleScene>();
+		currentScene = std::make_unique<RuleScene>();
 		break;
 	default:
-		mpCurrentScene = nullptr;
+		currentScene = nullptr;
 		break;
 	}
-	if (mpCurrentScene != nullptr)
+	if (currentScene != nullptr)
 	{
-		mpCurrentScene->Initialize();
+		currentScene->Initialize();
 	}
 }

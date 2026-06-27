@@ -5,11 +5,11 @@ class CapsuleCollider;
 
 class MasterSpark : public Projectile {
 private:
-    int m_lifeTimer;
-    int m_maxLife;
-    float m_radius;
-    int m_colorHue;
-    int m_AttackCount;
+    int lifeTimer;
+    int maxLife;
+    float radius;
+    int colorHue;
+    int attackCount;
 
 public:
     MasterSpark(float x, float y);

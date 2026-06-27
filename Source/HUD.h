@@ -1,32 +1,32 @@
-#pragma once
+ï»¿#pragma once
 
 class Player;
 class Boss;
 class EnemyManager;
 
-// UIî•ñ‚Ì•`‰æŠÇ—ƒNƒ‰ƒX
-// HUD—v‘f‚ÌƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ(ƒC[ƒWƒ“ƒO)‚ğs‚¤‚½‚ßAÃ“I•Ï”‚ğ•Û‚·‚é
+// UIï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ç—ï¿½ï¿½Nï¿½ï¿½ï¿½X
+// HUDï¿½vï¿½fï¿½ÌƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½O)ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ßAï¿½Ã“Iï¿½Ïï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½
 class HUD {
 public:
-    // [“ü—Í] ‚È‚µ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ƒC[ƒWƒ“ƒO—p•Ï”‚È‚Ç‚ÌÃ“Ió‘Ô‚ğƒŠƒZƒbƒg‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½pï¿½Ïï¿½ï¿½È‚Ç‚ÌÃ“Iï¿½ï¿½Ô‚ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
     static void Initialize();
 
-    // [“ü—Í] player: ©‹@, enemyManager: “GŠÇ—, boss: ƒ{ƒX
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] Œ»İ‚ÌHP“™‚ÉŠî‚Ã‚«A•\¦—p‚Ì•âŠÔ”ä—¦iƒC[ƒWƒ“ƒOj‚ğŒvZEXV‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] player: ï¿½ï¿½ï¿½@, enemyManager: ï¿½Gï¿½Ç—ï¿½, boss: ï¿½{ï¿½X
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½ï¿½İ‚ï¿½HPï¿½ï¿½ï¿½ÉŠï¿½Ã‚ï¿½ï¿½Aï¿½\ï¿½ï¿½ï¿½pï¿½Ì•ï¿½Ô”ä—¦ï¿½iï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½jï¿½ï¿½vï¿½Zï¿½Eï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
     static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
 
-    // [“ü—Í] player, enemyManager, boss, cutinTimer: ‰‰oŠÔ, cutinImageHandle: ‰‰o‰æ‘œ
-    // [o—Í] ‚È‚µ
-    // [•›ì—p] ‰æ–Êã‚ÌÅ‘O–Ê‚ÉŠeUIƒRƒ“ƒ|[ƒlƒ“ƒgiƒQ[ƒWAƒJƒbƒgƒCƒ““™j‚ğ•`‰æ‚·‚é
+    // [ï¿½ï¿½ï¿½ï¿½] player, enemyManager, boss, cutinTimer: ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½, cutinImageHandle: ï¿½ï¿½ï¿½oï¿½æ‘œ
+    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
+    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½Êï¿½ÌÅ‘Oï¿½Ê‚ÉŠeUIï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½iï¿½Qï¿½[ï¿½Wï¿½Aï¿½Jï¿½bï¿½gï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
     static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
 
 private:
-    static float s_displayHpRatio; // ƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ—p‚ÌHP•\¦”ä—¦
-    static float s_displayXpRatio; // ƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ—p‚ÌŒoŒ±’l•\¦”ä—¦
-    static float s_displaySpellRatio; // ƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ—p‚ÌƒXƒyƒ‹ƒQ[ƒW•\¦”ä—¦
-    static float s_displayBarrierRatio; // ƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ—p‚ÌƒoƒŠƒAƒQ[ƒW•\¦”ä—¦
-    static float s_bossHpRatio; // ƒAƒjƒ[ƒVƒ‡ƒ“•âŠÔ—p‚Ìƒ{ƒXHP•\¦”ä—¦
+    static float displayHpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ï¿½HPï¿½\ï¿½ï¿½ï¿½ä—¦
+    static float displayXpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ÌŒoï¿½ï¿½ï¿½lï¿½\ï¿½ï¿½ï¿½ä—¦
+    static float displaySpellRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ÌƒXï¿½yï¿½ï¿½ï¿½Qï¿½[ï¿½Wï¿½\ï¿½ï¿½ï¿½ä—¦
+    static float displayBarrierRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½Ìƒoï¿½ï¿½ï¿½Aï¿½Qï¿½[ï¿½Wï¿½\ï¿½ï¿½ï¿½ä—¦
+    static float bossHpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½Ìƒ{ï¿½XHPï¿½\ï¿½ï¿½ï¿½ä—¦
 };

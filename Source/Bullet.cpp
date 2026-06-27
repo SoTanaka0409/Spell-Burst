@@ -10,10 +10,10 @@ Bullet::Bullet(float x, float y, int damage)
     : Projectile(Vector2(x, y), Vector2(0, -1), 20.0f, damage)
 {
     SetTag(Tag2D_PlayerBullet);
-    m_recivedDamage = 0;
-    m_MaxrecivedDamage = 20; // ダメージを受けてから3回で技を出す
+    recivedDamage = 0;
+    maxrecivedDamage = 20; // ダメージを受けてから3回で技を出す
     // Create a circular collider with radius 10 (previously 5)
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
+    collider = new CapsuleCollider(this, position, position, 10.0f);
 }
 
 Bullet::~Bullet()
@@ -24,7 +24,7 @@ Bullet::~Bullet()
 // 弾を上方向に移動させ、画面外に出たら削除フラグを立てます
 void Bullet::Update() 
 {
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
+    position += dir * (speed * Utility::TimeScale);
 
     Projectile::Update();
 
@@ -37,7 +37,7 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
-        if(check->GetParentObject()->GetTag() == tag2D_BarierEne)
+        if(check->GetParentObject()->GetTag() == Tag2D_BarrierEnemy)
         {
             Kill();
             return;
@@ -56,6 +56,6 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
 // 弾の画像を描画します
 void Bullet::Draw()
 {
-    if (!m_isActive) return;
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 255, 255), TRUE);
+    if (!isActive) return;
+    DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 10, GetColor(255, 255, 255), TRUE);
 }

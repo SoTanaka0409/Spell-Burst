@@ -22,7 +22,7 @@
 #include "SoundManager.h"
 #include"DebugLog.h"
 
-int Player::s_selectedCharacterType = 1;
+int Player::selectedCharacterType = 1;
 
 Player::Player() 
     : Character(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f), 15, 5.0f)
@@ -32,105 +32,105 @@ Player::Player()
 }
 
 Player::~Player() {
-    if (mpBarrier) {
-        mpBarrier->SetDeleteFlag(true);
-        mpBarrier = nullptr;
+    if (barrier) {
+        barrier->SetDeleteFlag(true);
+        barrier = nullptr;
     }
 }
 
 void Player::Initialize() {
-    mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
-    mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
+    position.x = (float)Utility::SCREEN_WIDTH / 2.0f;
+    position.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
     
-    m_levelUpTimer = 0;
-    m_stunTimer = 0;
-    m_attackMode = AttackMode_Melee;
-    m_specialCooldown = 0;
-    mfAttack = 1;
-    m_attackTimer = 20;
-    m_AttackInterval = 0;
-    m_AttackTimer_2 = 60;
-    m__BarrierCount = 0;
+    levelUpTimer = 0;
+    stunTimer = 0;
+    attackMode = AttackMode_Melee;
+    specialCooldown = 0;
+    attack = 1;
+    attackTimer = 20;
+    attackInterval = 0;
+    attackTimer2 = 60;
+    barrierCount = 0;
 
-    m_level = 1;
-    m_xp = 0;
-    m_xpNeeded = 5;
-    m_levelUpTimer = 0;                  
+    level = 1;
+    xp = 0;
+    xpNeeded = 5;
+    levelUpTimer = 0;                  
     
-    m_spellGauge = 0;
-    m_maxSpellGauge = 10;
+    spellGauge = 0;
+    maxSpellGauge = 10;
 
-    if (s_selectedCharacterType == 1)
+    if (selectedCharacterType == 1)
     {
-        m_speed = 5.0f;
-        m_maxHp = 15;
-        m_hp = m_maxHp;
+        speed = 5.0f;
+        maxHp = 15;
+        hp = maxHp;
     }
-    else if (s_selectedCharacterType == 2)
+    else if (selectedCharacterType == 2)
     {
-        m_speed = 7.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
+        speed = 7.0f;
+        maxHp = 10;
+        hp = maxHp;
     }
-    else if (s_selectedCharacterType == 3)
+    else if (selectedCharacterType == 3)
     {
-        m_speed = 5.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
-        mfAttack = 2;
+        speed = 5.0f;
+        maxHp = 10;
+        hp = maxHp;
+        attack = 2;
     }
     else
     {
-        m_speed = 5.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
+        speed = 5.0f;
+        maxHp = 10;
+        hp = maxHp;
     }
 
-    if (mpCollider) delete mpCollider;
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
-	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
+    if (collider) delete collider;
+    collider = new CapsuleCollider(this, position, position, 4.0f);
+	barrier = new Barrier(position.x, position.y, 60.0f,Tag2D_BarrierPlayer);
 }
 
 void Player::Update()
 {
     Character::Update(); // スタンタイマーなどの処理
 
-    if (m_levelUpTimer > 0) {
-        m_levelUpTimer--;
+    if (levelUpTimer > 0) {
+        levelUpTimer--;
     }
 
-    if (m_stunTimer > 0) {
+    if (stunTimer > 0) {
         return;
     }
 
     bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
-    float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
+    float currentSpeed = (isFocus ? 2.0f : speed) * Utility::TimeScale;
 
-    if (InputManager::CheckPressKey(KEY_INPUT_W)) { mvPosition.y -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_S)) { mvPosition.y += currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_W)) { position.y -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_S)) { position.y += currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_A)) { position.x -= currentSpeed; }
+    if (InputManager::CheckPressKey(KEY_INPUT_D)) { position.x += currentSpeed; }
 
-    if (mvPosition.x < 45.0f) mvPosition.x = 45.0f;
-    if (mvPosition.x > Utility::SCREEN_WIDTH - 45.0f) mvPosition.x = Utility::SCREEN_WIDTH - 45.0f;
-    if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
-    if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
+    if (position.x < 45.0f) position.x = 45.0f;
+    if (position.x > Utility::SCREEN_WIDTH - 45.0f) position.x = Utility::SCREEN_WIDTH - 45.0f;
+    if (position.y < 45.0f) position.y = 45.0f;
+    if (position.y > Utility::SCREEN_HEIGHT - 45.0f) position.y = Utility::SCREEN_HEIGHT - 45.0f;
 
-    if (mpBarrier) {
-        mpBarrier->SetPosition(mvPosition);
+    if (barrier) {
+        barrier->SetPosition(position);
     }
 
     if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
-        if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
-        else m_attackMode = AttackMode_Melee;
+        if (attackMode == AttackMode_Melee) attackMode = AttackMode_Special;
+        else attackMode = AttackMode_Melee;
     }
 
     Attack();
 }
 
 void Player::Draw() {
-    if (mpBarrier != nullptr && mpBarrier->IsDeployed() && mpBarrier->GetHitCount() > 0) {
-        int hitCount = mpBarrier->GetHitCount();
+    if (barrier != nullptr && barrier->IsDeployed() && barrier->GetHitCount() > 0) {
+        int hitCount = barrier->GetHitCount();
         float ratio = static_cast<float>(hitCount) / 30.0f;
         
         SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
@@ -138,7 +138,7 @@ void Player::Draw() {
         
         for (int i = 0; i < 5; i++) {
             float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
-            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
+            DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
         }
         
         int time = GetNowCount();
@@ -146,51 +146,51 @@ void Player::Draw() {
         for (int i = 0; i < numParticles; i++) {
             float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
             float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
-            int px = static_cast<int>(mvPosition.x + cosf(angle) * dist);
-            int py = static_cast<int>(mvPosition.y + sinf(angle) * dist);
+            int px = static_cast<int>(position.x + cosf(angle) * dist);
+            int py = static_cast<int>(position.y + sinf(angle) * dist);
             DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
         }
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    if (m_stunTimer > 0) {
+    if (stunTimer > 0) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    int s_playerGraphHandle = -1;
-    if (s_selectedCharacterType == 1) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
-    } else if (s_selectedCharacterType == 2) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
-    } else if (s_selectedCharacterType == 3) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+    int playerGraphHandle = -1;
+    if (selectedCharacterType == 1) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    } else if (selectedCharacterType == 2) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+    } else if (selectedCharacterType == 3) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
     }
 
-    if (s_playerGraphHandle != -1) {
+    if (playerGraphHandle != -1) {
         DrawExtendGraph(
-            static_cast<int>(mvPosition.x - 45.0f), 
-            static_cast<int>(mvPosition.y - 45.0f), 
-            static_cast<int>(mvPosition.x + 45.0f), 
-            static_cast<int>(mvPosition.y + 45.0f), 
-            s_playerGraphHandle, 
+            static_cast<int>(position.x - 45.0f), 
+            static_cast<int>(position.y - 45.0f), 
+            static_cast<int>(position.x + 45.0f), 
+            static_cast<int>(position.y + 45.0f), 
+            playerGraphHandle, 
             TRUE
         );
     } else {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 45, GetColor(0, 255, 0), TRUE);
     }
     if (true) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE);
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 5, GetColor(255, 255, 255), TRUE);
+        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), 3, GetColor(255, 0, 0), TRUE);
     }
 }
 
 void Player::TakeDamage(int damage) {
     Character::TakeDamage(damage);
-    SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.mp3");
-    if (m_hp <= 0) {
-        ResultScene::s_isVictory = false;
+    SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.3");
+    if (hp <= 0) {
+        ResultScene::isVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
@@ -200,38 +200,38 @@ void Player::Attack()
     int mouseInput = GetMouseInput();
     bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
     
-    m_AttackInterval++;
-    m_AttackInterval_2++;
+    attackInterval++;
+    attackInterval2++;
 
-    if (m_specialCooldown > 0) {
-        m_specialCooldown--;
+    if (specialCooldown > 0) {
+        specialCooldown--;
     }
-    if ( m_AttackInterval >= m_attackTimer)
+    if ( attackInterval >= attackTimer)
     {
-        m_AttackInterval = 0;
-        int numBullets = m_level;
+        attackInterval = 0;
+        int numBullets = level;
         float spacing = 20.0f;
             
-        float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
+        float startX = position.x - (numBullets - 1) * spacing / 2.0f;
         for (int i = 0; i < numBullets; ++i) 
         {
-            new Bullet(startX + i * spacing, mvPosition.y - 45.0f, static_cast<int>(mfAttack));
+            new Bullet(startX + i * spacing, position.y - 45.0f, static_cast<int>(attack));
         }
     }
     if (DebugOn)
     {
-        if (mouseInput & MOUSE_INPUT_LEFT && m_AttackInterval_2 >= m_AttackTimer_2)
+        if (mouseInput & MOUSE_INPUT_LEFT && attackInterval2 >= attackTimer2)
         {
-            m_AttackInterval_2 = 0;
-            if (m_attackMode == AttackMode_Melee) {
-                new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
+            attackInterval2 = 0;
+            if (attackMode == AttackMode_Melee) {
+                new MeleeAttack(position.x, position.y - 70.0f);
             }
-            else if (m_attackMode == AttackMode_Special)
+            else if (attackMode == AttackMode_Special)
             {
-                if (m_specialCooldown == 0)
+                if (specialCooldown == 0)
                 {
-                    new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
-                    m_specialCooldown = 180; 
+                    new SpecialBullet(position.x, position.y - 90.0f);
+                    specialCooldown = 180; 
                 }
             }
         }
@@ -240,25 +240,25 @@ void Player::Attack()
     {
         if (DebugOn)
         {
-            new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
+            new SpecialBullet(position.x, position.y - 90.0f);
         }
     }
     if (mouseInput&&MOUSE_INPUT_LEFT) 
     {
-        if (m_spellGauge >= m_maxSpellGauge) {
-            m_spellGauge = 0;
-            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬めE.mp3");
+        if (spellGauge >= maxSpellGauge) {
+            spellGauge = 0;
+            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬めE.3");
             
-            if (s_selectedCharacterType == 1)
+            if (selectedCharacterType == 1)
             {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
-                new MasterSpark(mvPosition.x, mvPosition.y);
-            } else if (s_selectedCharacterType == 2) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.3");
+                new MasterSpark(position.x, position.y);
+            } else if (selectedCharacterType == 2) {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/聖魔況Emp3");
-                new RainbowWaveManager(mvPosition.x, mvPosition.y);
-            } else if (s_selectedCharacterType == 3) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.mp3");
-                new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
+                new RainbowWaveManager(position.x, position.y);
+            } else if (selectedCharacterType == 3) {
+                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.3");
+                new SpellCardBullet(position.x, position.y - 90.0f);
             }
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
@@ -270,24 +270,24 @@ void Player::Attack()
 }
 
 void Player::AddXp(int amount) {
-    m_xp += amount;
-    int oldGauge = m_spellGauge;
-    m_spellGauge += amount;
-    if (m_spellGauge >= m_maxSpellGauge) {
-        m_spellGauge = m_maxSpellGauge;
-        if (oldGauge < m_maxSpellGauge) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.mp3");
+    xp += amount;
+    int oldGauge = spellGauge;
+    spellGauge += amount;
+    if (spellGauge >= maxSpellGauge) {
+        spellGauge = maxSpellGauge;
+        if (oldGauge < maxSpellGauge) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.3");
         }
     }
 
-    while (m_xp >= m_xpNeeded) {
-        m_xp -= m_xpNeeded;
-        m_level++;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.mp3");
-        m_xpNeeded = m_level * 5;
+    while (xp >= xpNeeded) {
+        xp -= xpNeeded;
+        level++;
+        SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.3");
+        xpNeeded = level * 5;
 
-        m_hp = m_maxHp;
-        m_levelUpTimer = 120;
+        hp = maxHp;
+        levelUpTimer = 120;
     }
 }
 
@@ -304,4 +304,4 @@ void Player::OnTrigger(Collider* collider, Collider* check)
     }
 }
 void Player::OnExit(Collider* collider, Collider* check) {}
-void Player::Bariier() {}
+void Player::Barrier() {}

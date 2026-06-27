@@ -6,18 +6,18 @@ class CapsuleCollider;
 // ボスクラス（Character継承）
 class Boss : public Character {
 private:
-    int m_bossType; 
-    float m_targetX, m_targetY; 
+    int bossType; 
+    float targetX, targetY; 
     
-    int m_attackTimer; 
-    int m_patternIndex; 
+    int attackTimer; 
+    int patternIndex; 
 
-    bool m_isDying; 
-    int m_deathTimer; 
+    bool isDying; 
+    int deathTimer; 
     
-    int m_lives; 
-    int m_invincibleTimer; 
-    int m_invincibleCycleTimer; 
+    int lives; 
+    int invincibleTimer; 
+    int invincibleCycleTimer; 
 
 public:
     Boss(float x, float y, int bossType = 3);
@@ -26,7 +26,7 @@ public:
     void Update() override;
     void Draw() override;
 
-    int GetLives() const { return m_lives; }
+    int GetLives() const { return lives; }
 
     virtual void TakeDamage(int damage) override;
     virtual void Kill() override;
