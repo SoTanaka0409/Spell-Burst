@@ -163,13 +163,13 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
-      <OutputFile>C:\Users\student\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <OutputFile>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -182,15 +182,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <OutputFile>C:\Users\student\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -202,12 +202,12 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\progtram\AiGame_net\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\Admin\Desktop\progtram\AiGame_net\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>
@@ -221,14 +221,14 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\team_T\EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\student\Desktop\team_T\EFKforDxLib\プロジェクトに追加すべきファイル_VC用;C:\Users\student\Desktop\team_T\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)EFKforDxLib\プロジェクトに追加すべきファイル_VC用;$(ProjectDir)DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

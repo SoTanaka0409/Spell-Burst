@@ -17,49 +17,40 @@ ColliderManager::~ColliderManager()
 }
 void ColliderManager::Update()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); ++itr)
+    // 範囲ベースforループで簡潔な当たり判定チェックの二重ループ
+    for (auto* col1 : mColliderList)
     {
-        if ((*itr) == nullptr)
-        {
-            continue;
-        }
-        if ((*itr)->IsDeleteFlag())
+        if (col1 == nullptr || col1->IsDeleteFlag())
         {
             continue;
         }
 
-        for (auto itr_check = mColliderList.begin(); itr_check != mColliderList.end(); ++itr_check)
+        for (auto* col2 : mColliderList)
         {
-            if (itr == itr_check)//�������g�̃R���C�_�[�Ȃ�߂�
+            if (col1 == col2) // 自分自身のコライダーは弾く
             {
                 continue;
             }
 
-            if ((*itr_check) == nullptr)
+            if (col2 == nullptr || col2->IsDeleteFlag())
             {
                 continue;
             }
 
-            if ((*itr_check)->IsDeleteFlag())
-            {
-                continue;
-            }
-
-            (*itr)->Update((*itr_check));
+            col1->Update(col2);
         }
     }
-
-
 
     DeleteAllColliderIfNeeded();
 }
 void ColliderManager::Draw()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); itr++)
+    // 範囲ベースforループで簡潔に描画
+    for (auto* col : mColliderList)
     {
          if (DebugOn)
         {
-            (*itr)->Draw();
+            col->Draw();
         }
     }
 }
@@ -69,31 +60,19 @@ void ColliderManager::AddCollider(Collider* Collider)
 }
 void ColliderManager::DeleteAllCollider()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*�����͋���ۂȂ̂Œ���*/)
+    // 範囲ベースforループで削除フラグを立てて一括消去
+    for (auto* col : mColliderList)
     {
-
-        (*itr)->SetDeleteFlag(true);
-        itr = mColliderList.erase(itr);
-        itr++;
-
+        if (col != nullptr) col->SetDeleteFlag(true);
     }
-    DeleteAllColliderIfNeeded();
+    mColliderList.clear(); // すべての要素をクリア
 }
 void ColliderManager::DeleteAllColliderIfNeeded()
 {
-    for (auto itr = mColliderList.begin(); itr != mColliderList.end(); /*�����͋���ۂȂ̂Œ���*/)
-    {
-        if ((*itr)->IsDeleteFlag())
-        {
-            itr = mColliderList.erase(itr);
-
-           
-        }
-        else
-        {
-            itr++;
-        }
-    }
+    // std::list の remove_if を使用して、安全かつ高速に削除フラグ付き要素を除去
+    mColliderList.remove_if([](Collider* col) {
+        return col == nullptr || col->IsDeleteFlag();
+    });
 }
 
 void ColliderManager::RemoveCollider(Collider* collider)

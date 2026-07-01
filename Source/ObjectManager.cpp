@@ -13,21 +13,22 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::Update()
 {
-	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); itr++)
+	// 範囲ベースforループで簡潔に全オブジェクトを更新
+	for (auto* obj : mObject2DList)
 	{
-		(*itr)->Update();
+		obj->Update();
 	}
 	DeleteAll2DIfNeeded();
 }
 
 void ObjectManager::Draw()
 {
-	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); itr++)
+	// 範囲ベースforループで描画フラグが立っているものを描画
+	for (auto* obj : mObject2DList)
 	{
-		bool isDraw = (*itr)->IsDrawFlag();
-		if (isDraw)
+		if (obj->IsDrawFlag())
 		{
-			(*itr)->Draw();
+			obj->Draw();
 		}
 	}
 }
@@ -43,30 +44,24 @@ void ObjectManager::AddObject(Object2D* object2D)
 void ObjectManager::DeleteAll2D()
 {
 	m_player2D = nullptr;
-	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); )
-	{
-		Object2D* temp = *itr;
-		itr = mObject2DList.erase(itr);
-		delete temp;
+	// 範囲ベースforループでメモリを解放後、一括でクリア
+	for (auto* obj : mObject2DList) {
+		delete obj;
 	}
+	mObject2DList.clear();
 }
 
 void ObjectManager::DeleteAll2DIfNeeded()
 {
-	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); )
-	{
-		if ((*itr)->IsDeleteFlag())
-		{
-			if (*itr == m_player2D) m_player2D = nullptr;
-			Object2D* temp = *itr;
-			itr = mObject2DList.erase(itr);
-			delete temp;
+	// std::list の remove_if を使用して、削除フラグを満たすオブジェクトを安全に削除
+	mObject2DList.remove_if([this](Object2D* obj) {
+		if (obj != nullptr && obj->IsDeleteFlag()) {
+			if (obj == m_player2D) m_player2D = nullptr;
+			delete obj;
+			return true;
 		}
-		else
-		{
-			itr++;
-		}
-	}
+		return false;
+	});
 }
 
 Object2D* ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
@@ -91,11 +86,12 @@ Object2D* ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 std::vector<Object2D*> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag)
 {
 	std::vector<Object2D*> ret;
-	for (auto itr = mObject2DList.begin(); itr != mObject2DList.end(); itr++)
+	// 範囲ベースforループで簡潔に検索
+	for (auto* obj : mObject2DList)
 	{
-		if ((*itr)->GetTag() == tag)
+		if (obj->GetTag() == tag)
 		{
-			ret.push_back(*itr);
+			ret.push_back(obj);
 		}
 	}
 	return ret;

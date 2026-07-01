@@ -13,6 +13,7 @@
 #include "DxLib.h"
 #include <cmath>
 #include <cstdlib>
+#include <algorithm>
 
 bool ResultScene::s_isVictory = false;
 
@@ -44,7 +45,7 @@ void ResultScene::Update() {
     if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z) || 
        (GetMouseInput() & MOUSE_INPUT_LEFT)) {
         if (m_stateTimer > 60) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/Œˆ’èƒ{ƒ^ƒ“‚ğ‰Ÿ‚·42.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™42.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
         }
     }
@@ -84,20 +85,21 @@ void ResultScene::Update() {
         }
     }
     
-    for (auto it = m_particles.begin(); it != m_particles.end(); ) {
-        it->x += it->vx;
-        it->y += it->vy;
-        it->angle += it->rotSpeed;
-        if (s_isVictory) {
-            it->vx += std::sin(m_stateTimer * 0.05f + it->y * 0.01f) * 0.1f;
-        }
-        it->life--;
-        if (it->life <= 0 || it->y > Utility::SCREEN_HEIGHT + 100 || it->y < -100) {
-            it = m_particles.erase(it);
-        } else {
-            ++it;
-        }
-    }
+    // Erase-Remove ã‚¤ãƒ‡ã‚£ã‚ªãƒ ã‚’ä½¿ç”¨ã—ã¦ã€ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ›´æ–°ã¨å¯¿å‘½åˆ‡ã‚Œåˆ¤å®šï¼ˆå‰Šé™¤ï¼‰ã‚’åŒæ™‚ã«å®‰å…¨ã«è¡Œã†
+    m_particles.erase(
+        std::remove_if(m_particles.begin(), m_particles.end(),
+            [this](ResultParticle& p) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.angle += p.rotSpeed;
+                if (s_isVictory) {
+                    p.vx += std::sin(m_stateTimer * 0.05f + p.y * 0.01f) * 0.1f;
+                }
+                p.life--;
+                // å¯¿å‘½ãŒå°½ããŸã€ã¾ãŸã¯ç”»é¢å¤–ã«å‡ºãŸã‚‰ true ã‚’è¿”ã—ã¦å‰Šé™¤
+                return p.life <= 0 || p.y > Utility::SCREEN_HEIGHT + 100 || p.y < -100;
+            }),
+        m_particles.end());
     
     Scene::Update();
 }
@@ -158,11 +160,11 @@ void ResultScene::Draw() {
     for (const auto& p : m_particles) {
         if (s_isVictory) {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 200) ? 255 : p.life);
-            // Ÿ—˜‚Ìj•ŸŠ´‚ğ‰‰o‚·‚é‚½‚ßA†á‚ÉŒ©—§‚Ä‚½ƒp[ƒeƒBƒNƒ‹‚ğ•`‰æ
+            // å‹åˆ©ã®ç¥ç¦æ„Ÿã‚’æ¼”å‡ºã™ã‚‹ãŸã‚ã€ç´™å¹é›ªã«è¦‹ç«‹ã¦ãŸãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’æç”»
             int s = static_cast<int>(p.size);
             int cx = static_cast<int>(p.x);
             int cy = static_cast<int>(p.y);
-            // •¡G‚È‰ñ“]ŒvZ‚ğÈ‚«A•`‰æ•‰‰×‚ğ‰º‚°‚é‚½‚ßƒVƒ“ƒvƒ‹‚È‰~‚Å‘ã—p
+            // è¤‡é›‘ãªå›è»¢è¨ˆç®—ã‚’çœãã€æç”»è² è·ã‚’ä¸‹ã’ã‚‹ãŸã‚ã‚·ãƒ³ãƒ—ãƒ«ãªå††ã§ä»£ç”¨
             DrawCircle(cx, cy, s, p.color, TRUE);
         } else {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 100) ? 150 : p.life);

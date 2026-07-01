@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 
 Vector2::Vector2() : x(0.0f), y(0.0f) {}
 Vector2::Vector2(float x, float y) : x(x), y(y) {}
@@ -49,7 +49,8 @@ Vector2& Vector2::operator/=(float scalar) {
 }
 
 float Vector2::Magnitude() const {
-    return std::sqrt(x * x + y * y);
+    // std::hypot を使用して、オーバーフローを防ぎつつ簡潔にベクトルの長さを計算
+    return std::hypot(x, y);
 }
 
 float Vector2::MagnitudeSq() const {

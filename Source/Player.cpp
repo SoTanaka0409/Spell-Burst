@@ -1,5 +1,6 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include <cmath>
+#include <algorithm>
 #include "InputManager.h"
 #include "Bullet.h"
 #include "CapsuleCollider.h"
@@ -111,10 +112,9 @@ void Player::Update()
     if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
     if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
 
-    if (mvPosition.x < 45.0f) mvPosition.x = 45.0f;
-    if (mvPosition.x > Utility::SCREEN_WIDTH - 45.0f) mvPosition.x = Utility::SCREEN_WIDTH - 45.0f;
-    if (mvPosition.y < 45.0f) mvPosition.y = 45.0f;
-    if (mvPosition.y > Utility::SCREEN_HEIGHT - 45.0f) mvPosition.y = Utility::SCREEN_HEIGHT - 45.0f;
+    // 画面端からはみ出さないように座標を制限（clampを使用）
+    mvPosition.x = std::clamp(mvPosition.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
+    mvPosition.y = std::clamp(mvPosition.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
 
     if (mpBarrier) {
         mpBarrier->SetPosition(mvPosition);

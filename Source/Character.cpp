@@ -1,5 +1,6 @@
-﻿#include "Character.h"
+#include "Character.h"
 #include "CapsuleCollider.h"
+#include <algorithm>
 
 Character::Character(Vector2 pos, int maxHp, float speed)
     : Object2D(pos)
@@ -41,16 +42,14 @@ void Character::OnTrigger(Collider* collider, Collider* check) {
 }
 
 void Character::Heal(int amount) {
-    m_hp += amount;
-    if (m_hp > m_maxHp) {
-        m_hp = m_maxHp;
-    }
+    // std::clampを使って回復後のHPが0〜最大HPの間に収まるように制限
+    m_hp = std::clamp(m_hp + amount, 0, m_maxHp);
 }
 
 void Character::TakeDamage(int damage) {
-    m_hp -= damage;
-    if (m_hp <= 0) {
-        m_hp = 0;
+    // std::clampを使ってダメージ後のHPが0〜最大HPの間に収まるように制限
+    m_hp = std::clamp(m_hp - damage, 0, m_maxHp);
+    if (m_hp == 0) {
         Kill();
     }
 }
