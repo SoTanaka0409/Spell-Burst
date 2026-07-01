@@ -11,6 +11,7 @@
 #endif
 #include "DxLib.h"
 #include "Utility.h"
+#include "PlayerSpellParticle.h"
 
 SpellCardBullet::SpellCardBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 6.0f, 1)
@@ -74,6 +75,10 @@ void SpellCardBullet::Explode() {
     for (int i = 0; i < 8; i++) {
         float angle = i * 3.14159265f / 4.0f;
         Vector2 dir(cos(angle), sin(angle));
+<<<<<<< HEAD
         new PlayerSpellParticle(position.x, position.y, dir, 3.0f);
+=======
+        new PlayerSpellParticle(mvPosition, dir, 3.0f);
+>>>>>>> main
     }
 }

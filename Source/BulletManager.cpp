@@ -4,6 +4,7 @@
 #define NOMINMAX
 #endif
 #include "DxLib.h"
+#include <algorithm>
 
 BulletManager::BulletManager()
 {
@@ -24,6 +25,7 @@ void BulletManager::Initialize() {
 }
 
 void BulletManager::Update() {
+<<<<<<< HEAD
 
 
     for (auto it = bullets.begin(); it != bullets.end(); ) {
@@ -34,6 +36,19 @@ void BulletManager::Update() {
             it++;
         }
     }
+=======
+    // Erase-Remove イディオムを使用して、アクティブでない弾を安全に一括削除
+    m_bullets.erase(
+        std::remove_if(m_bullets.begin(), m_bullets.end(),
+            [](Bullet* bullet) {
+                if (!bullet->IsActive()) {
+                    delete bullet;
+                    return true;
+                }
+                return false;
+            }),
+        m_bullets.end());
+>>>>>>> main
 }
 
 void BulletManager::Draw() {

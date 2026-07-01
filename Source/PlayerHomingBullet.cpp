@@ -1,4 +1,4 @@
-﻿#include "PlayerHomingBullet.h"
+#include "PlayerHomingBullet.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "Boss.h"
@@ -14,7 +14,7 @@
 #include "utility.h"
 
 PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed)
-    : Projectile(pos, dir.Normalized(), speed, 2)
+    : Projectile(pos, dir.Normalized(), speed, 5) // ★球のダメージを5に増加
 {
     SetTag(Tag2D_PlayerBullet);
     lifeTimer = 60 * 3;
@@ -88,6 +88,11 @@ void PlayerHomingBullet::OnTrigger(Collider* collider, Collider* check) {
 
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
+            // ★敵にダメージを与える処理を追加
+            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+            if (enemy != nullptr) {
+                enemy->TakeDamage(m_damage);
+            }
             Kill();
         }
     }

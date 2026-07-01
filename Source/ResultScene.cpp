@@ -13,6 +13,7 @@
 #include "DxLib.h"
 #include <cmath>
 #include <cstdlib>
+#include <algorithm>
 
 bool ResultScene::isVictory = false;
 
@@ -43,8 +44,13 @@ void ResultScene::Update() {
     
     if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z) || 
        (GetMouseInput() & MOUSE_INPUT_LEFT)) {
+<<<<<<< HEAD
         if (stateTimer > 60) {
             SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+=======
+        if (m_stateTimer > 60) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
+>>>>>>> main
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
         }
     }
@@ -84,6 +90,7 @@ void ResultScene::Update() {
         }
     }
     
+<<<<<<< HEAD
     for (auto it = particles.begin(); it != particles.end(); ) {
         it->x += it->vx;
         it->y += it->vy;
@@ -98,6 +105,23 @@ void ResultScene::Update() {
             ++it;
         }
     }
+=======
+    // Erase-Remove イディオムを使用して、パーティクルの更新と寿命切れ判定（削除）を同時に安全に行う
+    m_particles.erase(
+        std::remove_if(m_particles.begin(), m_particles.end(),
+            [this](ResultParticle& p) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.angle += p.rotSpeed;
+                if (s_isVictory) {
+                    p.vx += std::sin(m_stateTimer * 0.05f + p.y * 0.01f) * 0.1f;
+                }
+                p.life--;
+                // 寿命が尽きた、または画面外に出たら true を返して削除
+                return p.life <= 0 || p.y > Utility::SCREEN_HEIGHT + 100 || p.y < -100;
+            }),
+        m_particles.end());
+>>>>>>> main
     
     Scene::Update();
 }
@@ -158,11 +182,19 @@ void ResultScene::Draw() {
     for (const auto& p : particles) {
         if (isVictory) {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 200) ? 255 : p.life);
+<<<<<<< HEAD
             // �����̏j��������o���邽�߁A������Ɍ����Ă��p�[�e�B�N����`��
             int s = static_cast<int>(p.size);
             int cx = static_cast<int>(p.x);
             int cy = static_cast<int>(p.y);
             // ���G�ȉ�]�v�Z��Ȃ��A�`�敉�ׂ�����邽�߃V���v���ȉ~�ő�p
+=======
+            // 勝利の祝福感を演出するため、紙吹雪に見立てたパーティクルを描画
+            int s = static_cast<int>(p.size);
+            int cx = static_cast<int>(p.x);
+            int cy = static_cast<int>(p.y);
+            // 複雑な回転計算を省き、描画負荷を下げるためシンプルな円で代用
+>>>>>>> main
             DrawCircle(cx, cy, s, p.color, TRUE);
         } else {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 100) ? 150 : p.life);
