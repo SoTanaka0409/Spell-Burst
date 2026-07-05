@@ -1,4 +1,4 @@
-﻿#include "SpellCardBullet.h"
+#include "SpellCardBullet.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Master.h"
@@ -16,24 +16,24 @@
 SpellCardBullet::SpellCardBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 6.0f, 1)
 {
-    SetTag(Tag2D_PlayerBullet);
-    lifeTimer = 0;
+    SetTag(kTag2dPlayerBullet);
+    life_timer_ = 0;
     
-    collider = new CapsuleCollider(this, position, position, 15.0f);
+    collider_ = new CapsuleCollider(this, position_, position_, 15.0f);
 }
 
 SpellCardBullet::~SpellCardBullet() {
 }
 
 void SpellCardBullet::Update() {
-    position += dir * (speed * Utility::TimeScale);
+    position_ += dir * (speed_ * Utility::TimeScale);
 
-    if (collider) {
-        collider->position = position;
-        collider->position2 = position;
+    if (collider_) {
+        collider_->position_ = position_;
+        collider_->position2 = position_;
     }
 
-    lifeTimer++;
+    life_timer_++;
 
     if (IsOutOfBounds()) {
         Kill();
@@ -41,28 +41,28 @@ void SpellCardBullet::Update() {
 }
 
 void SpellCardBullet::Draw() {
-    if (!isActive) return;
+    if (!is_active_) return;
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-    int r = 15 + static_cast<int>(sin(lifeTimer * 0.2f) * 5.0f);
-    DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), r, GetColor(255, 100, 255), TRUE);
-    DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), r - 5, GetColor(255, 255, 255), TRUE);
+    int r = 15 + static_cast<int>(sin(life_timer_ * 0.2f) * 5.0f);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), r, GetColor(255, 100, 255), TRUE);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), r - 5, GetColor(255, 255, 255), TRUE);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void SpellCardBullet::OnTrigger(Collider* collider, Collider* check) {
+void SpellCardBullet::OnTrigger(Collider* collider_, Collider* check) {
     if(check!=nullptr&&check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_BarrierEnemy)
+        if (check->GetParentObject()->GetTag() == kTag2dBarrierEnemy)
         {
             Kill();
             return;
 		}
 	}
     if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
             if (enemy != nullptr) {
-                enemy->TakeDamage(damage);
+                enemy->TakeDamage(damage_);
             }
             Explode();
             Kill();
@@ -75,10 +75,6 @@ void SpellCardBullet::Explode() {
     for (int i = 0; i < 8; i++) {
         float angle = i * 3.14159265f / 4.0f;
         Vector2 dir(cos(angle), sin(angle));
-<<<<<<< HEAD
-        new PlayerSpellParticle(position.x, position.y, dir, 3.0f);
-=======
-        new PlayerSpellParticle(mvPosition, dir, 3.0f);
->>>>>>> main
+        new PlayerSpellParticle(position_, dir, 3.0f);
     }
 }

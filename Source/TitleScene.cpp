@@ -11,7 +11,7 @@
 #include "DxLib.h"
 #include <cmath>
 
-TitleScene::TitleScene() : bgGraph(-1), bgScrollX(0.0f), uiButtonGraph(-1)
+TitleScene::TitleScene() : bg_graph_(-1), bg_scroll_x_(0.0f), ui_button_graph_(-1)
 {
 }
 
@@ -21,11 +21,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-    bgGraph = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
-    uiButtonGraph = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
-    bgScrollX = 0.0f;
+    bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+    ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
+    bg_scroll_x_ = 0.0f;
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.3");
-    Utility::LoadTimeRanking(rankings);
+    Utility::LoadTimeRanking(rankings_);
 }
 
 void TitleScene::Update()
@@ -61,20 +61,20 @@ void TitleScene::Update()
     }
     
     // �w�i�摜���ɍ������փX�N���[�������A������̂���^�C�g����ʂ���o
-    bgScrollX += 1.0f * Utility::TimeScale;
-    if (bgScrollX >= Utility::SCREEN_WIDTH) {
-        bgScrollX -= Utility::SCREEN_WIDTH;
+    bg_scroll_x_ += 1.0f * Utility::TimeScale;
+    if (bg_scroll_x_ >= Utility::SCREEN_WIDTH) {
+        bg_scroll_x_ -= Utility::SCREEN_WIDTH;
     }
     
     Scene::Update();
 }
 
 void TitleScene::Draw() {
-    if (bgGraph != -1) {
+    if (bg_graph_ != -1) {
         float sw = Utility::SCREEN_WIDTH;
         float sh = Utility::SCREEN_HEIGHT;
-        DrawExtendGraph(static_cast<int>(-bgScrollX), 0, static_cast<int>(-bgScrollX + sw), static_cast<int>(sh), bgGraph, FALSE);
-        DrawExtendGraph(static_cast<int>(-bgScrollX + sw), 0, static_cast<int>(-bgScrollX + sw * 2), static_cast<int>(sh), bgGraph, FALSE);
+        DrawExtendGraph(static_cast<int>(-bg_scroll_x_), 0, static_cast<int>(-bg_scroll_x_ + sw), static_cast<int>(sh), bg_graph_, FALSE);
+        DrawExtendGraph(static_cast<int>(-bg_scroll_x_ + sw), 0, static_cast<int>(-bg_scroll_x_ + sw * 2), static_cast<int>(sh), bg_graph_, FALSE);
     } else {
         DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(15, 20, 30), TRUE);
     }
@@ -82,8 +82,8 @@ void TitleScene::Draw() {
     
         int rankFont = ResourceManager::GetInstance()->GetFont(32, 2);
     DrawStringToHandle(Utility::SCREEN_WIDTH - 320, 50, "TIME ATTACK TOP 3", GetColor(200, 200, 255), rankFont);
-    for (size_t i = 0; i < rankings.size() && i < 3; ++i) {
-        int totalMs = rankings[i];
+    for (size_t i = 0; i < rankings_.size() && i < 3; ++i) {
+        int totalMs = rankings_[i];
         int ms = totalMs % 1000;
         int totalSec = totalMs / 1000;
         int sec = totalSec % 60;
@@ -110,16 +110,16 @@ void TitleScene::Draw() {
     int btnY3 = btnY2 + 100;
     
     auto drawBtn = [&](int x, int y, const char* text, bool hover) {
-        if (uiButtonGraph != -1) {
+        if (ui_button_graph_ != -1) {
             if (hover) {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
-                DrawExtendGraph(x, y, x + btnW, y + btnH, uiButtonGraph, TRUE);
+                DrawExtendGraph(x, y, x + btnW, y + btnH, ui_button_graph_, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
                 DrawBox(x, y, x + btnW, y + btnH, GetColor(0, 200, 255), TRUE); // �I��\��UI�ł��邱�Ƃ�������邽�ߔ����G�t�F�N�g����Z
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             } else {
                 SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-                DrawExtendGraph(x, y, x + btnW, y + btnH, uiButtonGraph, TRUE);
+                DrawExtendGraph(x, y, x + btnW, y + btnH, ui_button_graph_, TRUE);
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             }
         } else {

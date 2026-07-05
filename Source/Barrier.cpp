@@ -9,23 +9,23 @@
 #include "SoundManager.h"
 #include <cmath>
 
-Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
+Barrier::Barrier(float x, float y, float radius_, Object2D::Tag2D obj)
     : Object2D(Vector2(x, y))
-    , collider(nullptr)
+    , collider_(nullptr)
 {
     SetTag(obj); 
     deployInterval = 300.0f;
     activeDuration = 180.0f;
     timer = 0.0f;
-    radius = radius;
+    radius_ = radius_;
     isDeployed = false;
-    hitCount = 0;
+    hit_count = 0;
 }
 
 Barrier::~Barrier() {
-    if (collider) {
-        delete collider;
-        collider = nullptr;
+    if (collider_) {
+        delete collider_;
+        collider_ = nullptr;
     }
 }
 
@@ -37,28 +37,28 @@ void Barrier::Update() {
             isDeployed = true;
             SoundManager::GetInstance()->PlaySE("Resource/se_barrier.wav");
             timer = 0.0f;
-            collider = new CapsuleCollider(this, position, position, radius);
+            collider_ = new CapsuleCollider(this, position_, position_, radius_);
         }
     } else {
         if (timer >= activeDuration) {
             isDeployed = false;
             timer = 0.0f;
            
-            if (collider)
+            if (collider_)
             {
-                collider->position = position;
-                collider->position2 = position;
+                collider_->position_ = position_;
+                collider_->position2 = position_;
             }
-            if (collider) {
-                collider->SetDeleteFlag(true);
-                collider = nullptr;
+            if (collider_) {
+                collider_->SetDeleteFlag(true);
+                collider_ = nullptr;
             }
         }
     }
 
-    if (collider) {
-        collider->position = position;
-        collider->position2 = position;
+    if (collider_) {
+        collider_->position_ = position_;
+        collider_->position2 = position_;
     }
 }
 
@@ -67,26 +67,26 @@ void Barrier::Draw() {
         int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
         SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
         
-        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(radius), GetColor(0, 50, 150), TRUE);
-        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(radius), GetColor(255, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(radius) - 1, GetColor(0, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(position.x), static_cast<int>(position.y), static_cast<int>(radius) + 1, GetColor(0, 255, 255), FALSE);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 255, 255), FALSE);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(0, 255, 255), FALSE);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(0, 255, 255), FALSE);
         
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 }
 
-void Barrier::OnTrigger(Collider* collider, Collider* check) {
+void Barrier::OnTrigger(Collider* collider_, Collider* check) {
     if (!isDeployed) return;
 
     if (check != nullptr && check->GetParentObject() != nullptr) {
-        auto tag = check->GetParentObject()->GetTag();
-        if (this->GetTag() == Tag2D_BarrierPlayer && tag == Tag2D_EnemyBullet)
+        auto tag_ = check->GetParentObject()->GetTag();
+        if (this->GetTag() == kTag2dBarrierPlayer && tag_ == kTag2dEnemyBullet)
         {
             check->GetParentObject()->SetDeleteFlag(true);
-            hitCount++;
-            if (hitCount >= 30) {
-                hitCount = 0;
+            hit_count++;
+            if (hit_count >= 30) {
+                hit_count = 0;
                 SoundManager::GetInstance()->PlaySE("Resource/SE/?K???X???????1.3");
                 float baseSpeed = 10.0f;
                 for (int dir = 0; dir < 4; ++dir) {
@@ -96,12 +96,12 @@ void Barrier::OnTrigger(Collider* collider, Collider* check) {
                         float angle = baseAngle + spread;
                         
                         Vector2 dir = Vector2::FromAngle(angle);
-                        new PlayerHomingBullet(position + dir * 30.0f, dir, baseSpeed);
+                        new PlayerHomingBullet(position_ + dir * 30.0f, dir, baseSpeed);
                     }
                 }
             }
         }
-        else if (GetTag() == Tag2D_BarrierEnemy && tag == Tag2D_PlayerBullet) {
+        else if (GetTag() == kTag2dBarrierEnemy && tag_ == kTag2dPlayerBullet) {
             check->GetParentObject()->SetDeleteFlag(true);
         }
        

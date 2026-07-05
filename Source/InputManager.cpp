@@ -4,8 +4,8 @@
 #endif
 #include "DxLib.h"
 
-int InputManager::downBuffer[256] = { 0 };
-int InputManager::upBuffer[256] = { 0 };
+int InputManager::down_buffer_[256] = { 0 };
+int InputManager::up_buffer_[256] = { 0 };
 
 InputManager::InputManager()
 {
@@ -20,12 +20,12 @@ int InputManager::CheckDownKey(int KeyCode)//�����Ă���Ԃ���
 	int result = 0;
 	int keyState = CheckHitKey(KeyCode);
 	
-	if (downBuffer[KeyCode] == 0 && keyState == 1)
+	if (down_buffer_[KeyCode] == 0 && keyState == 1)
 	{
 		result = 1;
 	}
 
-	downBuffer[KeyCode] = keyState;
+	down_buffer_[KeyCode] = keyState;
 	return result;
 }
 
@@ -34,12 +34,12 @@ int InputManager::CheckUpKey(int KeyCode)
 	int result = 0;
 	int keyState = CheckHitKey(KeyCode);
 	
-	if (upBuffer[KeyCode] == 1 && keyState == 0)
+	if (up_buffer_[KeyCode] == 1 && keyState == 0)
 	{
 		result = 1;
 	}
 
-	upBuffer[KeyCode] = keyState;
+	up_buffer_[KeyCode] = keyState;
 	return result;
 }
 

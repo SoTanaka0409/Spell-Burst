@@ -27,14 +27,14 @@ int ResourceManager::GetGraph(const std::string& path) {
     return handle;
 }
 
-int ResourceManager::GetFont(int size, int thickness) {
-    auto key = std::make_pair(size, thickness);
+int ResourceManager::GetFont(int size_, int thickness) {
+    auto key = std::make_pair(size_, thickness);
     auto it = fontMap.find(key);
     if (it != fontMap.end()) {
         return it->second;
     }
 
-    int handle = CreateFontToHandle(NULL, size, thickness, DX_FONTTYPE_ANTIALIASING);
+    int handle = CreateFontToHandle(NULL, size_, thickness, DX_FONTTYPE_ANTIALIASING);
     fontMap[key] = handle;
     return handle;
 }

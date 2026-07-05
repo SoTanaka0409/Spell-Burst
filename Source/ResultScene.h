@@ -5,11 +5,11 @@
 // ���U���g��ʂ̉��o�i������Ȃǁj�Ɏg�p�����p�[�e�B�N���̍\����
 struct ResultParticle {
     float x, y;         // �p�[�e�B�N���̌��ݍ��W
-    float vx, vy;       // X�����EY�����̈ړ����x�x�N�g��
-    float size;         // �p�[�e�B�N���̕`��T�C�Y
+    float vx_, vy_;       // X�����EY�����̈ړ����x�x�N�g��
+    float size_;         // �p�[�e�B�N���̕`��T�C�Y
     float angle;        // ���݂̕`��p�x�i��]��ԁj
-    float rotSpeed;     // ��]���x�i���t���[�����Z�����p�x�j
-    int color;          // �p�[�e�B�N���̐F�iDxLib�̃J���[�R�[�h�Ȃǁj
+    float rot_speed;     // ��]���x�i���t���[�����Z�����p�x�j
+    int color_;          // �p�[�e�B�N���̐F�iDxLib�̃J���[�R�[�h�Ȃǁj
     int life;           // �p�[�e�B�N���̎c������i�t���[�����j
 };
 
@@ -18,7 +18,7 @@ class ResultScene : public Scene {
 public:
     // �Q�[���̏��s���ʂ�ێ�����ÓI�t���O�itrue: �N���A/����, false: �Q�[���I�[�o�[/�s�k�j
     // Scene�ڍs�O��GameScene�����珑�������Č��ʂ�n�����߂Ɏg�p����
-    static bool isVictory;
+    static bool kIsVictory;
 
     // [����] �Ȃ�
     // [�o��] �Ȃ�
@@ -41,13 +41,13 @@ public:
     void Finalize() override;
 
 private:
-    std::vector<ResultParticle> particles; // ������Ȃǂ̉��o�p�p�[�e�B�N����Ǘ�����z��
-    int stateTimer;                        // �V�[���J�n����̌o�ߎ��Ԃ�v��^�C�}�[�i�����̃t�F�[�h�C������͎�t�̒x���Ɏg�p�j
-    int bgGraph;                           // �w�i�摜�̃O���t�B�b�N�n���h���iDxLib�p�j
-    int playerGraph;                       // ���@�i�v���C���[�j�摜�̃O���t�B�b�N�n���h��
+    std::vector<ResultParticle> particles_; // ������Ȃǂ̉��o�p�p�[�e�B�N����Ǘ�����z��
+    int state_timer_;                        // �V�[���J�n����̌o�ߎ��Ԃ�v��^�C�}�[�i�����̃t�F�[�h�C������͎�t�̒x���Ɏg�p�j
+    int bg_graph_;                           // �w�i�摜�̃O���t�B�b�N�n���h���iDxLib�p�j
+    int player_graph_;                       // ���@�i�v���C���[�j�摜�̃O���t�B�b�N�n���h��
 
-    // [����] x, y: �`����W, str: ������, color: �����F, outlineColor: ���F, fontHandle: �t�H���g
+    // [����] x, y: �`����W, str: ������, color_: �����F, outline_color: ���F, font_handle: �t�H���g
     // [�o��] �Ȃ�
     // [����p] �w�肳�ꂽ���W�ɉ����t���̕������`�悷��i���F������̂��߂̃w���p�[�֐��j
-    void DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle);
+    void DrawOutlinedString(int x, int y, const char* str, unsigned int color_, unsigned int outline_color, int font_handle);
 };

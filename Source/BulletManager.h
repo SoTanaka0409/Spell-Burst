@@ -20,7 +20,7 @@ public:
 
     // [����] �Ȃ�
     // [�o��] �Ȃ�
-    // [����p] �e�e��Update��ĂсA����(isActive == false)�Ȓe����X�g���珜�O����delete����
+    // [����p] �e�e��Update��ĂсA����(is_active_ == false)�Ȓe����X�g���珜�O����delete����
     void Update();
 
     // [����] �Ȃ�

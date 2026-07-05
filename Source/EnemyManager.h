@@ -8,13 +8,13 @@ class Boss;
 // �{�X�o������̊Ď���A���݂̃t�F�[�Y�i�E�F�[�u�j�ɉ������G�̃X�|�[���𐧌䂷��
 class EnemyManager {
 private:
-    int spawnTimer;              // �G��o���i�X�|�[���j������Ԋu��v��^�C�}�[
-    int defeatedCount;           // �v���C���[���|�����G�̗݌v���i�t�F�[�Y�i�s�̏������Ɏg�p�j
-    bool bossSpawned;            // ���݂̃t�F�[�Y�Ń{�X�����ɏo���������ǂ����̃t���O
+    int spawn_timer_;              // �G��o���i�X�|�[���j������Ԋu��v��^�C�}�[
+    int defeated_count_;           // �v���C���[���|�����G�̗݌v���i�t�F�[�Y�i�s�̏������Ɏg�p�j
+    bool boss_spawned_;            // ���݂̃t�F�[�Y�Ń{�X�����ɏo���������ǂ����̃t���O
 
-    int currentPhase;            // ���݂̐i�s�t�F�[�Y�i�E�F�[�u�j�ԍ�
-    int requiredKills;           // ���̃t�F�[�Y�ւ̈ڍs�A�܂��̓{�X�o���ɕK�v�ȓG�̓�����
-    Boss* currentBoss;           // ���ݏo�����Ă���{�X�I�u�W�F�N�g�ւ̃|�C���^�i���o������nullptr�j
+    int current_phase_;            // ���݂̐i�s�t�F�[�Y�i�E�F�[�u�j�ԍ�
+    int required_kills_;           // ���̃t�F�[�Y�ւ̈ڍs�A�܂��̓{�X�o���ɕK�v�ȓG�̓�����
+    Boss* current_boss_;           // ���ݏo�����Ă���{�X�I�u�W�F�N�g�ւ̃|�C���^�i���o������nullptr�j
 
 public:
     // �R���X�g���N�^ / �f�X�g���N�^
@@ -63,11 +63,11 @@ public:
 
     // [����] �Ȃ�
     // [�o��] �Ȃ�
-    // [����p] �G��|�����J�E���g(defeatedCount)��1���Z����i�G�̎��S���ɌĂ΂��z��j
-    void AddDefeatedCount() { defeatedCount++; }
+    // [����p] �G��|�����J�E���g(defeated_count_)��1���Z����i�G�̎��S���ɌĂ΂��z��j
+    void AddDefeatedCount() { defeated_count_++; }
 
-    int GetDefeatedCount() const { return defeatedCount; }   // ���݂̓G��������擾
-    int GetRequiredKills() const { return requiredKills; }   // �{�X�o�����ɕK�v�ȖڕW��������擾
-    bool IsBossSpawned() const { return bossSpawned; }       // �{�X�����ɏo�����Ă��邩��擾
-    int GetCurrentPhase() const { return currentPhase; }     // ���݂̃t�F�[�Y�ԍ���擾
+    int GetDefeatedCount() const { return defeated_count_; }   // ���݂̓G��������擾
+    int GetRequiredKills() const { return required_kills_; }   // �{�X�o�����ɕK�v�ȖڕW��������擾
+    bool IsBossSpawned() const { return boss_spawned_; }       // �{�X�����ɏo�����Ă��邩��擾
+    int GetCurrentPhase() const { return current_phase_; }     // ���݂̃t�F�[�Y�ԍ���擾
 };

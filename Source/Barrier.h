@@ -8,7 +8,7 @@ class Collider;
 class Barrier : public Object2D
 {
 public:
-    Barrier(float x, float y, float radius, Object2D::Tag2D obj);
+    Barrier(float x, float y, float radius_, Object2D::Tag2D obj);
     virtual ~Barrier();
 
     // [����] �Ȃ�
@@ -21,21 +21,21 @@ public:
     // [����p] �W�J���(isDeployed)�̏ꍇ�̂݁A�o���A�̎��o�G�t�F�N�g��`�悷��
     virtual void Draw() override;
 
-    // [����] collider: ���g�̃R���C�_�[, check: �Փˑ���̃R���C�_�[
+    // [����] collider_: ���g�̃R���C�_�[, check: �Փˑ���̃R���C�_�[
     // [�o��] �Ȃ�
-    // [����p] �G�̒e�ƏՓ˂����ꍇ�A�e����ł����Ėh������(hitCount)����Z����
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    // [����p] �G�̒e�ƏՓ˂����ꍇ�A�e����ł����Ėh������(hit_count)����Z����
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 
-    int GetHitCount() const { return hitCount; }
+    int GetHitCount() const { return hit_count; }
     bool IsDeployed() const { return isDeployed; }
 
 private:
     float deployInterval;
     float activeDuration;
     float timer;
-    float radius;
+    float radius_;
     bool isDeployed;
 
-    Collider* collider;
-    int hitCount;
+    Collider* collider_;
+    int hit_count;
 };

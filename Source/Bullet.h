@@ -5,20 +5,20 @@
 class Bullet : public Projectile
 {
 public:
-    Bullet(float x, float y, int damage);
+    Bullet(float x, float y, int damage_);
     virtual ~Bullet() override;
     
     void Draw() override;
     void Update() override;
 
     // Collision helper
-    float GetX() { return position.x; }
-    float GetY() { return position.y; }
+    float GetX() { return position_.x; }
+    float GetY() { return position_.y; }
     float GetRadius() const { return 10.0f; }
 
 	void AddReceivedDamage() { recivedDamage++; }
 
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 
 private:
 	int recivedDamage;    // ダメージを受けた回数  

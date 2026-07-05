@@ -42,21 +42,21 @@ public:
     // note: �S�ẴI�u�W�F�N�g�̍X�V���I�������ɌĂяo��
     void DeleteAllColliderIfNeeded();
 
-    void RemoveCollider(Collider* collider);
+    void RemoveCollider(Collider* collider_);
     //// �w�肵���^�O�̃R���C�_�[��擾
     //// note: �Y������I�u�W�F�N�g����������ꍇ�A�ŏ��Ɍ������I�u�W�F�N�g��Ԃ�
-    //Collider* GetColliderByTag(Collider::Tag tag);
+    //Collider* GetColliderByTag(Collider::Tag tag_);
 
     //// �w�肵���^�O�̃R���C�_�[�̃��X�g��擾
     //// note: �Y������I�u�W�F�N�g����������ꍇ�A���X�g�����đS�ẴI�u�W�F�N�g��Ԃ�
-    //std::vector<Collider*> GetColliderListByTag(Collider::Tag tag);
+    //std::vector<Collider*> GetColliderListByTag(Collider::Tag tag_);
     
     // ���ǉ�
     std::list<Collider*>& GetColliderList();
 
 
 private:
-    std::list<Collider*> colliderList;    // �R���C�_�[��Ǘ����郊�X�g
+    std::list<Collider*> collider_list_;    // �R���C�_�[��Ǘ����郊�X�g
 
     
 

@@ -5,7 +5,7 @@ class CapsuleCollider;
 
 class RainbowBullet : public Projectile {
 private:
-    int colorHue;
+    int color_hue_;
 
 public:
     RainbowBullet(float x, float y);
@@ -13,5 +13,5 @@ public:
 
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 };

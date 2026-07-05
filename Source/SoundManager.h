@@ -33,5 +33,5 @@ public:
 
 private:
     std::unordered_map<std::string, int> soundMap;
-    int currentBGMHandle;
+    int current_bgm_handle_;
 };

@@ -9,7 +9,7 @@ private:
     int bossType; 
     float targetX, targetY; 
     
-    int attackTimer; 
+    int attack_timer_; 
     int patternIndex; 
 
     bool isDying; 
@@ -28,12 +28,12 @@ public:
 
     int GetLives() const { return lives; }
 
-    virtual void TakeDamage(int damage) override;
+    virtual void TakeDamage(int damage_) override;
     virtual void Kill() override;
 
     float GetRadius() const { return 80.0f; }
 
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 
 private:
     void ShootRadialBarrage();

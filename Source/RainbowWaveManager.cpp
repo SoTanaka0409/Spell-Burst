@@ -4,26 +4,26 @@
 
 RainbowWaveManager::RainbowWaveManager(float x, float y)
     : Object2D(Vector2(x, y))
-    , lifeTimer(120) // 管理オブジェクト自体の生存期間（3秒）
-    , spawnInterval(10) // 弾を生成するインターバル（5フレームごと）
-    , spawnTimer(0)
+    , life_timer_(120) // 管理オブジェクト自体の生存期間（3秒）
+    , spawn_interval_(10) // 弾を生成するインターバル（5フレームごと）
+    , spawn_timer_(0)
 {
-    SetTag(Tag2D_PlayerBullet);
+    SetTag(kTag2dPlayerBullet);
 }
 
 RainbowWaveManager::~RainbowWaveManager() {
 }
 
 void RainbowWaveManager::Update() {
-    lifeTimer--;
-    if (lifeTimer <= 0) {
+    life_timer_--;
+    if (life_timer_ <= 0) {
         SetDeleteFlag(true);
         return;
     }
 
-    spawnTimer++;
-    if (spawnTimer >= spawnInterval) {
-        spawnTimer = 0;
+    spawn_timer_++;
+    if (spawn_timer_ >= spawn_interval_) {
+        spawn_timer_ = 0;
         
         // 画面下部から画面全体を覆うように弾を配置するため、等間隔に座標を計算
         int numBullets = 10;
@@ -41,6 +41,6 @@ void RainbowWaveManager::Draw() {
     // 弾の生成管理のみを行う不可視オブジェクトであるため描画処理は不要
 }
 
-void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check) {
+void RainbowWaveManager::OnTrigger(Collider* collider_, Collider* check) {
     // 自身は当たり判定を持たず、生成した弾に判定を委ねるため空処理
 }

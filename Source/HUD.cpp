@@ -22,7 +22,7 @@ void HUD::Initialize() {
     bossHpRatio = 1.0f;
 }
 
-void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
+void HUD::Update(Player* player, EnemyManager* enemy_manager_, Boss* boss) {
     float lerpSpeed = 0.1f * Utility::TimeScale;
 
     if (player != nullptr) {
@@ -44,7 +44,7 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
     }
 }
 
-void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
+void HUD::Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cutin_timer_, int cutin_image_handle_) {
     if (player != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
         DrawBox(10, 10, 350, 135, GetColor(0, 15, 30), TRUE); 
@@ -116,16 +116,16 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         }
     }
 
-    if (enemyManager != nullptr) {
+    if (enemy_manager_ != nullptr) {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
         DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 15, 30), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
 
-        if (enemyManager->GetDefeatedCount() >= 10) {
+        if (enemy_manager_->GetDefeatedCount() >= 10) {
             //DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
         } else {
-            DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemyManager->GetDefeatedCount());
+            DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemy_manager_->GetDefeatedCount());
         }
     }
 
@@ -150,9 +150,9 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
         DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
     }
 
-    if (cutinTimer > 0) {
+    if (cutin_timer_ > 0) {
         int maxTimer = 90;
-        int progress = maxTimer - cutinTimer; 
+        int progress = maxTimer - cutin_timer_; 
         
         float xOffset = 0;
         if (progress < 15) {
@@ -169,8 +169,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
             xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
         }
         
-        if (cutinImageHandle != -1) {
-            DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutinImageHandle, TRUE);
+        if (cutin_image_handle_ != -1) {
+            DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutin_image_handle_, TRUE);
         }
 
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
@@ -180,8 +180,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
 
         if (progress > 10) {
             const char* spellName = "SPELL CARD: MASTER SPARK!!";
-            if (Player::selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
-            else if (Player::selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
+            if (Player::kSelectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
+            else if (Player::kSelectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
             DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
         }
     }

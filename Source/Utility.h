@@ -26,29 +26,29 @@ public:
 		return deg * DX_PI_F / 180.0f;
 	}
 
-	// [入力] outTimes: ランキングデータを格納する動的配列
+	// [入力] out_times: ランキングデータを格納する動的配列
 	// [出力] なし
 	// [副作用] ranking.txt からスコアを読み込み、昇順ソートして配列に格納する
-	static void LoadTimeRanking(std::vector<int>& outTimes) {
-		outTimes.clear();
+	static void LoadTimeRanking(std::vector<int>& out_times) {
+		out_times.clear();
 		std::ifstream ifs("ranking.txt");
 		if (ifs.is_open()) {
 			int t;
 			while (ifs >> t) {
-				outTimes.push_back(t);
+				out_times.push_back(t);
 			}
 			ifs.close();
 		}
-		std::sort(outTimes.begin(), outTimes.end());
+		std::sort(out_times.begin(), out_times.end());
 	}
 
-	// [入力] timeMs: 保存するクリアタイム（ミリ秒）
+	// [入力] time_ms: 保存するクリアタイム（ミリ秒）
 	// [出力] なし
 	// [副作用] ranking.txt に上位5つの記録を昇順ソートして書き込む
-	static void SaveTimeRanking(int timeMs) {
+	static void SaveTimeRanking(int time_ms) {
 		std::vector<int> times;
 		LoadTimeRanking(times);
-		times.push_back(timeMs);
+		times.push_back(time_ms);
 		std::sort(times.begin(), times.end());
 		
 		std::ofstream ofs("ranking.txt", std::ios::trunc);

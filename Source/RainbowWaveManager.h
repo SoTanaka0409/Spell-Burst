@@ -3,9 +3,9 @@
 
 class RainbowWaveManager : public Object2D {
 private:
-    int lifeTimer;
-    int spawnInterval;
-    int spawnTimer;
+    int life_timer_;
+    int spawn_interval_;
+    int spawn_timer_;
 
 public:
     RainbowWaveManager(float x, float y);
@@ -13,5 +13,5 @@ public:
 
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 };

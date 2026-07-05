@@ -4,7 +4,7 @@
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(Object2D* parent, Vector2 center, float radius);
+	SphereCollider(Object2D* parent, Vector2 center, float radius_);
 	virtual ~SphereCollider();
 
 	void Update(Collider* check) override;

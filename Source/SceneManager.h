@@ -55,23 +55,23 @@ public:
 
     // [入力] next: 次に遷移したいシーンの種別列挙子
     // [出力] なし
-    // [副作用] 次回Update時にシーン遷移が行われるようフラグ(nextSceneType)をセットする
-	void SetNextScene(SCENE_TYPE next) { nextSceneType = next; }
+    // [副作用] 次回Update時にシーン遷移が行われるようフラグ(next_scene_type_)をセットする
+	void SetNextScene(SCENE_TYPE next) { next_scene_type_ = next; }
 
-	void SetSceneHard(bool Hard) { SceneHard = Hard; }
-	bool GetSceneHard() { return SceneHard; }
+	void SetSceneHard(bool Hard) { kSceneHard = Hard; }
+	bool GetSceneHard() { return kSceneHard; }
 
-	void SetSceneNormal(bool Normal) {SceneNormal=Normal; }
-	bool GetSceneNormal() { return SceneNormal; }
+	void SetSceneNormal(bool Normal) {kSceneNormal=Normal; }
+	bool GetSceneNormal() { return kSceneNormal; }
 
-	Scene* GetCurrentScene() { return currentScene.get(); }
+	Scene* GetCurrentScene() { return current_scene_.get(); }
 
 private:
-	SCENE_TYPE sceneType;     
-	SCENE_TYPE nextSceneType;
-	std::unique_ptr<Scene> currentScene;    
+	SCENE_TYPE scene_type_;     
+	SCENE_TYPE next_scene_type_;
+	std::unique_ptr<Scene> current_scene_;    
 	
 
-	bool SceneHard;
-	bool SceneNormal;
+	bool kSceneHard;
+	bool kSceneNormal;
 };

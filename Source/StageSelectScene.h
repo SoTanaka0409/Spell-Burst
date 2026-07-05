@@ -24,7 +24,7 @@ public:
     // [����p] �ǂݍ��񂾉摜���\�[�X��j������
     void Finalize() override;
 private:
-    int phase; // 0: Character, 1: Stage
-    int uiButtonGraph;
-    int waitCount;
+    int phase_; // 0: Character, 1: Stage
+    int ui_button_graph_;
+    int wait_count_;
 };

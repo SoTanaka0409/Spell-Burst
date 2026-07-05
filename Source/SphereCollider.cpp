@@ -1,12 +1,12 @@
 ﻿#include "SphereCollider.h"
 #include "CapsuleCollider.h"
 
-SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
+SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius_)
 	: Collider(parent)
 {
-	position = center;
+	position_ = center;
 	position2 = center;
-	radius = radius;
+	radius_ = radius_;
 }
 
 SphereCollider::~SphereCollider()
@@ -21,11 +21,11 @@ void SphereCollider::Update(Collider* check)
 		if (capsule != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Capsule(
-				this->position,
-				this->radius,
-				capsule->position,
+				this->position_,
+				this->radius_,
+				capsule->position_,
 				capsule->position2,
-				capsule->radius
+				capsule->radius_
 			);
 			HitCheck(check, isHit);
 		}
@@ -34,10 +34,10 @@ void SphereCollider::Update(Collider* check)
 		if (sphere != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Sphere(
-				this->position,
-				this->radius,
-				sphere->position,
-				sphere->radius
+				this->position_,
+				this->radius_,
+				sphere->position_,
+				sphere->radius_
 			);
 			HitCheck(check, isHit);
 		}
@@ -47,9 +47,9 @@ void SphereCollider::Update(Collider* check)
 void SphereCollider::Draw()
 {
 	DrawCircle(
-		static_cast<int>(position.x),
-		static_cast<int>(position.y),
-		static_cast<int>(radius),
+		static_cast<int>(position_.x),
+		static_cast<int>(position_.y),
+		static_cast<int>(radius_),
 		GetColor(255, 255, 255),
 		FALSE
 	);

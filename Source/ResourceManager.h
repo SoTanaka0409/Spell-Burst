@@ -14,7 +14,7 @@ public:
     static ResourceManager* GetInstance();
 
     int GetGraph(const std::string& path);
-    int GetFont(int size, int thickness);
+    int GetFont(int size_, int thickness);
 
     void ClearAll();
 };

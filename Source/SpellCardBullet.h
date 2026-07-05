@@ -5,7 +5,7 @@ class CapsuleCollider;
 
 class SpellCardBullet : public Projectile {
 private:
-    int lifeTimer;
+    int life_timer_;
     void Explode();
 
 public:
@@ -14,5 +14,5 @@ public:
 
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 };

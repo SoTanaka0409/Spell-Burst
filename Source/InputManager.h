@@ -23,6 +23,6 @@ public:
 	static int CheckPressKey(int KeyCode);
 
 private:
-	static int downBuffer[256];
-	static int upBuffer[256];
+	static int down_buffer_[256];
+	static int up_buffer_[256];
 };

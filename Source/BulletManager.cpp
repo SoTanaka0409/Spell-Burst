@@ -25,21 +25,9 @@ void BulletManager::Initialize() {
 }
 
 void BulletManager::Update() {
-<<<<<<< HEAD
-
-
-    for (auto it = bullets.begin(); it != bullets.end(); ) {
-        if (!(*it)->IsActive()) {
-            delete *it;
-            it = bullets.erase(it);
-        } else {
-            it++;
-        }
-    }
-=======
     // Erase-Remove イディオムを使用して、アクティブでない弾を安全に一括削除
-    m_bullets.erase(
-        std::remove_if(m_bullets.begin(), m_bullets.end(),
+    bullets.erase(
+        std::remove_if(bullets.begin(), bullets.end(),
             [](Bullet* bullet) {
                 if (!bullet->IsActive()) {
                     delete bullet;
@@ -47,8 +35,7 @@ void BulletManager::Update() {
                 }
                 return false;
             }),
-        m_bullets.end());
->>>>>>> main
+        bullets.end());
 }
 
 void BulletManager::Draw() {
@@ -56,5 +43,5 @@ void BulletManager::Draw() {
 }
 
 void BulletManager::SpawnBullet(float x, float y) {
-    bullets.push_back(new Bullet(x, y,1));
+    bullets.push_back(new Bullet(x, y, 1));
 }

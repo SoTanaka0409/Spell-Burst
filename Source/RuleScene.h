@@ -24,6 +24,6 @@ public:
     // [����p] �ǂݍ��񂾑S�ẴX���C�h�摜��j������
     void Finalize() override;
 private:
-    int ruleGraphs[6];
-    int currentSlide;
+    int rule_graphs_[6];
+    int current_slide_;
 };

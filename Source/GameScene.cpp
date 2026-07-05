@@ -22,23 +22,23 @@ int GameScene::playFrameCount = 0;
 bool GameScene::isTimeAttackActive = false;
 
 GameScene::GameScene() 
-    : enemyManager(nullptr)
-    , cutinTimer(0)
-    , cutinImageHandle(-1)
-    , screenHandle(-1)
-    , shakeTimer(0)
-    , shakeMagnitude(0.0f)
-    , hitStopTimer(0)
+    : enemy_manager_(nullptr)
+    , cutin_timer_(0)
+    , cutin_image_handle_(-1)
+    , screen_handle_(-1)
+    , shake_timer_(0)
+    , shake_magnitude_(0.0f)
+    , hit_stop_timer_(0)
 {
 }
 
 GameScene::~GameScene() {
-    if (enemyManager != nullptr) {
-        enemyManager.reset();
+    if (enemy_manager_ != nullptr) {
+        enemy_manager_.reset();
     }
-    if (screenHandle != -1) {
-        DeleteGraph(screenHandle);
-        screenHandle = -1;
+    if (screen_handle_ != -1) {
+        DeleteGraph(screen_handle_);
+        screen_handle_ = -1;
     }
 }
 
@@ -49,56 +49,56 @@ void GameScene::Initialize() {
     srand(static_cast<unsigned int>(GetNowCount()));
     HUD::Initialize();
 
-    enemyManager = std::make_unique<EnemyManager>();
-    enemyManager->Initialize();
+    enemy_manager_ = std::make_unique<EnemyManager>();
+    enemy_manager_->Initialize();
 
-    cutinTimer = 0;
+    cutin_timer_ = 0;
     
-    int charType = Player::selectedCharacterType;
+    int charType = Player::kSelectedCharacterType;
     if (charType == 1) {
-        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
+        cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
     } else if (charType == 2) {
-        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
+        cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
     } else {
-        cutinImageHandle = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
+        cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
     }
 
-    screenHandle = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
-    shakeTimer = 0;
-    shakeMagnitude = 0.0f;
-    hitStopTimer = 0;
+    screen_handle_ = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
+    shake_timer_ = 0;
+    shake_magnitude_ = 0.0f;
+    hit_stop_timer_ = 0;
 
     new Player();
 
-    enemyManager->SpawnEnemy(1330.0f, 150.0f);
-    enemyManager->SpawnEnemy(1330.0f, 350.0f);
-    enemyManager->SpawnEnemy(1330.0f, 550.0f);
+    enemy_manager_->SpawnEnemy(1330.0f, 150.0f);
+    enemy_manager_->SpawnEnemy(1330.0f, 350.0f);
+    enemy_manager_->SpawnEnemy(1330.0f, 550.0f);
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.3");
 }
 
 void GameScene::Update() {
     if (isTimeAttackActive) playFrameCount++;
-    if (hitStopTimer > 0) {
-        hitStopTimer--;
+    if (hit_stop_timer_ > 0) {
+        hit_stop_timer_--;
         return; 
     }
 
-    if (shakeTimer > 0) {
-        shakeTimer--;
+    if (shake_timer_ > 0) {
+        shake_timer_--;
     }
 
-    if (cutinTimer > 0) {
-        cutinTimer--;
+    if (cutin_timer_ > 0) {
+        cutin_timer_--;
         return; 
     }
 
     Scene::Update();
 
-    if (enemyManager != nullptr) {
-        enemyManager->Update();
+    if (enemy_manager_ != nullptr) {
+        enemy_manager_->Update();
     }
     
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer));
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
         Boss* b = dynamic_cast<Boss*>(obj);
@@ -107,7 +107,7 @@ void GameScene::Update() {
             break;
         }
     }
-    HUD::Update(player, enemyManager.get(), boss);
+    HUD::Update(player, enemy_manager_.get(), boss);
 
     if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
@@ -115,16 +115,16 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
-    if (screenHandle != -1) {
-        SetDrawScreen(screenHandle);
+    if (screen_handle_ != -1) {
+        SetDrawScreen(screen_handle_);
         ClearDrawScreen();
     }
 
     std::string bgPath = "Resource/background.png";
-    if (enemyManager) {
-        int phase = enemyManager->GetCurrentPhase();
-        if (phase == 1) bgPath = "Resource/bg_phase1.png";
-        else if (phase == 2) bgPath = "Resource/bg_phase2.png";
+    if (enemy_manager_) {
+        int phase_ = enemy_manager_->GetCurrentPhase();
+        if (phase_ == 1) bgPath = "Resource/bg_phase1.png";
+        else if (phase_ == 2) bgPath = "Resource/bg_phase2.png";
         else bgPath = "Resource/bg_phase3.png";
     }
     
@@ -139,7 +139,7 @@ void GameScene::Draw() {
 
     Scene::Draw();
 
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player));
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer));
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
         Boss* b = dynamic_cast<Boss*>(obj);
@@ -148,7 +148,7 @@ void GameScene::Draw() {
             break;
         }
     }
-    HUD::Draw(player, enemyManager.get(), boss, cutinTimer, cutinImageHandle);
+    HUD::Draw(player, enemy_manager_.get(), boss, cutin_timer_, cutin_image_handle_);
 
     int totalMs = (playFrameCount * 1000) / 60;
     int ms = totalMs % 1000;
@@ -159,31 +159,31 @@ void GameScene::Draw() {
     sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
     DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
 
-    if (screenHandle != -1) {
+    if (screen_handle_ != -1) {
         SetDrawScreen(DX_SCREEN_BACK);
 
         int offsetX = 0;
         int offsetY = 0;
-        if (shakeTimer > 0) {
-            offsetX = (rand() % static_cast<int>(shakeMagnitude * 2)) - static_cast<int>(shakeMagnitude);
-            offsetY = (rand() % static_cast<int>(shakeMagnitude * 2)) - static_cast<int>(shakeMagnitude);
+        if (shake_timer_ > 0) {
+            offsetX = (rand() % static_cast<int>(shake_magnitude_ * 2)) - static_cast<int>(shake_magnitude_);
+            offsetY = (rand() % static_cast<int>(shake_magnitude_ * 2)) - static_cast<int>(shake_magnitude_);
         }
 
-        DrawGraph(offsetX, offsetY, screenHandle, TRUE);
+        DrawGraph(offsetX, offsetY, screen_handle_, TRUE);
     }
 }
 
 void GameScene::AddScreenShake(int duration, float magnitude) {
-    shakeTimer = duration;
-    shakeMagnitude = magnitude;
+    shake_timer_ = duration;
+    shake_magnitude_ = magnitude;
 }
 
 void GameScene::AddHitStop(int duration) {
-    hitStopTimer = duration;
+    hit_stop_timer_ = duration;
 }
 
 void GameScene::TriggerCutin() {
-    cutinTimer = 90; 
+    cutin_timer_ = 90; 
 }
 
 void GameScene::Finalize() {

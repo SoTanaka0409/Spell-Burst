@@ -33,8 +33,8 @@ public:
     void Finalize() override;
 
 private:
-    int bgGraph; // �^�C�g���w�i�摜�̃n���h��
-    float bgScrollX; // �w�i�X�N���[�����o�̂��߂�X���W�I�t�Z�b�g
-    int uiButtonGraph; // �I��{�^��UI�̉摜�n���h��
-    std::vector<int> rankings; // �N���A�^�C���Ȃǂ̃����L���O�f�[�^�ێ�
+    int bg_graph_; // �^�C�g���w�i�摜�̃n���h��
+    float bg_scroll_x_; // �w�i�X�N���[�����o�̂��߂�X���W�I�t�Z�b�g
+    int ui_button_graph_; // �I��{�^��UI�̉摜�n���h��
+    std::vector<int> rankings_; // �N���A�^�C���Ȃǂ̃����L���O�f�[�^�ێ�
 };

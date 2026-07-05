@@ -4,7 +4,7 @@
 #endif
 #include "DxLib.h"
 
-SoundManager::SoundManager() : currentBGMHandle(-1) {
+SoundManager::SoundManager() : current_bgm_handle_(-1) {
 }
 
 SoundManager::~SoundManager() {
@@ -28,14 +28,14 @@ void SoundManager::PlayBGM(const std::string& path) {
     int handle = GetSound(path);
     if (handle != -1) {
         // 現在のBGMが違う場合は止める
-        if (currentBGMHandle != -1 && currentBGMHandle != handle) {
-            StopSoundMem(currentBGMHandle);
+        if (current_bgm_handle_ != -1 && current_bgm_handle_ != handle) {
+            StopSoundMem(current_bgm_handle_);
         }
         
         // 再生されていない場合のみ再生開始
         if (CheckSoundMem(handle) == 0) {
             PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
-            currentBGMHandle = handle;
+            current_bgm_handle_ = handle;
         }
     }
 }
@@ -49,10 +49,10 @@ void SoundManager::PlaySE(const std::string& path) {
 
 void SoundManager::StopBGM() 
 {//ＢＧＭの停止
-    if (currentBGMHandle != -1)
+    if (current_bgm_handle_ != -1)
     {
-        StopSoundMem(currentBGMHandle);
-        currentBGMHandle = -1;
+        StopSoundMem(current_bgm_handle_);
+        current_bgm_handle_ = -1;
     }
 }
 
@@ -63,7 +63,7 @@ void SoundManager::StopAll() {
             StopSoundMem(pair.second);
         }
     }
-    currentBGMHandle = -1;
+    current_bgm_handle_ = -1;
 }
 
 void SoundManager::ClearAll() 

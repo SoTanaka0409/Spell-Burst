@@ -9,14 +9,14 @@ class Collider;
 class Projectile : public Object2D {
 protected:
     Vector2 dir;               // 進行方向（正規化ベクトル）または移動ベクトル
-    float speed;               // 速度
-    int damage;                // ダメージ
-    bool isActive;             // 有効フラグ
-    CapsuleCollider* collider; // 当たり判定コライダー
+    float speed_;               // 速度
+    int damage_;                // ダメージ
+    bool is_active_;             // 有効フラグ
+    CapsuleCollider* collider_; // 当たり判定コライダー
 
 public:
-    // [入力] pos: 初期座標, dir: 進行方向, speed: 速度, damage: ダメージ
-    Projectile(Vector2 pos, Vector2 dir, float speed, int damage);
+    // [入力] pos: 初期座標, dir: 進行方向, speed_: 速度, damage_: ダメージ
+    Projectile(Vector2 pos, Vector2 dir, float speed_, int damage_);
     virtual ~Projectile() override;
 
     // [入力] なし
@@ -29,14 +29,14 @@ public:
     // [副作用] 描画処理（派生先で実装）
     virtual void Draw() override;
 
-    // [入力] collider: 自身のコライダー, check: 相手のコライダー
+    // [入力] collider_: 自身のコライダー, check: 相手のコライダー
     // [出力] なし
     // [副作用] 衝突時の処理（派生先で実装）
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 
     // --- ゲッター・セッター ---
-    bool IsActive() const { return isActive; }
-    int GetDamage() const { return damage; }
+    bool IsActive() const { return is_active_; }
+    int GetDamage() const { return damage_; }
     Vector2 GetDir() const { return dir; }
     void SetDir(Vector2 dir) { dir = dir; }
 

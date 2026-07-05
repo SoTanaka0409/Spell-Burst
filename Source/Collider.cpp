@@ -7,10 +7,10 @@
 
 Collider::Collider(Object2D* parent)
 	: parentObject(parent)
-	, position(Vector2(0.0f, 0.0f))
+	, position_(Vector2(0.0f, 0.0f))
 	, position2(Vector2(0.0f, 0.0f))
-	, radius(0.0f)
-	, deleteFlag(false)
+	, radius_(0.0f)
+	, delete_flag_(false)
 {
 	assert(parent);
 	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
@@ -32,18 +32,18 @@ void Collider::HitCheck(Collider* check, bool isHit)
 	if (isHit)
 	{
 		auto itr = std::find_if(
-			collisionList.begin(),
-			collisionList.end(),
+			collision_list_.begin(),
+			collision_list_.end(),
 			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
-		if (itr != collisionList.end())
+		if (itr != collision_list_.end())
 		{
 			this->parentObject->OnEnter(this, check);
 		}
 		else
 		{	// リストに登録しておく
-			collisionList.push_back(check);//任意のタイミングでしか追加しないようにすれば
+			collision_list_.push_back(check);//任意のタイミングでしか追加しないようにすれば
 			if (this->parentObject != nullptr)
 			{
 				this->parentObject->OnTrigger(this, check);
@@ -53,18 +53,18 @@ void Collider::HitCheck(Collider* check, bool isHit)
 	else
 	{
 		auto itr = std::find_if(
-			collisionList.begin(),
-			collisionList.end(),
+			collision_list_.begin(),
+			collision_list_.end(),
 			[&](Collider* col) { return col == check; } // ラムダ式
 		);
 
-		if (itr != collisionList.end())
+		if (itr != collision_list_.end())
 		{
 			if (this->parentObject != nullptr)
 			{
 				this->parentObject->OnExit(this, check);
 			}
-			collisionList.erase(itr);
+			collision_list_.erase(itr);
 		}
 	}
 }

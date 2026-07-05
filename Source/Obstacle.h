@@ -5,8 +5,8 @@ class CapsuleCollider;
 
 class Obstacle : public Object2D {
 private:
-    CapsuleCollider* collider;
-    float fallSpeed;
+    CapsuleCollider* collider_;
+    float fall_speed_;
 
 public:
     Obstacle(float x, float y);
@@ -14,5 +14,5 @@ public:
 
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnTrigger(Collider* collider_, Collider* check) override;
 };

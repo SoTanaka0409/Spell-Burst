@@ -13,15 +13,15 @@ public:
     // [����p] �C�[�W���O�p�ϐ��Ȃǂ̐ÓI��Ԃ���Z�b�g����
     static void Initialize();
 
-    // [����] player: ���@, enemyManager: �G�Ǘ�, boss: �{�X
+    // [����] player: ���@, enemy_manager_: �G�Ǘ�, boss: �{�X
     // [�o��] �Ȃ�
     // [����p] ���݂�HP���Ɋ�Â��A�\���p�̕�Ԕ䗦�i�C�[�W���O�j��v�Z�E�X�V����
-    static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
+    static void Update(Player* player, EnemyManager* enemy_manager_, Boss* boss);
 
-    // [����] player, enemyManager, boss, cutinTimer: ���o����, cutinImageHandle: ���o�摜
+    // [����] player, enemy_manager_, boss, cutin_timer_: ���o����, cutin_image_handle_: ���o�摜
     // [�o��] �Ȃ�
     // [����p] ��ʏ�̍őO�ʂɊeUI�R���|�[�l���g�i�Q�[�W�A�J�b�g�C�����j��`�悷��
-    static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
+    static void Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cutin_timer_, int cutin_image_handle_);
 
 private:
     static float displayHpRatio; // �A�j���[�V������ԗp��HP�\���䗦

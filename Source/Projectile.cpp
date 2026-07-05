@@ -2,28 +2,28 @@
 #include "CapsuleCollider.h"
 #include "Utility.h"
 
-Projectile::Projectile(Vector2 pos, Vector2 dir, float speed, int damage)
+Projectile::Projectile(Vector2 pos, Vector2 dir, float speed_, int damage_)
     : Object2D(pos)
     , dir(dir)
-    , speed(speed)
-    , damage(damage)
-    , isActive(true)
-    , collider(nullptr)
+    , speed_(speed_)
+    , damage_(damage_)
+    , is_active_(true)
+    , collider_(nullptr)
 {
-    position = pos;
+    position_ = pos;
 }
 
 Projectile::~Projectile() {
-    if (collider) {
-        delete collider;
-        collider = nullptr;
+    if (collider_) {
+        delete collider_;
+        collider_ = nullptr;
     }
 }
 
 void Projectile::Update() {
-    if (collider) {
-        collider->position = position;
-        collider->position2 = position;
+    if (collider_) {
+        collider_->position_ = position_;
+        collider_->position2 = position_;
     }
 }
 
@@ -31,21 +31,21 @@ void Projectile::Draw() {
     // 基底クラスは描画しない
 }
 
-void Projectile::OnTrigger(Collider* collider, Collider* check) {
+void Projectile::OnTrigger(Collider* collider_, Collider* check) {
     // デフォルト実装：派生クラスでオーバーライド
 }
 
 void Projectile::Kill() {
-    isActive = false;
+    is_active_ = false;
     SetDeleteFlag(true);
-    if (collider) {
-        collider->SetDeleteFlag(true);
+    if (collider_) {
+        collider_->SetDeleteFlag(true);
     }
 }
 
 bool Projectile::IsOutOfBounds(float margin) const {
-    if (position.x < -margin || position.x > Utility::SCREEN_WIDTH + margin ||
-        position.y < -margin || position.y > Utility::SCREEN_HEIGHT + margin) {
+    if (position_.x < -margin || position_.x > Utility::SCREEN_WIDTH + margin ||
+        position_.y < -margin || position_.y > Utility::SCREEN_HEIGHT + margin) {
         return true;
     }
     return false;
