@@ -1,4 +1,4 @@
-﻿#include "PlayerSpellParticle.h"
+#include "PlayerSpellParticle.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -16,9 +16,14 @@ PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed)
     m_isActive = true;
     m_lifeTimer = 60;
     m_damage = 5;
+    mpCollider = nullptr;
 }
 
 PlayerSpellParticle::~PlayerSpellParticle() {
+    if (mpCollider) {
+        delete mpCollider;
+        mpCollider = nullptr;
+    }
 }
 
 void PlayerSpellParticle::Update() {
