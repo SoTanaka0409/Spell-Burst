@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -68,7 +68,7 @@ void GameScene::Initialize() {
     shake_magnitude_ = 0.0f;
     hit_stop_timer_ = 0;
 
-    new Player();
+    ObjectManager::Instantiate<Player>();
 
     enemy_manager_->SpawnEnemy(1330.0f, 150.0f);
     enemy_manager_->SpawnEnemy(1330.0f, 350.0f);
@@ -98,10 +98,10 @@ void GameScene::Update() {
         enemy_manager_->Update();
     }
     
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer));
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get());
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
-        Boss* b = dynamic_cast<Boss*>(obj);
+        Boss* b = dynamic_cast<Boss*>(obj.get());
         if (b != nullptr) {
             boss = b;
             break;
@@ -139,10 +139,10 @@ void GameScene::Draw() {
 
     Scene::Draw();
 
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer));
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get());
     Boss* boss = nullptr;
     for (auto obj : GetObjectManager()->GetObjectList()) {
-        Boss* b = dynamic_cast<Boss*>(obj);
+        Boss* b = dynamic_cast<Boss*>(obj.get());
         if (b != nullptr) {
             boss = b;
             break;
@@ -190,3 +190,7 @@ void GameScene::Finalize() {
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();
 }
+
+
+
+

@@ -1,4 +1,5 @@
 ﻿#include "InputManager.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif

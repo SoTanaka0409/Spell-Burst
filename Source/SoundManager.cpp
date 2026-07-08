@@ -1,4 +1,5 @@
 ﻿#include "SoundManager.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -76,3 +77,4 @@ void SoundManager::ClearAll()
     }
     soundMap.clear();
 }
+

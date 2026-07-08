@@ -1,4 +1,5 @@
 ﻿#include "Bullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX

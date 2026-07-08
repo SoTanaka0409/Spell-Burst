@@ -1,4 +1,5 @@
 ﻿#include "HUD.h"
+#include "ObjectManager.h"
 #include "Player.h"
 #include "Boss.h"
 #include "EnemyManager.h"
@@ -186,3 +187,4 @@ void HUD::Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cut
         }
     }
 }
+

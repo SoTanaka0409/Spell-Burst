@@ -1,4 +1,5 @@
 ﻿#include "MasterSpark.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -9,7 +10,6 @@
 #include "Master.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #include "Player.h"
 #include <cmath>
 #include <cstdlib>
@@ -39,7 +39,7 @@ void MasterSpark::Update() {
 
     // ★プレイヤーの位置を取得して追尾する処理
     Player* player = dynamic_cast<Player*>(
-        Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer)
+        Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get()
     );
     if (player != nullptr) {
         position_.x = player->GetX();
@@ -123,3 +123,4 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check) {
 
 void MasterSpark::OnEnter(Collider* collider, Collider* check) {
 }
+

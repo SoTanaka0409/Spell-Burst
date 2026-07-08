@@ -101,3 +101,4 @@ void SceneManager::ChangeSceneIfNeeded()
 		current_scene_->Initialize();
 	}
 }
+

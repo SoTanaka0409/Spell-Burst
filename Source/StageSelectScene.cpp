@@ -1,4 +1,5 @@
 ﻿#include "StageSelectScene.h"
+#include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "GameScene.h"
@@ -211,3 +212,4 @@ void StageSelectScene::Draw() {
 
 void StageSelectScene::Finalize() {
 }
+

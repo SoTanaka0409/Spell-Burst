@@ -1,4 +1,5 @@
 ﻿#include "RainbowBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #ifndef NOMINMAX

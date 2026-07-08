@@ -1,4 +1,5 @@
 ﻿#include "Collider.h"
+#include "ObjectManager.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
 #include"ObjectManager.h"

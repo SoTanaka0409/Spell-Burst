@@ -1,10 +1,10 @@
-#include "SpellCardBullet.h"
+﻿#include "SpellCardBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #include "EnemyBullet.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -75,6 +75,8 @@ void SpellCardBullet::Explode() {
     for (int i = 0; i < 8; i++) {
         float angle = i * 3.14159265f / 4.0f;
         Vector2 dir(cos(angle), sin(angle));
-        new PlayerSpellParticle(position_, dir, 3.0f);
+        ObjectManager::Instantiate<PlayerSpellParticle>(position_, dir, 3.0f);
     }
 }
+
+

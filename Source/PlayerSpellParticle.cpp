@@ -1,4 +1,5 @@
 ﻿#include "PlayerSpellParticle.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif

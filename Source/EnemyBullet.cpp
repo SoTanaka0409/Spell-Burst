@@ -1,10 +1,10 @@
 ﻿#include "EnemyBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -37,7 +37,7 @@ void EnemyBullet::Update() {
         homing_delay_timer_--;
     } else if (homing_timer_ > 0) {
         homing_timer_--;
-        Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer));
+        Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
         if (player) {
             Vector2 targetPos(player->GetX(), player->GetY());
             float currentAngle = Vector2(0, 0).AngleTo(dir);
@@ -103,3 +103,4 @@ void EnemyBullet::OnTrigger(Collider* collider_, Collider* check)
         }
     }
 }
+

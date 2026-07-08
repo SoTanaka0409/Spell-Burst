@@ -1,11 +1,11 @@
-﻿#include "Boss.h"
+#include "Boss.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
 #include "MeleeAttack.h"
 #include "SpecialBullet.h"
 #include "Player.h"
 #include "EnemyBullet.h"
-#include "ObjectManager.h"
 #include "Math.h"
 #include "BulletManager.h"
 #include "ResourceManager.h"
@@ -97,8 +97,8 @@ void Boss::Update() {
         if (invincibleCycleTimer >= 300) {
             invincibleTimer = 120;
             invincibleCycleTimer = 0;
-            new Enemy(position_.x - 60.0f, position_.y + 60.0f, 1);
-            new Enemy(position_.x + 60.0f, position_.y + 60.0f, 1);
+            ObjectManager::Instantiate<Enemy>(position_.x - 60.0f, position_.y + 60.0f, 1);
+            ObjectManager::Instantiate<Enemy>(position_.x + 60.0f, position_.y + 60.0f, 1);
         }
     } else {
         invincibleTimer = 0;
@@ -159,7 +159,7 @@ void Boss::ShootRadialBarrage() {
     bool reflect = (lives == 2);
     for (int i = 0; i < bulletCount; i++) {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 2.5f, reflect);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.5f, reflect);
     }
 }
 void Boss::ShootFanBarrage() {
@@ -171,13 +171,13 @@ void Boss::ShootFanBarrage() {
         float speed_ = 2.0f + layer * 1.5f;
         for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
-            new EnemyBullet(position_, Vector2::FromAngle(angle), speed_, reflect);
+            ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), speed_, reflect);
         }
     }
 }
 void Boss::ShootTargetedBarrage() {
     const float PI = 3.14159265f;
-    Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer));
+    Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
     Vector2 targetPos(position_.x, position_.y + 200.0f);
     if (player != nullptr) {
         targetPos = Vector2(player->GetX(), player->GetY());
@@ -187,11 +187,11 @@ void Boss::ShootTargetedBarrage() {
     float baseAngle = Vector2(0,0).AngleTo(dir);
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 3.5f);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
     }
     for (int i = -1; i <= 1; i++) {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 2.5f);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.5f);
     }
 }
 
@@ -200,7 +200,7 @@ void Boss::ShootSimpleBarrage() {
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
     for (int i = 0; i < 5; i++) {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 3.5f, false, false, 120, 60);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f, false, false, 120, 60);
     }
 }
 
@@ -208,7 +208,7 @@ void Boss::ShootBouncingBarrage() {
     const float PI = 3.14159265f;
     for (int i = 0; i < 6; i++) {
         float angle = (i * 2.0f * PI) / 6.0f;
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 4.5f, true);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 4.5f, true);
     }
 }
 
@@ -216,11 +216,11 @@ void Boss::ShootSpellCardBarrage() {
     const float PI = 3.14159265f;
     for (int i = 0; i < 24; i++) {
         float angle = (i * 2.0f * PI) / 24.0f;
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 2.0f, true);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.0f, true);
     }
     for (int i = 0; i < 12; i++) {
         float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
-        new EnemyBullet(position_, Vector2::FromAngle(angle), 5.0f, false);
+        ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 5.0f, false);
     }
 }
 
@@ -231,8 +231,8 @@ void Boss::TakeDamage(int damage_) {
 
     if (hp_ <= 0) {
         lives--;
-        std::vector<Object2D*> bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
-        for (auto* b : bullets) {
+        auto bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
+        for (auto& b : bullets) {
             b->SetDeleteFlag(true);
         }
         
@@ -250,11 +250,11 @@ void Boss::TakeDamage(int damage_) {
             Scene* current_scene_ = Master::sceneManager->GetCurrentScene();
             if (current_scene_) {
                 auto bullets = current_scene_->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
-                for (auto* b : bullets) {
+                for (auto& b : bullets) {
                     b->SetDeleteFlag(true);
                 }
 
-                Player* p = dynamic_cast<Player*>(current_scene_->GetObjectManager()->GetObject2DByTag(kTag2dPlayer));
+                Player* p = dynamic_cast<Player*>(current_scene_->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
                 if (p) p->Heal(3);
             }
             collider_ = nullptr;
@@ -271,7 +271,7 @@ void Boss::TakeDamage(int damage_) {
                 int life = 60 + (rand() % 60);
                 float size_ = 15.0f + static_cast<float>(rand() % 40);
                 int color_ = GetColor(255, 100 + rand() % 155, 0);
-                new ExplosionParticle(position_.x, position_.y, speed_, angle, color_, life, size_);
+                ObjectManager::Instantiate<ExplosionParticle>(position_.x, position_.y, speed_, angle, color_, life, size_);
             }
         }
     }
@@ -361,3 +361,6 @@ void Boss::Draw() {
         DrawString(static_cast<int>(position_.x) - 150, static_cast<int>(position_.y) + 90, "I will be waiting for you in the next stage...!", GetColor(255, 100, 100));
     }
 }
+
+
+

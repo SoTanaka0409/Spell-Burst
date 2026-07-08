@@ -1,4 +1,5 @@
 ﻿#include "ResultScene.h"
+#include "ObjectManager.h"
 #include "SceneManager.h"
 #include "Master.h"
 #include "InputManager.h"
@@ -203,3 +204,4 @@ void ResultScene::Draw() {
 
 void ResultScene::Finalize() {
 }
+

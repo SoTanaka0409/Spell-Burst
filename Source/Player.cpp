@@ -34,9 +34,9 @@ Player::Player()
 }
 
 Player::~Player() {
-    if (barrier_) {
-        barrier_->SetDeleteFlag(true);
-        barrier_ = nullptr;
+    if (auto b = barrier_.lock()) {
+        b->SetDeleteFlag(true);
+        barrier_.reset();
     }
 }
 
@@ -90,7 +90,7 @@ void Player::Initialize() {
 
     if (collider_) delete collider_;
     collider_ = new CapsuleCollider(this, position_, position_, 4.0f);
-	barrier_ = new ::Barrier(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
+    barrier_ = ObjectManager::GetInstance()->Instantiate<Barrier>(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
 }
 
 void Player::Update()
@@ -117,8 +117,8 @@ void Player::Update()
     position_.x = std::clamp(position_.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
     position_.y = std::clamp(position_.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
 
-    if (barrier_) {
-        barrier_->SetPosition(position_);
+    if (auto b = barrier_.lock()) {
+        b->SetPosition(position_);
     }
 
     if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
@@ -130,8 +130,9 @@ void Player::Update()
 }
 
 void Player::Draw() {
-    if (barrier_ != nullptr && barrier_->IsDeployed() && barrier_->GetHitCount() > 0) {
-        int hit_count = barrier_->GetHitCount();
+    if (auto b = barrier_.lock()) {
+        if (b->IsDeployed() && b->GetHitCount() > 0) {
+            int hit_count = b->GetHitCount();
         float ratio = static_cast<float>(hit_count) / 30.0f;
         
         SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
@@ -152,6 +153,7 @@ void Player::Draw() {
             DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
         }
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        }
     }
 
     if (stun_timer_ > 0) {

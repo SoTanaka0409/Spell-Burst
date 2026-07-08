@@ -1,4 +1,5 @@
 ﻿#include "ResourceManager.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif

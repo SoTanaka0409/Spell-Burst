@@ -1,4 +1,5 @@
 ﻿#include "Projectile.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 

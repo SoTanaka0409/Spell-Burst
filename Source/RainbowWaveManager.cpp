@@ -1,4 +1,5 @@
 ﻿#include "RainbowWaveManager.h"
+#include "ObjectManager.h"
 #include "RainbowBullet.h"
 #include "Utility.h"
 
@@ -32,7 +33,7 @@ void RainbowWaveManager::Update() {
         float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // 画面外から出現させるため下部にオフセット
 
         for (int i = 0; i < numBullets; i++) {
-            new RainbowBullet(startX + i * spacing, yPos);
+            ObjectManager::Instantiate<RainbowBullet>(startX + i * spacing, yPos);
         }
     }
 }
@@ -44,3 +45,7 @@ void RainbowWaveManager::Draw() {
 void RainbowWaveManager::OnTrigger(Collider* collider_, Collider* check) {
     // 自身は当たり判定を持たず、生成した弾に判定を委ねるため空処理
 }
+
+
+
+

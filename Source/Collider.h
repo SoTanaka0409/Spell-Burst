@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -76,6 +76,8 @@ public:
     // [出力] なし
     // [副作用] mCollisionListから指定されたコライダーを検索し、取り除く
     void RemoveCollision(Collider* collider_);
+
+    const std::vector<Collider*>& GetCollisionList() const { return collision_list_; }
 
 public:
     Object2D* parentObject;               // このコライダーを所有する親オブジェクト

@@ -1,4 +1,5 @@
 ﻿#include "MeleeAttack.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -74,3 +75,4 @@ void MeleeAttack::OnTrigger(Collider* collider_, Collider* check) {
         }
     }
 }
+

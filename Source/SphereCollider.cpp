@@ -1,4 +1,5 @@
 ﻿#include "SphereCollider.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
 SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius_)
@@ -66,3 +67,4 @@ void SphereCollider::OnTrigger()
 void SphereCollider::OnExit()
 {
 }
+

@@ -1,4 +1,5 @@
 ﻿#include "SpecialBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX

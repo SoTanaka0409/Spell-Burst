@@ -1,4 +1,5 @@
 ﻿#include "TitleScene.h"
+#include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "Player.h"
@@ -143,3 +144,4 @@ void TitleScene::Draw() {
 
 void TitleScene::Finalize() {
 }
+

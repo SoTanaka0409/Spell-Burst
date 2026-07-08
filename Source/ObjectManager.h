@@ -1,6 +1,7 @@
-﻿#pragma once
+#pragma once
 #include <list>
 #include <vector>
+#include <memory>
 #include "Object2D.h"
 
 // 2D�I�u�W�F�N�g�S�̂̃��C�t�T�C�N���𓝊�����Ǘ��N���X
@@ -27,7 +28,7 @@ public:
     // [����] object2D: �ǉ��ΏۂƂȂ�I�u�W�F�N�g�̃|�C���^
     // [�o��] �Ȃ�
     // [����p] �������ꂽ�I�u�W�F�N�g��Ǘ����X�g(object_2d_list_)�ɒǉ�����
-    void AddObject(Object2D* object2D);
+    void AddObject(std::shared_ptr<Object2D> object2D);
 
     // [����] �Ȃ�
     // [�o��] �Ȃ�
@@ -42,21 +43,38 @@ public:
     // [����] tag_: �����������I�u�W�F�N�g�̃^�O�iPlayer, Enemy, Bullet�Ȃǁj
     // [�o��] Object2D*: ����Ɉ�v�����ŏ��̃I�u�W�F�N�g�̃|�C���^�i������Ȃ��ꍇ��nullptr�j
     // [����p] �Ȃ�
-    Object2D* GetObject2DByTag(Object2D::Tag2D tag_);
+    std::shared_ptr<Object2D> GetObject2DByTag(Object2D::Tag2D tag_);
 
     // [����] tag_: �����������I�u�W�F�N�g�̃^�O
     // [�o��] std::vector<Object2D*>: ����Ɉ�v�����S�ẴI�u�W�F�N�g�̃|�C���^��i�[�����z��
     // [����p] �Ȃ�
-    std::vector<Object2D*> GetObject2DListByTag(Object2D::Tag2D tag_);
+    std::vector<std::shared_ptr<Object2D>> GetObject2DListByTag(Object2D::Tag2D tag_);
 
     // --- �Q�b�^�[�Q ---
     // ���݊Ǘ����Ă���I�u�W�F�N�g�̑�����擾����
+    // --- Qb^[Q ---
+    // ݊ǗĂIuWFNg̑擾
     size_t GetObjectCount() const { return object_2d_list_.size(); }
 
-    // �I�u�W�F�N�g�̃��X�g�S�̂ւ̎Q�Ƃ�擾����i�Փ˔���̑������菈���ȂǂɎg�p�j
-    const std::list<Object2D*>& GetObjectList() const { return object_2d_list_; }
+    // IuWFNg̃XgŜւ̎QƂ擾iՓ˔̑菈ȂǂɎgpj
+    const std::list<std::shared_ptr<Object2D>>& GetObjectList() const { return object_2d_list_; }
 
 private:
-    std::list<Object2D*> object_2d_list_;   // �ғ����̑S2D�I�u�W�F�N�g��ێ����郊�X�g�i�}���E�폜��������std::list��g�p�j
-    Object2D* player_2d_ = nullptr;       // �v���C���[�I�u�W�F�N�g�ւ̃|�C���^�i�����A�N�Z�X�p�̃L���b�V���Ƃ��ĕێ��j
+    std::list<std::shared_ptr<Object2D>> object_2d_list_;   // ғ̑S2DIuWFNgێ郊Xgi}E폜std::listgpj
+    std::weak_ptr<Object2D> player_2d_;       // vC[IuWFNgւ̃|C^iANZXp̃LbVƂĕێj
+
+public:
+    template<typename T, typename... Args>
+    static std::weak_ptr<T> Instantiate(Args&&... args);
 };
+
+#include "Master.h"
+#include "SceneManager.h"
+#include "Scene.h"
+
+template<typename T, typename... Args>
+std::weak_ptr<T> ObjectManager::Instantiate(Args&&... args) {
+    auto obj = std::make_shared<T>(std::forward<Args>(args)...);
+    Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(obj);
+    return obj;
+}

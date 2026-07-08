@@ -1,4 +1,5 @@
 ﻿#include "Obstacle.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 #include "Player.h"
@@ -80,7 +81,7 @@ void Obstacle::OnTrigger(Collider* collider_, Collider* check) {
                 if (collider_) collider_->SetDeleteFlag(true);
                 SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
                 for (int i = 0; i < 5; i++) {
-                    new ExplosionParticle(position_.x, position_.y, 2.0f, static_cast<float>(rand() % 360) * 3.14159f / 180.0f, GetColor(150, 150, 150), 30, 10.0f);
+                    ObjectManager::Instantiate<ExplosionParticle>(position_.x, position_.y, 2.0f, static_cast<float>(rand() % 360) * 3.14159f / 180.0f, GetColor(150, 150, 150), 30, 10.0f);
                 }
             } else {
                 parent->SetDeleteFlag(true);
@@ -96,3 +97,7 @@ void Obstacle::OnTrigger(Collider* collider_, Collider* check) {
         }
     }
 }
+
+
+
+

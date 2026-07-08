@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Character.h"
+#include <memory>
 #include "Barrier.h"
 
 class SpecialBullet;
@@ -11,34 +12,34 @@ public:
     
     enum AttackMode
     {
-        kAttackModeMelee,   // 近接攻撃（ナイフ等）
-        kAttackModeSpecial  // 必殺技（クールダウンあり）
+        kAttackModeMelee,   // 霑第磁謾ｻ謦・ｼ医リ繧､繝慕ｭ会ｼ・
+        kAttackModeSpecial  // 蠢・ｮｺ謚・医け繝ｼ繝ｫ繝繧ｦ繝ｳ縺ゅｊ・・
     };
 
 private:
-    float attack;           // 基本攻撃力（レベルアップ等で変動可能）
-    float attack_timer_{};    // 通常攻撃の発射間隔を管理するタイマー
-    float attack_interval_{}; // 通常攻撃の発射間隔（しきい値）
-    float attack_timer2_{};  // サブ攻撃等の発射間隔を管理するタイマー
-    float attack_interval2_{}; // サブ攻撃の発射間隔（しきい値）
+    float attack;           // 蝓ｺ譛ｬ謾ｻ謦・鴨・医Ξ繝吶Ν繧｢繝・・遲峨〒螟牙虚蜿ｯ閭ｽ・・
+    float attack_timer_{};    // 騾壼ｸｸ謾ｻ謦・・逋ｺ蟆・俣髫斐ｒ邂｡逅・☆繧九ち繧､繝槭・
+    float attack_interval_{}; // 騾壼ｸｸ謾ｻ謦・・逋ｺ蟆・俣髫費ｼ医＠縺阪＞蛟､・・
+    float attack_timer2_{};  // 繧ｵ繝匁判謦・ｭ峨・逋ｺ蟆・俣髫斐ｒ邂｡逅・☆繧九ち繧､繝槭・
+    float attack_interval2_{}; // 繧ｵ繝匁判謦・・逋ｺ蟆・俣髫費ｼ医＠縺阪＞蛟､・・
     float barrier_count_{};
-    AttackMode attack_mode_;  // 現在選択されている攻撃モード
-    int special_cooldown_;    // 必殺技が再度撃てるようになるまでのクールダウン時間（フレーム数）
-	Barrier* barrier_; // プレイヤーが展開するバリアオブジェクトへのポインタ（必要に応じて使用）
+    AttackMode attack_mode_;  // 迴ｾ蝨ｨ驕ｸ謚槭＆繧後※縺・ｋ謾ｻ謦・Δ繝ｼ繝・
+    int special_cooldown_;    // 蠢・ｮｺ謚縺悟・蠎ｦ謦・※繧九ｈ縺・↓縺ｪ繧九∪縺ｧ縺ｮ繧ｯ繝ｼ繝ｫ繝繧ｦ繝ｳ譎る俣・医ヵ繝ｬ繝ｼ繝謨ｰ・・
+	std::weak_ptr<Barrier> barrier_; // 繝励Ξ繧､繝､繝ｼ縺悟ｱ暮幕縺吶ｋ繝舌Μ繧｢繧ｪ繝悶ず繧ｧ繧ｯ繝医∈縺ｮ繝昴う繝ｳ繧ｿ・亥ｿ・ｦ√↓蠢懊§縺ｦ菴ｿ逕ｨ・・
 
-    // レベルアップと経験値（XP）の管理システム
-    int level_;          // 現在のレベル
-    int xp_;             // 獲得した経験値
-    int xp_needed_;       // 次のレベルアップに必要な経験値量
-    int level_up_timer_;   // レベルアップ演出（文字の点滅など）を表示する残り時間
-    int spell_gauge_;     // スペルカード発動用のゲージ
-    int max_spell_gauge_;  // ゲージの最大値
+    // 繝ｬ繝吶Ν繧｢繝・・縺ｨ邨碁ｨ灘､・・P・峨・邂｡逅・す繧ｹ繝・Β
+    int level_;          // 迴ｾ蝨ｨ縺ｮ繝ｬ繝吶Ν
+    int xp_;             // 迯ｲ蠕励＠縺溽ｵ碁ｨ灘､
+    int xp_needed_;       // 谺｡縺ｮ繝ｬ繝吶Ν繧｢繝・・縺ｫ蠢・ｦ√↑邨碁ｨ灘､驥・
+    int level_up_timer_;   // 繝ｬ繝吶Ν繧｢繝・・貍泌・・域枚蟄励・轤ｹ貊・↑縺ｩ・峨ｒ陦ｨ遉ｺ縺吶ｋ谿九ｊ譎る俣
+    int spell_gauge_;     // 繧ｹ繝壹Ν繧ｫ繝ｼ繝臥匱蜍慕畑縺ｮ繧ｲ繝ｼ繧ｸ
+    int max_spell_gauge_;  // 繧ｲ繝ｼ繧ｸ縺ｮ譛螟ｧ蛟､
 
 public:
     Player();
     virtual ~Player() override;
 
-    Barrier* GetBarrier() const { return barrier_; }
+    std::shared_ptr<Barrier> GetBarrier() const { return barrier_.lock(); }
     void Initialize();
 
     void Update() override;
@@ -47,7 +48,7 @@ public:
     void Attack();
     void Barrier();
 
-    // ゲッター関数群
+    // 繧ｲ繝・ち繝ｼ髢｢謨ｰ鄒､
     AttackMode GetAttackMode() const { return attack_mode_; }
     int GetSpecialCooldown() const { return special_cooldown_; }
     int GetLevel() const { return level_; }

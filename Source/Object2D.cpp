@@ -1,6 +1,6 @@
 ﻿#include "Object2D.h"
-#include "Master.h"
 #include "ObjectManager.h"
+#include "Master.h"
 #include "Collider.h"
 #include "Scene.h"
 
@@ -11,7 +11,6 @@ Object2D::Object2D(Vector2 init_pos)
 	, tag_(Tag2D::kNone2d)
 	, draw_flag_(true)
 {
-	Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
 }
 
 Object2D::~Object2D()

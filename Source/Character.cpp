@@ -1,4 +1,5 @@
 ﻿#include "Character.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include <algorithm>
 

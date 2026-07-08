@@ -1,4 +1,5 @@
-#include "Enemy.h"
+﻿#include "Enemy.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -9,7 +10,6 @@
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
-#include "ObjectManager.h"
 #include "Utility.h"
 #include "ResourceManager.h"
 #include "GameScene.h"
@@ -44,7 +44,7 @@ Enemy::Enemy(float x, float y, int enemy_type_)
     }
     else if (enemy_type_ == 4) {
         speed_ = 2.5f;
-        max_hp_ = 20; // 中ボス
+        max_hp_ = 20; // 荳ｭ繝懊せ
         SelectNewTarget();
     }
     hp_ = max_hp_;
@@ -58,9 +58,9 @@ Enemy::~Enemy() {
 }
 
 void Enemy::Update() {
-    Character::Update(); // スタン時間の減少など
+    Character::Update(); // 繧ｹ繧ｿ繝ｳ譎る俣縺ｮ貂帛ｰ代↑縺ｩ
 
-    if (stun_timer_ > 0) return; // スタン中は行動不能
+    if (stun_timer_ > 0) return; // 繧ｹ繧ｿ繝ｳ荳ｭ縺ｯ陦悟虚荳崎・
 
     if (enemy_type_ == 4) {
         Vector2 target(targetX, targetY);
@@ -84,7 +84,7 @@ void Enemy::Update() {
         if (attack_timer_ >= interval)
         {
             attack_timer_ = 0;
-            Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer));
+            Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
             Vector2 targetPos(position_.x, position_.y + 100.0f);
             if (player != nullptr) {
                 targetPos = Vector2(player->GetX(), player->GetY());
@@ -94,22 +94,22 @@ void Enemy::Update() {
                 dir = Vector2(0.0f, 1.0f);
             }
             if (enemy_type_ == 2) {
-                new EnemyBullet(position_, dir, 4.0f, false, false);
+                ObjectManager::Instantiate<EnemyBullet>(position_, dir, 4.0f, false, false);
             }
             else if (enemy_type_ == 3) {
-                new EnemyBullet(position_, dir, 3.5f, false, true);  
+                ObjectManager::Instantiate<EnemyBullet>(position_, dir, 3.5f, false, true);  
             }
             else if (enemy_type_ == 4) {
                 static float current_angle = 0.0f;
                 current_angle += 0.2f;
                 for (int i = 0; i < 4; i++) {
                     float bullet_angle = current_angle + (i * 2.0f * 3.14159265f) / 16;
-                    new EnemyBullet(position_, Vector2::FromAngle(bullet_angle), 2.0f);
+                    ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(bullet_angle), 2.0f);
                 }
                 float baseAngle = position_.AngleTo(targetPos);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
-                    new EnemyBullet(position_, Vector2::FromAngle(angle), 3.5f);
+                    ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
                 }
             }
         }
@@ -127,12 +127,12 @@ void Enemy::Kill() {
 void Enemy::TakeDamage(int damage_) {
     if (!is_active_) return;
 
-    Character::TakeDamage(damage_); // HPを減らし、0になったらKillを呼ぶ処理など
+    Character::TakeDamage(damage_); // HP繧呈ｸ帙ｉ縺励・縺ｫ縺ｪ縺｣縺溘ｉKill繧貞他縺ｶ蜃ｦ逅・↑縺ｩ
 
     if (hp_ <= 0) {
         SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
         Player* player = dynamic_cast<Player*>(
-            Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer)
+            Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get()
         );
         if (player != nullptr) {
             player->AddXp(1);
@@ -198,3 +198,6 @@ void Enemy::Draw()
     int hpOffset = (enemy_type_ == 4) ? 65 : 55;
     DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", hp_);
 }
+
+
+

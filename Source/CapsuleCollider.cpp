@@ -1,5 +1,6 @@
 ﻿#include "CapsuleCollider.h"
 
+#include "ObjectManager.h"
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius_)
 	: Collider(parent)
 {
@@ -63,5 +64,6 @@ void CapsuleCollider::Draw()
 		);
 	}
 }
+
 
 

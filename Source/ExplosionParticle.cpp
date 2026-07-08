@@ -1,4 +1,5 @@
 ﻿#include "ExplosionParticle.h"
+#include "ObjectManager.h"
 #include "Utility.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -44,3 +45,4 @@ void ExplosionParticle::Draw() {
     
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
+

@@ -1,4 +1,5 @@
 ﻿#include "EnemyManager.h"
+#include "ObjectManager.h"
 #include "Enemy.h"
 #include "Boss.h"
 #include "Obstacle.h"
@@ -7,7 +8,6 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #include "Utility.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -21,7 +21,7 @@ EnemyManager::EnemyManager() {
     boss_spawned_ = false;
     current_phase_ = 1;
     required_kills_ = 10;
-    current_boss_ = nullptr;
+    current_boss_.reset();
 }
 
 EnemyManager::~EnemyManager() {
@@ -33,7 +33,7 @@ void EnemyManager::Initialize() {
     boss_spawned_ = false;
     current_phase_ = 1;
     required_kills_ = 10;
-    current_boss_ = nullptr;
+    current_boss_.reset();
 }
 
 void EnemyManager::Update() {
@@ -42,7 +42,7 @@ void EnemyManager::Update() {
         if (defeated_count_ >= required_kills_)
         {
             DeleteEnemy();
-            current_boss_ = new Boss((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, current_phase_);
+            current_boss_ = ObjectManager::Instantiate<Boss>((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, current_phase_);
             boss_spawned_ = true;
         }
         else
@@ -63,7 +63,7 @@ void EnemyManager::Update() {
                 }
                 
                 if (spawnObstacle) {
-                    new Obstacle(spawnX, spawnY);
+                    ObjectManager::Instantiate<Obstacle>(spawnX, spawnY);
                 } else {
                     SpawnEnemy(spawnX, spawnY);
                 }
@@ -72,8 +72,8 @@ void EnemyManager::Update() {
     }
     else
     {
-        if (current_boss_ != nullptr && current_boss_->IsDeleteFlag()) {
-            current_boss_ = nullptr;
+        if (auto boss = current_boss_.lock(); boss && boss->IsDeleteFlag()) {
+            current_boss_.reset();
             boss_spawned_ = false;
             defeated_count_ = 0;
 			DeleteEnemy();
@@ -120,12 +120,12 @@ void EnemyManager::SpawnEnemy(float x, float y)
         else if (r < 30) enemy_type_ = 3;
         else if (r < 60) enemy_type_ = 2;
     }
-    new Enemy(x, y, enemy_type_);
+    ObjectManager::Instantiate<Enemy>(x, y, enemy_type_);
 }
 
 void EnemyManager::SpawnEnemy_Target(float x, float y,int spawnnum)
 {
-    new Enemy(x, y, spawnnum);
+    ObjectManager::Instantiate<Enemy>(x, y, spawnnum);
 }
 
 void EnemyManager::Draw()
@@ -134,10 +134,10 @@ void EnemyManager::Draw()
 
 void EnemyManager::DeleteEnemy()
 {
-    std::vector<Object2D*> enemies = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Object2D::kTag2dEnemy);
-    for (Object2D* obj : enemies)
+    auto enemies = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Object2D::kTag2dEnemy);
+    for (auto& obj : enemies)
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(obj);
+        Enemy* enemy = dynamic_cast<Enemy*>(obj.get());
         if (enemy != nullptr)
         {
             enemy->Kill();
@@ -148,10 +148,10 @@ void EnemyManager::DeleteEnemy()
 int EnemyManager::GetMidBossCount() const
 {
     int count = 0;
-    std::vector<Object2D*> enemies = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Object2D::kTag2dEnemy);
-    for (Object2D* obj : enemies)
+    auto enemies = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(Object2D::kTag2dEnemy);
+    for (auto& obj : enemies)
     {
-        Enemy* enemy = dynamic_cast<Enemy*>(obj);
+        Enemy* enemy = dynamic_cast<Enemy*>(obj.get());
         if (enemy != nullptr && enemy->GetEnemyType() == 4)
         {
             count++;
@@ -159,3 +159,7 @@ int EnemyManager::GetMidBossCount() const
     }
     return count;
 }
+
+
+
+

@@ -1,4 +1,5 @@
-﻿#include "BulletManager.h"
+#include "BulletManager.h"
+#include "ObjectManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -11,16 +12,10 @@ BulletManager::BulletManager()
 }
 
 BulletManager::~BulletManager() {
-    for (auto bullet : bullets) {
-        delete bullet;
-    }
     bullets.clear();
 }
 
 void BulletManager::Initialize() {
-    for (auto bullet : bullets) {
-        delete bullet;
-    }
     bullets.clear();
 }
 
@@ -28,12 +23,14 @@ void BulletManager::Update() {
     // Erase-Remove イディオムを使用して、アクティブでない弾を安全に一括削除
     bullets.erase(
         std::remove_if(bullets.begin(), bullets.end(),
-            [](Bullet* bullet) {
-                if (!bullet->IsActive()) {
-                    delete bullet;
-                    return true;
+            [](const std::weak_ptr<Bullet>& w) {
+                if (auto bullet = w.lock()) {
+                    if (!bullet->IsActive()) {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+                return true; // if expired, remove it
             }),
         bullets.end());
 }
@@ -43,5 +40,10 @@ void BulletManager::Draw() {
 }
 
 void BulletManager::SpawnBullet(float x, float y) {
-    bullets.push_back(new Bullet(x, y, 1));
+    bullets.push_back(ObjectManager::Instantiate<Bullet>(x, y, 1));
 }
+
+
+
+
+

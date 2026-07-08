@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include <memory>
 
 class Bullet;
 
@@ -7,7 +8,7 @@ class Bullet;
 // (���ݖ��g�p�܂��͋��d�l�̉\�������邪�A���݂���ꍇ�̓��X�g�Ǘ���s��)
 class BulletManager {
 private:
-    std::vector<Bullet*> bullets; 
+    std::vector<std::weak_ptr<Bullet>> bullets; 
 
 public:
     BulletManager();
@@ -33,5 +34,5 @@ public:
     // [����p] �V�����e�𐶐����A�Ǘ����X�g�ɒǉ�����
     void SpawnBullet(float x, float y);
 
-    const std::vector<Bullet*>& GetBullets() const { return bullets; }
+    const std::vector<std::weak_ptr<Bullet>>& GetBullets() const { return bullets; }
 };

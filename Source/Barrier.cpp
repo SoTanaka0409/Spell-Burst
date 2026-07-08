@@ -1,4 +1,5 @@
 ﻿#include "Barrier.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -96,7 +97,7 @@ void Barrier::OnTrigger(Collider* collider_, Collider* check) {
                         float angle = baseAngle + spread;
                         
                         Vector2 dir = Vector2::FromAngle(angle);
-                        new PlayerHomingBullet(position_ + dir * 30.0f, dir, baseSpeed);
+                        ObjectManager::Instantiate<PlayerHomingBullet>(position_ + dir * 30.0f, dir, baseSpeed);
                     }
                 }
             }
@@ -107,3 +108,7 @@ void Barrier::OnTrigger(Collider* collider_, Collider* check) {
        
     }
 }
+
+
+
+

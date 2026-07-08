@@ -1,4 +1,5 @@
 ﻿#include "RuleScene.h"
+#include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
 #include "ResourceManager.h"
@@ -162,3 +163,4 @@ void RuleScene::Draw() {
 
 void RuleScene::Finalize() {
 }
+

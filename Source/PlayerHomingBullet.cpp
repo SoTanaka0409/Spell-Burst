@@ -1,11 +1,11 @@
 #include "PlayerHomingBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #include "Boss.h"
 #include "Master.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -14,7 +14,7 @@
 #include "utility.h"
 
 PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed_)
-    : Projectile(pos, dir.Normalized(), speed_, 5) // ★球のダメージを5に増加
+    : Projectile(pos, dir.Normalized(), speed_, 5) // 笘・帥縺ｮ繝繝｡繝ｼ繧ｸ繧・縺ｫ蠅怜刈
 {
     SetTag(kTag2dPlayerBullet);
     life_timer_ = 60 * 3;
@@ -36,8 +36,8 @@ void PlayerHomingBullet::Update() {
     float minDistSq = 9999999.0f;
 
     auto enemies = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemy);
-    for (auto* obj : enemies) {
-        Character* e = dynamic_cast<Character*>(obj);
+    for (auto& obj : enemies) {
+        Character* e = dynamic_cast<Character*>(obj.get());
         if (e && !e->IsDeleteFlag() && e->GetY() > 0) {
             float distSq = e->GetPosition().DistanceSqTo(position_);
             if (distSq < minDistSq && distSq < 400.0f * 400.0f) {
@@ -88,7 +88,7 @@ void PlayerHomingBullet::OnTrigger(Collider* collider_, Collider* check) {
 
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
-            // ★敵にダメージを与える処理を追加
+            // 笘・雰縺ｫ繝繝｡繝ｼ繧ｸ繧剃ｸ弱∴繧句・逅・ｒ霑ｽ蜉
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
             if (enemy != nullptr) {
                 enemy->TakeDamage(damage_);

@@ -1,9 +1,9 @@
-﻿#include "ObjectManager.h"
 #include "Master.h"
+#include "ObjectManager.h"
 #include "ColliderManager.h"
 #include <algorithm>
 
-ObjectManager::ObjectManager() : player_2d_(nullptr)
+ObjectManager::ObjectManager()
 {
 }
 
@@ -13,8 +13,8 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::Update()
 {
-	// 範囲ベースforループで簡潔に全オブジェクトを更新
-	for (auto* obj : object_2d_list_)
+	// 驕ｽ繝ｻ蟲・ｹ晏生繝ｻ郢ｧ・ｹfor郢晢ｽｫ郢晢ｽｼ郢晏干縲帝ａ・｡雋取鱒竊楢怦・ｨ郢ｧ・ｪ郢晄じ縺夂ｹｧ・ｧ郢ｧ・ｯ郢晏現・定ｭ厄ｽｴ隴・ｽｰ
+	for (auto& obj : object_2d_list_)
 	{
 		obj->Update();
 	}
@@ -23,8 +23,8 @@ void ObjectManager::Update()
 
 void ObjectManager::Draw()
 {
-	// 範囲ベースforループで描画フラグが立っているものを描画
-	for (auto* obj : object_2d_list_)
+	// 驕ｽ繝ｻ蟲・ｹ晏生繝ｻ郢ｧ・ｹfor郢晢ｽｫ郢晢ｽｼ郢晏干縲定ｬ蜀怜愛郢晁ｼ釆帷ｹｧ・ｰ邵ｺ讙趣ｽｫ荵昶夢邵ｺ・ｦ邵ｺ繝ｻ・狗ｹｧ繧・・郢ｧ蜻育ｷ帝包ｽｻ
+	for (auto& obj : object_2d_list_)
 	{
 		if (obj->IsDrawFlag())
 		{
@@ -33,7 +33,7 @@ void ObjectManager::Draw()
 	}
 }
 
-void ObjectManager::AddObject(Object2D* object2D)
+void ObjectManager::AddObject(std::shared_ptr<Object2D> object2D)
 {
 	object_2d_list_.push_back(object2D);
 	if (object2D->GetTag() == Object2D::kTag2dPlayer) {
@@ -43,37 +43,33 @@ void ObjectManager::AddObject(Object2D* object2D)
 
 void ObjectManager::DeleteAll2D()
 {
-	player_2d_ = nullptr;
-	// 範囲ベースforループでメモリを解放後、一括でクリア
-	for (auto* obj : object_2d_list_) {
-		delete obj;
-	}
+	player_2d_.reset();
 	object_2d_list_.clear();
 }
 
 void ObjectManager::DeleteAll2DIfNeeded()
 {
-	// std::list の remove_if を使用して、削除フラグを満たすオブジェクトを安全に削除
-	object_2d_list_.remove_if([this](Object2D* obj) {
-		if (obj != nullptr && obj->IsDeleteFlag()) {
-			if (obj == player_2d_) player_2d_ = nullptr;
-			delete obj;
+	object_2d_list_.remove_if([this](std::shared_ptr<Object2D>& obj) {
+		if (obj && obj->IsDeleteFlag()) {
+			if (player_2d_.lock() == obj) player_2d_.reset();
 			return true;
 		}
 		return false;
 	});
 }
 
-Object2D* ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
+std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
 {
-	if (tag_ == Object2D::kTag2dPlayer && player_2d_ != nullptr && !player_2d_->IsDeleteFlag()) {
-		return player_2d_;
+	if (tag_ == Object2D::kTag2dPlayer) {
+		if (auto p = player_2d_.lock()) {
+			if (!p->IsDeleteFlag()) return p;
+		}
 	}
 
 	auto itr = std::find_if(
 		object_2d_list_.begin(),
 		object_2d_list_.end(),
-		[&](Object2D* obj) { return obj->GetTag() == tag_; }
+		[&](const std::shared_ptr<Object2D>& obj) { return obj->GetTag() == tag_; }
 	);
 
 	if (itr != object_2d_list_.end())
@@ -83,11 +79,10 @@ Object2D* ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
 	return nullptr;
 }
 
-std::vector<Object2D*> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag_)
+std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag_)
 {
-	std::vector<Object2D*> ret;
-	// 範囲ベースforループで簡潔に検索
-	for (auto* obj : object_2d_list_)
+	std::vector<std::shared_ptr<Object2D>> ret;
+	for (auto& obj : object_2d_list_)
 	{
 		if (obj->GetTag() == tag_)
 		{
@@ -96,3 +91,4 @@ std::vector<Object2D*> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag_)
 	}
 	return ret;
 }
+

@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 #include <vector>
+#include <memory>
 
 class Enemy;
 class Boss;
@@ -8,19 +9,19 @@ class Boss;
 // �{�X�o������̊Ď���A���݂̃t�F�[�Y�i�E�F�[�u�j�ɉ������G�̃X�|�[���𐧌䂷��
 class EnemyManager {
 private:
-    int spawn_timer_;              // �G��o���i�X�|�[���j������Ԋu��v��^�C�}�[
-    int defeated_count_;           // �v���C���[���|�����G�̗݌v���i�t�F�[�Y�i�s�̏������Ɏg�p�j
-    bool boss_spawned_;            // ���݂̃t�F�[�Y�Ń{�X�����ɏo���������ǂ����̃t���O
+    int spawn_timer_;              // GoiX|[jԊuv^C}[
+    int defeated_count_;           // vC[|G̗݌vitF[Yis̏Ɏgpj
+    bool boss_spawned_;            // ݂̃tF[YŃ{Xɏoǂ̃tO
 
-    int current_phase_;            // ���݂̐i�s�t�F�[�Y�i�E�F�[�u�j�ԍ�
-    int required_kills_;           // ���̃t�F�[�Y�ւ̈ڍs�A�܂��̓{�X�o���ɕK�v�ȓG�̓�����
-    Boss* current_boss_;           // ���ݏo�����Ă���{�X�I�u�W�F�N�g�ւ̃|�C���^�i���o������nullptr�j
+    int current_phase_;            // ݂̐istF[YiEF[ujԍ
+    int required_kills_;           // ̃tF[Yւ̈ڍsA܂̓{XoɕKvȓG̓
+    std::weak_ptr<Boss> current_boss_;           // ݏoĂ{XIuWFNgւ̃|C^ionullptrjĂ{XIuWFNgւ̃|C^ionullptrj
 
 public:
-    // �R���X�g���N�^ / �f�X�g���N�^
-    // [����] �Ȃ�
-    // [�o��] �Ȃ�
-    // [����p] �I�u�W�F�N�g�̐����E�j����s��
+    // RXgN^ / fXgN^
+    // [] Ȃ
+    // [o] Ȃ
+    // [p] IuWFNg̐Ejs
     EnemyManager();
     ~EnemyManager();
 
