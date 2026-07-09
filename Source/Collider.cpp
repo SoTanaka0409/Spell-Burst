@@ -1,4 +1,4 @@
-﻿#include "Collider.h"
+#include "Collider.h"
 #include "ObjectManager.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
@@ -23,7 +23,9 @@ Collider::Collider(Object2D* parent)
 
 Collider::~Collider()
 {
-	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->RemoveCollider(this);
+	if (Master::sceneManager && Master::sceneManager->GetCurrentScene()) {
+		Master::sceneManager->GetCurrentScene()->GetCollisionManager()->RemoveCollider(this);
+	}
 }
 
 void Collider::HitCheck(Collider* check, bool isHit)

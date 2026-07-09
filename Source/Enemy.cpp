@@ -1,4 +1,4 @@
-﻿#include "Enemy.h"
+#include "Enemy.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -27,7 +27,7 @@ Enemy::Enemy(float x, float y, int enemy_type_)
     : Character(Vector2(x, y), 3, 3.0f)
 {
     SetTag(kTag2dEnemy);
-    enemy_type_ = enemy_type_;
+    this->enemy_type_ = enemy_type_;
     attack_timer_ = 0;
     
     if (enemy_type_ == 1) {

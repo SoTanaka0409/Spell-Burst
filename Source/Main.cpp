@@ -1,4 +1,4 @@
-﻿#ifndef NOMINMAX
+#ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
@@ -14,6 +14,12 @@
 float Utility::TimeScale = 1.0f;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES) {
+        if (GetFileAttributesA("..\\..\\Resource") != INVALID_FILE_ATTRIBUTES) {
+            SetCurrentDirectoryA("..\\..");
+        }
+    }
+
     // 起動毎に最新のログを出力するため、既存のログファイルを破棄して初期化
     FILE* fpLog = nullptr;
     fopen_s(&fpLog, "debug.log", "w");

@@ -75,7 +75,7 @@ void GameScene::Initialize() {
     enemy_manager_->SpawnEnemy(1330.0f, 150.0f);
     enemy_manager_->SpawnEnemy(1330.0f, 350.0f);
     enemy_manager_->SpawnEnemy(1330.0f, 550.0f);
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.3");
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
 }
 
 void GameScene::Update() {

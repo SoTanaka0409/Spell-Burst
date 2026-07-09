@@ -1,4 +1,4 @@
-﻿#include "Barrier.h"
+#include "Barrier.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -18,7 +18,7 @@ Barrier::Barrier(float x, float y, float radius_, Object2D::Tag2D obj)
     deployInterval = 300.0f;
     activeDuration = 180.0f;
     timer = 0.0f;
-    radius_ = radius_;
+    this->radius_ = radius_;
     isDeployed = false;
     hit_count = 0;
 }

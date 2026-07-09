@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #include <string>
 #include "vector"
@@ -48,7 +48,7 @@ public:
 
 	void SetDrawFlag(bool flag) { draw_flag_ = flag; }
 	bool IsDrawFlag() { return draw_flag_; }
-	void SetTag(Tag2D tag_) { tag_ = tag_; }
+	void SetTag(Tag2D tag) { tag_ = tag; }
 	Tag2D GetTag() { return tag_; }
 
 	// [入力] collider_: 自身のコライダー, check: 相手のコライダー

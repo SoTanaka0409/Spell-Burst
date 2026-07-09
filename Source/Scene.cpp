@@ -1,4 +1,4 @@
-﻿#include "Scene.h"
+#include "Scene.h"
 #include "ObjectManager.h"
 #include "Master.h"
 #include "ColliderManager.h"
@@ -49,4 +49,14 @@ void Scene::Update()
 	{
 		collider_manager_->Update();
 	}
+}
+
+ObjectManager* Scene::GetObjectManager()
+{
+	return object_manager_.get();
+}
+
+ColliderManager* Scene::GetCollisionManager()
+{
+	return collider_manager_.get();
 }

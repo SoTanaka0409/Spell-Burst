@@ -1,4 +1,4 @@
-﻿#include <memory>
+#include <memory>
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -36,8 +36,8 @@ public:
     // [副作用] シーン終了時に画像や音などのリソース解放を行う（派生先で実装）
 	virtual void Finalize() = 0;
 
-	ObjectManager* GetObjectManager() { return object_manager_.get(); }
-	ColliderManager* GetCollisionManager() { return collider_manager_.get(); }
+	ObjectManager* GetObjectManager();
+	ColliderManager* GetCollisionManager();
 	
 private:
 	std::unique_ptr<ObjectManager> object_manager_;

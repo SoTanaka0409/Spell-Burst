@@ -19,7 +19,7 @@ void RuleScene::Initialize() {
     rule_graphs_[4] = -1; // �����I�ȃX���C�h�ǉ��ɔ����Ă��炩���ߘg��m�ۂ�������
     rule_graphs_[5] = -1;
     current_slide_ = 0;
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.3");
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
 }
 
 void RuleScene::Update() {

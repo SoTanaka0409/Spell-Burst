@@ -1,4 +1,4 @@
-﻿#include "SphereCollider.h"
+#include "SphereCollider.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
@@ -7,7 +7,7 @@ SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius_)
 {
 	position_ = center;
 	position2 = center;
-	radius_ = radius_;
+	this->radius_ = radius_;
 }
 
 SphereCollider::~SphereCollider()

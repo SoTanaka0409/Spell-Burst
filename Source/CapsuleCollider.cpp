@@ -1,4 +1,4 @@
-﻿#include "CapsuleCollider.h"
+#include "CapsuleCollider.h"
 
 #include "ObjectManager.h"
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius_)
@@ -6,7 +6,7 @@ CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, f
 {
 	position_ = pos1;
 	position2 = pos2;
-	radius_ = radius_;
+	this->radius_ = radius_;
 }
 
 CapsuleCollider::~CapsuleCollider()

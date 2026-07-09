@@ -1,4 +1,4 @@
-﻿#include "Boss.h"
+#include "Boss.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
@@ -32,7 +32,7 @@ Boss::Boss(float x, float y, int bossType)
     : Character(Vector2(x, y), 150, 2.5f)
 {
     SetTag(kTag2dEnemy);
-    bossType = bossType;
+    this->bossType = bossType;
     if (bossType == 1) {
         speed_ = 1.5f;
         max_hp_ = 60;
@@ -198,7 +198,7 @@ void Boss::TakeDamage(int damage_) {
     if (scene != nullptr) {
         scene->AddHitStop(3);
         scene->AddScreenShake(5, 4.0f);
-        scene->AddDamageFlash(8, GetColor(255, 255, 200));
+        // scene->AddDamageFlash(8, GetColor(255, 255, 200)); // ボス戦の時に発光しないでほしいという要望のため削除
     }
 
     if (hp_ <= 0) {

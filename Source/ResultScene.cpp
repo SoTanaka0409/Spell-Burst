@@ -23,11 +23,11 @@ void ResultScene::Initialize() {
     particles_.clear();
     
     if (kIsVictory) {
-        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.3");
+        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.mp3");
         bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase1.png");
         Utility::SaveTimeRanking((GameScene::playFrameCount * 1000) / 60); 
     } else {
-        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.3");
+        SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.mp3");
         bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase3.png"); 
     }
     

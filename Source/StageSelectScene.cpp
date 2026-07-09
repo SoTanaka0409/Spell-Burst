@@ -18,7 +18,7 @@ void StageSelectScene::Initialize()
     phase_ = 0;
     ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
     wait_count_ = 0;
-    SoundManager::GetInstance()->PlayBGM("Resource/bgm_select.3");
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-169.mp3");
 }
 
 void StageSelectScene::Update() 

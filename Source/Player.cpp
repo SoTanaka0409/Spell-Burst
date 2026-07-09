@@ -1,4 +1,4 @@
-﻿#include "Player.h"
+#include "Player.h"
 #include "ObjectManager.h"
 #include <cmath>
 #include <algorithm>
@@ -227,7 +227,7 @@ void Player::Attack()
         float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
         for (int i = 0; i < numBullets; ++i) 
         {
-            new Bullet(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
+            ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
         }
     }
     if (DebugOn)
@@ -236,13 +236,13 @@ void Player::Attack()
         {
             attack_interval2_ = 0;
             if (attack_mode_ == kAttackModeMelee) {
-                new MeleeAttack(position_.x, position_.y - 70.0f);
+                ObjectManager::Instantiate<MeleeAttack>(position_.x, position_.y - 70.0f);
             }
             else if (attack_mode_ == kAttackModeSpecial)
             {
                 if (special_cooldown_ == 0)
                 {
-                    new SpecialBullet(position_.x, position_.y - 90.0f);
+                    ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
                     special_cooldown_ = 180; 
                 }
             }
@@ -252,7 +252,7 @@ void Player::Attack()
     {
         if (DebugOn)
         {
-            new SpecialBullet(position_.x, position_.y - 90.0f);
+            ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
         }
     }
     if (mouseInput&&MOUSE_INPUT_LEFT) 
@@ -264,13 +264,13 @@ void Player::Attack()
             if (kSelectedCharacterType == 1)
             {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-                new MasterSpark(position_.x, position_.y);
+                ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
             } else if (kSelectedCharacterType == 2) {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3聖魔況Emp3");
-                new RainbowWaveManager(position_.x, position_.y);
+                ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
             } else if (kSelectedCharacterType == 3) {
                 SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-                new SpellCardBullet(position_.x, position_.y - 90.0f);
+                ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
             }
             
             GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());

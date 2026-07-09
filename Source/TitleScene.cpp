@@ -25,7 +25,7 @@ void TitleScene::Initialize()
     bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
     bg_scroll_x_ = 0.0f;
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.3");
+    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.mp3");
     Utility::LoadTimeRanking(rankings_);
 }
 

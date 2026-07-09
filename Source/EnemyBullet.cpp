@@ -1,4 +1,4 @@
-﻿#include "EnemyBullet.h"
+#include "EnemyBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -16,9 +16,9 @@ EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed_, bool can_reflec
     : Projectile(pos, dir.Normalized(), speed_, 1)
 {
     SetTag(kTag2dEnemyBullet);
-    can_reflect_ = false;
-    has_reflected_ = false;
-    is_stun_bullet_ = is_stun_bullet_;
+    this->can_reflect_ = can_reflect_;
+    this->has_reflected_ = false;
+    this->is_stun_bullet_ = is_stun_bullet_;
     homing_timer_ = homingFrames;
     homing_delay_timer_ = homingDelayFrames;
 
