@@ -48,3 +48,18 @@ int InputManager::CheckPressKey(int KeyCode)
 {
 	return CheckHitKey(KeyCode);
 }
+
+int InputManager::ActionDown(InputAction action)
+{
+    return CheckDownKey(InputBinding::GetKey(action));
+}
+
+int InputManager::ActionPress(InputAction action)
+{
+    return CheckPressKey(InputBinding::GetKey(action));
+}
+
+int InputManager::ActionUp(InputAction action)
+{
+    return CheckUpKey(InputBinding::GetKey(action));
+}

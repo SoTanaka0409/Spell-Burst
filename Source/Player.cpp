@@ -1,4 +1,5 @@
-#include "Player.h"
+﻿#include "Player.h"
+#include "ObjectManager.h"
 #include <cmath>
 #include <algorithm>
 #include "InputManager.h"
@@ -90,7 +91,7 @@ void Player::Initialize() {
 
     if (collider_) delete collider_;
     collider_ = new CapsuleCollider(this, position_, position_, 4.0f);
-    barrier_ = ObjectManager::GetInstance()->Instantiate<Barrier>(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
+    barrier_ = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
 }
 
 void Player::Update()
@@ -105,13 +106,13 @@ void Player::Update()
         return;
     }
 
-    bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
+    bool isFocus = InputManager::ActionPress(InputAction::kFocus);
     float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::TimeScale;
 
-    if (InputManager::CheckPressKey(KEY_INPUT_W)) { position_.y -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_S)) { position_.y += currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_A)) { position_.x -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_D)) { position_.x += currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveUp))    { position_.y -= currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveDown))  { position_.y += currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveLeft))  { position_.x -= currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveRight)) { position_.x += currentSpeed; }
 
     // 画面端からはみ出さないように座標を制限（clampを使用）
     position_.x = std::clamp(position_.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
@@ -121,7 +122,7 @@ void Player::Update()
         b->SetPosition(position_);
     }
 
-    if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
+    if (InputManager::ActionDown(InputAction::kSwitchMode)) {
         if (attack_mode_ == kAttackModeMelee) attack_mode_ = kAttackModeSpecial;
         else attack_mode_ = kAttackModeMelee;
     }
@@ -191,7 +192,15 @@ void Player::Draw() {
 
 void Player::TakeDamage(int damage_) {
     Character::TakeDamage(damage_);
-    SoundManager::GetInstance()->PlaySE("Resource/SE/弓矢が刺さる.3");
+    SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+
+    // 被弾演出: スクリーンシェイク + ダメージフラッシュ（赤）
+    GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+    if (scene != nullptr) {
+        scene->AddScreenShake(8, 6.0f);
+        scene->AddDamageFlash(15, GetColor(255, 30, 30));
+    }
+
     if (hp_ <= 0) {
         ResultScene::kIsVictory = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
@@ -201,7 +210,7 @@ void Player::TakeDamage(int damage_) {
 void Player::Attack()
 {
     int mouseInput = GetMouseInput();
-    bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
+    bool zPressed = InputManager::ActionPress(InputAction::kAttack);
     
     attack_interval_++;
     attack_interval2_++;
@@ -250,17 +259,17 @@ void Player::Attack()
     {
         if (spell_gauge_ >= max_spell_gauge_) {
             spell_gauge_ = 0;
-            SoundManager::GetInstance()->PlaySE("Resource/SE/剣で斬めE.3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             
             if (kSelectedCharacterType == 1)
             {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 new MasterSpark(position_.x, position_.y);
             } else if (kSelectedCharacterType == 2) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/聖魔況Emp3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3聖魔況Emp3");
                 new RainbowWaveManager(position_.x, position_.y);
             } else if (kSelectedCharacterType == 3) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/気弾2.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 new SpellCardBullet(position_.x, position_.y - 90.0f);
             }
             
@@ -279,14 +288,14 @@ void Player::AddXp(int amount) {
     if (spell_gauge_ >= max_spell_gauge_) {
         spell_gauge_ = max_spell_gauge_;
         if (oldGauge < max_spell_gauge_) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
         }
     }
 
     while (xp_ >= xp_needed_) {
         xp_ -= xp_needed_;
         level_++;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/スチE?Eタス上?E魔況E.3");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
         xp_needed_ = level_ * 5;
 
         hp_ = max_hp_;
@@ -307,4 +316,4 @@ void Player::OnTrigger(Collider* collider_, Collider* check)
     }
 }
 void Player::OnExit(Collider* collider_, Collider* check) {}
-void Player::Barrier() {}
+void Player::RunBarrierAttack() {}

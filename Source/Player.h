@@ -46,7 +46,7 @@ public:
     void Draw() override;
 
     void Attack();
-    void Barrier();
+    void RunBarrierAttack();
 
     // 繧ｲ繝・ち繝ｼ髢｢謨ｰ鄒､
     AttackMode GetAttackMode() const { return attack_mode_; }

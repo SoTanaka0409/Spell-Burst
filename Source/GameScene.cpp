@@ -1,4 +1,4 @@
-#include "GameScene.h"
+﻿#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -29,6 +29,8 @@ GameScene::GameScene()
     , shake_timer_(0)
     , shake_magnitude_(0.0f)
     , hit_stop_timer_(0)
+    , damage_flash_timer_(0)
+    , damage_flash_color_(0)
 {
 }
 
@@ -85,6 +87,10 @@ void GameScene::Update() {
 
     if (shake_timer_ > 0) {
         shake_timer_--;
+    }
+
+    if (damage_flash_timer_ > 0) {
+        damage_flash_timer_--;
     }
 
     if (cutin_timer_ > 0) {
@@ -170,6 +176,15 @@ void GameScene::Draw() {
         }
 
         DrawGraph(offsetX, offsetY, screen_handle_, TRUE);
+
+        // ダメージフラッシュ: 残りフレーム数に比例してアルファ値を落とすフェードアウト
+        if (damage_flash_timer_ > 0) {
+            int max_flash = 15; // 最大フラッシュ時間（フレーム）
+            int alpha = static_cast<int>(200.0f * (static_cast<float>(damage_flash_timer_) / max_flash));
+            SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+            DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, damage_flash_color_, TRUE);
+            SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        }
     }
 }
 
@@ -180,6 +195,11 @@ void GameScene::AddScreenShake(int duration, float magnitude) {
 
 void GameScene::AddHitStop(int duration) {
     hit_stop_timer_ = duration;
+}
+
+void GameScene::AddDamageFlash(int duration, unsigned int color) {
+    damage_flash_timer_ = duration;
+    damage_flash_color_ = color;
 }
 
 void GameScene::TriggerCutin() {

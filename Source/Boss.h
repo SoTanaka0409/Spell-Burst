@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Character.h"
+#include "BossState.h"
+#include <memory>
 
 class CapsuleCollider;
 
@@ -19,6 +21,8 @@ private:
     int invincibleTimer; 
     int invincibleCycleTimer; 
 
+    std::unique_ptr<BossState> state_; // Current behavior state
+
 public:
     Boss(float x, float y, int bossType = 3);
     virtual ~Boss() override;
@@ -35,13 +39,18 @@ public:
 
     virtual void OnTrigger(Collider* collider_, Collider* check) override;
 
-private:
+    // Exposed for BossState subclasses
     void ShootRadialBarrage();
     void ShootFanBarrage();
     void ShootTargetedBarrage();
     void ShootSimpleBarrage();
     void ShootBouncingBarrage();
     void ShootSpellCardBarrage();
-    
     void SelectNewTarget();
+
+    void SetState(BossState* newState) { state_.reset(newState); }
+    int GetBossType() const { return bossType; }
+    bool GetIsDying() const { return isDying; }
+    int GetInvincibleTimer() const { return invincibleTimer; }
+    void SetInvincibleTimer(int t) { invincibleTimer = t; }
 };

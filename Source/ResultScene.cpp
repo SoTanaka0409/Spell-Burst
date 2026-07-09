@@ -46,7 +46,7 @@ void ResultScene::Update() {
     if (InputManager::CheckDownKey(KEY_INPUT_RETURN) || InputManager::CheckDownKey(KEY_INPUT_Z) || 
        (GetMouseInput() & MOUSE_INPUT_LEFT)) {
         if (state_timer_ > 60) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/決定ボタンを押す42.mp3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
         }
     }

@@ -1,4 +1,4 @@
-#include "Master.h"
+﻿#include "Master.h"
 #include "ObjectManager.h"
 #include "ColliderManager.h"
 #include <algorithm>

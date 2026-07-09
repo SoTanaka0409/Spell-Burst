@@ -20,6 +20,9 @@ private:
 
     int hit_stop_timer_;             // ヒットストップ（一時的な時間停止演出）の残りフレーム数
 
+    int damage_flash_timer_;         // ダメージフラッシュの残りフレーム数
+    unsigned int damage_flash_color_; // ダメージフラッシュの色
+
 public:
     // --- 静的（static）メンバ変数 ---
     static int currentStage;         // 現在プレイ中のステージ番号
@@ -70,4 +73,9 @@ public:
     // [出力] なし
     // [副作用] 強い攻撃が当たった際など、ゲーム全体の更新処理を一時停止（ヒットストップ）させ、打撃感を演出する
     void AddHitStop(int duration);
+
+    // [入力] duration: フラッシュするフレーム数, color: フラッシュ色（GetColor等で指定）
+    // [出力] なし
+    // [副作用] 画面を指定色でフラッシュさせ、ダメージや爆発の視覚的フィードバックを提供する
+    void AddDamageFlash(int duration, unsigned int color);
 };

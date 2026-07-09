@@ -38,7 +38,7 @@ void StageSelectScene::Update()
     
     // Back button
     if (isLeftClicked && mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60) {
-        SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+        SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
         if (phase_ == 1) {
             phase_ = 0;
         } else {
@@ -61,15 +61,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 Player::kSelectedCharacterType = 1;
                 phase_ = 1;
             } else if (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 Player::kSelectedCharacterType = 2;
                 phase_ = 1;
             } else if (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 Player::kSelectedCharacterType = 3;
                 phase_ = 1;
             }
@@ -84,15 +84,15 @@ void StageSelectScene::Update()
         
         if (isLeftClicked) {
             if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 GameScene::currentStage = 1;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 GameScene::currentStage = 2;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 GameScene::currentStage = 3;
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
             }

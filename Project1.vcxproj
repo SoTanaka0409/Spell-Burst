@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -33,6 +33,8 @@
     <ClCompile Include="Source\ExplosionParticle.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
     <ClCompile Include="Source\HUD.cpp" />
+    <ClCompile Include="Source\BossStateAttack.cpp" />
+    <ClCompile Include="Source\InputAction.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MasterSpark.cpp" />

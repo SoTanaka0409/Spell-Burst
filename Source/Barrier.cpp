@@ -88,7 +88,7 @@ void Barrier::OnTrigger(Collider* collider_, Collider* check) {
             hit_count++;
             if (hit_count >= 30) {
                 hit_count = 0;
-                SoundManager::GetInstance()->PlaySE("Resource/SE/?K???X???????1.3");
+                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 float baseSpeed = 10.0f;
                 for (int dir = 0; dir < 4; ++dir) {
                     float baseAngle = dir * (3.14159265f / 2.0f);

@@ -48,15 +48,15 @@ void TitleScene::Update()
     
     if (isLeftClicked) {
         if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE//����{�^�������42.3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_LEVEL);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_RULE);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/����{�^�������42.3");
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_NONE);
         }
     }

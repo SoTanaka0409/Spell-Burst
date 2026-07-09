@@ -1,4 +1,4 @@
-#include "Boss.h"
+﻿#include "Boss.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
@@ -26,6 +26,7 @@
 #include "ExplosionParticle.h"
 #include "PlayerHomingBullet.h"
 #include "SoundManager.h"
+#include "BossStateAttack.h"
 
 Boss::Boss(float x, float y, int bossType)
     : Character(Vector2(x, y), 150, 2.5f)
@@ -65,6 +66,15 @@ Boss::Boss(float x, float y, int bossType)
     if (collider_) delete collider_;
     collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
     SelectNewTarget();
+
+    // Initialize behavior state based on boss type
+    if (this->bossType == 1) {
+        state_ = std::make_unique<BossStateSimple>();
+    } else if (this->bossType == 2) {
+        state_ = std::make_unique<BossStateBouncing>();
+    } else {
+        state_ = std::make_unique<BossStateFinal>();
+    }
 }
 
 Boss::~Boss() {
@@ -89,64 +99,18 @@ void Boss::Update() {
         return;
     }
 
-    if (invincibleTimer > 0) {
-        invincibleTimer--;
-    }
-    if (bossType == 3) {
-        invincibleCycleTimer++;
-        if (invincibleCycleTimer >= 300) {
-            invincibleTimer = 120;
-            invincibleCycleTimer = 0;
-            ObjectManager::Instantiate<Enemy>(position_.x - 60.0f, position_.y + 60.0f, 1);
-            ObjectManager::Instantiate<Enemy>(position_.x + 60.0f, position_.y + 60.0f, 1);
-        }
-    } else {
-        invincibleTimer = 0;
-        invincibleCycleTimer = 0;
-    }
-
+    // Movement: chase target position
     Vector2 target(targetX, targetY);
     float dist = position_.DistanceTo(target);
-
     if (dist < 15.0f) {
         SelectNewTarget();
     } else {
         position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
     }
 
-    attack_timer_++;
-    if (bossType == 1) {
-        if (attack_timer_ >= 60) {
-            attack_timer_ = 0;
-            ShootSimpleBarrage();
-        }
-    } else if (bossType == 2) {
-        if (attack_timer_ >= 120) {
-            attack_timer_ = 0;
-            ShootBouncingBarrage();
-        }
-    } else {
-        if (attack_timer_ >= 100) {
-            attack_timer_ = 0;
-            bool usedSpellCard = false;
-            if (GameScene::currentStage == 3) {
-                if ((rand() % 100) < 20) {
-                    ShootSpellCardBarrage();
-                    usedSpellCard = true;
-                }
-            }
-            
-            if (!usedSpellCard) {
-                if (patternIndex == 0) {
-                    ShootRadialBarrage();
-                } else if (patternIndex == 1) {
-                    ShootFanBarrage();
-                } else if (patternIndex == 2) {
-                    ShootTargetedBarrage();
-                }
-                patternIndex = (patternIndex + 1) % 3;
-            }
-        }
+    // Delegate attack/invincibility logic to current state
+    if (state_) {
+        state_->Update(this);
     }
 }
 
@@ -228,6 +192,14 @@ void Boss::TakeDamage(int damage_) {
     if (isDying || invincibleTimer > 0) return;
 
     Character::TakeDamage(damage_);
+
+    // 攻撃ヒット演出: ヒットストップ + シェイク + フラッシュ（白）
+    GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+    if (scene != nullptr) {
+        scene->AddHitStop(3);
+        scene->AddScreenShake(5, 4.0f);
+        scene->AddDamageFlash(8, GetColor(255, 255, 200));
+    }
 
     if (hp_ <= 0) {
         lives--;

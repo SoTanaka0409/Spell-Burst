@@ -1,4 +1,4 @@
-#include "BulletManager.h"
+﻿#include "BulletManager.h"
 #include "ObjectManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX

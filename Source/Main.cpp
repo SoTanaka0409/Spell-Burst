@@ -7,7 +7,7 @@
 #include "Master.h"
 #include <iostream>
 #include "Utility.h"
-
+#include "InputAction.h"
 
 //SceneManager* Master::sceneManager = std::make_unique<SceneManager>();
 
@@ -39,6 +39,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // 描画先を裏画面に設定し、チラつきのないダブルバッファリングを実現`r`n    SetDrawScreen(DX_SCREEN_BACK);
 
     Master::sceneManager = std::make_unique<SceneManager>();
+    InputBinding::Initialize();
     Master::sceneManager->Initialize();
 
     LONGLONG lastTime = GetNowHiPerformanceCount();
