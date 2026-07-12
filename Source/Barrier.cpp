@@ -68,10 +68,19 @@ void Barrier::Draw() {
         int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
         SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
         
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(0, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(0, 255, 255), FALSE);
+        if (GetTag() == kTag2dBarrierEnemy) {
+            // 敵バリア：赤〜オレンジのシールド
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(100, 10, 0), TRUE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 80, 0), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(255, 200, 0), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(255, 200, 0), FALSE);
+        } else {
+            // プレイヤーバリア：青〜シアン
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 255, 255), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(0, 255, 255), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(0, 255, 255), FALSE);
+        }
         
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }

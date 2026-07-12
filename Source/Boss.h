@@ -1,6 +1,7 @@
-﻿#pragma once
+#pragma once
 #include "Character.h"
 #include "BossState.h"
+#include "Barrier.h"
 #include <memory>
 
 class CapsuleCollider;
@@ -22,6 +23,7 @@ private:
     int invincibleCycleTimer; 
 
     std::unique_ptr<BossState> state_; // Current behavior state
+    std::weak_ptr<Barrier> barrier_;   // ボス2・3体目専用バリアへの参照
 
 public:
     Boss(float x, float y, int bossType = 3);

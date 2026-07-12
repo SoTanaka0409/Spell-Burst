@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class Collider;
@@ -28,6 +28,9 @@ public:
 
     int GetHitCount() const { return hit_count; }
     bool IsDeployed() const { return isDeployed; }
+    void SetDeployInterval(float v) { deployInterval = v; }
+    void SetActiveDuration(float v) { activeDuration = v; }
+    void SetPosition(Vector2 pos) { position_ = pos; }
 
 private:
     float deployInterval;

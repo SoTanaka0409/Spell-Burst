@@ -27,6 +27,7 @@
 #include "PlayerHomingBullet.h"
 #include "SoundManager.h"
 #include "BossStateAttack.h"
+#include "Barrier.h"
 
 Boss::Boss(float x, float y, int bossType)
     : Character(Vector2(x, y), 150, 2.5f)
@@ -67,6 +68,16 @@ Boss::Boss(float x, float y, int bossType)
     collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
     SelectNewTarget();
 
+    // ボス2体目・3体目にバリアを生成（2.5秒ごとに2秒間展開）
+    if (bossType != 1) {
+        auto bar = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 100.0f, Object2D::kTag2dBarrierEnemy);
+        if (auto locked = bar.lock()) {
+            locked->SetDeployInterval(300.0f);  // 5秒
+            locked->SetActiveDuration(120.0f);  // 2秒
+        }
+        barrier_ = bar;
+    }
+
     // Initialize behavior state based on boss type
     if (this->bossType == 1) {
         state_ = std::make_unique<BossStateSimple>();
@@ -106,6 +117,13 @@ void Boss::Update() {
         SelectNewTarget();
     } else {
         position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
+    }
+
+    // バリアの位置をボスに追従させる
+    if (bossType != 1) {
+        if (auto bar = barrier_.lock()) {
+            bar->SetPosition(position_);
+        }
     }
 
     // Delegate attack/invincibility logic to current state
