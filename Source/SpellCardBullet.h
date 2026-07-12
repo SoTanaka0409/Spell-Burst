@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
@@ -6,6 +6,9 @@ class CapsuleCollider;
 class SpellCardBullet : public Projectile {
 private:
     int life_timer_;
+    int state_;
+    int burst_count_;
+    int burst_timer_;
     void Explode();
 
 public:

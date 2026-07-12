@@ -106,7 +106,7 @@ void Enemy::Update() {
                     float bullet_angle = current_angle + (i * 2.0f * 3.14159265f) / 16;
                     ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(bullet_angle), 2.0f);
                 }
-                float baseAngle = position_.AngleTo(targetPos);
+                float baseAngle = Vector2(1, 0).AngleTo(targetPos - position_);
                 for (int i = -1; i <= 1; i++) {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
                     ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);

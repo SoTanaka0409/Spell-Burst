@@ -1,4 +1,4 @@
-﻿#include "MasterSpark.h"
+#include "MasterSpark.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -15,7 +15,7 @@
 #include <cstdlib>
 
 MasterSpark::MasterSpark(float x, float y)
-    : Projectile(Vector2(x, y), Vector2(0, -1), 0.0f, 3) // ★ダメージを3に調整
+    : Projectile(Vector2(x, y), Vector2(0, -1), 0.0f, 1) // ★ダメージを3に調整
 {
     SetTag(kTag2dPlayerBullet);
     max_life_ = 120;
@@ -110,8 +110,8 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            // ★ヒット間隔を短くし（毎フレーム等）、ダメージを与えやすくする
-            if (enemy != nullptr && life_timer_ % 2 == 0) {
+            // ヒット間隔を広げて威力を調整（毎フレームではなく10フレームに1回ヒット）
+            if (enemy != nullptr && life_timer_ % 10 == 0) {
                 enemy->TakeDamage(damage_);
                 attack_count_++;
             }

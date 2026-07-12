@@ -63,13 +63,7 @@ void Player::Initialize() {
     spell_gauge_ = 0;
     max_spell_gauge_ = 10;
 
-    if (kSelectedCharacterType == 1)
-    {
-        speed_ = 5.0f;
-        max_hp_ = 15;
-        hp_ = max_hp_;
-    }
-    else if (kSelectedCharacterType == 2)
+   if (kSelectedCharacterType == 2)
     {
         speed_ = 7.0f;
         max_hp_ = 10;
@@ -303,9 +297,7 @@ void Player::AddXp(int amount) {
     }
 }
 
-void Player::OnEnter(Collider* collider_, Collider* check) {}
-void Player::OnTrigger(Collider* collider_, Collider* check) 
-{
+void Player::OnEnter(Collider* collider_, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
@@ -314,6 +306,10 @@ void Player::OnTrigger(Collider* collider_, Collider* check)
             }
         }
     }
+}
+void Player::OnTrigger(Collider* collider_, Collider* check) 
+{
+
 }
 void Player::OnExit(Collider* collider_, Collider* check) {}
 void Player::RunBarrierAttack() {}

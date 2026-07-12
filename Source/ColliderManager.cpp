@@ -120,3 +120,8 @@ void ColliderManager::RemoveCollider(Collider* collider_)
     collider_list_.remove(collider_);
 }
 
+
+std::list<Collider*>& ColliderManager::GetColliderList()
+{
+    return collider_list_;
+}

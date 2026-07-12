@@ -148,7 +148,7 @@ void Boss::ShootTargetedBarrage() {
     }
     Vector2 dir = (targetPos - position_).Normalized();
     if (dir.MagnitudeSq() == 0.0f) dir = Vector2(0.0f, 1.0f);
-    float baseAngle = Vector2(0,0).AngleTo(dir);
+    float baseAngle = Vector2(1,0).AngleTo(dir);
     for (int i = -2; i <= 2; i++) {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
@@ -196,8 +196,8 @@ void Boss::TakeDamage(int damage_) {
     // 攻撃ヒット演出: ヒットストップ + シェイク + フラッシュ（白）
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
     if (scene != nullptr) {
-        scene->AddHitStop(3);
-        scene->AddScreenShake(5, 4.0f);
+        // scene->AddHitStop(3); // ボスに連続して弾が当たると重くなる原因のためコメントアウト
+        // scene->AddScreenShake(5, 4.0f); // ボスに当たった時の画面シェイクをなくしてほしいという要望のため削除
         // scene->AddDamageFlash(8, GetColor(255, 255, 200)); // ボス戦の時に発光しないでほしいという要望のため削除
     }
 

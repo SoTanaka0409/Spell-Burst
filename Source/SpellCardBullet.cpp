@@ -1,4 +1,4 @@
-﻿#include "SpellCardBullet.h"
+#include "SpellCardBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -20,23 +20,45 @@ SpellCardBullet::SpellCardBullet(float x, float y)
     life_timer_ = 0;
     
     collider_ = new CapsuleCollider(this, position_, position_, 15.0f);
+    state_ = 0;
+    burst_count_ = 0;
+    burst_timer_ = 0;
 }
 
 SpellCardBullet::~SpellCardBullet() {
 }
 
 void SpellCardBullet::Update() {
-    position_ += dir * (speed_ * Utility::TimeScale);
-
-    if (collider_) {
-        collider_->position_ = position_;
-        collider_->position2 = position_;
-    }
+    if (!is_active_) return;
 
     life_timer_++;
 
-    if (IsOutOfBounds()) {
-        Kill();
+    if (state_ == 0) {
+        position_ += dir * (speed_ * Utility::TimeScale);
+
+        if (collider_) {
+            collider_->position_ = position_;
+            collider_->position2 = position_;
+        }
+
+        if (position_.y <= Utility::SCREEN_HEIGHT / 2.0f) {
+            state_ = 1; // 真ん中まで進んだら停止して発射モードへ
+        }
+
+        if (IsOutOfBounds()) {
+            Kill();
+        }
+    } else if (state_ == 1) {
+        // 発射モード：停止し、1秒(60フレーム)ごとに8方向へ発射
+        burst_timer_++;
+        if (burst_timer_ >= 60) {
+            burst_timer_ = 0;
+            Explode();
+            burst_count_++;
+            if (burst_count_ >= 5) {
+                Kill();
+            }
+        }
     }
 }
 
@@ -60,22 +82,23 @@ void SpellCardBullet::OnTrigger(Collider* collider_, Collider* check) {
 	}
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
-            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
-                enemy->TakeDamage(damage_);
+            if (state_ == 0) {
+                Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+                if (enemy != nullptr) {
+                    enemy->TakeDamage(damage_);
+                }
+                state_ = 1; // 敵に当たったら停止して発射モードへ移行
             }
-            Explode();
-            Kill();
         }
     }
 }
 
 void SpellCardBullet::Explode() {
-    // PlayerSpellParticle is an effect for spell card hit
-    for (int i = 0; i < 8; i++) {
-        float angle = i * 3.14159265f / 4.0f;
-        Vector2 dir(cos(angle), sin(angle));
-        ObjectManager::Instantiate<PlayerSpellParticle>(position_, dir, 3.0f);
+    // 16方向に発射
+    for (int i = 0; i < 16; i++) {
+        float angle = i * 2.0f * 3.14159265f / 16.0f;
+        Vector2 d(cos(angle), sin(angle));
+        ObjectManager::Instantiate<PlayerSpellParticle>(position_, d, 6.0f);
     }
 }
 

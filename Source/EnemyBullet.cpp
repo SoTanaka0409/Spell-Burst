@@ -40,8 +40,8 @@ void EnemyBullet::Update() {
         Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
         if (player) {
             Vector2 targetPos(player->GetX(), player->GetY());
-            float currentAngle = Vector2(0, 0).AngleTo(dir);
-            float targetAngle = position_.AngleTo(targetPos);
+            float currentAngle = Vector2(1, 0).AngleTo(dir);
+            float targetAngle = Vector2(1, 0).AngleTo(targetPos - position_);
             float diff = targetAngle - currentAngle;
             while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
             while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;

@@ -1,4 +1,4 @@
-﻿#include "PlayerHomingBullet.h"
+#include "PlayerHomingBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -40,7 +40,7 @@ void PlayerHomingBullet::Update() {
         Character* e = dynamic_cast<Character*>(obj.get());
         if (e && !e->IsDeleteFlag() && e->GetY() > 0) {
             float distSq = e->GetPosition().DistanceSqTo(position_);
-            if (distSq < minDistSq && distSq < 400.0f * 400.0f) {
+            if (distSq < minDistSq && distSq < 2500.0f * 2500.0f) {
                 minDistSq = distSq;
                 targetEnemy = e;
             }
@@ -48,8 +48,8 @@ void PlayerHomingBullet::Update() {
     }
 
     if (targetEnemy) {
-        float currentAngle = Vector2(0, 0).AngleTo(dir);
-        float targetAngle = position_.AngleTo(targetEnemy->GetPosition());
+        float currentAngle = Vector2(1, 0).AngleTo(dir);
+        float targetAngle = Vector2(1, 0).AngleTo(targetEnemy->GetPosition() - position_);
         float diff = targetAngle - currentAngle;
         while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
         while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;

@@ -1,4 +1,4 @@
-﻿#include "RainbowBullet.h"
+#include "RainbowBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -10,7 +10,7 @@
 #include <cmath>
 
 RainbowBullet::RainbowBullet(float x, float y)
-    : Projectile(Vector2(x, y), Vector2(0, -1), 5.0f, 1)
+    : Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 1)
 {
     SetTag(kTag2dPlayerBullet);
     color_hue_ = 0;

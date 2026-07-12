@@ -1,4 +1,4 @@
-﻿#include "PlayerSpellParticle.h"
+#include "PlayerSpellParticle.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -6,20 +6,32 @@
 #include "DxLib.h"
 #include "Utility.h"
 #include <cmath>
+#include "Character.h"
+#include "CapsuleCollider.h"
 
 PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_)
     : Object2D(pos)
 {
     SetTag(kTag2dPlayerBullet);
-    position_ = pos;
-    dir = dir.Normalized();
-    speed_ = speed_;
-    is_active_ = true;
-    life_timer_ = 60;
-    damage_ = 5;
+    this->position_ = pos;
+    this->dir = dir.Normalized();
+    this->speed_ = speed_;
+    this->is_active_ = true;
+    this->life_timer_ = 180;
+    this->damage_ = 5;
+    this->collider_ = new CapsuleCollider(this, this->position_, this->position_, 15.0f);
 }
 
 PlayerSpellParticle::~PlayerSpellParticle() {
+    if (collider_) {
+        delete collider_;
+        collider_ = nullptr;
+    }
+}
+
+void PlayerSpellParticle::Kill() {
+    is_active_ = false;
+    SetDeleteFlag(true);
 }
 
 void PlayerSpellParticle::Update() {
@@ -40,18 +52,18 @@ void PlayerSpellParticle::Update() {
         return;
     }
 
-    if (life_timer_ > 20) {
-        float currentAngle = Vector2(0,0).AngleTo(dir);
-        currentAngle += 0.05f;
-        dir = Vector2::FromAngle(currentAngle);
+    if (collider_) {
+        collider_->position_ = position_;
+        collider_->position2 = position_;
     }
 }
 
 void PlayerSpellParticle::Draw() {
     if (!is_active_) return;
 
-    int alpha = (life_timer_ * 255) / 60;
-    SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+    int alpha = (life_timer_ * 255) / 180;
+    if (alpha > 255) alpha = 255;
+    SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
     
     DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 15, GetColor(150, 255, 255), TRUE);
     DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
@@ -60,4 +72,15 @@ void PlayerSpellParticle::Draw() {
 }
 
 void PlayerSpellParticle::OnTrigger(Collider* collider_, Collider* check) {
+    if (check != nullptr && check->GetParentObject() != nullptr) {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
+            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+            if (enemy != nullptr) {
+                enemy->TakeDamage(damage_);
+            }
+            Kill(); // 敵に当たったら消える
+        } else if (check->GetParentObject()->GetTag() == kTag2dEnemyBullet) {
+            check->GetParentObject()->SetDeleteFlag(true);
+        }
+    }
 }
