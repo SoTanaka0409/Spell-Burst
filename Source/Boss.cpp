@@ -280,34 +280,8 @@ void Boss::Kill() {
 void Boss::OnTrigger(Collider* collider_, Collider* check) {
     if (isDying) return;
 
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        Object2D* parent = check->GetParentObject();
-        if (parent->GetTag() == kTag2dPlayerBullet) {
-            int damage_ = 1;
-            Bullet* b = dynamic_cast<Bullet*>(parent);
-            if (b != nullptr) {
-                damage_ = b->GetDamage();
-                b->Kill();
-            } else {
-                MeleeAttack* m = dynamic_cast<MeleeAttack*>(parent);
-                if (m != nullptr) {
-                    damage_ = m->GetDamage();
-                } else {
-                    SpecialBullet* s = dynamic_cast<SpecialBullet*>(parent);
-                    if (s != nullptr) {
-                        damage_ = s->GetDamage();
-                    } else {
-                        PlayerHomingBullet* phb = dynamic_cast<PlayerHomingBullet*>(parent);
-                        if (phb != nullptr) {
-                            damage_ = phb->GetDamage();
-                            phb->Kill();
-                        }
-                    }
-                }
-            }
-            TakeDamage(damage_);
-        }
-    }
+    // プレイヤーの弾側のOnTriggerで自身へのダメージ処理が行われるため、
+    // ここで弾の種類を判定してダメージを受ける処理は不要になりました。
 }
 
 void Boss::Draw() {

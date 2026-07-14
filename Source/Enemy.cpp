@@ -145,15 +145,8 @@ void Enemy::TakeDamage(int damage_) {
 }
 
 void Enemy::OnTrigger(Collider* collider_, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == kTag2dPlayerBullet) {
-            Bullet* bullet = dynamic_cast<Bullet*>(check->GetParentObject());
-            if (bullet != nullptr) {
-                TakeDamage(bullet->GetDamage());
-                bullet->Kill(); 
-            }
-        }
-    }
+    // プレイヤーの弾側のOnTriggerで自身へのダメージ処理が行われるため、
+    // ここで弾の種類を判定してダメージを受ける処理は不要になりました。
 }
 
 void Enemy::Draw()

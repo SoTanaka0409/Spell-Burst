@@ -16,7 +16,7 @@ Barrier::Barrier(float x, float y, float radius_, Object2D::Tag2D obj)
 {
     SetTag(obj); 
     deployInterval = 300.0f;
-    activeDuration = 180.0f;
+    activeDuration = 120.0f;
     timer = 0.0f;
     this->radius_ = radius_;
     isDeployed = false;
@@ -66,20 +66,25 @@ void Barrier::Update() {
 void Barrier::Draw() {
     if (isDeployed) {
         int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
-        SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
         
         if (GetTag() == kTag2dBarrierEnemy) {
             // 敵バリア：赤〜オレンジのシールド
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(100, 10, 0), TRUE);
+            SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(150, 20, 0), TRUE);
+            
+            SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 80, 0), FALSE);
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(255, 200, 0), FALSE);
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(255, 200, 0), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 2, GetColor(255, 200, 0), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 2, GetColor(255, 200, 0), FALSE);
         } else {
             // プレイヤーバリア：青〜シアン
+            SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 255, 255), FALSE);
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 1, GetColor(0, 255, 255), FALSE);
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 1, GetColor(0, 255, 255), FALSE);
+            
+            SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(100, 255, 255), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 2, GetColor(0, 255, 255), FALSE);
+            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 2, GetColor(0, 255, 255), FALSE);
         }
         
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

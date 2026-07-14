@@ -100,17 +100,7 @@ void Player::Update()
         return;
     }
 
-    bool isFocus = InputManager::ActionPress(InputAction::kFocus);
-    float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::TimeScale;
-
-    if (InputManager::ActionPress(InputAction::kMoveUp))    { position_.y -= currentSpeed; }
-    if (InputManager::ActionPress(InputAction::kMoveDown))  { position_.y += currentSpeed; }
-    if (InputManager::ActionPress(InputAction::kMoveLeft))  { position_.x -= currentSpeed; }
-    if (InputManager::ActionPress(InputAction::kMoveRight)) { position_.x += currentSpeed; }
-
-    // 画面端からはみ出さないように座標を制限（clampを使用）
-    position_.x = std::clamp(position_.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
-    position_.y = std::clamp(position_.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
+    HandleMovement();
 
     if (auto b = barrier_.lock()) {
         b->SetPosition(position_);
@@ -125,63 +115,9 @@ void Player::Update()
 }
 
 void Player::Draw() {
-    if (auto b = barrier_.lock()) {
-        if (b->IsDeployed() && b->GetHitCount() > 0) {
-            int hit_count = b->GetHitCount();
-        float ratio = static_cast<float>(hit_count) / 30.0f;
-        
-        SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
-        int auraColor = (hit_count >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
-        
-        for (int i = 0; i < 5; i++) {
-            float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
-            DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
-        }
-        
-        int time = GetNowCount();
-        int numParticles = static_cast<int>(15 * ratio);
-        for (int i = 0; i < numParticles; i++) {
-            float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
-            float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
-            int px = static_cast<int>(position_.x + cosf(angle) * dist);
-            int py = static_cast<int>(position_.y + sinf(angle) * dist);
-            DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
-        }
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        }
-    }
-
-    if (stun_timer_ > 0) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 50, GetColor(0, 200, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
-
-    int playerGraphHandle = -1;
-    if (kSelectedCharacterType == 1) {
-        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
-    } else if (kSelectedCharacterType == 2) {
-        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
-    } else if (kSelectedCharacterType == 3) {
-        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
-    }
-
-    if (playerGraphHandle != -1) {
-        DrawExtendGraph(
-            static_cast<int>(position_.x - 45.0f), 
-            static_cast<int>(position_.y - 45.0f), 
-            static_cast<int>(position_.x + 45.0f), 
-            static_cast<int>(position_.y + 45.0f), 
-            playerGraphHandle, 
-            TRUE
-        );
-    } else {
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 255, 0), TRUE);
-    }
-    if (true) {
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 5, GetColor(255, 255, 255), TRUE);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 3, GetColor(255, 0, 0), TRUE);
-    }
+    DrawBarrierAura();
+    DrawStunEffect();
+    DrawPlayerSprite();
 }
 
 void Player::TakeDamage(int damage_) {
@@ -212,66 +148,15 @@ void Player::Attack()
     if (special_cooldown_ > 0) {
         special_cooldown_--;
     }
-    if ( attack_interval_ >= attack_timer_)
-    {
-        attack_interval_ = 0;
-        int numBullets = level_;
-        float spacing = 20.0f;
-            
-        float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
-        for (int i = 0; i < numBullets; ++i) 
-        {
-            ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
-        }
+    
+    ShootNormalBullets();
+    
+    if (DebugOn) {
+        HandleDebugAttacks(mouseInput);
     }
-    if (DebugOn)
-    {
-        if (mouseInput & MOUSE_INPUT_LEFT && attack_interval2_ >= attack_timer2_)
-        {
-            attack_interval2_ = 0;
-            if (attack_mode_ == kAttackModeMelee) {
-                ObjectManager::Instantiate<MeleeAttack>(position_.x, position_.y - 70.0f);
-            }
-            else if (attack_mode_ == kAttackModeSpecial)
-            {
-                if (special_cooldown_ == 0)
-                {
-                    ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
-                    special_cooldown_ = 180; 
-                }
-            }
-        }
-    }
-    if (mouseInput & MOUSE_INPUT_LEFT)
-    {
-        if (DebugOn)
-        {
-            ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
-        }
-    }
-    if (mouseInput&&MOUSE_INPUT_LEFT) 
-    {
-        if (spell_gauge_ >= max_spell_gauge_) {
-            spell_gauge_ = 0;
-            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            
-            if (kSelectedCharacterType == 1)
-            {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-                ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
-            } else if (kSelectedCharacterType == 2) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3聖魔況Emp3");
-                ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
-            } else if (kSelectedCharacterType == 3) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-                ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
-            }
-            
-            GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-            if (gs != nullptr) {
-                gs->TriggerCutin();
-            }
-        }
+    
+    if (mouseInput & MOUSE_INPUT_LEFT) {
+        UseSpellCard();
     }
 }
 
@@ -313,3 +198,128 @@ void Player::OnTrigger(Collider* collider_, Collider* check)
 }
 void Player::OnExit(Collider* collider_, Collider* check) {}
 void Player::RunBarrierAttack() {}
+
+void Player::HandleMovement() {
+    bool isFocus = InputManager::ActionPress(InputAction::kFocus);
+    float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::TimeScale;
+
+    if (InputManager::ActionPress(InputAction::kMoveUp))    { position_.y -= currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveDown))  { position_.y += currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveLeft))  { position_.x -= currentSpeed; }
+    if (InputManager::ActionPress(InputAction::kMoveRight)) { position_.x += currentSpeed; }
+
+    position_.x = std::clamp(position_.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
+    position_.y = std::clamp(position_.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
+}
+
+void Player::ShootNormalBullets() {
+    if (attack_interval_ >= attack_timer_) {
+        attack_interval_ = 0;
+        int numBullets = level_;
+        float spacing = 20.0f;
+        float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
+        for (int i = 0; i < numBullets; ++i) {
+            ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
+        }
+    }
+}
+
+void Player::HandleDebugAttacks(int mouseInput) {
+    if ((mouseInput & MOUSE_INPUT_LEFT) && attack_interval2_ >= attack_timer2_) {
+        attack_interval2_ = 0;
+        if (attack_mode_ == kAttackModeMelee) {
+            ObjectManager::Instantiate<MeleeAttack>(position_.x, position_.y - 70.0f);
+        } else if (attack_mode_ == kAttackModeSpecial) {
+            if (special_cooldown_ == 0) {
+                ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
+                special_cooldown_ = 180; 
+            }
+        }
+    }
+}
+
+void Player::UseSpellCard() {
+    if (spell_gauge_ >= max_spell_gauge_) {
+        spell_gauge_ = 0;
+        SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+        
+        if (kSelectedCharacterType == 1) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+            ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
+        } else if (kSelectedCharacterType == 2) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3");
+            ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
+        } else if (kSelectedCharacterType == 3) {
+            SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+            ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
+        }
+        
+        GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+        if (gs != nullptr) {
+            gs->TriggerCutin();
+        }
+    }
+}
+
+void Player::DrawBarrierAura() {
+    if (auto b = barrier_.lock()) {
+        if (b->IsDeployed() && b->GetHitCount() > 0) {
+            int hit_count = b->GetHitCount();
+            float ratio = static_cast<float>(hit_count) / 30.0f;
+            
+            SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
+            int auraColor = (hit_count >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
+            
+            for (int i = 0; i < 5; i++) {
+                float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
+                DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
+            }
+            
+            int time = GetNowCount();
+            int numParticles = static_cast<int>(15 * ratio);
+            for (int i = 0; i < numParticles; i++) {
+                float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
+                float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
+                int px = static_cast<int>(position_.x + cosf(angle) * dist);
+                int py = static_cast<int>(position_.y + sinf(angle) * dist);
+                DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
+            }
+            SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+        }
+    }
+}
+
+void Player::DrawStunEffect() {
+    if (stun_timer_ > 0) {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 50, GetColor(0, 200, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+}
+
+void Player::DrawPlayerSprite() {
+    int playerGraphHandle = -1;
+    if (kSelectedCharacterType == 1) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+    } else if (kSelectedCharacterType == 2) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+    } else if (kSelectedCharacterType == 3) {
+        playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+    }
+
+    if (playerGraphHandle != -1) {
+        DrawExtendGraph(
+            static_cast<int>(position_.x - 45.0f), 
+            static_cast<int>(position_.y - 45.0f), 
+            static_cast<int>(position_.x + 45.0f), 
+            static_cast<int>(position_.y + 45.0f), 
+            playerGraphHandle, 
+            TRUE
+        );
+    } else {
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 255, 0), TRUE);
+    }
+    
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 5, GetColor(255, 255, 255), TRUE);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 3, GetColor(255, 0, 0), TRUE);
+}

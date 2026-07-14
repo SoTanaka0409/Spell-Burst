@@ -1,6 +1,7 @@
-﻿#include "Bullet.h"
+#include "Bullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
+#include "Character.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -42,12 +43,16 @@ void Bullet::OnTrigger(Collider* collider_, Collider* check)
         {
             Kill();
             return;
-		}
+        }
     }
     if (check != nullptr && check->GetParentObject() != nullptr) 
     {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy)
         {
+            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+            if (enemy != nullptr) {
+                enemy->TakeDamage(damage_);
+            }
             Kill();
         }
     }

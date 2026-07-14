@@ -110,8 +110,8 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check) {
     if (check != nullptr && check->GetParentObject() != nullptr) {
         if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            // ヒット間隔を広げて威力を調整（毎フレームではなく10フレームに1回ヒット）
-            if (enemy != nullptr && life_timer_ % 10 == 0) {
+            // ヒット間隔を広げて威力を調整（3フレームに1回ヒット）
+            if (enemy != nullptr && life_timer_ % 3 == 0) {
                 enemy->TakeDamage(damage_);
                 attack_count_++;
             }

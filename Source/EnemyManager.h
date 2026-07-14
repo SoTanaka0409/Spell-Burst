@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <vector>
 #include <memory>
 
@@ -44,6 +44,13 @@ public:
     // [�o��] �Ȃ�
     // [����p] �I�u�W�F�N�g���X�g����񂵁A���S��ԁi�L�������ς݁j�̓G����S�Ƀ���������폜����
     void DeleteEnemy();
+
+private:
+    void SpawnPhaseEnemies();
+    void HandleBossTransition();
+    void HandleMidBossSpawn();
+
+public:
 
     // [����] x, y: �������W
     // [�o��] �Ȃ�

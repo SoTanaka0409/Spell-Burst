@@ -1,4 +1,4 @@
-﻿#include "EnemyManager.h"
+#include "EnemyManager.h"
 #include "ObjectManager.h"
 #include "Enemy.h"
 #include "Boss.h"
@@ -37,70 +37,71 @@ void EnemyManager::Initialize() {
 }
 
 void EnemyManager::Update() {
-    if (!boss_spawned_)
-    {
-        if (defeated_count_ >= required_kills_)
-        {
+    if (!boss_spawned_) {
+        if (defeated_count_ >= required_kills_) {
             DeleteEnemy();
             current_boss_ = ObjectManager::Instantiate<Boss>((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, current_phase_);
             boss_spawned_ = true;
+        } else {
+            SpawnPhaseEnemies();
         }
-        else
-        {
-            spawn_timer_++;
-            int interval = 45;
-            if (GameScene::currentStage == 2) interval = 40;
-            if (GameScene::currentStage == 3) interval = 35;
-            
-            if (spawn_timer_ >= interval)
-            {
-                spawn_timer_ = 0;
-                float spawnX = 80.0f + static_cast<float>(rand() % 1120);
-                float spawnY = -50.0f;
-                bool spawnObstacle = false;
-                if (GameScene::currentStage >= 2 && (rand() % 100) < 30) {
-                    spawnObstacle = true;
-                }
-                
-                if (spawnObstacle) {
-                    ObjectManager::Instantiate<Obstacle>(spawnX, spawnY);
-                } else {
-                    SpawnEnemy(spawnX, spawnY);
-                }
-            }
+    } else {
+        HandleBossTransition();
+        if (current_phase_ == 2) {
+            HandleMidBossSpawn();
         }
     }
-    else
-    {
-        if (auto boss = current_boss_.lock(); boss && boss->IsDeleteFlag()) {
-            current_boss_.reset();
-            boss_spawned_ = false;
-            defeated_count_ = 0;
-			DeleteEnemy();
-            if (current_phase_ == 1) {
-                current_phase_ = 2;
-                required_kills_ = 20;
-            }
-            else if (current_phase_ == 2) {
-                current_phase_ = 3;
-                required_kills_ = 40;
-            }
+}
+
+void EnemyManager::SpawnPhaseEnemies() {
+    spawn_timer_++;
+    int interval = 45;
+    if (GameScene::currentStage == 2) interval = 40;
+    if (GameScene::currentStage == 3) interval = 35;
+    
+    if (spawn_timer_ >= interval) {
+        spawn_timer_ = 0;
+        float spawnX = 80.0f + static_cast<float>(rand() % 1120);
+        float spawnY = -50.0f;
+        bool spawnObstacle = false;
+        if (GameScene::currentStage >= 2 && (rand() % 100) < 30) {
+            spawnObstacle = true;
         }
-        if (current_phase_ == 2)
-        {
-            spawn_timer_++;
-            if (spawn_timer_ >= 10)
-            {
-                spawn_timer_ = 0;
-                float randEnemySpawnChance = static_cast<float>(rand() % 100);
-                if (randEnemySpawnChance < 10.0f)
-                {
-                    if (GetMidBossCount() < 5) {
-                        float spawnX = 80.0f + static_cast<float>(rand() % 1120);
-                        float spawnY = -50.0f;
-                        SpawnEnemy_Target(spawnX, spawnY, 4);
-                    }
-                }
+        
+        if (spawnObstacle) {
+            ObjectManager::Instantiate<Obstacle>(spawnX, spawnY);
+        } else {
+            SpawnEnemy(spawnX, spawnY);
+        }
+    }
+}
+
+void EnemyManager::HandleBossTransition() {
+    if (auto boss = current_boss_.lock(); boss && boss->IsDeleteFlag()) {
+        current_boss_.reset();
+        boss_spawned_ = false;
+        defeated_count_ = 0;
+        DeleteEnemy();
+        if (current_phase_ == 1) {
+            current_phase_ = 2;
+            required_kills_ = 20;
+        } else if (current_phase_ == 2) {
+            current_phase_ = 3;
+            required_kills_ = 40;
+        }
+    }
+}
+
+void EnemyManager::HandleMidBossSpawn() {
+    spawn_timer_++;
+    if (spawn_timer_ >= 10) {
+        spawn_timer_ = 0;
+        float randEnemySpawnChance = static_cast<float>(rand() % 100);
+        if (randEnemySpawnChance < 10.0f) {
+            if (GetMidBossCount() < 5) {
+                float spawnX = 80.0f + static_cast<float>(rand() % 1120);
+                float spawnY = -50.0f;
+                SpawnEnemy_Target(spawnX, spawnY, 4);
             }
         }
     }
