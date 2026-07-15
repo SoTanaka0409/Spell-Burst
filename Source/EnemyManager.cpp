@@ -15,7 +15,8 @@
 #include "DxLib.h"
 #include <cstdlib>
 
-EnemyManager::EnemyManager() {
+EnemyManager::EnemyManager()
+{
     spawn_timer_ = 0;
     defeated_count_ = 0;
     boss_spawned_ = false;
@@ -24,10 +25,12 @@ EnemyManager::EnemyManager() {
     current_boss_.reset();
 }
 
-EnemyManager::~EnemyManager() {
+EnemyManager::~EnemyManager()
+{
 }
 
-void EnemyManager::Initialize() {
+void EnemyManager::Initialize()
+{
     spawn_timer_ = 0;
     defeated_count_ = 0;
     boss_spawned_ = false;
@@ -36,69 +39,88 @@ void EnemyManager::Initialize() {
     current_boss_.reset();
 }
 
-void EnemyManager::Update() {
-    if (!boss_spawned_) {
-        if (defeated_count_ >= required_kills_) {
+void EnemyManager::Update()
+{
+    if (!boss_spawned_)
+    {
+        if (defeated_count_ >= required_kills_)
+        {
             DeleteEnemy();
             current_boss_ = ObjectManager::Instantiate<Boss>((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, current_phase_);
             boss_spawned_ = true;
-        } else {
+        } else
+        {
             SpawnPhaseEnemies();
         }
-    } else {
+    } else
+    {
         HandleBossTransition();
-        if (current_phase_ == 2) {
+        if (current_phase_ == 2)
+        {
             HandleMidBossSpawn();
         }
     }
 }
 
-void EnemyManager::SpawnPhaseEnemies() {
+void EnemyManager::SpawnPhaseEnemies()
+{
     spawn_timer_++;
     int interval = 45;
     if (GameScene::currentStage == 2) interval = 40;
     if (GameScene::currentStage == 3) interval = 35;
     
-    if (spawn_timer_ >= interval) {
+    if (spawn_timer_ >= interval)
+    {
         spawn_timer_ = 0;
         float spawnX = 80.0f + static_cast<float>(rand() % 1120);
         float spawnY = -50.0f;
         bool spawnObstacle = false;
-        if (GameScene::currentStage >= 2 && (rand() % 100) < 30) {
+        if (GameScene::currentStage >= 2 && (rand() % 100) < 30)
+        {
             spawnObstacle = true;
         }
         
-        if (spawnObstacle) {
+        if (spawnObstacle)
+        {
             ObjectManager::Instantiate<Obstacle>(spawnX, spawnY);
-        } else {
+        } else
+        {
             SpawnEnemy(spawnX, spawnY);
         }
     }
 }
 
-void EnemyManager::HandleBossTransition() {
-    if (auto boss = current_boss_.lock(); boss && boss->IsDeleteFlag()) {
+void EnemyManager::HandleBossTransition()
+{
+    if (auto boss = current_boss_.lock(); boss && boss->IsDeleteFlag())
+    {
         current_boss_.reset();
         boss_spawned_ = false;
         defeated_count_ = 0;
         DeleteEnemy();
-        if (current_phase_ == 1) {
+        if (current_phase_ == 1)
+        {
             current_phase_ = 2;
             required_kills_ = 20;
-        } else if (current_phase_ == 2) {
+        } else if (current_phase_ == 2)
+        {
             current_phase_ = 3;
             required_kills_ = 40;
         }
     }
 }
 
-void EnemyManager::HandleMidBossSpawn() {
+void EnemyManager::HandleMidBossSpawn()
+{
     spawn_timer_++;
-    if (spawn_timer_ >= 10) {
+    if (spawn_timer_ >= 10)
+    {
         spawn_timer_ = 0;
         float randEnemySpawnChance = static_cast<float>(rand() % 100);
-        if (randEnemySpawnChance < 10.0f) {
-            if (GetMidBossCount() < 5) {
+        if (randEnemySpawnChance < 10.0f)
+        {
+            if (GetMidBossCount() < 5)
+            {
                 float spawnX = 80.0f + static_cast<float>(rand() % 1120);
                 float spawnY = -50.0f;
                 SpawnEnemy_Target(spawnX, spawnY, 4);
@@ -110,12 +132,14 @@ void EnemyManager::HandleMidBossSpawn() {
 void EnemyManager::SpawnEnemy(float x, float y)
 {
     int enemy_type_ = 1;
-    if (current_phase_ == 2) {
+    if (current_phase_ == 2)
+    {
         int r = rand() % 100;
         if (r < 10 && GetMidBossCount() < 5) enemy_type_ = 4;
         else if (r < 40) enemy_type_ = 2;
     }
-    else if (current_phase_ >= 3) {
+    else if (current_phase_ >= 3)
+    {
         int r = rand() % 100;
         if (r < 10 && GetMidBossCount() < 5) enemy_type_ = 4;
         else if (r < 30) enemy_type_ = 3;

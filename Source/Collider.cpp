@@ -23,11 +23,15 @@ Collider::Collider(Object2D* parent)
 
 Collider::~Collider()
 {
-	if (Master::sceneManager && Master::sceneManager->GetCurrentScene()) {
+	if (Master::sceneManager && Master::sceneManager->GetCurrentScene())
+	{
 		auto colMgr = Master::sceneManager->GetCurrentScene()->GetCollisionManager();
-		if (colMgr) {
-			for (auto* col : colMgr->GetColliderList()) {
-				if (col != this) {
+		if (colMgr)
+		{
+			for (auto* col : colMgr->GetColliderList())
+			{
+				if (col != this)
+				{
 					col->RemoveCollision(this);
 				}
 			}
@@ -45,19 +49,19 @@ void Collider::HitCheck(Collider* check, bool isHit)
 		auto itr = std::find_if(
 			collision_list_.begin(),
 			collision_list_.end(),
-			[&](Collider* col) { return col == check; } // ラムダ式
+			[&](Collider* col) { return col == check; } // ラムダ弁E
 		);
 
 		if (itr != collision_list_.end())
 		{
-			// 継続接触中 → OnTrigger（毎フレーム呼ばれる）
+			// 継続接触中 ↁEOnTrigger�E�毎フレーム呼ばれる�E�E
 			if (this->parentObject != nullptr)
 			{
 				this->parentObject->OnTrigger(this, check);
 			}
 		}
 		else
-		{	// 初回接触 → リストに登録してOnEnterを呼ぶ
+		{	// 初回接触 ↁEリストに登録してOnEnterを呼ぶ
 			collision_list_.push_back(check);
 			if (this->parentObject != nullptr)
 			{
@@ -70,7 +74,7 @@ void Collider::HitCheck(Collider* check, bool isHit)
 		auto itr = std::find_if(
 			collision_list_.begin(),
 			collision_list_.end(),
-			[&](Collider* col) { return col == check; } // ラムダ式
+			[&](Collider* col) { return col == check; } // ラムダ弁E
 		);
 
 		if (itr != collision_list_.end())
@@ -115,7 +119,8 @@ void Collider::OnExit()
 void Collider::RemoveCollision(Collider* collider_)
 {
     auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider_);
-    if (itr != collision_list_.end()) {
+    if (itr != collision_list_.end())
+    {
         collision_list_.erase(itr);
     }
 }

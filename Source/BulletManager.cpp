@@ -1,4 +1,4 @@
-ï»¿#include "BulletManager.h"
+#include "BulletManager.h"
 #include "ObjectManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX
@@ -11,21 +11,27 @@ BulletManager::BulletManager()
 {
 }
 
-BulletManager::~BulletManager() {
+BulletManager::~BulletManager()
+{
     bullets.clear();
 }
 
-void BulletManager::Initialize() {
+void BulletManager::Initialize()
+{
     bullets.clear();
 }
 
-void BulletManager::Update() {
-    // Erase-Remove ã‚¤ãƒ‡ã‚£ã‚ªãƒ ã‚’ä½¿ç”¨ã—ã¦ã€ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã§ãªã„å¼¾ã‚’å®‰å…¨ã«ä¸€æ‹¬å‰Šé™¤
+void BulletManager::Update()
+{
+    // Erase-Remove ƒCƒfƒBƒIƒ€‚ğg—p‚µ‚ÄAƒAƒNƒeƒBƒu‚Å‚È‚¢’e‚ğˆÀ‘S‚ÉˆêŠ‡íœ
     bullets.erase(
         std::remove_if(bullets.begin(), bullets.end(),
-            [](const std::weak_ptr<Bullet>& w) {
-                if (auto bullet = w.lock()) {
-                    if (!bullet->IsActive()) {
+            [](const std::weak_ptr<Bullet>& w)
+            {
+                if (auto bullet = w.lock())
+                {
+                    if (!bullet->IsActive())
+                    {
                         return true;
                     }
                     return false;
@@ -35,11 +41,13 @@ void BulletManager::Update() {
         bullets.end());
 }
 
-void BulletManager::Draw() {
+void BulletManager::Draw()
+{
    
 }
 
-void BulletManager::SpawnBullet(float x, float y) {
+void BulletManager::SpawnBullet(float x, float y)
+{
     bullets.push_back(ObjectManager::Instantiate<Bullet>(x, y, 1));
 }
 

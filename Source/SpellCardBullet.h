@@ -3,7 +3,8 @@
 
 class CapsuleCollider;
 
-class SpellCardBullet : public Projectile {
+class SpellCardBullet : public Projectile
+{
 private:
     int life_timer_;
     int state_;

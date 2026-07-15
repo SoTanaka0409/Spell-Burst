@@ -58,6 +58,7 @@ public:
 
     void AddXp(int amount);
     virtual void TakeDamage(int damage_) override;
+    void OnDeath();
 
     virtual void OnEnter(Collider* collider_, Collider* check) override;
     virtual void OnTrigger(Collider* collider_, Collider* check) override;
@@ -68,6 +69,8 @@ private:
     void ShootNormalBullets();
     void HandleDebugAttacks(int mouseInput);
     void UseSpellCard();
+    void UpdateCooldowns();
+    void HandleMeleeAndSpecialAttacks(int mouseInput);
     void DrawBarrierAura();
     void DrawStunEffect();
     void DrawPlayerSprite();

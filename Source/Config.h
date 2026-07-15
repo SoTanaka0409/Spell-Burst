@@ -1,6 +1,7 @@
-﻿#pragma once
+#pragma once
 
-namespace Config {
+namespace Config
+{
     // Player
     constexpr int kPlayerMaxHp = 15;
     constexpr float kPlayerSpeed = 5.0f;

@@ -1,4 +1,4 @@
-﻿#include "GameScene.h"
+#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -34,17 +34,21 @@ GameScene::GameScene()
 {
 }
 
-GameScene::~GameScene() {
-    if (enemy_manager_ != nullptr) {
+GameScene::~GameScene()
+{
+    if (enemy_manager_ != nullptr)
+    {
         enemy_manager_.reset();
     }
-    if (screen_handle_ != -1) {
+    if (screen_handle_ != -1)
+    {
         DeleteGraph(screen_handle_);
         screen_handle_ = -1;
     }
 }
 
-void GameScene::Initialize() {
+void GameScene::Initialize()
+{
     playFrameCount = 0;
     isTimeAttackActive = true;
     DebugLog("GameScene::Initialize() called!\n");
@@ -57,11 +61,14 @@ void GameScene::Initialize() {
     cutin_timer_ = 0;
     
     int charType = Player::kSelectedCharacterType;
-    if (charType == 1) {
+    if (charType == 1)
+    {
         cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
-    } else if (charType == 2) {
+    } else if (charType == 2)
+    {
         cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
-    } else {
+    } else
+    {
         cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
     }
 
@@ -78,56 +85,90 @@ void GameScene::Initialize() {
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
 }
 
-void GameScene::Update() {
+void GameScene::Update()
+{
     if (isTimeAttackActive) playFrameCount++;
-    if (hit_stop_timer_ > 0) {
+    if (hit_stop_timer_ > 0)
+    {
         hit_stop_timer_--;
         return; 
     }
 
-    if (shake_timer_ > 0) {
+    if (shake_timer_ > 0)
+    {
         shake_timer_--;
     }
 
-    if (damage_flash_timer_ > 0) {
+    if (damage_flash_timer_ > 0)
+    {
         damage_flash_timer_--;
     }
 
-    if (cutin_timer_ > 0) {
+    if (cutin_timer_ > 0)
+    {
         cutin_timer_--;
         return; 
     }
 
     Scene::Update();
 
-    if (enemy_manager_ != nullptr) {
+    if (enemy_manager_ != nullptr)
+    {
         enemy_manager_->Update();
     }
     
     Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get());
     Boss* boss = nullptr;
-    for (auto obj : GetObjectManager()->GetObjectList()) {
+    for (auto obj : GetObjectManager()->GetObjectList())
+    {
         Boss* b = dynamic_cast<Boss*>(obj.get());
-        if (b != nullptr) {
+        if (b != nullptr)
+        {
             boss = b;
             break;
         }
     }
     HUD::Update(player, enemy_manager_.get(), boss);
 
-    if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN)) {
+    if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN))
+    {
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
 
-void GameScene::Draw() {
-    if (screen_handle_ != -1) {
+void GameScene::Draw()
+{
+    if (screen_handle_ != -1)
+    {
         SetDrawScreen(screen_handle_);
         ClearDrawScreen();
     }
 
+    DrawBackground();
+    Scene::Draw();
+
+    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get());
+    Boss* boss = nullptr;
+    for (auto obj : GetObjectManager()->GetObjectList())
+    {
+        Boss* b = dynamic_cast<Boss*>(obj.get());
+        if (b != nullptr)
+        {
+            boss = b;
+            break;
+        }
+    }
+    HUD::Draw(player, enemy_manager_.get(), boss, cutin_timer_, cutin_image_handle_);
+
+    DrawTimeAttackTimer();
+    DrawEffects();
+}
+
+void GameScene::DrawBackground()
+{
     std::string bgPath = "Resource/background.png";
-    if (enemy_manager_) {
+    if (enemy_manager_)
+    {
         int phase_ = enemy_manager_->GetCurrentPhase();
         if (phase_ == 1) bgPath = "Resource/bg_phase1.png";
         else if (phase_ == 2) bgPath = "Resource/bg_phase2.png";
@@ -135,27 +176,19 @@ void GameScene::Draw() {
     }
     
     int bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
-    if (bgGraphHandle == -1) {
+    if (bgGraphHandle == -1)
+    {
         bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
     }
     
-    if (bgGraphHandle != -1) {
+    if (bgGraphHandle != -1)
+    {
         DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, bgGraphHandle, FALSE);
     }
+}
 
-    Scene::Draw();
-
-    Player* player = dynamic_cast<Player*>(GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get());
-    Boss* boss = nullptr;
-    for (auto obj : GetObjectManager()->GetObjectList()) {
-        Boss* b = dynamic_cast<Boss*>(obj.get());
-        if (b != nullptr) {
-            boss = b;
-            break;
-        }
-    }
-    HUD::Draw(player, enemy_manager_.get(), boss, cutin_timer_, cutin_image_handle_);
-
+void GameScene::DrawTimeAttackTimer()
+{
     int totalMs = (playFrameCount * 1000) / 60;
     int ms = totalMs % 1000;
     int totalSec = totalMs / 1000;
@@ -164,22 +197,27 @@ void GameScene::Draw() {
     char timeStr[64];
     sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
     DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
+}
 
-    if (screen_handle_ != -1) {
+void GameScene::DrawEffects()
+{
+    if (screen_handle_ != -1)
+    {
         SetDrawScreen(DX_SCREEN_BACK);
 
         int offsetX = 0;
         int offsetY = 0;
-        if (shake_timer_ > 0) {
+        if (shake_timer_ > 0)
+        {
             offsetX = (rand() % static_cast<int>(shake_magnitude_ * 2)) - static_cast<int>(shake_magnitude_);
             offsetY = (rand() % static_cast<int>(shake_magnitude_ * 2)) - static_cast<int>(shake_magnitude_);
         }
 
         DrawGraph(offsetX, offsetY, screen_handle_, TRUE);
 
-        // ダメージフラッシュ: 残りフレーム数に比例してアルファ値を落とすフェードアウト
-        if (damage_flash_timer_ > 0) {
-            int max_flash = 15; // 最大フラッシュ時間（フレーム）
+        if (damage_flash_timer_ > 0)
+        {
+            int max_flash = 15;
             int alpha = static_cast<int>(200.0f * (static_cast<float>(damage_flash_timer_) / max_flash));
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
             DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, damage_flash_color_, TRUE);
@@ -188,25 +226,30 @@ void GameScene::Draw() {
     }
 }
 
-void GameScene::AddScreenShake(int duration, float magnitude) {
+void GameScene::AddScreenShake(int duration, float magnitude)
+{
     shake_timer_ = duration;
     shake_magnitude_ = magnitude;
 }
 
-void GameScene::AddHitStop(int duration) {
+void GameScene::AddHitStop(int duration)
+{
     hit_stop_timer_ = duration;
 }
 
-void GameScene::AddDamageFlash(int duration, unsigned int color) {
+void GameScene::AddDamageFlash(int duration, unsigned int color)
+{
     damage_flash_timer_ = duration;
     damage_flash_color_ = color;
 }
 
-void GameScene::TriggerCutin() {
+void GameScene::TriggerCutin()
+{
     cutin_timer_ = 90; 
 }
 
-void GameScene::Finalize() {
+void GameScene::Finalize()
+{
     DebugLog("GameScene::Finalize() called!\n");
     GetObjectManager()->DeleteAll2D();
 }

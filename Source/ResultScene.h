@@ -1,53 +1,59 @@
-ï»¿#pragma once
+#pragma once
 #include "Scene.h"
 #include <vector>
 
-// ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½gï¿½ï¿½Ê‚Ì‰ï¿½ï¿½oï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚Çjï¿½ÉŽgï¿½pï¿½ï¿½ï¿½ï¿½ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Ì\ï¿½ï¿½ï¿½ï¿½
-struct ResultParticle {
-    float x, y;         // ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ýï¿½ï¿½W
-    float vx_, vy_;       // Xï¿½ï¿½ï¿½ï¿½ï¿½EYï¿½ï¿½ï¿½ï¿½ï¿½ÌˆÚ“ï¿½ï¿½ï¿½ï¿½xï¿½xï¿½Nï¿½gï¿½ï¿½
-    float size_;         // ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Tï¿½Cï¿½Y
-    float angle;        // ï¿½ï¿½ï¿½Ý‚Ì•`ï¿½ï¿½pï¿½xï¿½iï¿½ï¿½]ï¿½ï¿½Ôj
-    float rot_speed;     // ï¿½ï¿½]ï¿½ï¿½ï¿½xï¿½iï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½pï¿½xï¿½j
-    int color_;          // ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ÌFï¿½iDxLibï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½Rï¿½[ï¿½hï¿½È‚Çj
-    int life;           // ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ÌŽcï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½j
+// E½E½E½UE½E½E½gE½E½Ê‚Ì‰ï¿½E½oE½iE½E½E½E½E½E½È‚ÇjE½ÉŽgE½pE½E½E½E½E½pE½[E½eE½BE½NE½E½E½Ì\E½E½E½E½
+struct ResultParticle
+{
+    float x, y;         // E½pE½[E½eE½BE½NE½E½E½ÌŒï¿½E½Ýï¿½E½W
+    float vx_, vy_;       // XE½E½E½E½E½EYE½E½E½E½E½ÌˆÚ“ï¿½E½E½E½xE½xE½NE½gE½E½
+    float size_;         // E½pE½[E½eE½BE½NE½E½E½Ì•`E½E½TE½CE½Y
+    float angle;        // E½E½E½Ý‚Ì•`E½E½pE½xE½iE½E½]E½E½Ôj
+    float rot_speed;     // E½E½]E½E½E½xE½iE½E½E½tE½E½E½[E½E½E½E½E½ZE½E½E½E½E½pE½xE½j
+    int color_;          // E½pE½[E½eE½BE½NE½E½E½ÌFE½iDxLibE½ÌƒJE½E½E½[E½RE½[E½hE½È‚Çj
+    int life;           // E½pE½[E½eE½BE½NE½E½E½ÌŽcE½E½E½E½E½E½iE½tE½E½E½[E½E½E½E½E½j
 };
 
-// ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½gï¿½iï¿½Qï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½A/ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[ï¿½jï¿½ï¿½Ê‚ï¿½`ï¿½ï¿½Eï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
-class ResultScene : public Scene {
+// E½E½E½UE½E½E½gE½iE½QE½[E½E½E½NE½E½E½A/E½QE½[E½E½E½IE½[E½oE½[E½jE½E½Ê‚ï¿½`E½E½EE½Ç—ï¿½E½E½E½E½VE½[E½E½E½NE½E½E½X
+class ResultScene : public Scene
+{
 public:
-    // ï¿½Qï¿½[ï¿½ï¿½ï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½Ê‚ï¿½ÛŽï¿½ï¿½ï¿½ï¿½ï¿½Ã“Iï¿½tï¿½ï¿½ï¿½Oï¿½itrue: ï¿½Nï¿½ï¿½ï¿½A/ï¿½ï¿½ï¿½ï¿½, false: ï¿½Qï¿½[ï¿½ï¿½ï¿½Iï¿½[ï¿½oï¿½[/ï¿½sï¿½kï¿½j
-    // Sceneï¿½Úsï¿½Oï¿½ï¿½GameSceneï¿½ï¿½ï¿½ï¿½ï¿½ç‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄŒï¿½ï¿½Ê‚ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ß‚ÉŽgï¿½pï¿½ï¿½ï¿½ï¿½
+    // E½QE½[E½E½E½Ìï¿½E½sE½E½E½Ê‚ï¿½ÛŽï¿½E½E½E½E½Ã“IE½tE½E½E½OE½itrue: E½NE½E½E½A/E½E½E½E½, false: E½QE½[E½E½E½IE½[E½oE½[/E½sE½kE½j
+    // SceneE½ÚsE½OE½E½GameSceneE½E½E½E½E½ç‘ï¿½E½E½E½E½E½E½ÄŒï¿½E½Ê‚ï¿½nE½E½E½E½E½ß‚ÉŽgE½pE½E½E½E½
     static bool kIsVictory;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍŽï¿½ï¿½ï¿½ï¿½ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½wï¿½iï¿½âŽ©ï¿½@ï¿½æ‘œï¿½Ì“Ç‚Ýï¿½ï¿½Ý‚ï¿½sï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½E½E½E½E½E½E½ÍŽï¿½E½E½E½E½pE½[E½eE½BE½NE½E½E½Ìï¿½E½E½E½E½E½AE½wE½iE½âŽ©E½@E½æ‘œï¿½Ì“Ç‚Ýï¿½E½Ý‚ï¿½sE½E½
     void Initialize() override;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ÌXï¿½Vï¿½ï¿½ï¿½ï¿½ÑAï¿½Lï¿½[ï¿½ï¿½ï¿½ÍiZï¿½Lï¿½[ï¿½jï¿½É‚ï¿½ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö‚Ì‘Jï¿½Úï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½pE½[E½eE½BE½NE½E½E½ÌXE½VE½E½E½E½ÑAE½LE½[E½E½E½ÍiZE½LE½[E½jE½É‚ï¿½E½^E½CE½gE½E½E½Ö‚Ì‘JE½Úï¿½E½E½E½E½sE½E½
     void Update() override;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½ï¿½sï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½iï¿½Fï¿½Aï¿½eï¿½Lï¿½Xï¿½gï¿½Aï¿½ï¿½ï¿½@ï¿½æ‘œï¿½iï¿½sï¿½kï¿½ï¿½ï¿½ÍˆÃ“]ï¿½ï¿½ï¿½jï¿½Aï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½E½E½sE½É‰ï¿½E½E½E½E½E½wE½iE½FE½AE½eE½LE½XE½gE½AE½E½E½@E½æ‘œï¿½iE½sE½kE½E½E½ÍˆÃ“]E½E½E½jE½AE½pE½[E½eE½BE½NE½E½E½E½`E½æ‚·E½E½
     void Draw() override;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Ç‚Ýï¿½ï¿½ñ‚¾‰æ‘œï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½Ç‚Ýï¿½E½ñ‚¾‰æ‘œE½E½E½\E½[E½XE½E½jE½E½E½E½E½E½
     void Finalize() override;
 
 private:
-    std::vector<ResultParticle> particles_; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ç‚Ì‰ï¿½ï¿½oï¿½pï¿½pï¿½[ï¿½eï¿½Bï¿½Nï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½
-    int state_timer_;                        // ï¿½Vï¿½[ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½ÌŒoï¿½ßŽï¿½ï¿½Ô‚ï¿½vï¿½ï¿½^ï¿½Cï¿½}ï¿½[ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½Fï¿½[ï¿½hï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍŽï¿½tï¿½Ì’xï¿½ï¿½ï¿½ÉŽgï¿½pï¿½j
-    int bg_graph_;                           // ï¿½wï¿½iï¿½æ‘œï¿½ÌƒOï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½ï¿½iDxLibï¿½pï¿½j
-    int player_graph_;                       // ï¿½ï¿½ï¿½@ï¿½iï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½jï¿½æ‘œï¿½ÌƒOï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½nï¿½ï¿½ï¿½hï¿½ï¿½
+    void UpdateVictory();
+    void UpdateGameOver();
+    void DrawVictory();
+    void DrawGameOver();
+    std::vector<ResultParticle> particles_; // E½E½E½E½E½E½È‚Ç‚Ì‰ï¿½E½oE½pE½pE½[E½eE½BE½NE½E½E½E½Ç—ï¿½E½E½E½E½zE½E½
+    int state_timer_;                        // E½VE½[E½E½E½JE½nE½E½E½E½ÌŒoE½ßŽï¿½E½Ô‚ï¿½vE½E½^E½CE½}E½[E½iE½E½E½E½E½ÌƒtE½FE½[E½hE½CE½E½E½E½E½E½ÍŽï¿½tE½Ì’xE½E½E½ÉŽgE½pE½j
+    int bg_graph_;                           // E½wE½iE½æ‘œï¿½ÌƒOE½E½E½tE½BE½bE½NE½nE½E½E½hE½E½E½iDxLibE½pE½j
+    int player_graph_;                       // E½E½E½@E½iE½vE½E½E½CE½E½E½[E½jE½æ‘œï¿½ÌƒOE½E½E½tE½BE½bE½NE½nE½E½E½hE½E½
 
-    // [ï¿½ï¿½ï¿½ï¿½] x, y: ï¿½`ï¿½ï¿½ï¿½ï¿½W, str: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, color_: ï¿½ï¿½ï¿½ï¿½ï¿½F, outline_color: ï¿½ï¿½ï¿½F, font_handle: ï¿½tï¿½Hï¿½ï¿½ï¿½g
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Wï¿½É‰ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½iï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ß‚Ìƒwï¿½ï¿½ï¿½pï¿½[ï¿½Öï¿½ï¿½j
+    // [E½E½E½E½] x, y: E½`E½E½E½E½W, str: E½E½E½E½E½E½, color_: E½E½E½E½E½F, outline_color: E½E½E½F, font_handle: E½tE½HE½E½E½g
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½wE½è‚³E½ê‚½E½E½E½WE½É‰ï¿½E½E½E½tE½E½E½Ì•ï¿½E½E½E½E½E½`E½æ‚·E½E½iE½E½E½FE½E½E½E½E½E½Ì‚ï¿½E½ß‚ÌƒwE½E½E½pE½[E½Öï¿½E½j
     void DrawOutlinedString(int x, int y, const char* str, unsigned int color_, unsigned int outline_color, int font_handle);
 };

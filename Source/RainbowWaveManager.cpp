@@ -1,49 +1,56 @@
-ï»¿#include "RainbowWaveManager.h"
+#include "RainbowWaveManager.h"
 #include "ObjectManager.h"
 #include "RainbowBullet.h"
 #include "Utility.h"
 
 RainbowWaveManager::RainbowWaveManager(float x, float y)
     : Object2D(Vector2(x, y))
-    , life_timer_(120) // ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã®ç”Ÿå­˜æœŸé–“ï¼ˆ3ç§’ï¼‰
-    , spawn_interval_(10) // å¼¾ã‚’ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«ï¼ˆ5ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ï¼‰
+    , life_timer_(120) // ŠÇ—ƒIƒuƒWƒFƒNƒg©‘Ì‚Ì¶‘¶ŠúŠÔi3•bj
+    , spawn_interval_(10) // ’e‚ğ¶¬‚·‚éƒCƒ“ƒ^[ƒoƒ‹i5ƒtƒŒ[ƒ€‚²‚Æj
     , spawn_timer_(0)
 {
     SetTag(kTag2dPlayerBullet);
 }
 
-RainbowWaveManager::~RainbowWaveManager() {
+RainbowWaveManager::~RainbowWaveManager()
+{
 }
 
-void RainbowWaveManager::Update() {
+void RainbowWaveManager::Update()
+{
     life_timer_--;
-    if (life_timer_ <= 0) {
+    if (life_timer_ <= 0)
+    {
         SetDeleteFlag(true);
         return;
     }
 
     spawn_timer_++;
-    if (spawn_timer_ >= spawn_interval_) {
+    if (spawn_timer_ >= spawn_interval_)
+    {
         spawn_timer_ = 0;
         
-        // ç”»é¢ä¸‹éƒ¨ã‹ã‚‰ç”»é¢å…¨ä½“ã‚’è¦†ã†ã‚ˆã†ã«å¼¾ã‚’é…ç½®ã™ã‚‹ãŸã‚ã€ç­‰é–“éš”ã«åº§æ¨™ã‚’è¨ˆç®—
+        // ‰æ–Ê‰º•”‚©‚ç‰æ–Ê‘S‘Ì‚ğ•¢‚¤‚æ‚¤‚É’e‚ğ”z’u‚·‚é‚½‚ßA“™ŠÔŠu‚ÉÀ•W‚ğŒvZ
         int numBullets = 10;
         float spacing = static_cast<float>(Utility::SCREEN_WIDTH) / static_cast<float>(numBullets);
         float startX = spacing / 2.0f;
-        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // ç”»é¢å¤–ã‹ã‚‰å‡ºç¾ã•ã›ã‚‹ãŸã‚ä¸‹éƒ¨ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // ‰æ–ÊŠO‚©‚çoŒ»‚³‚¹‚é‚½‚ß‰º•”‚ÉƒIƒtƒZƒbƒg
 
-        for (int i = 0; i < numBullets; i++) {
+        for (int i = 0; i < numBullets; i++)
+        {
             ObjectManager::Instantiate<RainbowBullet>(startX + i * spacing, yPos);
         }
     }
 }
 
-void RainbowWaveManager::Draw() {
-    // å¼¾ã®ç”Ÿæˆç®¡ç†ã®ã¿ã‚’è¡Œã†ä¸å¯è¦–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ãŸã‚æç”»å‡¦ç†ã¯ä¸è¦
+void RainbowWaveManager::Draw()
+{
+    // ’e‚Ì¶¬ŠÇ—‚Ì‚İ‚ğs‚¤•s‰Â‹ƒIƒuƒWƒFƒNƒg‚Å‚ ‚é‚½‚ß•`‰æˆ—‚Í•s—v
 }
 
-void RainbowWaveManager::OnTrigger(Collider* collider_, Collider* check) {
-    // è‡ªèº«ã¯å½“ãŸã‚Šåˆ¤å®šã‚’æŒãŸãšã€ç”Ÿæˆã—ãŸå¼¾ã«åˆ¤å®šã‚’å§”ã­ã‚‹ãŸã‚ç©ºå‡¦ç†
+void RainbowWaveManager::OnTrigger(Collider* collider_, Collider* check)
+{
+    // ©g‚Í“–‚½‚è”»’è‚ğ‚½‚¸A¶¬‚µ‚½’e‚É”»’è‚ğˆÏ‚Ë‚é‚½‚ß‹óˆ—
 }
 
 

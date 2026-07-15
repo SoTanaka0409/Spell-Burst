@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-class PlayerSpellParticle : public Object2D {
+class PlayerSpellParticle : public Object2D
+{
 private:
     Vector2 dir;
     float speed_;

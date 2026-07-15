@@ -1,10 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹ç‰¹æ®Šå¼¾ï¼ˆé«˜å¨åŠ›ã¾ãŸã¯è¿½å°¾ç­‰ï¼‰ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
-class SpecialBullet : public Projectile {
+// ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é“Áê’ei‚ˆĞ—Í‚Ü‚½‚Í’Ç”ö“™j‚ğ’è‹`‚·‚éƒNƒ‰ƒX
+class SpecialBullet : public Projectile
+{
 public:
     SpecialBullet(float x, float y);
     virtual ~SpecialBullet() override;

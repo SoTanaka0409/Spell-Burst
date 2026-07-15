@@ -47,7 +47,8 @@ void CapsuleCollider::Draw()
 		FALSE
 	);
 
-	if (position_.x != position2.x || position_.y != position2.y) {
+	if (position_.x != position2.x || position_.y != position2.y)
+	{
 		DrawCircle(
 			static_cast<int>(position2.x),
 			static_cast<int>(position2.y),

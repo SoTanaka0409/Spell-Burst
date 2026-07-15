@@ -18,7 +18,8 @@
 #include <cmath>
 #include <cstdlib>
 
-void Enemy::SelectNewTarget() {
+void Enemy::SelectNewTarget()
+{
     targetX = 100.0f + static_cast<float>(rand() % 1080);
     targetY = 80.0f + static_cast<float>(rand() % 180);
 }
@@ -30,21 +31,25 @@ Enemy::Enemy(float x, float y, int enemy_type_)
     this->enemy_type_ = enemy_type_;
     attack_timer_ = 0;
     
-    if (enemy_type_ == 1) {
+    if (enemy_type_ == 1)
+    {
         speed_ = 3.0f;
         max_hp_ = 3;
     }
-    else if (enemy_type_ == 2) {
+    else if (enemy_type_ == 2)
+    {
         speed_ = 2.0f;
         max_hp_ = 5;
     }
-    else if (enemy_type_ == 3) {
+    else if (enemy_type_ == 3)
+    {
         speed_ = 1.5f;
         max_hp_ = 8;
     }
-    else if (enemy_type_ == 4) {
+    else if (enemy_type_ == 4)
+    {
         speed_ = 2.5f;
-        max_hp_ = 20; // 荳ｭ繝懊せ
+        max_hp_ = 20; // 荳�E�繝懊ぁE
         SelectNewTarget();
     }
     hp_ = max_hp_;
@@ -54,29 +59,100 @@ Enemy::Enemy(float x, float y, int enemy_type_)
     collider_ = new CapsuleCollider(this, position_, position_, colRadius);
 }
 
-Enemy::~Enemy() {
+Enemy::~Enemy()
+{
 }
 
-void Enemy::Update() {
-    Character::Update(); // 繧ｹ繧ｿ繝ｳ譎る俣縺ｮ貂帛ｰ代↑縺ｩ
+void Enemy::Update()
+{
+    Character::Update(); // 繧�E�繧�E�繝ｳ譎る俣縺�E�貂帛ｰ代↑縺�E�
 
-    if (stun_timer_ > 0) return; // 繧ｹ繧ｿ繝ｳ荳ｭ縺ｯ陦悟虚荳崎・
+    if (stun_timer_ > 0) return; // 繧�E�繧�E�繝ｳ荳�E�縺�E�陦悟虚荳崎�E
 
-    if (enemy_type_ == 4) {
+    if (enemy_type_ == 4)
+    {
         Vector2 target(targetX, targetY);
         float dist = position_.DistanceTo(target);
 
-        if (dist < 15.0f) {
+        if (dist < 15.0f)
+        {
             SelectNewTarget();
         }
-        else {
+        else
+        {
             position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
         }
     }
-    else {
+    else
+    {
         position_.y += speed_ * Utility::TimeScale;
     }
 
+    UpdateAttackPattern();
+    
+    if (position_.y > Utility::SCREEN_HEIGHT + 50.0f)
+    {
+        Character::Kill();
+    }
+}
+
+void Enemy::Kill()
+{
+    Character::Kill();
+}
+
+void Enemy::TakeDamage(int damage_)
+{
+    if (!is_active_) return;
+
+    Character::TakeDamage(damage_); 
+
+    if (hp_ <= 0)
+    {
+        OnDeath();
+    }
+}
+
+void Enemy::OnDeath()
+{
+    SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
+    Player* player = dynamic_cast<Player*>(
+        Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get()
+    );
+    if (player != nullptr)
+    {
+        player->AddXp(1);
+    }
+    GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+    if (gs != nullptr && gs->GetEnemyManager() != nullptr)
+    {
+        gs->GetEnemyManager()->AddDefeatedCount();
+    }
+}
+
+void Enemy::OnTrigger(Collider* collider_, Collider* check)
+{
+    // プレイヤーの弾側のOnTriggerで自身へのダメージ処琁E��行われるため、E
+    // ここで弾の種類を判定してダメージを受ける処琁E�E不要になりました、E
+}
+
+void Enemy::Draw()
+{
+    if (!is_active_) return;
+
+    if (stun_timer_ > 0)
+    {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 200, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
+
+    DrawEnemySprite();
+    DrawHpBar();
+}
+
+void Enemy::UpdateAttackPattern()
+{
     if (enemy_type_ == 2 || enemy_type_ == 3 || enemy_type_ == 4) 
     {
         attack_timer_++;
@@ -86,82 +162,49 @@ void Enemy::Update() {
             attack_timer_ = 0;
             Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
             Vector2 targetPos(position_.x, position_.y + 100.0f);
-            if (player != nullptr) {
+            if (player != nullptr)
+            {
                 targetPos = Vector2(player->GetX(), player->GetY());
             }
             Vector2 dir = (targetPos - position_).Normalized();
-            if (dir.MagnitudeSq() == 0.0f) {
+            if (dir.MagnitudeSq() == 0.0f)
+            {
                 dir = Vector2(0.0f, 1.0f);
             }
-            if (enemy_type_ == 2) {
+            if (enemy_type_ == 2)
+            {
                 ObjectManager::Instantiate<EnemyBullet>(position_, dir, 4.0f, false, false);
             }
-            else if (enemy_type_ == 3) {
+            else if (enemy_type_ == 3)
+            {
                 ObjectManager::Instantiate<EnemyBullet>(position_, dir, 3.5f, false, true);  
             }
-            else if (enemy_type_ == 4) {
+            else if (enemy_type_ == 4)
+            {
                 static float current_angle = 0.0f;
                 current_angle += 0.2f;
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4; i++)
+                {
                     float bullet_angle = current_angle + (i * 2.0f * 3.14159265f) / 16;
                     ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(bullet_angle), 2.0f);
                 }
                 float baseAngle = Vector2(1, 0).AngleTo(targetPos - position_);
-                for (int i = -1; i <= 1; i++) {
+                for (int i = -1; i <= 1; i++)
+                {
                     float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
                     ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
                 }
             }
         }
     }
-    
-    if (position_.y > Utility::SCREEN_HEIGHT + 50.0f) {
-        Character::Kill();
-    }
 }
 
-void Enemy::Kill() {
-    Character::Kill();
-}
-
-void Enemy::TakeDamage(int damage_) {
-    if (!is_active_) return;
-
-    Character::TakeDamage(damage_); // HP繧呈ｸ帙ｉ縺励・縺ｫ縺ｪ縺｣縺溘ｉKill繧貞他縺ｶ蜃ｦ逅・↑縺ｩ
-
-    if (hp_ <= 0) {
-        SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
-        Player* player = dynamic_cast<Player*>(
-            Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get()
-        );
-        if (player != nullptr) {
-            player->AddXp(1);
-        }
-        GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-        if (gs != nullptr && gs->GetEnemyManager() != nullptr) {
-            gs->GetEnemyManager()->AddDefeatedCount();
-        }
-    }
-}
-
-void Enemy::OnTrigger(Collider* collider_, Collider* check) {
-    // プレイヤーの弾側のOnTriggerで自身へのダメージ処理が行われるため、
-    // ここで弾の種類を判定してダメージを受ける処理は不要になりました。
-}
-
-void Enemy::Draw()
+void Enemy::DrawEnemySprite()
 {
-    if (!is_active_) return;
-
-    if (stun_timer_ > 0) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 200, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
-
     int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
 
-    if (enemyGraphHandle != -1) {
+    if (enemyGraphHandle != -1)
+    {
         if (enemy_type_ == 1) SetDrawBright(255, 255, 255);
         else if (enemy_type_ == 2) SetDrawBright(255, 200, 100);
         else if (enemy_type_ == 3) SetDrawBright(100, 100, 255);
@@ -179,7 +222,8 @@ void Enemy::Draw()
 
         SetDrawBright(255, 255, 255);
     }
-    else {
+    else
+    {
         unsigned int color_ = GetColor(255, 100, 100);
         if (enemy_type_ == 2) color_ = GetColor(255, 200, 100);
         else if (enemy_type_ == 3) color_ = GetColor(100, 100, 255);
@@ -188,6 +232,10 @@ void Enemy::Draw()
         int drawRadius = (enemy_type_ == 4) ? 45 : 35;
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), drawRadius, color_, TRUE);
     }
+}
+
+void Enemy::DrawHpBar()
+{
     int hpOffset = (enemy_type_ == 4) ? 65 : 55;
     DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", hp_);
 }

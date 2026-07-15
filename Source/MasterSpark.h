@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class MasterSpark : public Projectile {
+class MasterSpark : public Projectile
+{
 private:
     int life_timer_;
     int max_life_;
@@ -15,6 +16,8 @@ public:
     MasterSpark(float x, float y);
     virtual ~MasterSpark() override;
 
+private:
+    void DrawParticles();
     virtual void Update() override;
     virtual void Draw() override;
     virtual void Kill() override;

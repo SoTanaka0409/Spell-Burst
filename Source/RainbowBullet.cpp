@@ -17,10 +17,12 @@ RainbowBullet::RainbowBullet(float x, float y)
     collider_ = new CapsuleCollider(this, position_, position_, 12.0f);
 }
 
-RainbowBullet::~RainbowBullet() {
+RainbowBullet::~RainbowBullet()
+{
 }
 
-void RainbowBullet::Update() {
+void RainbowBullet::Update()
+{
     position_ += dir * (speed_ * Utility::TimeScale);
 
     color_hue_ += 5;
@@ -28,12 +30,14 @@ void RainbowBullet::Update() {
 
     Projectile::Update();
 
-    if (IsOutOfBounds()) {
+    if (IsOutOfBounds())
+    {
         Kill();
     }
 }
 
-void RainbowBullet::Draw() {
+void RainbowBullet::Draw()
+{
     if (!is_active_) return;
 
     float rad = color_hue_ * 3.14159265f / 180.0f;
@@ -47,18 +51,23 @@ void RainbowBullet::Draw() {
     DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
 }
 
-void RainbowBullet::OnTrigger(Collider* collider_, Collider* check) {
-    if(check!=nullptr&&check->GetParentObject() != nullptr) {
+void RainbowBullet::OnTrigger(Collider* collider_, Collider* check)
+{
+    if(check!=nullptr&&check->GetParentObject() != nullptr)
+    {
         if (check->GetParentObject()->GetTag() == kTag2dBarrierEnemy)
         {
             Kill();
             return;
 		}
 	}
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+        {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
+            if (enemy != nullptr)
+            {
                 enemy->TakeDamage(damage_);
             }
             Kill();

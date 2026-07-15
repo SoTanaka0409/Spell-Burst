@@ -5,44 +5,45 @@
 class Enemy;
 class Boss;
 
-// ï¿½Gï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½Ìï¿½ï¿½ï¿½ï¿½Eï¿½iï¿½sï¿½tï¿½Fï¿½[ï¿½Yï¿½ğ“Šï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Nï¿½ï¿½ï¿½X
-// ï¿½{ï¿½Xï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌŠÄï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½İ‚Ìƒtï¿½Fï¿½[ï¿½Yï¿½iï¿½Eï¿½Fï¿½[ï¿½uï¿½jï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ÌƒXï¿½|ï¿½[ï¿½ï¿½ï¿½ğ§Œä‚·ï¿½ï¿½
-class EnemyManager {
+// E½GE½LE½E½E½E½E½NE½^E½[E½Ìï¿½E½E½E½EE½iE½sE½tE½FE½[E½YE½ğ“ŠE½E½E½E½E½Ç—ï¿½E½NE½E½E½X
+// E½{E½XE½oE½E½E½E½E½E½ÌŠÄï¿½E½E½AE½E½E½İ‚ÌƒtE½FE½[E½YE½iE½EE½FE½[E½uE½jE½É‰ï¿½E½E½E½E½E½GE½ÌƒXE½|E½[E½E½E½ğ§Œä‚·E½E½
+class EnemyManager
+{
 private:
     int spawn_timer_;              // GoiX|[jÔŠuv^C}[
     int defeated_count_;           // vC[|GÌ—İŒvitF[YisÌÉgpj
     bool boss_spawned_;            // İ‚ÌƒtF[YÅƒ{XÉoÇ‚ÌƒtO
 
-    int current_phase_;            // İ‚ÌistF[YiEF[ujÔ
-    int required_kills_;           // ÌƒtF[YÖ‚ÌˆÚsAÜ‚Íƒ{XoÉ•KvÈ“GÌ“
-    std::weak_ptr<Boss> current_boss_;           // İoÄ‚{XIuWFNgÖ‚Ìƒ|C^ionullptrjÄ‚{XIuWFNgÖ‚Ìƒ|C^ionullptrj
+    int current_phase_;            // İ‚ÌistF[YiEF[ujÔE
+    int required_kills_;           // ÌƒtF[YÖ‚ÌˆÚsAÜ‚Íƒ{XoÉ•KvÈ“GÌE
+    std::weak_ptr<Boss> current_boss_;           // İoÄEXIuWFNgÖ‚Ìƒ|C^ionullptrjÄEXIuWFNgÖ‚Ìƒ|C^ionullptrj
 
 public:
     // RXgN^ / fXgN^
-    // [] È‚
-    // [o] È‚
+    // [] ÈE
+    // [o] ÈE
     // [p] IuWFNgÌEjs
     EnemyManager();
     ~EnemyManager();
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½tï¿½Fï¿½[ï¿½Yï¿½â“¢ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½^ï¿½Cï¿½}ï¿½[ï¿½È‚Ç‚Ìiï¿½sï¿½ó‹µ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½jï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½tE½FE½[E½YE½â“¢E½E½E½E½E½AE½^E½CE½}E½[E½È‚Ç‚ÌiE½sE½ó‹µ‚ï¿½E½E½E½E½E½E½iE½E½E½ZE½bE½gE½jE½E½E½E½
     void Initialize();
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½^ï¿½Cï¿½}ï¿½[ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½Ìï¿½ï¿½ï¿½ï¿½Aï¿½{ï¿½Xï¿½Ìoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½tï¿½Fï¿½[ï¿½Yï¿½Úsï¿½ï¿½ï¿½ï¿½ï¿½È‚Ç‚ï¿½sï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½^E½CE½}E½[E½É‰ï¿½E½E½E½E½E½GE½Ìï¿½E½E½E½AE½{E½XE½ÌoE½E½E½E½E½E½AE½tE½FE½[E½YE½ÚsE½E½E½E½E½È‚Ç‚ï¿½sE½E½
     void Update();
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½Êï¿½Éï¿½ï¿½Ìƒtï¿½Fï¿½[ï¿½Yï¿½Ü‚Å‚Ì—vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½{ï¿½Xï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ÌŒxï¿½ï¿½UIï¿½È‚Ç‚ï¿½`ï¿½æ‚·ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½E½Êï¿½Éï¿½E½ÌƒtE½FE½[E½YE½Ü‚Å‚Ì—vE½E½E½E½E½E½E½E½AE½{E½XE½oE½E½E½E½E½ÌŒxE½E½UIE½È‚Ç‚ï¿½`E½æ‚·E½E½
     void Draw();
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ñ‚µAï¿½ï¿½ï¿½Sï¿½ï¿½Ôiï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚İjï¿½Ì“Gï¿½ï¿½ï¿½ï¿½Sï¿½Éƒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½IE½uE½WE½FE½NE½gE½E½E½XE½gE½E½E½E½ñ‚µAE½E½E½SE½E½ÔiE½LE½E½E½E½E½E½E½Ï‚İjE½Ì“GE½E½E½E½SE½ÉE¿½E½E½E½E½E½E½E½E½ú«œï¿½E½E½E½
     void DeleteEnemy();
 
 private:
@@ -52,30 +53,30 @@ private:
 
 public:
 
-    // [ï¿½ï¿½ï¿½ï¿½] x, y: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½W
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Wï¿½ÉŠï¿½{ï¿½Iï¿½È“Gï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½Aï¿½Qï¿½[ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½jï¿½É“oï¿½^ï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] x, y: E½E½E½E½E½E½E½W
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½wE½è‚³E½ê‚½E½E½E½WE½ÉŠï¿½{E½IE½È“GE½IE½uE½WE½FE½NE½gE½ğ¶ï¿½E½E½E½AE½QE½[E½E½E½VE½[E½E½E½iE½E½E½XE½gE½E½E½jE½É“oE½^E½E½E½E½
     void SpawnEnemy(float x, float y);
 
-    // [ï¿½ï¿½ï¿½ï¿½] x, y: ï¿½ï¿½ï¿½ï¿½ï¿½î€ï¿½ï¿½ï¿½W, spawnnum: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é”
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½Ç”ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Cï¿½vï¿½Aï¿½Ü‚ï¿½ï¿½Í“ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½Å“ï¿½ï¿½ï¿½ï¿½Gï¿½ğ•¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½É“oï¿½^ï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] x, y: E½E½E½E½E½û«€E½E½E½W, spawnnum: E½E½E½E½E½E½E½éE
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½vE½E½E½CE½E½E½[E½E½Ç”ï¿½E½E½E½E½^E½CE½vE½AE½Ü‚ï¿½E½Í“ï¿½E½E½pE½^E½[E½E½E½Å“ï¿½E½E½E½GE½ğ•¡ï¿½E½E½E½E½E½E½E½VE½[E½E½E½É“oE½^E½E½E½E½
     void SpawnEnemy_Target(float x, float y, int spawnnum);
 
-    // --- ï¿½Qï¿½bï¿½^ï¿½[ï¿½Eï¿½Zï¿½bï¿½^ï¿½[ï¿½Q ---
+    // --- E½QE½bE½^E½[E½EE½ZE½bE½^E½[E½Q ---
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] int: ï¿½ï¿½ï¿½{ï¿½Xï¿½iï¿½ï¿½ï¿½ï¿½^ï¿½Cï¿½vï¿½Ì“Gï¿½jï¿½ï¿½ï¿½ï¿½ï¿½İ‰ï¿½Êï¿½É‚ï¿½ï¿½é”
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½È‚ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] int: E½E½E½{E½XE½iE½E½E½E½^E½CE½vE½Ì“GE½jE½E½E½E½E½İ‰ï¿½Êï¿½É‚ï¿½E½éE
+    // [E½E½E½E½p] E½È‚ï¿½
     int GetMidBossCount() const;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½Eï¿½ï¿½ï¿½g(defeated_count_)ï¿½ï¿½1ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½iï¿½Gï¿½Ìï¿½ï¿½Sï¿½ï¿½ï¿½ÉŒÄ‚Î‚ï¿½ï¿½zï¿½ï¿½j
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½GE½E½|E½E½E½E½E½JE½EE½E½E½g(defeated_count_)E½E½1E½E½E½ZE½E½E½E½iE½GE½Ìï¿½E½SE½E½E½ÉŒÄ‚Î‚ï¿½E½zE½E½j
     void AddDefeatedCount() { defeated_count_++; }
 
-    int GetDefeatedCount() const { return defeated_count_; }   // ï¿½ï¿½ï¿½İ‚Ì“Gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
-    int GetRequiredKills() const { return required_kills_; }   // ï¿½{ï¿½Xï¿½oï¿½ï¿½ï¿½ï¿½ï¿½É•Kï¿½vï¿½È–Ú•Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
-    bool IsBossSpawned() const { return boss_spawned_; }       // ï¿½{ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Éoï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½æ“¾
-    int GetCurrentPhase() const { return current_phase_; }     // ï¿½ï¿½ï¿½İ‚Ìƒtï¿½Fï¿½[ï¿½Yï¿½Ôï¿½ï¿½ï¿½æ“¾
+    int GetDefeatedCount() const { return defeated_count_; }   // E½E½E½İ‚Ì“GE½E½E½E½E½E½E½E½æ“¾
+    int GetRequiredKills() const { return required_kills_; }   // E½{E½XE½oE½E½E½E½E½É•KE½vE½È–Ú•WE½E½E½E½E½E½E½E½æ“¾
+    bool IsBossSpawned() const { return boss_spawned_; }       // E½{E½XE½E½E½E½E½ÉoE½E½E½E½E½Ä‚ï¿½E½é‚©E½E½æ“¾
+    int GetCurrentPhase() const { return current_phase_; }     // E½E½E½İ‚ÌƒtE½FE½[E½YE½Ôï¿½E½E½æ“¾
 };

@@ -1,11 +1,12 @@
-﻿#pragma once
+#pragma once
 #include <cmath>
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-struct Vector2 {
+struct Vector2
+{
     float x;
     float y;
 
@@ -39,12 +40,14 @@ struct Vector2 {
     static Vector2 FromAngle(float radians, float length = 1.0f);
     static float Distance(const Vector2& a, const Vector2& b);
 
-    operator VECTOR() const {
+    operator VECTOR() const
+    {
         return VGet(x, y, 0.0f);
     }
 };
 
 // Global operator for scalar * Vector2
-inline Vector2 operator*(float scalar, const Vector2& v) {
+inline Vector2 operator*(float scalar, const Vector2& v)
+{
     return v * scalar;
 }

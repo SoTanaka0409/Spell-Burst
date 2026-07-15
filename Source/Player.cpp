@@ -34,14 +34,17 @@ Player::Player()
     Initialize();
 }
 
-Player::~Player() {
-    if (auto b = barrier_.lock()) {
+Player::~Player()
+{
+    if (auto b = barrier_.lock())
+    {
         b->SetDeleteFlag(true);
         barrier_.reset();
     }
 }
 
-void Player::Initialize() {
+void Player::Initialize()
+{
     position_.x = (float)Utility::SCREEN_WIDTH / 2.0f;
     position_.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
     
@@ -90,23 +93,27 @@ void Player::Initialize() {
 
 void Player::Update()
 {
-    Character::Update(); // スタンタイマーなどの処理
+    Character::Update(); // スタンタイマ�Eなどの処琁E
 
-    if (level_up_timer_ > 0) {
+    if (level_up_timer_ > 0)
+    {
         level_up_timer_--;
     }
 
-    if (stun_timer_ > 0) {
+    if (stun_timer_ > 0)
+    {
         return;
     }
 
     HandleMovement();
 
-    if (auto b = barrier_.lock()) {
+    if (auto b = barrier_.lock())
+    {
         b->SetPosition(position_);
     }
 
-    if (InputManager::ActionDown(InputAction::kSwitchMode)) {
+    if (InputManager::ActionDown(InputAction::kSwitchMode))
+    {
         if (attack_mode_ == kAttackModeMelee) attack_mode_ = kAttackModeSpecial;
         else attack_mode_ = kAttackModeMelee;
     }
@@ -114,64 +121,88 @@ void Player::Update()
     Attack();
 }
 
-void Player::Draw() {
+void Player::Draw()
+{
     DrawBarrierAura();
     DrawStunEffect();
     DrawPlayerSprite();
 }
 
-void Player::TakeDamage(int damage_) {
+void Player::TakeDamage(int damage_)
+{
     Character::TakeDamage(damage_);
     SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
 
-    // 被弾演出: スクリーンシェイク + ダメージフラッシュ（赤）
+    // 被弾演�E: スクリーンシェイク + ダメージフラチE��ュ�E�赤�E�E
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-    if (scene != nullptr) {
+    if (scene != nullptr)
+    {
         scene->AddScreenShake(8, 6.0f);
         scene->AddDamageFlash(15, GetColor(255, 30, 30));
     }
 
-    if (hp_ <= 0) {
-        ResultScene::kIsVictory = false;
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    if (hp_ <= 0)
+    {
+        OnDeath();
     }
+}
+
+void Player::OnDeath()
+{
+    ResultScene::kIsVictory = false;
+    Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
 }
 
 void Player::Attack()
 {
     int mouseInput = GetMouseInput();
-    bool zPressed = InputManager::ActionPress(InputAction::kAttack);
     
-    attack_interval_++;
-    attack_interval2_++;
-
-    if (special_cooldown_ > 0) {
-        special_cooldown_--;
-    }
-    
+    UpdateCooldowns();
     ShootNormalBullets();
     
-    if (DebugOn) {
+    if (DebugOn)
+    {
         HandleDebugAttacks(mouseInput);
     }
     
-    if (mouseInput & MOUSE_INPUT_LEFT) {
+    HandleMeleeAndSpecialAttacks(mouseInput);
+}
+
+void Player::UpdateCooldowns()
+{
+    attack_interval_++;
+    attack_interval2_++;
+
+    if (special_cooldown_ > 0)
+    {
+        special_cooldown_--;
+    }
+}
+
+void Player::HandleMeleeAndSpecialAttacks(int mouseInput)
+{
+    if (mouseInput & MOUSE_INPUT_LEFT)
+    {
         UseSpellCard();
     }
 }
 
-void Player::AddXp(int amount) {
+void Player::AddXp(int amount)
+{
     xp_ += amount;
     int oldGauge = spell_gauge_;
     spell_gauge_ += amount;
-    if (spell_gauge_ >= max_spell_gauge_) {
+    if (spell_gauge_ >= max_spell_gauge_)
+    {
         spell_gauge_ = max_spell_gauge_;
-        if (oldGauge < max_spell_gauge_) {
+        if (oldGauge < max_spell_gauge_)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
         }
     }
 
-    while (xp_ >= xp_needed_) {
+    while (xp_ >= xp_needed_)
+    {
         xp_ -= xp_needed_;
         level_++;
         SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
@@ -182,11 +213,15 @@ void Player::AddXp(int amount) {
     }
 }
 
-void Player::OnEnter(Collider* collider_, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
+void Player::OnEnter(Collider* collider_, Collider* check)
+{
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+        {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
+            if (enemy != nullptr)
+            {
                 TakeDamage(1);
             }
         }
@@ -199,7 +234,8 @@ void Player::OnTrigger(Collider* collider_, Collider* check)
 void Player::OnExit(Collider* collider_, Collider* check) {}
 void Player::RunBarrierAttack() {}
 
-void Player::HandleMovement() {
+void Player::HandleMovement()
+{
     bool isFocus = InputManager::ActionPress(InputAction::kFocus);
     float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::TimeScale;
 
@@ -212,25 +248,33 @@ void Player::HandleMovement() {
     position_.y = std::clamp(position_.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
 }
 
-void Player::ShootNormalBullets() {
-    if (attack_interval_ >= attack_timer_) {
+void Player::ShootNormalBullets()
+{
+    if (attack_interval_ >= attack_timer_)
+    {
         attack_interval_ = 0;
         int numBullets = level_;
         float spacing = 20.0f;
         float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
-        for (int i = 0; i < numBullets; ++i) {
+        for (int i = 0; i < numBullets; ++i)
+        {
             ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
         }
     }
 }
 
-void Player::HandleDebugAttacks(int mouseInput) {
-    if ((mouseInput & MOUSE_INPUT_LEFT) && attack_interval2_ >= attack_timer2_) {
+void Player::HandleDebugAttacks(int mouseInput)
+{
+    if ((mouseInput & MOUSE_INPUT_LEFT) && attack_interval2_ >= attack_timer2_)
+    {
         attack_interval2_ = 0;
-        if (attack_mode_ == kAttackModeMelee) {
+        if (attack_mode_ == kAttackModeMelee)
+        {
             ObjectManager::Instantiate<MeleeAttack>(position_.x, position_.y - 70.0f);
-        } else if (attack_mode_ == kAttackModeSpecial) {
-            if (special_cooldown_ == 0) {
+        } else if (attack_mode_ == kAttackModeSpecial)
+        {
+            if (special_cooldown_ == 0)
+            {
                 ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
                 special_cooldown_ = 180; 
             }
@@ -238,46 +282,57 @@ void Player::HandleDebugAttacks(int mouseInput) {
     }
 }
 
-void Player::UseSpellCard() {
-    if (spell_gauge_ >= max_spell_gauge_) {
+void Player::UseSpellCard()
+{
+    if (spell_gauge_ >= max_spell_gauge_)
+    {
         spell_gauge_ = 0;
         SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
         
-        if (kSelectedCharacterType == 1) {
+        if (kSelectedCharacterType == 1)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
-        } else if (kSelectedCharacterType == 2) {
+        } else if (kSelectedCharacterType == 2)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3");
             ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
-        } else if (kSelectedCharacterType == 3) {
+        } else if (kSelectedCharacterType == 3)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
             ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
         }
         
         GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-        if (gs != nullptr) {
+        if (gs != nullptr)
+        {
             gs->TriggerCutin();
         }
     }
 }
 
-void Player::DrawBarrierAura() {
-    if (auto b = barrier_.lock()) {
-        if (b->IsDeployed() && b->GetHitCount() > 0) {
+void Player::DrawBarrierAura()
+{
+    if (auto b = barrier_.lock())
+    {
+        if (b->IsDeployed() && b->GetHitCount() > 0)
+        {
             int hit_count = b->GetHitCount();
             float ratio = static_cast<float>(hit_count) / 30.0f;
             
             SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
             int auraColor = (hit_count >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
             
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++)
+            {
                 float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
                 DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
             }
             
             int time = GetNowCount();
             int numParticles = static_cast<int>(15 * ratio);
-            for (int i = 0; i < numParticles; i++) {
+            for (int i = 0; i < numParticles; i++)
+            {
                 float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
                 float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
                 int px = static_cast<int>(position_.x + cosf(angle) * dist);
@@ -289,25 +344,32 @@ void Player::DrawBarrierAura() {
     }
 }
 
-void Player::DrawStunEffect() {
-    if (stun_timer_ > 0) {
+void Player::DrawStunEffect()
+{
+    if (stun_timer_ > 0)
+    {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 50, GetColor(0, 200, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 }
 
-void Player::DrawPlayerSprite() {
+void Player::DrawPlayerSprite()
+{
     int playerGraphHandle = -1;
-    if (kSelectedCharacterType == 1) {
+    if (kSelectedCharacterType == 1)
+    {
         playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
-    } else if (kSelectedCharacterType == 2) {
+    } else if (kSelectedCharacterType == 2)
+    {
         playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
-    } else if (kSelectedCharacterType == 3) {
+    } else if (kSelectedCharacterType == 3)
+    {
         playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
     }
 
-    if (playerGraphHandle != -1) {
+    if (playerGraphHandle != -1)
+    {
         DrawExtendGraph(
             static_cast<int>(position_.x - 45.0f), 
             static_cast<int>(position_.y - 45.0f), 
@@ -316,7 +378,8 @@ void Player::DrawPlayerSprite() {
             playerGraphHandle, 
             TRUE
         );
-    } else {
+    } else
+    {
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 255, 0), TRUE);
     }
     

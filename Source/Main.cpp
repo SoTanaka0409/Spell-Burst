@@ -13,36 +13,40 @@
 
 float Utility::TimeScale = 1.0f;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES) {
-        if (GetFileAttributesA("..\\..\\Resource") != INVALID_FILE_ATTRIBUTES) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+    if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES)
+    {
+        if (GetFileAttributesA("..\\..\\Resource") != INVALID_FILE_ATTRIBUTES)
+        {
             SetCurrentDirectoryA("..\\..");
         }
     }
 
-    // 起動毎に最新のログを出力するため、既存のログファイルを破棄して初期化
+    // 起動毎に最新のログを�E力するため、既存�Eログファイルを破棁E��て初期匁E
     FILE* fpLog = nullptr;
     fopen_s(&fpLog, "debug.log", "w");
     if (fpLog) fclose(fpLog);
 
-    // 開発中の動作確認およびエラー調査を容易にするためコンソールを割り当て
+    // 開発中の動作確認およ�Eエラー調査を容易にするためコンソールを割り当て
     AllocConsole();
     FILE* fp = nullptr;
     freopen_s(&fp, "CONOUT$", "w", stdout);
     freopen_s(&fp, "CONOUT$", "w", stderr);
     printf("Debug Console Started!\n");
 
-    // DxLibの基本設定および初期化（ログファイル出力を無効化）
+    // DxLibの基本設定およ�E初期化（ログファイル出力を無効化！E
     SetOutApplicationLogValidFlag(FALSE);
     ChangeWindowMode(TRUE);
     SetGraphMode(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, 32);
     SetMainWindowText("Shooting Action Game");
 
-    if (DxLib_Init() == -1) {
+    if (DxLib_Init() == -1)
+    {
         return -1;
     }
 
-    // 描画先を裏画面に設定し、チラつきのないダブルバッファリングを実現`r`n    SetDrawScreen(DX_SCREEN_BACK);
+    // 描画先を裏画面に設定し、チラつき�EなぁE��ブルバッファリングを実現`r`n    SetDrawScreen(DX_SCREEN_BACK);
 
     Master::sceneManager = std::make_unique<SceneManager>();
     InputBinding::Initialize();
@@ -50,8 +54,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     LONGLONG lastTime = GetNowHiPerformanceCount();
 
-    // OSのメッセージ処理とESCキーによる安全な終了を保証するためのメインループ
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && Master::sceneManager->GetCurrentScene() != nullptr) {
+    // OSのメチE��ージ処琁E��ESCキーによる安�Eな終亁E��保証するためのメインルーチE
+    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && Master::sceneManager->GetCurrentScene() != nullptr)
+    {
         ClearDrawScreen();
 
         LONGLONG currentTime = GetNowHiPerformanceCount();

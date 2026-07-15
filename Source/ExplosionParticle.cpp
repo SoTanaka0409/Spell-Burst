@@ -1,4 +1,4 @@
-﻿#include "ExplosionParticle.h"
+#include "ExplosionParticle.h"
 #include "ObjectManager.h"
 #include "Utility.h"
 #ifndef NOMINMAX
@@ -18,10 +18,12 @@ ExplosionParticle::ExplosionParticle(float x, float y, float speed_, float angle
     size_ = size_;
 }
 
-ExplosionParticle::~ExplosionParticle() {
+ExplosionParticle::~ExplosionParticle()
+{
 }
 
-void ExplosionParticle::Update() {
+void ExplosionParticle::Update()
+{
     position_.x += vx_ * Utility::TimeScale;
     position_.y += vy_ * Utility::TimeScale;
     
@@ -29,12 +31,14 @@ void ExplosionParticle::Update() {
     vy_ *= 0.95f;
 
     life_time_--;
-    if (life_time_ <= 0) {
+    if (life_time_ <= 0)
+    {
         SetDeleteFlag(true);
     }
 }
 
-void ExplosionParticle::Draw() {
+void ExplosionParticle::Draw()
+{
     int alpha = static_cast<int>(255.0f * (static_cast<float>(life_time_) / max_life_));
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
     

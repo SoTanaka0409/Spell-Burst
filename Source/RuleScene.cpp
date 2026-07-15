@@ -1,4 +1,4 @@
-ï»¿#include "RuleScene.h"
+#include "RuleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -11,18 +11,20 @@
 #include "DxLib.h"
 #include <algorithm>
 
-void RuleScene::Initialize() {
+void RuleScene::Initialize()
+{
     rule_graphs_[0] = ResourceManager::GetInstance()->GetGraph("Resource/rule1.png");
     rule_graphs_[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
     rule_graphs_[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
     rule_graphs_[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
-    rule_graphs_[4] = -1; // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ÈƒXï¿½ï¿½ï¿½Cï¿½hï¿½Ç‰ï¿½ï¿½É”ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ç‚©ï¿½ï¿½ï¿½ß˜gï¿½ï¿½mï¿½Û‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    rule_graphs_[4] = -1; // E½E½E½E½E½IE½ÈƒXE½E½E½CE½hE½Ç‰ï¿½E½É”ï¿½E½E½E½Ä‚ï¿½E½ç‚©E½E½E½ß˜gE½E½mE½Û‚ï¿½E½E½E½E½E½E½
     rule_graphs_[5] = -1;
     current_slide_ = 0;
     SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
 }
 
-void RuleScene::Update() {
+void RuleScene::Update()
+{
     static int prevMouseInput = 0;
     int currentMouseInput = GetMouseInput();
     bool isLeftClicked = (currentMouseInput & MOUSE_INPUT_LEFT) != 0 && (prevMouseInput & MOUSE_INPUT_LEFT) == 0;
@@ -31,46 +33,56 @@ void RuleScene::Update() {
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    if (isLeftClicked) {
-        // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö–ß‚é‘€ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½Û‚Ì‘Jï¿½Úï¿½ï¿½ï¿½
-        if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890) {
+    if (isLeftClicked)
+    {
+        // E½vE½E½E½CE½E½E½[E½E½E½^E½CE½gE½E½E½Ö–ß‚é‘€E½E½E½sE½E½E½E½E½Û‚Ì‘JE½Úï¿½E½E½
+        if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
             Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
             return;
         }
         
-        // ï¿½ï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Öiï¿½Şï¿½ï¿½ï¿½ï¿½iï¿½ÅIï¿½yï¿½[ï¿½Wï¿½Ìê‡ï¿½Íƒ^ï¿½Cï¿½gï¿½ï¿½ï¿½Ö–ß‚ï¿½j
-        if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890) {
+        // E½E½E½ÌƒyE½[E½WE½ÖiE½Şï¿½E½E½E½iE½ÅIE½yE½[E½WE½Ìê‡E½Íƒ^E½CE½gE½E½E½Ö–ß‚ï¿½j
+        if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
-            if (current_slide_ < 5) {
+            if (current_slide_ < 5)
+            {
                 current_slide_++;
-            } else {
+            } else
+            {
                 Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
                 return;
             }
         }
         
-        // ï¿½Oï¿½Ìƒyï¿½[ï¿½Wï¿½Ö–ß‚éˆï¿½ï¿½ï¿½iï¿½Åï¿½ï¿½Ìƒyï¿½[ï¿½Wï¿½Å‚Í–ï¿½ï¿½ï¿½ï¿½j
-        if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890) {
+        // E½OE½ÌƒyE½[E½WE½Ö–ß‚éˆE½E½E½iE½Åï¿½E½ÌƒyE½[E½WE½Å‚Í–ï¿½E½E½E½j
+        if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890)
+        {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
-            if (current_slide_ > 0) {
+            if (current_slide_ > 0)
+            {
                 current_slide_--;
             }
         }
     }
 }
 
-void RuleScene::Draw() {
+void RuleScene::Draw()
+{
     DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
     
-    if (current_slide_ >= 0 && current_slide_ < 6 && rule_graphs_[current_slide_] != -1) {
+    if (current_slide_ >= 0 && current_slide_ < 6 && rule_graphs_[current_slide_] != -1)
+    {
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
         int imgW = 1, imgH = 1;
         GetGraphSize(rule_graphs_[current_slide_], &imgW, &imgH);
         
-        if (imgW > 0 && imgH > 0) {
+        if (imgW > 0 && imgH > 0)
+        {
             float maxWidth = 1400.0f;
-            float maxHeight = 650.0f; // ï¿½ï¿½ï¿½ï¿½æ‘œï¿½ï¿½ï¿½ï¿½ï¿½â‚·ï¿½ï¿½ï¿½È‚ï¿½æ‚¤ï¿½`ï¿½ï¿½Ìˆï¿½ï¿½å‚«ï¿½ß‚Éİ’ï¿½
+            float maxHeight = 650.0f; // E½E½E½E½æ‘œï¿½E½E½E½E½â‚·E½E½E½È‚ï¿½æ‚¤E½`E½E½Ìˆï¿½E½å‚«E½ß‚Éİ’ï¿½
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -88,32 +100,36 @@ void RuleScene::Draw() {
     int titleFont = ResourceManager::GetInstance()->GetFont(32, 4);
     int font24 = ResourceManager::GetInstance()->GetFont(24, 3);
     
-    const char* titles[] = {
-        "1. ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½Ì‘Iï¿½ï¿½",
-        "2. ï¿½ï¿½Õ“xï¿½Ì‘Iï¿½ï¿½",
-        "3. ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½Äƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ã‚°ï¿½Äƒ{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½ï¿½I",
-        "4. UIï¿½Ìï¿½ï¿½",
-        "5. ï¿½oï¿½ï¿½ï¿½Aï¿½Ìgï¿½ï¿½ï¿½ï¿½",
-        "6. ï¿½{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½HPï¿½ï¿½ï¿½ñ•œI"
+    const char* titles[] =
+    {
+        "1. E½LE½E½E½E½E½NE½^E½[E½Ì‘IE½E½",
+        "2. E½E½Õ“xE½Ì‘IE½E½",
+        "3. E½GE½E½|E½E½E½ÄE¿½E½xE½E½E½E½ã‚°E½Äƒ{E½XE½E½|E½E½E½E½E½I",
+        "4. UIE½Ìï¿½E½",
+        "5. E½oE½E½E½AE½ÌgE½E½E½E½",
+        "6. E½{E½XE½E½|E½E½E½E½HPE½E½E½ñ•œI"
     };
-    const char* descs1[] = {
-        "ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½GAME STARTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Âï¿½ï¿½Lï¿½ï¿½ï¿½ÈƒVï¿½Fï¿½tï¿½ï¿½Iï¿½Ú‚ï¿½ï¿½B",
-        "ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ“xï¿½ï¿½Iï¿½Ú‚ï¿½ï¿½BNORMAL, HARD, VERY HARDï¿½ï¿½ï¿½ï¿½ï¿½é‚¼ï¿½B",
-        "ï¿½Gï¿½ï¿½|ï¿½ï¿½ï¿½ÄŒoï¿½ï¿½ï¿½lï¿½ï¿½Ò‚ï¿½ï¿½ï¿½ï¿½Iï¿½{ï¿½ï¿½ÍƒEï¿½Fï¿½[ï¿½uï¿½ï¿½ï¿½ÅA",
-        "ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½HPï¿½âƒŒï¿½xï¿½ï¿½ï¿½A",
-        "ï¿½oï¿½ï¿½ï¿½Aï¿½Wï¿½Jï¿½ï¿½ï¿½É“Gï¿½Ì’eï¿½ï¿½ó‚¯‚ï¿½Æ—Í‚ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½A",
-        "ï¿½{ï¿½Xï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½HPï¿½ï¿½3ï¿½ñ•œ‚ï¿½ï¿½é‚¼ï¿½I"
+    const char* descs1[] =
+    {
+        "E½^E½CE½gE½E½E½E½Ê‚ï¿½E½E½GAME STARTE½E½E½E½E½E½AE½Âï¿½E½LE½E½E½ÈƒVE½FE½tE½E½IE½Ú‚ï¿½E½B",
+        "E½E½E½E½E½É‚ï¿½E½E½E½E½E½E½Õ“xE½E½IE½Ú‚ï¿½E½BNORMAL, HARD, VERY HARDE½E½E½E½E½é‚¼E½B",
+        "E½GE½E½|E½E½E½ÄŒoE½E½E½lE½E½Ò‚ï¿½E½E½E½IE½{E½E½ÍƒEE½FE½[E½uE½E½E½ÅA",
+        "E½E½E½E½Íï¿½E½E½E½E½HPE½âƒŒï¿½xE½E½E½A",
+        "E½oE½E½E½AE½WE½JE½E½E½É“GE½Ì’eE½E½ó‚¯‚ï¿½Æ—Í‚ï¿½E½E½E½Ü‚ï¿½A",
+        "E½{E½XE½E½|E½E½E½E½HPE½E½3E½ñ•œ‚E½E½é‚¼E½I"
     };
-    const char* descs2[] = {
+    const char* descs2[] =
+    {
         "",
         "",
-        "ï¿½ï¿½è”ï¿½|ï¿½ï¿½ï¿½Æƒ{ï¿½Xï¿½ï¿½ï¿½oï¿½é‚¼ï¿½I",
-        "ï¿½Kï¿½Eï¿½Zï¿½ÌƒQï¿½[ï¿½Wï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚¼ï¿½I",
-        "ï¿½ÅŒï¿½É‹ï¿½ï¿½Í‚È”ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ä•ï¿½ï¿½oï¿½ï¿½ï¿½é‚¼ï¿½Iï¿½ï¿½ï¿½Ü‚ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½I",
-        "ï¿½ÅŒï¿½Ü‚Å’ï¿½ï¿½ß‚ï¿½ï¿½Éí‚¦ï¿½I"
+        "E½E½è”ï¿½|E½E½E½Æƒ{E½XE½E½E½oE½é‚¼E½I",
+        "E½KE½EE½ZE½ÌƒQE½[E½WE½E½E½\E½E½E½E½E½E½Ä‚ï¿½E½é‚¼E½I",
+        "E½ÅŒï¿½É‹ï¿½E½Í‚È”ï¿½E½E½E½Æ‚ï¿½E½Ä•ï¿½E½oE½E½E½é‚¼E½IE½E½E½Ü‚ï¿½E½gE½E½E½E½E½I",
+        "E½ÅŒï¿½Ü‚Å’ï¿½E½ß‚ï¿½E½Éí‚¦E½I"
     };
-    const char* descs3[] = {
-        "ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Ì’ï¿½ï¿½Sï¿½É‚ï¿½ï¿½é¬ï¿½ï¿½ï¿½ÈŒï¿½ï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½Å‚ï¿½ï¿½I",
+    const char* descs3[] =
+    {
+        "E½E½E½E½E½@E½Ì’ï¿½E½SE½É‚ï¿½E½é¬E½E½E½ÈŒï¿½E½E½Ê‚ï¿½E½E½E½E½E½è”»E½E½Å‚ï¿½E½I",
         "",
         "",
         "",
@@ -124,7 +140,8 @@ void RuleScene::Draw() {
     DrawBox(300, 700, 1300, 830, GetColor(20, 20, 40), TRUE);
     DrawBox(300, 700, 1300, 830, GetColor(255, 255, 255), FALSE);
     
-    if (current_slide_ >= 0 && current_slide_ < 6) {
+    if (current_slide_ >= 0 && current_slide_ < 6)
+    {
         DrawStringToHandle(320, 710, titles[current_slide_], GetColor(255, 255, 0), titleFont);
         DrawStringToHandle(320, 755, descs1[current_slide_], GetColor(255, 255, 255), font24);
         DrawStringToHandle(320, 785, descs2[current_slide_], GetColor(255, 255, 255), font24);
@@ -134,33 +151,38 @@ void RuleScene::Draw() {
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
     
-    // ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½È‘ï¿½ï¿½ï¿½ğ‘£‚ï¿½ï¿½ï¿½ï¿½ßAï¿½ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½Éƒ}ï¿½Eï¿½Xï¿½ï¿½ï¿½dï¿½È‚ï¿½ï¿½ï¿½ï¿½Û‚ÉFï¿½ï¿½Ï‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    DrawNavigationButtons(mouseX, mouseY, font24);
+    
+    Scene::Draw();
+}
+
+void RuleScene::DrawNavigationButtons(int mouseX, int mouseY, int font24)
+{
     bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
     DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
     DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
     DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
     
-    // ï¿½ï¿½ï¿½İˆÊ’uï¿½ğ–¾ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ßA2ï¿½yï¿½[ï¿½Wï¿½ÚˆÈ~ï¿½Ì‚İ‘Oï¿½Ö–ß‚ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½
-    if (current_slide_ > 0) {
+    if (current_slide_ > 0)
+    {
         bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
         DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
         DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
         DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
     }
     
-    // ï¿½Xï¿½ï¿½ï¿½Cï¿½hï¿½iï¿½sï¿½ó‹µ‚Éï¿½ï¿½í‚¹ï¿½ÄAï¿½ï¿½ï¿½Öƒ{ï¿½^ï¿½ï¿½ï¿½ÆŠï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½Â‚Â•`ï¿½ï¿½
     bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
     DrawBox(900, 840, 1000, 890, hoverNext ? GetColor(100, 150, 100) : GetColor(50, 100, 50), TRUE);
     DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
-    if (current_slide_ < 5) {
+    if (current_slide_ < 5)
+    {
         DrawStringToHandle(920, 855, "NEXT", GetColor(255, 255, 255), font24);
-    } else {
+    } else
+    {
         DrawStringToHandle(920, 855, "DONE", GetColor(255, 255, 255), font24);
     }
-    
-    Scene::Draw();
 }
 
-void RuleScene::Finalize() {
+void RuleScene::Finalize()
+{
 }
-

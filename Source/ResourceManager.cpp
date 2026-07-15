@@ -1,25 +1,30 @@
-﻿#include "ResourceManager.h"
+#include "ResourceManager.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-ResourceManager::ResourceManager() {
+ResourceManager::ResourceManager()
+{
 }
 
-ResourceManager::~ResourceManager() {
+ResourceManager::~ResourceManager()
+{
     ClearAll();
 }
 
-ResourceManager* ResourceManager::GetInstance() {
+ResourceManager* ResourceManager::GetInstance()
+{
     static ResourceManager instance;
     return &instance;
 }
 
-int ResourceManager::GetGraph(const std::string& path) {
+int ResourceManager::GetGraph(const std::string& path)
+{
     auto it = graphMap.find(path);
-    if (it != graphMap.end()) {
+    if (it != graphMap.end())
+    {
         return it->second;
     }
 
@@ -28,10 +33,12 @@ int ResourceManager::GetGraph(const std::string& path) {
     return handle;
 }
 
-int ResourceManager::GetFont(int size_, int thickness) {
+int ResourceManager::GetFont(int size_, int thickness)
+{
     auto key = std::make_pair(size_, thickness);
     auto it = fontMap.find(key);
-    if (it != fontMap.end()) {
+    if (it != fontMap.end())
+    {
         return it->second;
     }
 
@@ -40,12 +47,15 @@ int ResourceManager::GetFont(int size_, int thickness) {
     return handle;
 }
 
-void ResourceManager::ClearAll() {
-    for (auto& pair : graphMap) {
+void ResourceManager::ClearAll()
+{
+    for (auto& pair : graphMap)
+    {
         DeleteGraph(pair.second);
     }
     graphMap.clear();
-    for (auto& pair : fontMap) {
+    for (auto& pair : fontMap)
+    {
         DeleteFontToHandle(pair.second);
     }
     fontMap.clear();

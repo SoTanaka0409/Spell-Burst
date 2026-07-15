@@ -1,81 +1,86 @@
-﻿#include <memory>
+#include <memory>
 #pragma once
 #include "Scene.h"
 
 class EnemyManager;
 
-// メインゲーム進行を管理するシーンクラス
-// 画面揺れやヒットストップ等の全体エフェクト状態も併せて管理する
-class GameScene : public Scene {
+// メインゲーム進行を管琁E��るシーンクラス
+// 画面揺れやヒットストップ等�E全体エフェクト状態も併せて管琁E��めE
+class GameScene : public Scene
+{
 private:
-    std::unique_ptr<EnemyManager> enemy_manager_;   // 敵の生成や進行フェーズを管理するマネージャーのポインタ
+    void DrawBackground();
+    void DrawTimeAttackTimer();
+    void DrawEffects();
 
-    int cutin_timer_;               // カットイン演出（大技発動時など）の進行度を測るタイマー
-    int cutin_image_handle_;         // カットイン用画像のグラフィックハンドル（DxLib用）
+    std::unique_ptr<EnemyManager> enemy_manager_;   // 敵の生�EめE��行フェーズを管琁E��る�Eネ�Eジャーのポインタ
 
-    int screen_handle_;             // オフスクリーン描画（画面揺れ等のポストエフェクト用）の画像ハンドル
+    int cutin_timer_;               // カチE��イン演�E�E�大技発動時など�E��E進行度を測るタイマ�E
+    int cutin_image_handle_;         // カチE��イン用画像�EグラフィチE��ハンドル�E�ExLib用�E�E
 
-    int shake_timer_;               // 画面揺れ（スクリーンシェイク）の残りフレーム数
-    float shake_magnitude_;         // 画面揺れの強さ（ピクセル幅など）
+    int screen_handle_;             // オフスクリーン描画�E�画面揺れ等�Eポストエフェクト用�E��E画像ハンドル
 
-    int hit_stop_timer_;             // ヒットストップ（一時的な時間停止演出）の残りフレーム数
+    int shake_timer_;               // 画面揺れ（スクリーンシェイク�E��E残りフレーム数
+    float shake_magnitude_;         // 画面揺れ�E強さ（ピクセル幁E��ど�E�E
 
-    int damage_flash_timer_;         // ダメージフラッシュの残りフレーム数
-    unsigned int damage_flash_color_; // ダメージフラッシュの色
+    int hit_stop_timer_;             // ヒットストップ（一時的な時間停止演�E�E��E残りフレーム数
+
+    int damage_flash_timer_;         // ダメージフラチE��ュの残りフレーム数
+    unsigned int damage_flash_color_; // ダメージフラチE��ュの色
 
 public:
-    // --- 静的（static）メンバ変数 ---
-    static int currentStage;         // 現在プレイ中のステージ番号
-    static int playFrameCount;       // プレイ開始からの経過フレーム数（スコア計算やタイムアタック用）
-    static bool isTimeAttackActive;  // タイムアタックモードが有効かどうかのフラグ
+    // --- 静的�E�Etatic�E�メンバ変数 ---
+    static int currentStage;         // 現在プレイ中のスチE�Eジ番号
+    static int playFrameCount;       // プレイ開始から�E経過フレーム数�E�スコア計算やタイムアタチE��用�E�E
+    static bool isTimeAttackActive;  // タイムアタチE��モードが有効かどぁE��のフラグ
 
-    // コンストラクタ / デストラクタ
-    // [入力] なし
-    // [出力] なし
-    // [副作用] オブジェクトの生成・破棄を行う（実際の初期化処理はInitializeで実行）
+    // コンストラクタ / チE��トラクタ
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] オブジェクト�E生�E・破棁E��行う�E�実際の初期化�E琁E�EInitializeで実行！E
     GameScene();
     virtual ~GameScene() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] マネージャー類の生成、各種リソース（画像やサウンド）の確保、タイマーの初期化を行う
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] マネージャー類�E生�E、各種リソース�E�画像やサウンド）�E確保、タイマ�Eの初期化を行う
     void Initialize() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] ヒットストップ非適用時は各オブジェクト（自機、敵、弾など）の状態を更新し、衝突判定を処理する
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] ヒットストップ非適用時�E吁E��ブジェクト（�E機、敵、弾など�E��E状態を更新し、衝突判定を処琁E��めE
     void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] オフスクリーン(screen_handle_)に一度描画した後、画面揺れ(シェイク)のズレを加味してメイン画面へ転送する
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] オフスクリーン(screen_handle_)に一度描画した後、画面揺めEシェイク)のズレを加味してメイン画面へ転送すめE
     void Draw() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 確保したマネージャーやリソースを破棄し、メモリリークを防ぐ
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] 確保した�Eネ�EジャーめE��ソースを破棁E��、メモリリークを防ぁE
     void Finalize() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] ボスのスペルカード発動時や自機ボム発動時などのカットイン演出タイマーを起動する
+    // [入力] なぁE
+    // [出力] なぁE
+    // [副作用] ボスのスペルカード発動時めE�E機�Eム発動時などのカチE��イン演�Eタイマ�Eを起動すめE
     void TriggerCutin();
 
-    // 敵マネージャーのポインタを取得する
+    // 敵マネージャーのポインタを取得すめE
     EnemyManager* GetEnemyManager() const { return enemy_manager_.get(); }
 
-    // [入力] duration: 揺らすフレーム数, magnitude: 揺れの強さ
-    // [出力] なし
-    // [副作用] 画面揺れタイマーを設定し、現在の演出を上書き・適用する（被弾時や爆発時に使用）
+    // [入力] duration: 揺らすフレーム数, magnitude: 揺れ�E強ぁE
+    // [出力] なぁE
+    // [副作用] 画面揺れタイマ�Eを設定し、現在の演�Eを上書き�E適用する�E�被弾時や爁E��時に使用�E�E
     void AddScreenShake(int duration, float magnitude);
 
     // [入力] duration: 停止フレーム数
-    // [出力] なし
-    // [副作用] 強い攻撃が当たった際など、ゲーム全体の更新処理を一時停止（ヒットストップ）させ、打撃感を演出する
+    // [出力] なぁE
+    // [副作用] 強ぁE��撁E��当たった際など、ゲーム全体�E更新処琁E��一時停止�E�ヒチE��ストップ）させ、打撁E��を演�Eする
     void AddHitStop(int duration);
 
-    // [入力] duration: フラッシュするフレーム数, color: フラッシュ色（GetColor等で指定）
-    // [出力] なし
-    // [副作用] 画面を指定色でフラッシュさせ、ダメージや爆発の視覚的フィードバックを提供する
+    // [入力] duration: フラチE��ュするフレーム数, color: フラチE��ュ色�E�EetColor等で持E��！E
+    // [出力] なぁE
+    // [副作用] 画面を指定色でフラチE��ュさせ、ダメージめE�E発の視覚的フィードバチE��を提供すめE
     void AddDamageFlash(int duration, unsigned int color);
 };

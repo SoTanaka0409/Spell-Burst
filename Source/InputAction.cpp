@@ -1,4 +1,4 @@
-ï»¿// InputAction.cpp
+// InputAction.cpp
 #include "InputAction.h"
 #pragma once
 #ifndef NOMINMAX
@@ -25,10 +25,11 @@ void InputBinding::Initialize()
 int InputBinding::GetKey(InputAction action)
 {
     auto it = bindings_.find(static_cast<int>(action));
-    if (it != bindings_.end()) {
+    if (it != bindings_.end())
+    {
         return it->second;
     }
-    return -1; // æœªå‰²ã‚Šå½“ã¦
+    return -1; // –¢Š„‚è“–‚Ä
 }
 
 void InputBinding::Rebind(InputAction action, int keyCode)

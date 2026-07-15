@@ -1,4 +1,4 @@
-ï»¿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 
-// ã‚²ãƒ¼ãƒ å…¨ä½“ã§å…±é€šã—ã¦ä½¿ç”¨ã™ã‚‹å®šæ•°ã€æ•°å¼ã€ãƒ©ãƒ³ã‚­ãƒ³ã‚°IOé–¢æ•°ã‚’å®šç¾©ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+// ƒQ[ƒ€‘S‘Ì‚Å‹¤’Ê‚µ‚Äg—p‚·‚é’è”A”®Aƒ‰ƒ“ƒLƒ“ƒOIOŠÖ”‚ğ’è‹`‚·‚éƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
 class Utility
 {
 public:
@@ -18,23 +18,26 @@ public:
 	static Vector2 StageSize;
 	static float TimeScale;
 
-	// [å…¥åŠ›] deg: åº¦æ•°æ³•ã«ã‚ˆã‚‹è§’åº¦
-	// [å‡ºåŠ›] å¼§åº¦æ³•ã«ã‚ˆã‚‹è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
-	// [å‰¯ä½œç”¨] ãªã—
+	// [“ü—Í] deg: “x”–@‚É‚æ‚éŠp“x
+	// [o—Í] ŒÊ“x–@‚É‚æ‚éŠp“xiƒ‰ƒWƒAƒ“j
+	// [•›ì—p] ‚È‚µ
 	static float DegToRad(float deg)
 	{
 		return deg * DX_PI_F / 180.0f;
 	}
 
-	// [å…¥åŠ›] out_times: ãƒ©ãƒ³ã‚­ãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹å‹•çš„é…åˆ—
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ranking.txt ã‹ã‚‰ã‚¹ã‚³ã‚¢ã‚’èª­ã¿è¾¼ã¿ã€æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦é…åˆ—ã«æ ¼ç´ã™ã‚‹
-	static void LoadTimeRanking(std::vector<int>& out_times) {
+	// [“ü—Í] out_times: ƒ‰ƒ“ƒLƒ“ƒOƒf[ƒ^‚ğŠi”[‚·‚é“®“I”z—ñ
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ranking.txt ‚©‚çƒXƒRƒA‚ğ“Ç‚İ‚İA¸‡ƒ\[ƒg‚µ‚Ä”z—ñ‚ÉŠi”[‚·‚é
+	static void LoadTimeRanking(std::vector<int>& out_times)
+	{
 		out_times.clear();
 		std::ifstream ifs("ranking.txt");
-		if (ifs.is_open()) {
+		if (ifs.is_open())
+		{
 			int t;
-			while (ifs >> t) {
+			while (ifs >> t)
+			{
 				out_times.push_back(t);
 			}
 			ifs.close();
@@ -42,19 +45,22 @@ public:
 		std::sort(out_times.begin(), out_times.end());
 	}
 
-	// [å…¥åŠ›] time_ms: ä¿å­˜ã™ã‚‹ã‚¯ãƒªã‚¢ã‚¿ã‚¤ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ranking.txt ã«ä¸Šä½5ã¤ã®è¨˜éŒ²ã‚’æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦æ›¸ãè¾¼ã‚€
-	static void SaveTimeRanking(int time_ms) {
+	// [“ü—Í] time_ms: •Û‘¶‚·‚éƒNƒŠƒAƒ^ƒCƒ€iƒ~ƒŠ•bj
+	// [o—Í] ‚È‚µ
+	// [•›ì—p] ranking.txt ‚ÉãˆÊ5‚Â‚Ì‹L˜^‚ğ¸‡ƒ\[ƒg‚µ‚Ä‘‚«‚Ş
+	static void SaveTimeRanking(int time_ms)
+	{
 		std::vector<int> times;
 		LoadTimeRanking(times);
 		times.push_back(time_ms);
 		std::sort(times.begin(), times.end());
 		
 		std::ofstream ofs("ranking.txt", std::ios::trunc);
-		if (ofs.is_open()) {
+		if (ofs.is_open())
+		{
 			int count = (times.size() < 5) ? static_cast<int>(times.size()) : 5;
-			for (int i = 0; i < count; ++i) {
+			for (int i = 0; i < count; ++i)
+			{
 				ofs << times[i] << "\n";
 			}
 			ofs.close();

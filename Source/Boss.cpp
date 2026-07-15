@@ -34,20 +34,25 @@ Boss::Boss(float x, float y, int bossType)
 {
     SetTag(kTag2dEnemy);
     this->bossType = bossType;
-    if (bossType == 1) {
+    if (bossType == 1)
+    {
         speed_ = 1.5f;
         max_hp_ = 60;
-    } else if (bossType == 2) {
+    } else if (bossType == 2)
+    {
         speed_ = 2.0f;
         max_hp_ = 80;
-    } else {
+    } else
+    {
         speed_ = 2.5f;
         max_hp_ = 150;
     }
 
-    if (GameScene::currentStage == 2) {
+    if (GameScene::currentStage == 2)
+    {
         max_hp_ = static_cast<int>(max_hp_ * 1.3f);
-    } else if (GameScene::currentStage == 3) {
+    } else if (GameScene::currentStage == 3)
+    {
         max_hp_ = static_cast<int>(max_hp_ * 1.5f);
     }
 
@@ -55,9 +60,11 @@ Boss::Boss(float x, float y, int bossType)
     attack_timer_ = 0;
     patternIndex = 0;
     isDying = false;
-    if (bossType == 3) {
+    if (bossType == 3)
+    {
         lives = 3;
-    } else {
+    } else
+    {
         lives = 1;
     }
     invincibleTimer = 0;
@@ -68,237 +75,304 @@ Boss::Boss(float x, float y, int bossType)
     collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
     SelectNewTarget();
 
-    // ボス2体目・3体目にバリアを生成（2.5秒ごとに2秒間展開）
-    if (bossType != 1) {
+    // ボス2体目・3体目にバリアを生成！E.5秒ごとに2秒間展開�E�E
+    if (bossType != 1)
+    {
         auto bar = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 100.0f, Object2D::kTag2dBarrierEnemy);
-        if (auto locked = bar.lock()) {
-            locked->SetDeployInterval(300.0f);  // 5秒
-            locked->SetActiveDuration(120.0f);  // 2秒
+        if (auto locked = bar.lock())
+        {
+            locked->SetDeployInterval(300.0f);  // 5私E
+            locked->SetActiveDuration(120.0f);  // 2私E
         }
         barrier_ = bar;
     }
 
     // Initialize behavior state based on boss type
-    if (this->bossType == 1) {
+    if (this->bossType == 1)
+    {
         state_ = std::make_unique<BossStateSimple>();
-    } else if (this->bossType == 2) {
+    } else if (this->bossType == 2)
+    {
         state_ = std::make_unique<BossStateBouncing>();
-    } else {
+    } else
+    {
         state_ = std::make_unique<BossStateFinal>();
     }
 }
 
-Boss::~Boss() {
+Boss::~Boss()
+{
 }
 
-void Boss::SelectNewTarget() {
+void Boss::SelectNewTarget()
+{
     targetX = 100.0f + static_cast<float>(rand() % 1080);
     targetY = 80.0f + static_cast<float>(rand() % 180);
 }
 
-void Boss::Update() {
-    Character::Update(); // スタン処理など
+void Boss::Update()
+{
+    Character::Update(); // スタン処琁E��ど
 
     if (stun_timer_ > 0) return;
 
-    if (isDying) {
-        deathTimer--;
-        position_.y -= 1.0f;
-        if (deathTimer <= 0) {
-            Kill();
-        }
+    if (isDying)
+    {
+        UpdateDeath();
         return;
     }
 
     // Movement: chase target position
     Vector2 target(targetX, targetY);
     float dist = position_.DistanceTo(target);
-    if (dist < 15.0f) {
+    if (dist < 15.0f)
+    {
         SelectNewTarget();
-    } else {
+    }
+    else
+    {
         position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
     }
 
-    // バリアの位置をボスに追従させる
-    if (bossType != 1) {
-        if (auto bar = barrier_.lock()) {
+    // バリアの位置を�Eスに追従させる
+    if (bossType != 1)
+    {
+        if (auto bar = barrier_.lock())
+        {
             bar->SetPosition(position_);
         }
     }
 
     // Delegate attack/invincibility logic to current state
-    if (state_) {
+    if (state_)
+    {
         state_->Update(this);
     }
 }
 
-void Boss::ShootRadialBarrage() {
+void Boss::ShootRadialBarrage()
+{
     const float PI = 3.14159265f;
     const int bulletCount = 36;
     static float spiralAngle = 0.0f;
     spiralAngle += 0.15f;
 
     bool reflect = (lives == 2);
-    for (int i = 0; i < bulletCount; i++) {
+    for (int i = 0; i < bulletCount; i++)
+    {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.5f, reflect);
     }
 }
-void Boss::ShootFanBarrage() {
+void Boss::ShootFanBarrage()
+{
     const float PI = 3.14159265f;
     const int bulletCount = 15;
     bool reflect = (lives == 2);
     float baseAngle = PI / 2.0f;
-    for (int layer = 0; layer < 4; layer++) {
+    for (int layer = 0; layer < 4; layer++)
+    {
         float speed_ = 2.0f + layer * 1.5f;
-        for (int i = -bulletCount/2; i <= bulletCount/2; i++) {
+        for (int i = -bulletCount/2; i <= bulletCount/2; i++)
+        {
             float angle = baseAngle + (i * 8.0f * PI / 180.0f);
             ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), speed_, reflect);
         }
     }
 }
-void Boss::ShootTargetedBarrage() {
+void Boss::ShootTargetedBarrage()
+{
     const float PI = 3.14159265f;
     Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
     Vector2 targetPos(position_.x, position_.y + 200.0f);
-    if (player != nullptr) {
+    if (player != nullptr)
+    {
         targetPos = Vector2(player->GetX(), player->GetY());
     }
     Vector2 dir = (targetPos - position_).Normalized();
     if (dir.MagnitudeSq() == 0.0f) dir = Vector2(0.0f, 1.0f);
     float baseAngle = Vector2(1,0).AngleTo(dir);
-    for (int i = -2; i <= 2; i++) {
+    for (int i = -2; i <= 2; i++)
+    {
         float angle = baseAngle + (i * 5.0f * PI / 180.0f);
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
     }
-    for (int i = -1; i <= 1; i++) {
+    for (int i = -1; i <= 1; i++)
+    {
         float angle = baseAngle + (i * 12.0f * PI / 180.0f);
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.5f);
     }
 }
 
-void Boss::ShootSimpleBarrage() {
+void Boss::ShootSimpleBarrage()
+{
     const float PI = 3.14159265f;
     float baseAngle = static_cast<float>(rand() % 360) * PI / 180.0f;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         float angle = baseAngle + (i * 360.0f / 5.0f * PI / 180.0f);
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f, false, false, 120, 60);
     }
 }
 
-void Boss::ShootBouncingBarrage() {
+void Boss::ShootBouncingBarrage()
+{
     const float PI = 3.14159265f;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         float angle = (i * 2.0f * PI) / 6.0f;
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 4.5f, true);
     }
 }
 
-void Boss::ShootSpellCardBarrage() {
+void Boss::ShootSpellCardBarrage()
+{
     const float PI = 3.14159265f;
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 24; i++)
+    {
         float angle = (i * 2.0f * PI) / 24.0f;
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 2.0f, true);
     }
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 12; i++)
+    {
         float angle = (i * 2.0f * PI) / 12.0f + 0.5f;
         ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 5.0f, false);
     }
 }
 
-void Boss::TakeDamage(int damage_) {
+void Boss::TakeDamage(int damage_)
+{
     if (isDying || invincibleTimer > 0) return;
 
     Character::TakeDamage(damage_);
 
-    // 攻撃ヒット演出: ヒットストップ + シェイク + フラッシュ（白）
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-    if (scene != nullptr) {
-        // scene->AddHitStop(3); // ボスに連続して弾が当たると重くなる原因のためコメントアウト
-        // scene->AddScreenShake(5, 4.0f); // ボスに当たった時の画面シェイクをなくしてほしいという要望のため削除
-        // scene->AddDamageFlash(8, GetColor(255, 255, 200)); // ボス戦の時に発光しないでほしいという要望のため削除
+    if (scene != nullptr)
+    {
+        // scene->AddHitStop(3);
+        // scene->AddScreenShake(5, 4.0f);
+        // scene->AddDamageFlash(8, GetColor(255, 255, 200));
     }
 
-    if (hp_ <= 0) {
-        lives--;
-        auto bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
-        for (auto& b : bullets) {
-            b->SetDeleteFlag(true);
+    if (hp_ <= 0)
+    {
+        UpdateDamage();
+    }
+}
+
+void Boss::UpdateDamage()
+{
+    lives--;
+    auto bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
+    for (auto& b : bullets)
+    {
+        b->SetDeleteFlag(true);
+    }
+    
+    if (lives > 0)
+    {
+        hp_ = max_hp_;
+        invincibleTimer = 180;
+    } else
+    {
+        isDying = true;
+        SoundManager::GetInstance()->PlaySE("Resource/se_boss_die.wav");
+        deathTimer = 180;
+        if (collider_)
+        {
+            collider_->SetDeleteFlag(true);
         }
-        
-        if (lives > 0) {
-            hp_ = max_hp_;
-            invincibleTimer = 180;
-        } else {
-            isDying = true;
-            SoundManager::GetInstance()->PlaySE("Resource/se_boss_die.wav");
-            deathTimer = 180;
-            if (collider_) {
-                collider_->SetDeleteFlag(true);
+
+        Scene* current_scene_ = Master::sceneManager->GetCurrentScene();
+        if (current_scene_)
+        {
+            auto bList = current_scene_->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
+            for (auto& b : bList)
+            {
+                b->SetDeleteFlag(true);
             }
 
-            Scene* current_scene_ = Master::sceneManager->GetCurrentScene();
-            if (current_scene_) {
-                auto bullets = current_scene_->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
-                for (auto& b : bullets) {
-                    b->SetDeleteFlag(true);
-                }
+            Player* p = dynamic_cast<Player*>(current_scene_->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
+            if (p) p->Heal(3);
+        }
+        collider_ = nullptr;
 
-                Player* p = dynamic_cast<Player*>(current_scene_->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
-                if (p) p->Heal(3);
-            }
-            collider_ = nullptr;
+        GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+        if (gs != nullptr)
+        {
+            gs->AddScreenShake(180, 20.0f);
+            gs->AddHitStop(30);
+        }
 
-            GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-            if (gs != nullptr) {
-                gs->AddScreenShake(180, 20.0f);
-                gs->AddHitStop(30);
-            }
-
-            for(int i = 0; i < 40; i++) {
-                float angle = static_cast<float>(rand() % 360) * 3.14159f / 180.0f;
-                float speed_ = 3.0f + static_cast<float>(rand() % 50) / 10.0f;
-                int life = 60 + (rand() % 60);
-                float size_ = 15.0f + static_cast<float>(rand() % 40);
-                int color_ = GetColor(255, 100 + rand() % 155, 0);
-                ObjectManager::Instantiate<ExplosionParticle>(position_.x, position_.y, speed_, angle, color_, life, size_);
-            }
+        for(int i = 0; i < 40; i++)
+        {
+            float angle = static_cast<float>(rand() % 360) * 3.14159f / 180.0f;
+            float speed_ = 3.0f + static_cast<float>(rand() % 50) / 10.0f;
+            int life = 60 + (rand() % 60);
+            float size_ = 15.0f + static_cast<float>(rand() % 40);
+            int color_ = GetColor(255, 100 + rand() % 155, 0);
+            ObjectManager::Instantiate<ExplosionParticle>(position_.x, position_.y, speed_, angle, color_, life, size_);
         }
     }
 }
 
-void Boss::Kill() {
+void Boss::UpdateDeath()
+{
+    deathTimer--;
+    position_.y -= 1.0f;
+    if (deathTimer <= 0)
+    {
+        Kill();
+    }
+}
+
+void Boss::Kill()
+{
     Character::Kill();
 
-    if (bossType == 3) {
+    if (bossType == 3)
+    {
         ResultScene::kIsVictory = true;
         GameScene::isTimeAttackActive = false;
         Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
     }
 }
 
-void Boss::OnTrigger(Collider* collider_, Collider* check) {
+void Boss::OnTrigger(Collider* collider_, Collider* check)
+{
     if (isDying) return;
-
-    // プレイヤーの弾側のOnTriggerで自身へのダメージ処理が行われるため、
-    // ここで弾の種類を判定してダメージを受ける処理は不要になりました。
 }
 
-void Boss::Draw() {
+void Boss::DrawInvincibility()
+{
+    if (invincibleTimer > 0)
+    {
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (invincibleTimer % 20) * 5);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(200, 50, 255), TRUE);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(255, 150, 255), FALSE);
+        DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 107, GetColor(255, 255, 255), FALSE);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (invincibleTimer % 20) * 5);
+    }
+}
+
+void Boss::DrawHealthBar()
+{
+    // Health bar is now drawn by HUD::DrawBossStatus
+}
+
+void Boss::Draw()
+{
     if (!is_active_) return;
 
     int bossGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/boss.png");
 
-    if (bossGraphHandle != -1) {
-        if (!isDying || (deathTimer / 5) % 2 == 0) {
-            if (invincibleTimer > 0) {
-                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (invincibleTimer % 20) * 5);
-                DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(200, 50, 255), TRUE);
-                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
-                DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(255, 150, 255), FALSE);
-                DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 107, GetColor(255, 255, 255), FALSE);
-                SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (invincibleTimer % 20) * 5);
-            }
+    if (bossGraphHandle != -1)
+    {
+        if (!isDying || (deathTimer / 5) % 2 == 0)
+        {
+            DrawInvincibility();
+            
             DrawExtendGraph(
                 static_cast<int>(position_.x - 80.0f), 
                 static_cast<int>(position_.y - 80.0f), 
@@ -307,24 +381,27 @@ void Boss::Draw() {
                 bossGraphHandle, 
                 TRUE
             );
-            if (invincibleTimer > 0) {
+            
+            if (invincibleTimer > 0)
+            {
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             }
         }
-    } else {
-        if (!isDying || (deathTimer / 5) % 2 == 0) {
+    } else
+    {
+        if (!isDying || (deathTimer / 5) % 2 == 0)
+        {
             unsigned int color_ = GetColor(255, 0, 0);
-            if (invincibleTimer > 0 && (invincibleTimer / 5) % 2 == 0) {
+            if (invincibleTimer > 0 && (invincibleTimer / 5) % 2 == 0)
+            {
                 color_ = GetColor(255, 255, 0);
             }
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 80, color_, TRUE);
         }
     }
 
-    if (isDying) {
+    if (isDying)
+    {
         DrawString(static_cast<int>(position_.x) - 150, static_cast<int>(position_.y) + 90, "I will be waiting for you in the next stage...!", GetColor(255, 100, 100));
     }
 }
-
-
-

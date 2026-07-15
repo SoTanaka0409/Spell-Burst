@@ -1,10 +1,11 @@
-﻿#pragma once
+#pragma once
 #include "Character.h"
 
 class CapsuleCollider;
 
-// 敵キャラクターのクラス（Character継承）
-class Enemy : public Character {
+// 敵キャラクターのクラス�E�Eharacter継承�E�E
+class Enemy : public Character
+{
 private:
     int enemy_type_;      
     int attack_timer_;    
@@ -24,10 +25,17 @@ public:
     virtual void TakeDamage(int damage_) override;
     virtual void Kill() override;
 
-    float GetRadius() const { 
+    float GetRadius() const
+    { 
         if (enemy_type_ == 4) return 45.0f;
         return 15.0f; 
     }
 
     virtual void OnTrigger(Collider* collider_, Collider* check) override;
+
+    void OnDeath();
+
+    void UpdateAttackPattern();
+    void DrawEnemySprite();
+    void DrawHpBar();
 };

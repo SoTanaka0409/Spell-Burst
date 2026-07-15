@@ -1,4 +1,4 @@
-ï»¿#include "Character.h"
+#include "Character.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include <algorithm>
@@ -14,51 +14,63 @@ Character::Character(Vector2 pos, int max_hp_, float speed_)
 {
 }
 
-Character::~Character() {
-    if (collider_) {
+Character::~Character()
+{
+    if (collider_)
+    {
         delete collider_;
         collider_ = nullptr;
     }
 }
 
-void Character::Update() {
-    // ã‚¹ã‚¿ãƒ³æ™‚é–“ã®æ¸›å°‘
-    if (stun_timer_ > 0) {
+void Character::Update()
+{
+    // ƒXƒ^ƒ“ŽžŠÔ‚ÌŒ¸­
+    if (stun_timer_ > 0)
+    {
         stun_timer_--;
     }
 
-    // ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™è¿½å¾“
-    if (collider_) {
+    // ƒRƒ‰ƒCƒ_[‚ÌÀ•W’Ç]
+    if (collider_)
+    {
         collider_->position_ = position_;
         collider_->position2 = position_;
     }
 }
 
-void Character::Draw() {
-    // åŸºåº•ã‚¯ãƒ©ã‚¹ã¯æç”»ã—ãªã„
+void Character::Draw()
+{
+    // Šî’êƒNƒ‰ƒX‚Í•`‰æ‚µ‚È‚¢
 }
 
-void Character::OnTrigger(Collider* collider_, Collider* check) {
-    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ï¼šæ´¾ç”Ÿå…ˆã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+void Character::OnTrigger(Collider* collider_, Collider* check)
+{
+    // ƒfƒtƒHƒ‹ƒgŽÀ‘•F”h¶æ‚ÅƒI[ƒo[ƒ‰ƒCƒh
 }
 
-void Character::Heal(int amount) {
-    // std::clampã‚’ä½¿ã£ã¦å›žå¾©å¾Œã®HPãŒ0ã€œæœ€å¤§HPã®é–“ã«åŽã¾ã‚‹ã‚ˆã†ã«åˆ¶é™
+void Character::Heal(int amount)
+{
+    // std::clamp‚ðŽg‚Á‚Ä‰ñ•œŒã‚ÌHP‚ª0?Å‘åHP‚ÌŠÔ‚ÉŽû‚Ü‚é‚æ‚¤‚É§ŒÀ
     hp_ = std::clamp(hp_ + amount, 0, max_hp_);
 }
 
-void Character::TakeDamage(int damage) {
-    // std::clampã‚’ä½¿ã£ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸å¾Œã®HPãŒ0ã€œæœ€å¤§HPã®é–“ã«åŽã¾ã‚‹ã‚ˆã†ã«åˆ¶é™
+void Character::TakeDamage(int damage)
+{
+    // std::clamp‚ðŽg‚Á‚Äƒ_ƒ[ƒWŒã‚ÌHP‚ª0?Å‘åHP‚ÌŠÔ‚ÉŽû‚Ü‚é‚æ‚¤‚É§ŒÀ
     hp_ = std::clamp(hp_ - damage, 0, max_hp_);
-    if (hp_ == 0) {
+    if (hp_ == 0)
+    {
         Kill();
     }
 }
 
-void Character::Kill() {
+void Character::Kill()
+{
     is_active_ = false;
     SetDeleteFlag(true);
-    if (collider_) {
+    if (collider_)
+    {
         collider_->SetDeleteFlag(true);
     }
 }

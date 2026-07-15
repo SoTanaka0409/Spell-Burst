@@ -6,8 +6,9 @@
 
 class CapsuleCollider;
 
-// ボスクラス（Character継承）
-class Boss : public Character {
+// ボスクラス�E�Eharacter継承�E�E
+class Boss : public Character
+{
 private:
     int bossType; 
     float targetX, targetY; 
@@ -23,7 +24,7 @@ private:
     int invincibleCycleTimer; 
 
     std::unique_ptr<BossState> state_; // Current behavior state
-    std::weak_ptr<Barrier> barrier_;   // ボス2・3体目専用バリアへの参照
+    std::weak_ptr<Barrier> barrier_;   // ボス2・3体目専用バリアへの参�E
 
 public:
     Boss(float x, float y, int bossType = 3);
@@ -40,6 +41,11 @@ public:
     float GetRadius() const { return 80.0f; }
 
     virtual void OnTrigger(Collider* collider_, Collider* check) override;
+
+    void UpdateDamage();
+    void UpdateDeath();
+    void DrawInvincibility();
+    void DrawHealthBar();
 
     // Exposed for BossState subclasses
     void ShootRadialBarrage();

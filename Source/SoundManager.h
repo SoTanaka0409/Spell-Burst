@@ -1,8 +1,9 @@
-ï»¿#pragma once
+#pragma once
 #include <string>
 #include <unordered_map>
 
-class SoundManager {
+class SoundManager
+{
 private:
     SoundManager();
     ~SoundManager();
@@ -13,22 +14,22 @@ public:
 
     static SoundManager* GetInstance();
 
-    // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ï¼ˆç„¡ã‘ã‚Œã°ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ï¼‰
+    // ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚ğæ“¾i–³‚¯‚ê‚Îƒ[ƒh‚·‚éj
     int GetSound(const std::string& path);
 
-    // BGMã®å†ç”Ÿï¼ˆãƒ«ãƒ¼ãƒ—ï¼‰
+    // BGM‚ÌÄ¶iƒ‹[ƒvj
     void PlayBGM(const std::string& path);
     
-    // SEã®å†ç”Ÿï¼ˆå˜ç™ºï¼‰
+    // SE‚ÌÄ¶i’P”­j
     void PlaySE(const std::string& path);
 
-    // BGMã®åœæ­¢
+    // BGM‚Ì’â~
     void StopBGM();
 
-    // ã™ã¹ã¦ã®éŸ³ã‚’åœæ­¢
+    // ‚·‚×‚Ä‚Ì‰¹‚ğ’â~
     void StopAll();
 
-    // ã™ã¹ã¦ã®éŸ³ã®ãƒ¡ãƒ¢ãƒªè§£æ”¾
+    // ‚·‚×‚Ä‚Ì‰¹‚Ìƒƒ‚ƒŠ‰ğ•ú
     void ClearAll();
 
 private:

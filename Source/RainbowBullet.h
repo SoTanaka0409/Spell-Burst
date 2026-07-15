@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class RainbowBullet : public Projectile {
+class RainbowBullet : public Projectile
+{
 private:
     int color_hue_;
 

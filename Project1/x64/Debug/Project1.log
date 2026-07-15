@@ -1,108 +1,48 @@
-﻿  Boss.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Boss.cpp' をコンパイルしています)
-  
+﻿  Barrier.cpp
+  Boss.cpp
+  Bullet.cpp
+  BulletManager.cpp
+  CapsuleCollider.cpp
+  Collider.cpp
+  SphereCollider.cpp
+  ColliderManager.cpp
   Enemy.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Enemy.cpp' をコンパイルしています)
-  
   EnemyBullet.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/EnemyBullet.cpp' をコンパイルしています)
-  
   EnemyManager.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/EnemyManager.cpp' をコンパイルしています)
-  
+  ExplosionParticle.cpp
   GameScene.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/GameScene.cpp' をコンパイルしています)
-  
   HUD.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/HUD.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/HUD.cpp' をコンパイルしています)
-  
+  BossStateAttack.cpp
+  InputAction.cpp
+  InputManager.cpp
+  Main.cpp
   MasterSpark.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/MasterSpark.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/MasterSpark.cpp' をコンパイルしています)
-  
-  Obstacle.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Obstacle.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Obstacle.cpp' をコンパイルしています)
-  
-  Player.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/Player.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(58,5): error C2065: 'level_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(59,5): error C2065: 'xp_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(164,5): error C2065: 'xp_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(174,12): error C2065: 'xp_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(175,9): error C2065: 'xp_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(176,9): error C2065: 'level_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(178,22): error C2065: 'level_': 定義されていない識別子です。
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.cpp(218,26): error C2065: 'level_': 定義されていない識別子です。
-  RainbowBullet.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/RainbowBullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/RainbowBullet.cpp' をコンパイルしています)
-  
-  ResultScene.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/ResultScene.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/ResultScene.cpp' をコンパイルしています)
-  
-  SpellCardBullet.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/SpellCardBullet.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/SpellCardBullet.cpp' をコンパイルしています)
-  
-  StageSelectScene.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/StageSelectScene.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/StageSelectScene.cpp' をコンパイルしています)
-  
-  TitleScene.cpp
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(51,35): error C2065: 'level_': 定義されていない識別子です。
-  (ソース ファイル 'Source/TitleScene.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\Player.h(52,32): error C2065: 'xp_': 定義されていない識別子です。
-  (ソース ファイル 'Source/TitleScene.cpp' をコンパイルしています)
-  
-C:\Users\Admin\Desktop\progtram\AiGame_net\Source\TitleScene.cpp(93,28): warning C4566: ユニバーサル文字名 '\uFFFD' によって表示されている文字は、現在のコード ページ (932) で表示できません
+  MeleeAttack.cpp
   コードを生成中...
+  コンパイル中...
+  Object2D.cpp
+  Character.cpp
+  Projectile.cpp
+  ObjectManager.cpp
+  Obstacle.cpp
+  Player.cpp
+  PlayerHomingBullet.cpp
+  PlayerSpellParticle.cpp
+  RainbowBullet.cpp
+  RainbowWaveManager.cpp
+  ResourceManager.cpp
+  ResultScene.cpp
+  Scene.cpp
+  SceneManager.cpp
+  SpecialBullet.cpp
+  SpellCardBullet.cpp
+  StageSelectScene.cpp
+  RuleScene.cpp
+C:\Users\Admin\Desktop\progtram\AiGame_net\Source\RuleScene.cpp(111,9): warning C4129: '0xe3': 認識できない文字エスケープ シーケンスです
+  TitleScene.cpp
+  Vector2.cpp
+  コードを生成中...
+  コンパイル中...
+  SoundManager.cpp
+  コードを生成中...
+  Project1.vcxproj -> C:\Users\Admin\Desktop\progtram\AiGame_net\x64\Debug\Project1.exe

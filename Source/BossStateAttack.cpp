@@ -1,4 +1,4 @@
-﻿// BossStateAttack.cpp
+// BossStateAttack.cpp
 #include "BossStateAttack.h"
 #include "Boss.h"
 #ifndef NOMINMAX
@@ -18,7 +18,8 @@
 void BossStateSimple::Update(Boss* boss)
 {
     attack_timer_++;
-    if (attack_timer_ >= 60) {
+    if (attack_timer_ >= 60)
+    {
         attack_timer_ = 0;
         boss->ShootSimpleBarrage();
     }
@@ -30,7 +31,8 @@ void BossStateSimple::Update(Boss* boss)
 void BossStateBouncing::Update(Boss* boss)
 {
     attack_timer_++;
-    if (attack_timer_ >= 120) {
+    if (attack_timer_ >= 120)
+    {
         attack_timer_ = 0;
         boss->ShootBouncingBarrage();
     }
@@ -42,11 +44,13 @@ void BossStateBouncing::Update(Boss* boss)
 void BossStateFinal::Update(Boss* boss)
 {
     // Invincibility cycle: periodically summon minions and go invincible
-    if (invincible_timer_ > 0) {
+    if (invincible_timer_ > 0)
+    {
         invincible_timer_--;
     }
     invincible_cycle_timer_++;
-    if (invincible_cycle_timer_ >= 300) {
+    if (invincible_cycle_timer_ >= 300)
+    {
         invincible_timer_ = 120;
         invincible_cycle_timer_ = 0;
         ObjectManager::Instantiate<Enemy>(boss->GetX() - 60.0f, boss->GetY() + 60.0f, 1);
@@ -54,23 +58,30 @@ void BossStateFinal::Update(Boss* boss)
     }
 
     attack_timer_++;
-    if (attack_timer_ >= 100) {
+    if (attack_timer_ >= 100)
+    {
         attack_timer_ = 0;
 
         bool used_spell_card = false;
-        if (GameScene::currentStage == 3) {
-            if ((rand() % 100) < 20) {
+        if (GameScene::currentStage == 3)
+        {
+            if ((rand() % 100) < 20)
+            {
                 boss->ShootSpellCardBarrage();
                 used_spell_card = true;
             }
         }
 
-        if (!used_spell_card) {
-            if (pattern_index_ == 0) {
+        if (!used_spell_card)
+        {
+            if (pattern_index_ == 0)
+            {
                 boss->ShootRadialBarrage();
-            } else if (pattern_index_ == 1) {
+            } else if (pattern_index_ == 1)
+            {
                 boss->ShootFanBarrage();
-            } else {
+            } else
+            {
                 boss->ShootTargetedBarrage();
             }
             pattern_index_ = (pattern_index_ + 1) % 3;
@@ -84,7 +95,8 @@ void BossStateFinal::Update(Boss* boss)
 void BossStateDying::Update(Boss* boss)
 {
     death_timer_--;
-    if (death_timer_ <= 0) {
+    if (death_timer_ <= 0)
+    {
         boss->Kill();
     }
 }

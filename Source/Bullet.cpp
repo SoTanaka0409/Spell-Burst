@@ -13,7 +13,7 @@ Bullet::Bullet(float x, float y, int damage_)
 {
     SetTag(kTag2dPlayerBullet);
     recivedDamage = 0;
-    maxrecivedDamage = 20; // ダメージを受けてから3回で技を出す
+    maxrecivedDamage = 20; // ダメージを受けてから3回で技を�EぁE
     // Create a circular collider_ with radius_ 10 (previously 5)
     collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
 }
@@ -22,15 +22,16 @@ Bullet::~Bullet()
 {
 }
 
-// 毎フレーム呼ばれる更新処理
-// 弾を上方向に移動させ、画面外に出たら削除フラグを立てます
+// 毎フレーム呼ばれる更新処琁E
+// 弾を上方向に移動させ、画面外に出たら削除フラグを立てまぁE
 void Bullet::Update() 
 {
     position_ += dir * (speed_ * Utility::TimeScale);
 
     Projectile::Update();
 
-    if (IsOutOfBounds()) {
+    if (IsOutOfBounds())
+    {
         Kill();
     }
 }
@@ -50,7 +51,8 @@ void Bullet::OnTrigger(Collider* collider_, Collider* check)
         if (check->GetParentObject()->GetTag() == kTag2dEnemy)
         {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
+            if (enemy != nullptr)
+            {
                 enemy->TakeDamage(damage_);
             }
             Kill();
@@ -58,8 +60,8 @@ void Bullet::OnTrigger(Collider* collider_, Collider* check)
     }
 }
 
-// 描画処理
-// 弾の画像を描画します
+// 描画処琁E
+// 弾の画像を描画しまぁE
 void Bullet::Draw()
 {
     if (!is_active_) return;

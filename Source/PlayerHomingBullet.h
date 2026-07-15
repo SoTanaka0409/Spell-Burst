@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class PlayerHomingBullet : public Projectile {
+class PlayerHomingBullet : public Projectile
+{
 private:
     int life_timer_;
 

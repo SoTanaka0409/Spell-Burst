@@ -23,25 +23,32 @@ Barrier::Barrier(float x, float y, float radius_, Object2D::Tag2D obj)
     hit_count = 0;
 }
 
-Barrier::~Barrier() {
-    if (collider_) {
+Barrier::~Barrier()
+{
+    if (collider_)
+    {
         delete collider_;
         collider_ = nullptr;
     }
 }
 
-void Barrier::Update() {
+void Barrier::Update()
+{
     timer += 1.0f * Utility::TimeScale;
 
-    if (!isDeployed) {
-        if (timer >= deployInterval) {
+    if (!isDeployed)
+    {
+        if (timer >= deployInterval)
+        {
             isDeployed = true;
             SoundManager::GetInstance()->PlaySE("Resource/se_barrier.wav");
             timer = 0.0f;
             collider_ = new CapsuleCollider(this, position_, position_, radius_);
         }
-    } else {
-        if (timer >= activeDuration) {
+    } else
+    {
+        if (timer >= activeDuration)
+        {
             isDeployed = false;
             timer = 0.0f;
            
@@ -50,25 +57,30 @@ void Barrier::Update() {
                 collider_->position_ = position_;
                 collider_->position2 = position_;
             }
-            if (collider_) {
+            if (collider_)
+            {
                 collider_->SetDeleteFlag(true);
                 collider_ = nullptr;
             }
         }
     }
 
-    if (collider_) {
+    if (collider_)
+    {
         collider_->position_ = position_;
         collider_->position2 = position_;
     }
 }
 
-void Barrier::Draw() {
-    if (isDeployed) {
+void Barrier::Draw()
+{
+    if (isDeployed)
+    {
         int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
         
-        if (GetTag() == kTag2dBarrierEnemy) {
-            // 敵バリア：赤〜オレンジのシールド
+        if (GetTag() == kTag2dBarrierEnemy)
+        {
+            // 敵バリア�E�赤〜オレンジのシールチE
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(150, 20, 0), TRUE);
             
@@ -76,8 +88,9 @@ void Barrier::Draw() {
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 80, 0), FALSE);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 2, GetColor(255, 200, 0), FALSE);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 2, GetColor(255, 200, 0), FALSE);
-        } else {
-            // プレイヤーバリア：青〜シアン
+        } else
+        {
+            // プレイヤーバリア�E�青〜シアン
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
             DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
             
@@ -91,22 +104,27 @@ void Barrier::Draw() {
     }
 }
 
-void Barrier::OnTrigger(Collider* collider_, Collider* check) {
+void Barrier::OnTrigger(Collider* collider_, Collider* check)
+{
     if (!isDeployed) return;
 
-    if (check != nullptr && check->GetParentObject() != nullptr) {
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
         auto tag_ = check->GetParentObject()->GetTag();
         if (this->GetTag() == kTag2dBarrierPlayer && tag_ == kTag2dEnemyBullet)
         {
             check->GetParentObject()->SetDeleteFlag(true);
             hit_count++;
-            if (hit_count >= 30) {
+            if (hit_count >= 30)
+            {
                 hit_count = 0;
                 SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 float baseSpeed = 10.0f;
-                for (int dir = 0; dir < 4; ++dir) {
+                for (int dir = 0; dir < 4; ++dir)
+                {
                     float baseAngle = dir * (3.14159265f / 2.0f);
-                    for (int i = 0; i < 10; ++i) {
+                    for (int i = 0; i < 10; ++i)
+                    {
                         float spread = (i - 4.5f) * 0.1f; 
                         float angle = baseAngle + spread;
                         
@@ -116,7 +134,8 @@ void Barrier::OnTrigger(Collider* collider_, Collider* check) {
                 }
             }
         }
-        else if (GetTag() == kTag2dBarrierEnemy && tag_ == kTag2dPlayerBullet) {
+        else if (GetTag() == kTag2dBarrierEnemy && tag_ == kTag2dPlayerBullet)
+        {
             check->GetParentObject()->SetDeleteFlag(true);
         }
        

@@ -25,44 +25,54 @@ SpellCardBullet::SpellCardBullet(float x, float y)
     burst_timer_ = 0;
 }
 
-SpellCardBullet::~SpellCardBullet() {
+SpellCardBullet::~SpellCardBullet()
+{
 }
 
-void SpellCardBullet::Update() {
+void SpellCardBullet::Update()
+{
     if (!is_active_) return;
 
     life_timer_++;
 
-    if (state_ == 0) {
+    if (state_ == 0)
+    {
         position_ += dir * (speed_ * Utility::TimeScale);
 
-        if (collider_) {
+        if (collider_)
+        {
             collider_->position_ = position_;
             collider_->position2 = position_;
         }
 
-        if (position_.y <= Utility::SCREEN_HEIGHT / 2.0f) {
-            state_ = 1; // 真ん中まで進んだら停止して発射モードへ
+        if (position_.y <= Utility::SCREEN_HEIGHT / 2.0f)
+        {
+            state_ = 1; // 真ん中まで進んだら停止して発封E��ードへ
         }
 
-        if (IsOutOfBounds()) {
+        if (IsOutOfBounds())
+        {
             Kill();
         }
-    } else if (state_ == 1) {
-        // 発射モード：停止し、1秒(60フレーム)ごとに8方向へ発射
+    } else if (state_ == 1)
+    {
+        // 発封E��ード：停止し、E私E60フレーム)ごとに8方向へ発封E
         burst_timer_++;
-        if (burst_timer_ >= 60) {
+        if (burst_timer_ >= 60)
+        {
             burst_timer_ = 0;
             Explode();
             burst_count_++;
-            if (burst_count_ >= 5) {
+            if (burst_count_ >= 5)
+            {
                 Kill();
             }
         }
     }
 }
 
-void SpellCardBullet::Draw() {
+void SpellCardBullet::Draw()
+{
     if (!is_active_) return;
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
@@ -72,30 +82,38 @@ void SpellCardBullet::Draw() {
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void SpellCardBullet::OnTrigger(Collider* collider_, Collider* check) {
-    if(check!=nullptr&&check->GetParentObject() != nullptr) {
+void SpellCardBullet::OnTrigger(Collider* collider_, Collider* check)
+{
+    if(check!=nullptr&&check->GetParentObject() != nullptr)
+    {
         if (check->GetParentObject()->GetTag() == kTag2dBarrierEnemy)
         {
             Kill();
             return;
 		}
 	}
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
-            if (state_ == 0) {
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+        {
+            if (state_ == 0)
+            {
                 Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-                if (enemy != nullptr) {
+                if (enemy != nullptr)
+                {
                     enemy->TakeDamage(damage_);
                 }
-                state_ = 1; // 敵に当たったら停止して発射モードへ移行
+                state_ = 1; // 敵に当たったら停止して発封E��ードへ移衁E
             }
         }
     }
 }
 
-void SpellCardBullet::Explode() {
-    // 16方向に発射
-    for (int i = 0; i < 16; i++) {
+void SpellCardBullet::Explode()
+{
+    // 16方向に発封E
+    for (int i = 0; i < 16; i++)
+    {
         float angle = i * 2.0f * 3.14159265f / 16.0f;
         Vector2 d(cos(angle), sin(angle));
         ObjectManager::Instantiate<PlayerSpellParticle>(position_, d, 6.0f);

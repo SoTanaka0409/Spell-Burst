@@ -1,4 +1,4 @@
-ï»¿#include "Projectile.h"
+#include "Projectile.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
@@ -14,39 +14,49 @@ Projectile::Projectile(Vector2 pos, Vector2 dir, float speed_, int damage_)
     position_ = pos;
 }
 
-Projectile::~Projectile() {
-    if (collider_) {
+Projectile::~Projectile()
+{
+    if (collider_)
+    {
         delete collider_;
         collider_ = nullptr;
     }
 }
 
-void Projectile::Update() {
-    if (collider_) {
+void Projectile::Update()
+{
+    if (collider_)
+    {
         collider_->position_ = position_;
         collider_->position2 = position_;
     }
 }
 
-void Projectile::Draw() {
-    // åŸºåº•ã‚¯ãƒ©ã‚¹ã¯æç”»ã—ãªã„
+void Projectile::Draw()
+{
+    // Šî’êƒNƒ‰ƒX‚Í•`‰æ‚µ‚È‚¢
 }
 
-void Projectile::OnTrigger(Collider* collider_, Collider* check) {
-    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ï¼šæ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
+void Projectile::OnTrigger(Collider* collider_, Collider* check)
+{
+    // ƒfƒtƒHƒ‹ƒgŽÀ‘•F”h¶ƒNƒ‰ƒX‚ÅƒI[ƒo[ƒ‰ƒCƒh
 }
 
-void Projectile::Kill() {
+void Projectile::Kill()
+{
     is_active_ = false;
     SetDeleteFlag(true);
-    if (collider_) {
+    if (collider_)
+    {
         collider_->SetDeleteFlag(true);
     }
 }
 
-bool Projectile::IsOutOfBounds(float margin) const {
+bool Projectile::IsOutOfBounds(float margin) const
+{
     if (position_.x < -margin || position_.x > Utility::SCREEN_WIDTH + margin ||
-        position_.y < -margin || position_.y > Utility::SCREEN_HEIGHT + margin) {
+        position_.y < -margin || position_.y > Utility::SCREEN_HEIGHT + margin)
+        {
         return true;
     }
     return false;

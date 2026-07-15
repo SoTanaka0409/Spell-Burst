@@ -1,4 +1,4 @@
-ï»¿#include "Obstacle.h"
+#include "Obstacle.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
@@ -20,36 +20,44 @@ Obstacle::Obstacle(float x, float y)
     , collider_(nullptr)
     , fall_speed_(3.0f)
 {
-    SetTag(kTag2dEnemy); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã‚„ä½“å½“ãŸã‚Šåˆ¤å®šã®å¯¾è±¡ã¨ã™ã‚‹ãŸã‚ä¾¿å®œä¸Šæ•µã‚¿ã‚°ã‚’ä»˜ä¸Ž
+    SetTag(kTag2dEnemy); // ƒvƒŒƒCƒ„[‚Ì’e‚â‘Ì“–‚½‚è”»’è‚Ì‘ÎÛ‚Æ‚·‚é‚½‚ß•Ö‹Xã“Gƒ^ƒO‚ð•t—^
     collider_ = new CapsuleCollider(this, position_, position_, 40.0f);
 }
 
-Obstacle::~Obstacle() {
-    if (collider_) {
+Obstacle::~Obstacle()
+{
+    if (collider_)
+    {
         delete collider_;
         collider_ = nullptr;
     }
 }
 
-void Obstacle::Update() {
+void Obstacle::Update()
+{
     position_.y += fall_speed_ * Utility::TimeScale;
     
-    if (collider_) {
+    if (collider_)
+    {
         collider_->position_ = position_;
         collider_->position2 = position_;
     }
 
-    if (position_.y > Utility::SCREEN_HEIGHT + 100.0f) {
+    if (position_.y > Utility::SCREEN_HEIGHT + 100.0f)
+    {
         SetDeleteFlag(true);
-        if (collider_) {
+        if (collider_)
+        {
             collider_->SetDeleteFlag(true);
         }
     }
 }
 
-void Obstacle::Draw() {
+void Obstacle::Draw()
+{
     int graph = ResourceManager::GetInstance()->GetGraph("Resource/rock.png");
-    if (graph != -1) {
+    if (graph != -1)
+    {
         DrawExtendGraph(
             static_cast<int>(position_.x - 45.0f),
             static_cast<int>(position_.y - 45.0f),
@@ -57,41 +65,51 @@ void Obstacle::Draw() {
             static_cast<int>(position_.y + 45.0f),
             graph, TRUE
         );
-    } else {
+    } else
+    {
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 40, GetColor(100, 100, 100), TRUE);
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 38, GetColor(80, 80, 80), TRUE);
     }
 }
 
-void Obstacle::OnTrigger(Collider* collider_, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
+void Obstacle::OnTrigger(Collider* collider_, Collider* check)
+{
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
         Object2D* parent = check->GetParentObject();
-        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨è¡çªã—ãŸå ´åˆã®å‡¦ç†ï¼ˆç‰¹æ®Šå¼¾ã‹ã©ã†ã‹ã§åˆ†å²ï¼‰
-        if (parent->GetTag() == kTag2dPlayerBullet) {
+        // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚ÆÕ“Ë‚µ‚½ê‡‚Ìˆ—i“ÁŽê’e‚©‚Ç‚¤‚©‚Å•ªŠòj
+        if (parent->GetTag() == kTag2dPlayerBullet)
+        {
             bool isSpecial = false;
             if (dynamic_cast<MasterSpark*>(parent) != nullptr ||
                 dynamic_cast<RainbowBullet*>(parent) != nullptr ||
                 dynamic_cast<SpellCardBullet*>(parent) != nullptr ||
-                dynamic_cast<SpecialBullet*>(parent) != nullptr) {
+                dynamic_cast<SpecialBullet*>(parent) != nullptr)
+                {
                 isSpecial = true;
             }
 
-            if (isSpecial) {
+            if (isSpecial)
+            {
                 this->SetDeleteFlag(true);
                 if (collider_) collider_->SetDeleteFlag(true);
                 SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     ObjectManager::Instantiate<ExplosionParticle>(position_.x, position_.y, 2.0f, static_cast<float>(rand() % 360) * 3.14159f / 180.0f, GetColor(150, 150, 150), 30, 10.0f);
                 }
-            } else {
+            } else
+            {
                 parent->SetDeleteFlag(true);
                 check->SetDeleteFlag(true);
             }
         }
-        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è‡ªèº«ãŒéšœå®³ç‰©ã«è¡çªã—ãŸå ´åˆã€å›žé¿ãƒšãƒŠãƒ«ãƒ†ã‚£ã¨ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸Žãˆã‚‹
-        if (parent->GetTag() == kTag2dPlayer) {
+        // ƒvƒŒƒCƒ„[Ž©g‚ªáŠQ•¨‚ÉÕ“Ë‚µ‚½ê‡A‰ñ”ðƒyƒiƒ‹ƒeƒB‚Æ‚µ‚Äƒ_ƒ[ƒW‚ð—^‚¦‚é
+        if (parent->GetTag() == kTag2dPlayer)
+        {
             Player* p = dynamic_cast<Player*>(parent);
-            if (p) {
+            if (p)
+            {
                 p->TakeDamage(2);
             }
         }

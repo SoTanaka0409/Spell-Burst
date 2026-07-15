@@ -1,4 +1,4 @@
-ï»¿#include "SpecialBullet.h"
+#include "SpecialBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -11,28 +11,32 @@
 SpecialBullet::SpecialBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 5)
 {
-    SetTag(kTag2dPlayerBullet); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨ã—ã¦åˆ¤å®šã•ã›ã‚‹ãŸã‚ã®ã‚¿ã‚°è¨­å®š
+    SetTag(kTag2dPlayerBullet); // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚Æ‚µ‚Ä”»’è‚³‚¹‚é‚½‚ß‚Ìƒ^ƒOİ’è
     collider_ = new CapsuleCollider(this, position_, position_, 90.0f);
 }
 
-SpecialBullet::~SpecialBullet() {
+SpecialBullet::~SpecialBullet()
+{
 }
 
-// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹æ›´æ–°å‡¦ç†
-// å¿…æ®ºæŠ€ã®å¼¾ã‚’ä¸Šæ–¹å‘ã«ç§»å‹•ã•ã›ã€ç”»é¢å¤–ã«å‡ºãŸã‚‰å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¾ã™
-void SpecialBullet::Update() {
+// –ˆƒtƒŒ[ƒ€ŒÄ‚Î‚ê‚éXVˆ—
+// •KE‹Z‚Ì’e‚ğã•ûŒü‚ÉˆÚ“®‚³‚¹A‰æ–ÊŠO‚Éo‚½‚çíœƒtƒ‰ƒO‚ğ—§‚Ä‚Ü‚·
+void SpecialBullet::Update()
+{
     position_ += dir * (speed_ * Utility::TimeScale);
 
     Projectile::Update();
 
-    if (position_.y < -120.0f) {
-        Projectile::Kill(); // ç”»é¢å¤–ãªã‚‰æœ¬å½“ã«æ¶ˆã™
+    if (position_.y < -120.0f)
+    {
+        Projectile::Kill(); // ‰æ–ÊŠO‚È‚ç–{“–‚ÉÁ‚·
     }
 }
 
-// æç”»å‡¦ç†
-// å¿…æ®ºæŠ€ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆï¼ˆå¤§ããªå…‰å¼¾ãªã©ï¼‰ã‚’æç”»ã—ã¾ã™
-void SpecialBullet::Draw() {
+// •`‰æˆ—
+// •KE‹Z‚ÌƒGƒtƒFƒNƒgi‘å‚«‚ÈŒõ’e‚È‚Çj‚ğ•`‰æ‚µ‚Ü‚·
+void SpecialBullet::Draw()
+{
     if (!is_active_) return;
 
     unsigned int colorGold = GetColor(255, 215, 0);
@@ -47,18 +51,24 @@ void SpecialBullet::Draw() {
     DrawLine(static_cast<int>(position_.x), static_cast<int>(position_.y - 90), static_cast<int>(position_.x), static_cast<int>(position_.y + 90), colorGold);
 }
 
-void SpecialBullet::Kill() {
-    // æ•µã‚’è²«é€šã—ã¦ä¸€ç¶²æ‰“å°½ã«ã™ã‚‹ä»•æ§˜ã¨ã™ã‚‹ãŸã‚ã€è¡çªæ™‚ã®æ¶ˆæ»…å‡¦ç†ã‚’è¡Œã‚ãªã„ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ç„¡åŠ¹åŒ–ï¼‰
+void SpecialBullet::Kill()
+{
+    // “G‚ğŠÑ’Ê‚µ‚Äˆê–Ô‘Ås‚É‚·‚éd—l‚Æ‚·‚é‚½‚ßAÕ“Ë‚ÌÁ–Åˆ—‚ğs‚í‚È‚¢iƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä–³Œø‰»j
 }
 
-void SpecialBullet::OnTrigger(Collider* collider_, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == kTag2dEnemy) {
+void SpecialBullet::OnTrigger(Collider* collider_, Collider* check)
+{
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+        {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
+            if (enemy != nullptr)
+            {
                 enemy->TakeDamage(damage_);
             }
-        } else if (check->GetParentObject()->GetTag() == kTag2dEnemyBullet) {
+        } else if (check->GetParentObject()->GetTag() == kTag2dEnemyBullet)
+        {
             check->GetParentObject()->SetDeleteFlag(true);
         }
     }

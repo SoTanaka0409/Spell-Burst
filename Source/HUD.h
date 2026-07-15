@@ -1,32 +1,38 @@
-ï»¿#pragma once
+#pragma once
 
 class Player;
 class Boss;
 class EnemyManager;
 
-// UIï¿½ï¿½ï¿½Ì•`ï¿½ï¿½Ç—ï¿½ï¿½Nï¿½ï¿½ï¿½X
-// HUDï¿½vï¿½fï¿½ÌƒAï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½O)ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ßAï¿½Ã“Iï¿½Ïï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½ï¿½
-class HUD {
+// UIE½E½E½Ì•`E½E½Ç—ï¿½E½NE½E½E½X
+// HUDE½vE½fE½ÌƒAE½jE½E½E½[E½VE½E½E½E½E½E½E½(E½CE½[E½WE½E½E½O)E½E½sE½E½E½E½E½ßAE½Ã“IE½Ïï¿½E½E½Ûï¿½E½E½E½E½
+class HUD
+{
 public:
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½pï¿½Ïï¿½ï¿½È‚Ç‚ÌÃ“Iï¿½ï¿½Ô‚ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] E½È‚ï¿½
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½CE½[E½WE½E½E½OE½pE½Ïï¿½E½È‚Ç‚ÌÃ“IE½E½Ô‚ï¿½E½E½ZE½bE½gE½E½E½E½
     static void Initialize();
 
-    // [ï¿½ï¿½ï¿½ï¿½] player: ï¿½ï¿½ï¿½@, enemy_manager_: ï¿½Gï¿½Ç—ï¿½, boss: ï¿½{ï¿½X
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½ï¿½İ‚ï¿½HPï¿½ï¿½ï¿½ÉŠï¿½Ã‚ï¿½ï¿½Aï¿½\ï¿½ï¿½ï¿½pï¿½Ì•ï¿½Ô”ä—¦ï¿½iï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½jï¿½ï¿½vï¿½Zï¿½Eï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
+    // [E½E½E½E½] player: E½E½E½@, enemy_manager_: E½GE½Ç—ï¿½, boss: E½{E½X
+    // [E½oE½E½] E½È‚ï¿½
+    // [E½E½E½E½p] E½E½E½İ‚ï¿½HPE½E½E½ÉŠï¿½Ã‚ï¿½E½AE½\E½E½E½pE½Ì•ï¿½Ô”ä—¦E½iE½CE½[E½WE½E½E½OE½jE½E½vE½ZE½EE½XE½VE½E½E½E½
     static void Update(Player* player, EnemyManager* enemy_manager_, Boss* boss);
 
-    // [ï¿½ï¿½ï¿½ï¿½] player, enemy_manager_, boss, cutin_timer_: ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½, cutin_image_handle_: ï¿½ï¿½ï¿½oï¿½æ‘œ
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½ï¿½Êï¿½ÌÅ‘Oï¿½Ê‚ÉŠeUIï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½iï¿½Qï¿½[ï¿½Wï¿½Aï¿½Jï¿½bï¿½gï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
+    // [] player, enemy_manager_, boss, cutin_timer_: o, cutin_image_handle_: oæ‘E
+    // [o] ÈE
+    // [p] ÊÌÅ‘OÊ‚ÉŠeUIR|[lgiQ[WAJbgCj`æ‚·
     static void Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cutin_timer_, int cutin_image_handle_);
 
 private:
-    static float displayHpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ï¿½HPï¿½\ï¿½ï¿½ï¿½ä—¦
-    static float displayXpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ÌŒoï¿½ï¿½ï¿½lï¿½\ï¿½ï¿½ï¿½ä—¦
-    static float displaySpellRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½ÌƒXï¿½yï¿½ï¿½ï¿½Qï¿½[ï¿½Wï¿½\ï¿½ï¿½ï¿½ä—¦
-    static float displayBarrierRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½Ìƒoï¿½ï¿½ï¿½Aï¿½Qï¿½[ï¿½Wï¿½\ï¿½ï¿½ï¿½ä—¦
-    static float bossHpRatio; // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô—pï¿½Ìƒ{ï¿½XHPï¿½\ï¿½ï¿½ï¿½ä—¦
+    static float displayHpRatio; // Aj[VÔ—pHP\ä—¦
+    static float displayXpRatio; // Aj[VÔ—pÌŒol\ä—¦
+    static float displaySpellRatio; // Aj[VÔ—pÌƒXyQ[W\ä—¦
+    static float displayBarrierRatio; // Aj[VÔ—pÌƒoAQ[W\ä—¦
+    static float bossHpRatio; // Aj[VÔ—pÌƒ{XHP\ä—¦
+
+    static void DrawPlayerStatus(Player* player);
+    static void DrawBossStatus(Boss* boss);
+    static void DrawEnemyProgress(EnemyManager* enemy_manager_);
+    static void DrawCutin(int cutin_timer_, int cutin_image_handle_);
 };

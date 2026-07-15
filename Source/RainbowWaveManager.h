@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include "Object2D.h"
 
-class RainbowWaveManager : public Object2D {
+class RainbowWaveManager : public Object2D
+{
 private:
     int life_timer_;
     int spawn_interval_;

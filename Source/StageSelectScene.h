@@ -1,29 +1,22 @@
-﻿#pragma once
+#pragma once
 #include "Scene.h"
 
-// �L�����N�^�[�I�����ѓ�Փx�i�X�e�[�W�j�I���Ǘ�����V�[���N���X
-class StageSelectScene : public Scene {
+class StageSelectScene : public Scene
+{
 public:
-    // [����] �Ȃ�
-    // [�o��] �Ȃ�
-    // [����p] �I��UI�摜�Ȃǂ�ǂݍ���
     void Initialize() override;
-
-    // [����] �Ȃ�
-    // [�o��] �Ȃ�
-    // [����p] ���L�[���͂őI����ڂ�X�V���A����(Z)�Ńt�F�[�Y�i�s��Q�[���J�n(GameScene�J��)��s��
     void Update() override;
-
-    // [����] �Ȃ�
-    // [�o��] �Ȃ�
-    // [����p] ���݂̃t�F�[�Y(�L�����I��/��Փx�I��)�ɉ��������j���[��ʂ�`�悷��
     void Draw() override;
-
-    // [����] �Ȃ�
-    // [�o��] �Ȃ�
-    // [����p] �ǂݍ��񂾉摜���\�[�X��j������
     void Finalize() override;
+
 private:
+    void UpdateCharacterSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy);
+    void UpdateStageSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy);
+
+    void DrawCharacterSelect(int cx, int cy, int mouseX, int mouseY, int font24, int subFont);
+    void DrawStageSelect(int cx, int cy, int mouseX, int mouseY, int font24, int titleFont);
+    void DrawButton(int x, int y, int w, int h, const char* text, bool hover, int color_, int font24);
+
     int phase_; // 0: Character, 1: Stage
     int ui_button_graph_;
     int wait_count_;
