@@ -1,20 +1,38 @@
-ï»¿#pragma once
+#pragma once
 #include <map>
 #include <string>
 
 class ResourceManager
 {
 private:
-    std::map<std::string, int> graphMap;
-    std::map<std::pair<int, int>, int> fontMap;
+    std::map<std::string, int> graph_map_;
+    std::map<std::pair<int, int>, int> font_map_;
 
 public:
     ResourceManager();
     ~ResourceManager();
     static ResourceManager* GetInstance();
 
+    /*
+     * ‰æ‘œ‚ÌƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éiƒLƒƒƒbƒVƒ…‚É‚È‚¯‚ê‚Îƒ[ƒh‚·‚éjB
+     * [“ü—Í] path: ‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒpƒX
+     * [o—Í] ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹
+     * [•›ì—p] ƒƒ‚ƒŠ‚É‰æ‘œƒf[ƒ^‚ªƒ[ƒh‚³‚êAƒ}ƒbƒv‚É“o˜^‚³‚ê‚é
+     */
     int GetGraph(const std::string& path);
-    int GetFont(int size_, int thickness);
+    /*
+     * w’è‚³‚ê‚½ƒTƒCƒY‚Æ‘¾‚³‚ÌƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚éi‚È‚¯‚ê‚Îì¬‚·‚éjB
+     * [“ü—Í] size: ƒtƒHƒ“ƒg‚ÌƒTƒCƒY, thickness: ƒtƒHƒ“ƒg‚Ì‘¾‚³
+     * [o—Í] ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+     * [•›ì—p] V‚µ‚¢ƒtƒHƒ“ƒg‚ªì¬‚³‚êAƒ}ƒbƒv‚É“o˜^‚³‚ê‚é
+     */
+    int GetFont(int size, int thickness);
 
+    /*
+     * ƒ[ƒhÏ‚İ‚Ì‚·‚×‚Ä‚Ì‰æ‘œEƒtƒHƒ“ƒgƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‚·‚×‚Ä‚Ìƒnƒ“ƒhƒ‹‚ªíœ‚³‚êAƒ}ƒbƒv‚ª‹ó‚É‚È‚é
+     */
     void ClearAll();
 };

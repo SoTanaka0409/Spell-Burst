@@ -1,4 +1,4 @@
-﻿#include "SceneManager.h"
+#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -13,10 +13,10 @@
 std::unique_ptr<SceneManager> Master::sceneManager = nullptr;
 
 SceneManager::SceneManager()
-	: scene_type_(SCENE_TYPE::SCENE_NONE)
-	, next_scene_type_(SCENE_TYPE::SCENE_NONE)
-	, kSceneHard(false)
-	, kSceneNormal(false)
+	: scene_type_(SceneType::kSceneNone)
+	, next_scene_type_(SceneType::kSceneNone)
+	, is_scene_hard_(false)
+	, is_scene_normal_(false)
 {
 }
 
@@ -30,7 +30,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::Initialize()
 {
-	next_scene_type_ = SCENE_TYPE::SCENE_TITLE;
+	next_scene_type_ = SceneType::kSceneTitle;
 	ChangeSceneIfNeeded();
 }
 
@@ -77,19 +77,19 @@ void SceneManager::ChangeSceneIfNeeded()
 	scene_type_ = next_scene_type_;
 	switch (scene_type_)
 	{
-	case SCENE_TYPE::SCENE_TITLE:
+	case SceneType::kSceneTitle:
 		current_scene_ = std::make_unique<TitleScene>();
 		break;
-	case SCENE_TYPE::SCENE_LEVEL:
+	case SceneType::kSceneLevel:
 		current_scene_ = std::make_unique<StageSelectScene>();
 		break;
-	case SCENE_TYPE::SCENE_GAME:
+	case SceneType::kSceneGame:
 		current_scene_ = std::make_unique<GameScene>();
 		break;
-	case SCENE_TYPE::SCENE_RESULT:
+	case SceneType::kSceneResult:
 		current_scene_ = std::make_unique<ResultScene>();
 		break;
-	case SCENE_TYPE::SCENE_RULE:
+	case SceneType::kSceneRule:
 		current_scene_ = std::make_unique<RuleScene>();
 		break;
 	default:

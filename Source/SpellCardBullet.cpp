@@ -37,15 +37,15 @@ void SpellCardBullet::Update()
 
     if (state_ == 0)
     {
-        position_ += dir * (speed_ * Utility::TimeScale);
+        position_ += dir_ * (speed_ * Utility::time_scale_);
 
         if (collider_)
         {
             collider_->position_ = position_;
-            collider_->position2 = position_;
+            collider_->position2_ = position_;
         }
 
-        if (position_.y <= Utility::SCREEN_HEIGHT / 2.0f)
+        if (position_.y <= Utility::kScreenHeight / 2.0f)
         {
             state_ = 1; // 真ん中まで進んだら停止して発封E��ードへ
         }
@@ -82,7 +82,7 @@ void SpellCardBullet::Draw()
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void SpellCardBullet::OnTrigger(Collider* collider_, Collider* check)
+void SpellCardBullet::OnTrigger(Collider* collider, Collider* check)
 {
     if(check!=nullptr&&check->GetParentObject() != nullptr)
     {

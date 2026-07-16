@@ -8,7 +8,7 @@
 #include "Master.h"
 #include <vector>
 
-ColliderManager* ColliderManager::Instance = nullptr;
+ColliderManager* ColliderManager::instance_ = nullptr;
 
 ColliderManager::ColliderManager()
 {
@@ -32,10 +32,10 @@ void ColliderManager::Update()
     {
         if (col == nullptr || col->IsDeleteFlag()) continue;
 
-        int min_col = std::max(0, static_cast<int>((std::min(col->position_.x, col->position2.x) - col->radius_) / CELL_SIZE));
-        int max_col = std::min(GRID_COLS - 1, static_cast<int>((std::max(col->position_.x, col->position2.x) + col->radius_) / CELL_SIZE));
-        int min_row = std::max(0, static_cast<int>((std::min(col->position_.y, col->position2.y) - col->radius_) / CELL_SIZE));
-        int max_row = std::min(GRID_ROWS - 1, static_cast<int>((std::max(col->position_.y, col->position2.y) + col->radius_) / CELL_SIZE));
+        int min_col = std::max(0, static_cast<int>((std::min(col->position_.x, col->position2_.x) - col->radius_) / CELL_SIZE));
+        int max_col = std::min(GRID_COLS - 1, static_cast<int>((std::max(col->position_.x, col->position2_.x) + col->radius_) / CELL_SIZE));
+        int min_row = std::max(0, static_cast<int>((std::min(col->position_.y, col->position2_.y) - col->radius_) / CELL_SIZE));
+        int max_row = std::min(GRID_ROWS - 1, static_cast<int>((std::max(col->position_.y, col->position2_.y) + col->radius_) / CELL_SIZE));
 
         for (int r = min_row; r <= max_row; ++r)
         {
@@ -61,10 +61,10 @@ void ColliderManager::Update()
             checked.insert(col2);
         }
 
-        int min_col = std::max(0, static_cast<int>((std::min(col1->position_.x, col1->position2.x) - col1->radius_) / CELL_SIZE));
-        int max_col = std::min(GRID_COLS - 1, static_cast<int>((std::max(col1->position_.x, col1->position2.x) + col1->radius_) / CELL_SIZE));
-        int min_row = std::max(0, static_cast<int>((std::min(col1->position_.y, col1->position2.y) - col1->radius_) / CELL_SIZE));
-        int max_row = std::min(GRID_ROWS - 1, static_cast<int>((std::max(col1->position_.y, col1->position2.y) + col1->radius_) / CELL_SIZE));
+        int min_col = std::max(0, static_cast<int>((std::min(col1->position_.x, col1->position2_.x) - col1->radius_) / CELL_SIZE));
+        int max_col = std::min(GRID_COLS - 1, static_cast<int>((std::max(col1->position_.x, col1->position2_.x) + col1->radius_) / CELL_SIZE));
+        int min_row = std::max(0, static_cast<int>((std::min(col1->position_.y, col1->position2_.y) - col1->radius_) / CELL_SIZE));
+        int max_row = std::min(GRID_ROWS - 1, static_cast<int>((std::max(col1->position_.y, col1->position2_.y) + col1->radius_) / CELL_SIZE));
 
         for (int r = min_row; r <= max_row; ++r)
         {
@@ -98,9 +98,9 @@ void ColliderManager::Draw()
     }
 }
 
-void ColliderManager::AddCollider(Collider* collider_)
+void ColliderManager::AddCollider(Collider* collider)
 {
-    collider_list_.push_back(collider_);
+    collider_list_.push_back(collider);
 }
 
 void ColliderManager::DeleteAllCollider()
@@ -122,9 +122,9 @@ void ColliderManager::DeleteAllColliderIfNeeded()
     });
 }
 
-void ColliderManager::RemoveCollider(Collider* collider_)
+void ColliderManager::RemoveCollider(Collider* collider)
 {
-    collider_list_.remove(collider_);
+    collider_list_.remove(collider);
 }
 
 

@@ -71,7 +71,7 @@ void MasterSpark::Update()
     if (collider_)
     {
         collider_->position_ = Vector2(position_.x, position_.y);
-        collider_->position2 = Vector2(position_.x, position_.y - 1200.0f);
+        collider_->position2_ = Vector2(position_.x, position_.y - 1200.0f);
         collider_->radius_ = radius_; // コライダーのサイズも動皁E��変更
     }
 }

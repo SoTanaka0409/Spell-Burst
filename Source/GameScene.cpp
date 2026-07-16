@@ -17,9 +17,9 @@
 #include "SoundManager.h"
 #include "HUD.h"
 
-int GameScene::currentStage = 1;
-int GameScene::playFrameCount = 0;
-bool GameScene::isTimeAttackActive = false;
+int GameScene::current_stage_ = 1;
+int GameScene::play_frame_count_ = 0;
+bool GameScene::is_time_attack_active_ = false;
 
 GameScene::GameScene() 
     : enemy_manager_(nullptr)
@@ -49,8 +49,8 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
-    playFrameCount = 0;
-    isTimeAttackActive = true;
+    play_frame_count_ = 0;
+    is_time_attack_active_ = true;
     DebugLog("GameScene::Initialize() called!\n");
     srand(static_cast<unsigned int>(GetNowCount()));
     HUD::Initialize();
@@ -72,7 +72,7 @@ void GameScene::Initialize()
         cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
     }
 
-    screen_handle_ = MakeScreen(Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, TRUE);
+    screen_handle_ = MakeScreen(Utility::kScreenWidth, Utility::kScreenHeight, TRUE);
     shake_timer_ = 0;
     shake_magnitude_ = 0.0f;
     hit_stop_timer_ = 0;
@@ -87,7 +87,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-    if (isTimeAttackActive) playFrameCount++;
+    if (is_time_attack_active_) play_frame_count_++;
     if (hit_stop_timer_ > 0)
     {
         hit_stop_timer_--;
@@ -132,7 +132,7 @@ void GameScene::Update()
 
     if (DebugOn && InputManager::CheckDownKey(KEY_INPUT_RETURN))
     {
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+        Master::sceneManager->SetNextScene(SceneManager::kSceneResult);
     }
 }
 
@@ -183,20 +183,20 @@ void GameScene::DrawBackground()
     
     if (bgGraphHandle != -1)
     {
-        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, bgGraphHandle, FALSE);
+        DrawExtendGraph(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, bgGraphHandle, FALSE);
     }
 }
 
 void GameScene::DrawTimeAttackTimer()
 {
-    int totalMs = (playFrameCount * 1000) / 60;
+    int totalMs = (play_frame_count_ * 1000) / 60;
     int ms = totalMs % 1000;
     int totalSec = totalMs / 1000;
     int sec = totalSec % 60;
     int min = totalSec / 60;
     char timeStr[64];
     sprintf_s(timeStr, "TIME %02d:%02d.%03d", min, sec, ms);
-    DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
+    DrawStringToHandle(Utility::kScreenWidth - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
 }
 
 void GameScene::DrawEffects()
@@ -220,7 +220,7 @@ void GameScene::DrawEffects()
             int max_flash = 15;
             int alpha = static_cast<int>(200.0f * (static_cast<float>(damage_flash_timer_) / max_flash));
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-            DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, damage_flash_color_, TRUE);
+            DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, damage_flash_color_, TRUE);
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         }
     }

@@ -45,13 +45,13 @@ void StageSelectScene::Update()
             phase_ = 0;
         } else
         {
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
         }
         return;
     }
     
-    int cx = Utility::SCREEN_WIDTH / 2;
-    int cy = Utility::SCREEN_HEIGHT / 2;
+    int cx = Utility::kScreenWidth / 2;
+    int cy = Utility::kScreenHeight / 2;
     
     if (phase_ == 0)
     {
@@ -107,24 +107,24 @@ void StageSelectScene::UpdateStageSelect(int mouseX, int mouseY, bool isLeftClic
         if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            GameScene::currentStage = 1;
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
+            GameScene::current_stage_ = 1;
+            Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
         } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            GameScene::currentStage = 2;
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
+            GameScene::current_stage_ = 2;
+            Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
         } else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            GameScene::currentStage = 3;
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_GAME);
+            GameScene::current_stage_ = 3;
+            Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
         }
         wait_count_ = 0;
     }
 }
 
-void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, bool hover, int color_, int font24)
+void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, bool hover, int color, int font24)
 {
     if (ui_button_graph_ != -1)
     {
@@ -133,7 +133,7 @@ void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, 
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
             DrawExtendGraph(x, y, x + w, y + h, ui_button_graph_, TRUE);
             SetDrawBlendMode(DX_BLENDMODE_ADD, 100);
-            DrawBox(x, y, x + w, y + h, color_, TRUE);
+            DrawBox(x, y, x + w, y + h, color, TRUE);
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         } else
         {
@@ -143,7 +143,7 @@ void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, 
         }
     } else
     {
-        DrawBox(x, y, x + w, y + h, hover ? color_ : GetColor(50, 50, 50), TRUE);
+        DrawBox(x, y, x + w, y + h, hover ? color : GetColor(50, 50, 50), TRUE);
         DrawBox(x, y, x + w, y + h, GetColor(255, 255, 255), FALSE);
     }
     
@@ -156,7 +156,7 @@ void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, 
 
 void StageSelectScene::Draw()
 {
-    DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(20, 25, 40), TRUE);
+    DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(20, 25, 40), TRUE);
     Scene::Draw();
     
     int titleFont = ResourceManager::GetInstance()->GetFont(48, 5);
@@ -169,8 +169,8 @@ void StageSelectScene::Draw()
     bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60);
     DrawButton(20, 20, 100, 40, "BACK", hoverBack, GetColor(150, 150, 150), font24);
     
-    int cx = Utility::SCREEN_WIDTH / 2;
-    int cy = Utility::SCREEN_HEIGHT / 2;
+    int cx = Utility::kScreenWidth / 2;
+    int cy = Utility::kScreenHeight / 2;
     
     if (phase_ == 0)
     {
@@ -185,7 +185,7 @@ void StageSelectScene::DrawCharacterSelect(int cx, int cy, int mouseX, int mouse
 {
     const char* titleTxt = "- SELECT YOUR CHARACTER -";
     int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), subFont);
-    DrawStringToHandle((Utility::SCREEN_WIDTH - tw) / 2, cy - 150, titleTxt, GetColor(200, 200, 200), subFont);
+    DrawStringToHandle((Utility::kScreenWidth - tw) / 2, cy - 150, titleTxt, GetColor(200, 200, 200), subFont);
     
     int tex1 = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
     int tex2 = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
@@ -228,7 +228,7 @@ void StageSelectScene::DrawStageSelect(int cx, int cy, int mouseX, int mouseY, i
 {
     const char* titleTxt = "- SELECT STAGE LEVEL -";
     int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), titleFont);
-    DrawStringToHandle((Utility::SCREEN_WIDTH - tw) / 2, cy - 200, titleTxt, GetColor(255, 255, 255), titleFont);
+    DrawStringToHandle((Utility::kScreenWidth - tw) / 2, cy - 200, titleTxt, GetColor(255, 255, 255), titleFont);
     
     int btnW = 300;
     int btnH = 80;

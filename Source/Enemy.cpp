@@ -20,11 +20,11 @@
 
 void Enemy::SelectNewTarget()
 {
-    targetX = 100.0f + static_cast<float>(rand() % 1080);
-    targetY = 80.0f + static_cast<float>(rand() % 180);
+    target_x_ = 100.0f + static_cast<float>(rand() % 1080);
+    target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
-Enemy::Enemy(float x, float y, int enemy_type_)
+Enemy::Enemy(float x, float y, int enemyType)
     : Character(Vector2(x, y), 3, 3.0f)
 {
     SetTag(kTag2dEnemy);
@@ -71,7 +71,7 @@ void Enemy::Update()
 
     if (enemy_type_ == 4)
     {
-        Vector2 target(targetX, targetY);
+        Vector2 target(target_x_, target_y_);
         float dist = position_.DistanceTo(target);
 
         if (dist < 15.0f)
@@ -80,17 +80,17 @@ void Enemy::Update()
         }
         else
         {
-            position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
+            position_ += (target - position_).Normalized() * (speed_ * Utility::time_scale_);
         }
     }
     else
     {
-        position_.y += speed_ * Utility::TimeScale;
+        position_.y += speed_ * Utility::time_scale_;
     }
 
     UpdateAttackPattern();
     
-    if (position_.y > Utility::SCREEN_HEIGHT + 50.0f)
+    if (position_.y > Utility::kScreenHeight + 50.0f)
     {
         Character::Kill();
     }
@@ -101,11 +101,11 @@ void Enemy::Kill()
     Character::Kill();
 }
 
-void Enemy::TakeDamage(int damage_)
+void Enemy::TakeDamage(int damage)
 {
     if (!is_active_) return;
 
-    Character::TakeDamage(damage_); 
+    Character::TakeDamage(damage); 
 
     if (hp_ <= 0)
     {
@@ -130,7 +130,7 @@ void Enemy::OnDeath()
     }
 }
 
-void Enemy::OnTrigger(Collider* collider_, Collider* check)
+void Enemy::OnTrigger(Collider* collider, Collider* check)
 {
     // プレイヤーの弾側のOnTriggerで自身へのダメージ処琁E��行われるため、E
     // ここで弾の種類を判定してダメージを受ける処琁E�E不要になりました、E

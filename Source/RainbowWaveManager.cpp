@@ -32,9 +32,9 @@ void RainbowWaveManager::Update()
         
         // 画面下部から画面全体を覆うように弾を配置するため、等間隔に座標を計算
         int numBullets = 10;
-        float spacing = static_cast<float>(Utility::SCREEN_WIDTH) / static_cast<float>(numBullets);
+        float spacing = static_cast<float>(Utility::kScreenWidth) / static_cast<float>(numBullets);
         float startX = spacing / 2.0f;
-        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // 画面外から出現させるため下部にオフセット
+        float yPos = static_cast<float>(Utility::kScreenHeight) + 20.0f; // 画面外から出現させるため下部にオフセット
 
         for (int i = 0; i < numBullets; i++)
         {
@@ -48,7 +48,7 @@ void RainbowWaveManager::Draw()
     // 弾の生成管理のみを行う不可視オブジェクトであるため描画処理は不要
 }
 
-void RainbowWaveManager::OnTrigger(Collider* collider_, Collider* check)
+void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check)
 {
     // 自身は当たり判定を持たず、生成した弾に判定を委ねるため空処理
 }

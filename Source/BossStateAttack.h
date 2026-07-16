@@ -1,4 +1,4 @@
-﻿// BossStateAttack.h
+// BossStateAttack.h
 // Concrete attack states for Boss.
 // BossStateSimple   -> Boss type 1: regular barrage
 // BossStateBouncing -> Boss type 2: bouncing barrage

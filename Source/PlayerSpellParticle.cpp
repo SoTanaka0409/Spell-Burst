@@ -49,9 +49,9 @@ void PlayerSpellParticle::Update()
         return;
     }
 
-    position_ += dir * (speed_ * Utility::TimeScale);
+    position_ += dir * (speed_ * Utility::time_scale_);
 
-    if (position_.x < -50.0f || position_.x > Utility::SCREEN_WIDTH + 50.0f || position_.y < -50.0f || position_.y > Utility::SCREEN_HEIGHT + 50.0f)
+    if (position_.x < -50.0f || position_.x > Utility::kScreenWidth + 50.0f || position_.y < -50.0f || position_.y > Utility::kScreenHeight + 50.0f)
     {
         is_active_ = false;
         SetDeleteFlag(true);
@@ -61,7 +61,7 @@ void PlayerSpellParticle::Update()
     if (collider_)
     {
         collider_->position_ = position_;
-        collider_->position2 = position_;
+        collider_->position2_ = position_;
     }
 }
 
@@ -79,7 +79,7 @@ void PlayerSpellParticle::Draw()
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-void PlayerSpellParticle::OnTrigger(Collider* collider_, Collider* check)
+void PlayerSpellParticle::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {

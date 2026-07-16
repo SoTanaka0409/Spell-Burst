@@ -23,7 +23,7 @@ RainbowBullet::~RainbowBullet()
 
 void RainbowBullet::Update()
 {
-    position_ += dir * (speed_ * Utility::TimeScale);
+    position_ += dir_ * (speed_ * Utility::time_scale_);
 
     color_hue_ += 5;
     if (color_hue_ >= 360) color_hue_ -= 360;
@@ -51,7 +51,7 @@ void RainbowBullet::Draw()
     DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
 }
 
-void RainbowBullet::OnTrigger(Collider* collider_, Collider* check)
+void RainbowBullet::OnTrigger(Collider* collider, Collider* check)
 {
     if(check!=nullptr&&check->GetParentObject() != nullptr)
     {

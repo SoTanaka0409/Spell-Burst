@@ -1,4 +1,4 @@
-﻿#include "InputManager.h"
+#include "InputManager.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -16,37 +16,37 @@ InputManager::~InputManager()
 {
 }
 
-int InputManager::CheckDownKey(int KeyCode)//�����Ă���Ԃ�����1��Ԃ�
+int InputManager::CheckDownKey(int keyCode)//???????????????1????
 {
 	int result = 0;
-	int keyState = CheckHitKey(KeyCode);
+	int keyState = CheckHitKey(keyCode);
 	
-	if (down_buffer_[KeyCode] == 0 && keyState == 1)
+	if (down_buffer_[keyCode] == 0 && keyState == 1)
 	{
 		result = 1;
 	}
 
-	down_buffer_[KeyCode] = keyState;
+	down_buffer_[keyCode] = keyState;
 	return result;
 }
 
-int InputManager::CheckUpKey(int KeyCode)
+int InputManager::CheckUpKey(int keyCode)
 {
 	int result = 0;
-	int keyState = CheckHitKey(KeyCode);
+	int keyState = CheckHitKey(keyCode);
 	
-	if (up_buffer_[KeyCode] == 1 && keyState == 0)
+	if (up_buffer_[keyCode] == 1 && keyState == 0)
 	{
 		result = 1;
 	}
 
-	up_buffer_[KeyCode] = keyState;
+	up_buffer_[keyCode] = keyState;
 	return result;
 }
 
-int InputManager::CheckPressKey(int KeyCode)
+int InputManager::CheckPressKey(int keyCode)
 {
-	return CheckHitKey(KeyCode);
+	return CheckHitKey(keyCode);
 }
 
 int InputManager::ActionDown(InputAction action)

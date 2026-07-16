@@ -8,7 +8,6 @@
 #include "DxLib.h"
 #include "Collider.h"
 
-// ç”»é¢ä¸Šã«æç”»ãƒ»é…ç½®ã•ã‚Œã‚‹ã™ã¹ã¦ã®ã‚²ãƒ¼ãƒ å†…ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class Object2D
 {
 public:
@@ -24,18 +23,24 @@ public:
 	};
 
 public:
-	Object2D(Vector2 init_pos);
+    Object2D(Vector2 initPos);
 	virtual ~Object2D();
 
-	// [å…¥åŠ›] ãªã—
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚„çŠ¶æ…‹ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«æ›´æ–°ã™ã‚‹ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
-	virtual void Update();
+    /*
+     * ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚âó‘Ô‚ğƒtƒŒ[ƒ€‚²‚Æ‚ÉXV‚·‚éi”h¶ƒNƒ‰ƒX‚ÅÀ‘•jB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ªXV‚³‚ê‚é
+     */
+    virtual void Update();
 
-	// [å…¥åŠ›] ãªã—
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚’ç”»é¢ã«æç”»ã™ã‚‹ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
-	virtual void Draw();
+    /*
+     * ƒIƒuƒWƒFƒNƒg‚ÌƒOƒ‰ƒtƒBƒbƒN‚ğ‰æ–Ê‚É•`‰æ‚·‚éi”h¶ƒNƒ‰ƒX‚ÅÀ‘•jB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‰æ–Ê‚É•`‰æ‚³‚ê‚é
+     */
+    virtual void Draw();
 
 	void SetPosition(Vector2 pos) { position_ = pos; };
 	Vector2 GetPosition() { return position_; }
@@ -51,20 +56,29 @@ public:
 	void SetTag(Tag2D tag) { tag_ = tag; }
 	Tag2D GetTag() { return tag_; }
 
-	// [å…¥åŠ›] collider_: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒæ¥è§¦ã‚’é–‹å§‹ã—ãŸç¬é–“ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
-	virtual void OnEnter(Collider* collider_, Collider* check);
+    /*
+     * ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚ğŠJn‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰B
+     * [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ”h¶ƒNƒ‰ƒX‚É‚æ‚Á‚ÄÚG‚Ìˆ—‚ªÀs‚³‚ê‚é
+     */
+    virtual void OnEnter(Collider* collider, Collider* check);
 
-	// [å…¥åŠ›] collider_: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒæ¥è§¦ã—ã¦ã„ã‚‹é–“ã«æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
-	virtual void OnTrigger(Collider* collider_, Collider* check);
+    /*
+     * ƒRƒ‰ƒCƒ_[“¯m‚ªÚG‚µ‚Ä‚¢‚éŠÔ‚É–ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰B
+     * [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ”h¶ƒNƒ‰ƒX‚É‚æ‚Á‚ÄŒp‘±“I‚ÈÚGˆ—‚ªÀs‚³‚ê‚é
+     */
+    virtual void OnTrigger(Collider* collider, Collider* check);
 
-	// [å…¥åŠ›] collider_: è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼, check: ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŒå£«ãŒé›¢è„±ã—ãŸç¬é–“ã«å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
-	virtual void OnExit(Collider* collider_, Collider* check);
+    /*
+     * ƒRƒ‰ƒCƒ_[“¯m‚ª—£’E‚µ‚½uŠÔ‚ÉŒÄ‚Ño‚³‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰B
+     * [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ”h¶ƒNƒ‰ƒX‚É‚æ‚Á‚Ä—£’E‚Ìˆ—‚ªÀs‚³‚ê‚é
+     */
+    virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
 	Vector2 position_;

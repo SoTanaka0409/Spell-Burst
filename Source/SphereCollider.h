@@ -1,14 +1,32 @@
-ï»¿#pragma once
+#pragma once
 #include "Collider.h"
 
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(Object2D* parent, Vector2 center, float radius_);
+    /*
+     * ‹…Œ`ƒRƒ‰ƒCƒ_[‚Ì‰Šú‰»‚ğs‚¤B
+     * [“ü—Í] parent: eƒIƒuƒWƒFƒNƒg, center: ’†SÀ•W, radius: ”¼Œa
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒRƒ‰ƒCƒ_[‚Ìƒpƒ‰ƒ[ƒ^‚ªİ’è‚³‚êAŠÇ—ƒŠƒXƒg‚É“o˜^‚³‚ê‚é
+     */
+    SphereCollider(Object2D* parent, Vector2 center, float radius);
 	virtual ~SphereCollider();
 
-	void Update(Collider* check) override;
-	void Draw() override;
+    /*
+     * ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚Ì‹…Œ`Õ“Ë”»’è‚ğs‚¤B
+     * [“ü—Í] check: ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] Õ“Ë‚ªŒŸ’m‚³‚ê‚½ê‡AeƒNƒ‰ƒX‚ÌHitCheck‚ğŒÄ‚Ño‚·
+     */
+    void Update(Collider* check) override;
+    /*
+     * ‰~Œ`‚ğƒfƒoƒbƒO—p‚É•`‰æ‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‰æ–Ê‚É•`‰æ‚³‚ê‚é
+     */
+    void Draw() override;
 
 	void OnEnter() override;
 	void OnTrigger() override;

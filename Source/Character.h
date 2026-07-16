@@ -5,27 +5,32 @@
 class CapsuleCollider;
 class Collider;
 
-// ‘S‚Ä‚ÌƒLƒƒƒ‰ƒNƒ^[iƒvƒŒƒCƒ„[A“GAƒ{ƒXj‚ÌŠî’êƒNƒ‰ƒX
+// å…¨ã¦ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ï¼ˆãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€æ•µã€ãƒœã‚¹ï¼‰ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class Character : public Object2D
 {
 protected:
-    int hp_;                    // Œ»İ‚Ì‘Ì—ÍiHPj
-    int max_hp_;                 // Å‘å‘Ì—Í
-    float speed_;               // ˆÚ“®‘¬“x
-    bool is_active_;             // —LŒøƒtƒ‰ƒO
-    int stun_timer_;             // ƒXƒ^ƒ“is“®•s”\j‚Ìc‚èŠÔiƒtƒŒ[ƒ€”j
-    CapsuleCollider* collider_; // “–‚½‚è”»’èƒRƒ‰ƒCƒ_[
+    int hp_;                    // ç¾åœ¨ã®ä½“åŠ›ï¼ˆHPï¼‰
+    int max_hp_;                 // æœ€å¤§ä½“åŠ›
+    float speed_;               // ç§»å‹•é€Ÿåº¦
+    bool is_active_;             // æœ‰åŠ¹ãƒ•ãƒ©ã‚°
+    int stun_timer_;             // ã‚¹ã‚¿ãƒ³ï¼ˆè¡Œå‹•ä¸èƒ½ï¼‰ã®æ®‹ã‚Šæ™‚é–“ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ æ•°ï¼‰
+    CapsuleCollider* collider_;  // å½“ãŸã‚Šåˆ¤å®šã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 
 public:
-    // [“ü—Í] pos: ‰ŠúÀ•W, max_hp_: Å‘å‘Ì—Í, speed_: ˆÚ“®‘¬“x
-    Character(Vector2 pos, int max_hp_, float speed_);
+    /*
+     * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
+     * [å…¥åŠ›] pos: åˆæœŸåº§æ¨™, maxHp: æœ€å¤§ä½“åŠ›, speed: ç§»å‹•é€Ÿåº¦
+     * [å‡ºåŠ›] ãªã—
+     * [å‰¯ä½œç”¨] ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚Œã‚‹
+     */
+    Character(Vector2 pos, int maxHp, float speed);
     virtual ~Character() override;
 
     virtual void Update() override;
     virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    // --- ƒQƒbƒ^[ ---
+    // --- ã‚²ãƒƒã‚¿ãƒ¼ ---
     int GetHp() const { return hp_; }
     int GetMaxHp() const { return max_hp_; }
     float GetSpeed() const { return speed_; }
@@ -35,21 +40,33 @@ public:
     float GetX() const { return position_.x; }
     float GetY() const { return position_.y; }
 
-    // --- ƒZƒbƒ^[E‘€ì ---
-    void SetHp(int hp_) { hp_ = hp_; }
-    void SetMaxHp(int max_hp_) { max_hp_ = max_hp_; }
-    void SetSpeed(float speed_) { speed_ = speed_; }
+    // --- ã‚»ãƒƒã‚¿ãƒ¼ãƒ»æ“ä½œ ---
+    void SetHp(int hp) { hp_ = hp; }
+    void SetMaxHp(int maxHp) { max_hp_ = maxHp; }
+    void SetSpeed(float speed) { speed_ = speed; }
     void Stun(int frames) { stun_timer_ = frames; }
 
-    // [“ü—Í] amount: ‰ñ•œ—Ê
-    // [•›ì—p] HP‚ğ‰ñ•œ‚µAÅ‘å’l‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀ‚·‚é
+    /*
+     * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®HPã‚’å›å¾©ã™ã‚‹ã€‚
+     * [å…¥åŠ›] amount: å›å¾©é‡
+     * [å‡ºåŠ›] ãªã—
+     * [å‰¯ä½œç”¨] HPã‚’å›å¾©ã—ã€æœ€å¤§å€¤ã‚’è¶…ãˆãªã„ã‚ˆã†ã«åˆ¶é™ã™ã‚‹
+     */
     virtual void Heal(int amount);
 
-    // [“ü—Í] damage_: ó‚¯‚éƒ_ƒ[ƒW—Ê
-    // [•›ì—p] HP‚ğŒ¸‚ç‚µA0ˆÈ‰º‚É‚È‚Á‚½‚ç€–Sˆ—‚È‚Ç‚ğŒÄ‚Ô
-    virtual void TakeDamage(int damage_);
+    /*
+     * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã€‚
+     * [å…¥åŠ›] damage: å—ã‘ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+     * [å‡ºåŠ›] ãªã—
+     * [å‰¯ä½œç”¨] HPã‚’æ¸›ã‚‰ã—ã€0ä»¥ä¸‹ã«ãªã£ãŸã‚‰æ­»äº¡å‡¦ç†ãªã©ã‚’å‘¼ã¶
+     */
+    virtual void TakeDamage(int damage);
 
-    // [“ü—Í] ‚È‚µ
-    // [•›ì—p] ƒLƒƒƒ‰ƒNƒ^[‚ğ€–Só‘Ô‚É‚µAíœƒtƒ‰ƒO‚ğ—§‚Ä‚é
+    /*
+     * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’æ­»äº¡ã•ã›ã‚‹ã€‚
+     * [å…¥åŠ›] ãªã—
+     * [å‡ºåŠ›] ãªã—
+     * [å‰¯ä½œç”¨] ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’æ­»äº¡çŠ¶æ…‹ã«ã—ã€å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
+     */
     virtual void Kill();
 };

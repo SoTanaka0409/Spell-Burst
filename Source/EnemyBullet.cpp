@@ -12,8 +12,8 @@
 #include <cmath>
 #include "utility.h"
 
-EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed_, bool can_reflect_, bool is_stun_bullet_, int homingFrames, int homingDelayFrames)
-    : Projectile(pos, dir.Normalized(), speed_, 1)
+EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_reflect_, bool is_stun_bullet_, int homingFrames, int homingDelayFrames)
+    : Projectile(pos, dir_.Normalized(), speed_, 1)
 {
     SetTag(kTag2dEnemyBullet);
     this->can_reflect_ = can_reflect_;
@@ -22,9 +22,9 @@ EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed_, bool can_reflec
     homing_timer_ = homingFrames;
     homing_delay_timer_ = homingDelayFrames;
 
-    if (dir.MagnitudeSq() == 0.0f)
+    if (dir_.MagnitudeSq() == 0.0f)
     {
-        dir = Vector2(0.0f, 1.0f);
+        dir_ = Vector2(0.0f, 1.0f);
     }
 
     collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
@@ -46,20 +46,20 @@ void EnemyBullet::Update()
         if (player)
         {
             Vector2 targetPos(player->GetX(), player->GetY());
-            float currentAngle = Vector2(1, 0).AngleTo(dir);
+            float currentAngle = Vector2(1, 0).AngleTo(dir_);
             float targetAngle = Vector2(1, 0).AngleTo(targetPos - position_);
             float diff = targetAngle - currentAngle;
             while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
             while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
-            float turnSpeed = 0.05f * Utility::TimeScale;
+            float turnSpeed = 0.05f * Utility::time_scale_;
             if (diff > turnSpeed) currentAngle += turnSpeed;
             else if (diff < -turnSpeed) currentAngle -= turnSpeed;
             else currentAngle = targetAngle;
-            dir = Vector2::FromAngle(currentAngle);
+            dir_ = Vector2::FromAngle(currentAngle);
         }
     }
 
-    position_ += dir * (speed_ * Utility::TimeScale);
+    position_ += dir_ * (speed_ * Utility::time_scale_);
 
     Projectile::Update();
 
@@ -90,7 +90,7 @@ void EnemyBullet::Draw()
     }
 }
 
-void EnemyBullet::OnTrigger(Collider* collider_, Collider* check) 
+void EnemyBullet::OnTrigger(Collider* collider, Collider* check) 
 {
     if(check!=nullptr&&check->GetParentObject() != nullptr)
     {

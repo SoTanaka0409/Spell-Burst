@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 
 namespace Constants
 {
     // Screen settings
-    constexpr int SCREEN_WIDTH = 1600;
-    constexpr int SCREEN_HEIGHT = 900;
+    constexpr int kScreenWidth = 1600;
+    constexpr int kScreenHeight = 900;
     
     // Player settings
     constexpr float PLAYER_START_X = 800.0f;

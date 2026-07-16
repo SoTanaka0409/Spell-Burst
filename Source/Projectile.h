@@ -9,45 +9,53 @@ class Collider;
 class Projectile : public Object2D
 {
 protected:
-    Vector2 dir;               // 進行方向（正規化ベクトル）または移動ベクトル
+    Vector2 dir_;              // 進行方向（正規化ベクトル）または移動ベクトル
     float speed_;               // 速度
     int damage_;                // ダメージ
     bool is_active_;             // 有効フラグ
     CapsuleCollider* collider_; // 当たり判定コライダー
 
 public:
-    // [入力] pos: 初期座標, dir: 進行方向, speed_: 速度, damage_: ダメージ
-    Projectile(Vector2 pos, Vector2 dir, float speed_, int damage_);
+    /*
+     * 弾の初期化を行う。
+     * [入力] pos: 初期座標, dir: 進行方向, speed: 速度, damage: ダメージ
+     * [出力] なし
+     * [副作用] コライダーが生成される
+     */
+    Projectile(Vector2 pos, Vector2 dir, float speed, int damage);
     virtual ~Projectile() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 基底クラスのUpdate。主にコライダーの座標更新などを行う
+    /*
+     * 弾の座標やコライダーの位置を毎フレーム更新する。
+     * [入力] なし
+     * [出力] なし
+     * [副作用] コライダーの座標が更新される
+     */
     virtual void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 描画処理（派生先で実装）
     virtual void Draw() override;
 
-    // [入力] collider_: 自身のコライダー, check: 相手のコライダー
-    // [出力] なし
-    // [副作用] 衝突時の処理（派生先で実装）
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
 
     // --- ゲッター・セッター ---
     bool IsActive() const { return is_active_; }
     int GetDamage() const { return damage_; }
-    Vector2 GetDir() const { return dir; }
-    void SetDir(Vector2 dir) { dir = dir; }
+    Vector2 GetDir() const { return dir_; }
+    void SetDir(Vector2 dir) { dir_ = dir; }
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 弾を無効化し、自身とコライダーの削除フラグを立てる
+    /*
+     * 弾を無効化し、自身とコライダーの削除フラグを立てる。
+     * [入力] なし
+     * [出力] なし
+     * [副作用] is_active_がfalseになり削除される
+     */
     virtual void Kill();
 
-    // [入力] margin: 画面外判定のゆとりマージン
-    // [出力] 画面外に完全に出たかどうか
-    // [副作用] なし
+    /*
+     * 弾が画面外に出たかを判定する。
+     * [入力] margin: 判定のゆとりマージン
+     * [出力] 画面外に出たかどうか
+     * [副作用] なし
+     */
     bool IsOutOfBounds(float margin = 50.0f) const;
 };

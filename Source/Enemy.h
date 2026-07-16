@@ -3,18 +3,18 @@
 
 class CapsuleCollider;
 
-// 謨ｵ繧ｭ繝｣繝ｩ繧ｯ繧ｿ繝ｼ縺ｮ繧ｯ繝ｩ繧ｹ・・haracter邯呎価・・
 class Enemy : public Character
 {
 private:
     int enemy_type_;      
     int attack_timer_;    
 
-    float targetX, targetY; 
+    float target_x_;
+    float target_y_;
     void SelectNewTarget();     
 
 public:
-    Enemy(float x, float y, int enemy_type_ = 1);
+    Enemy(float x, float y, int enemyType = 1);
     virtual ~Enemy() override;
 
     void Update() override;
@@ -22,7 +22,13 @@ public:
 
     int GetEnemyType() const { return enemy_type_; }
 
-    virtual void TakeDamage(int damage_) override;
+    /*
+     * 敵キャラクターにダメージを与える。
+     * [入力] damage: 受けるダメージ量
+     * [出力] なし
+     * [副作用] HPを減らし、0以下になったらOnDeathを呼ぶ
+     */
+    virtual void TakeDamage(int damage) override;
     virtual void Kill() override;
 
     float GetRadius() const
@@ -31,10 +37,28 @@ public:
         return 15.0f; 
     }
 
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
+    /*
+     * コライダー接触中の毎フレーム処理。プレイヤーへのダメージ等を行う。
+     * [入力] collider: 自身のコライダー, check: 相手のコライダー
+     * [出力] なし
+     * [副作用] プレイヤーにダメージが入ることがある
+     */
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
 
+    /*
+     * 敵の死亡時処理を行う（スコアやXP付与）。
+     * [入力] なし
+     * [出力] なし
+     * [副作用] 削除フラグが立ち、プレイヤーにXPが付与される
+     */
     void OnDeath();
 
+    /*
+     * 敵タイプに応じた攻撃パターンを毎フレーム更新する。
+     * [入力] なし
+     * [出力] なし
+     * [副作用] タイマーに応じて弾が生成される
+     */
     void UpdateAttackPattern();
     void DrawEnemySprite();
     void DrawHpBar();

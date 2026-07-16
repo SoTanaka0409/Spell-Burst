@@ -1,11 +1,11 @@
 #include "CapsuleCollider.h"
 
 #include "ObjectManager.h"
-CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius_)
+CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
 	position_ = pos1;
-	position2 = pos2;
+	position2_ = pos2;
 	this->radius_ = radius_;
 }
 
@@ -24,10 +24,10 @@ void CapsuleCollider::Update(Collider* check)
 		{
 			bool isHit = HitCheck_Capsule_Capsule(
 				this->position_,
-				this->position2,
+				this->position2_,
 				this->radius_,
 				capsule->position_,
-				capsule->position2,
+				capsule->position2_,
 				capsule->radius_
 			);
 
@@ -47,11 +47,11 @@ void CapsuleCollider::Draw()
 		FALSE
 	);
 
-	if (position_.x != position2.x || position_.y != position2.y)
+	if (position_.x != position2_.x || position_.y != position2_.y)
 	{
 		DrawCircle(
-			static_cast<int>(position2.x),
-			static_cast<int>(position2.y),
+			static_cast<int>(position2_.x),
+			static_cast<int>(position2_.y),
 			static_cast<int>(radius_),
 			GetColor(255, 255, 255),
 			FALSE
@@ -59,8 +59,8 @@ void CapsuleCollider::Draw()
 		DrawLine(
 			static_cast<int>(position_.x),
 			static_cast<int>(position_.y),
-			static_cast<int>(position2.x),
-			static_cast<int>(position2.y),
+			static_cast<int>(position2_.x),
+			static_cast<int>(position2_.y),
 			GetColor(255, 255, 255)
 		);
 	}

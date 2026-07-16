@@ -63,7 +63,7 @@ void BossStateFinal::Update(Boss* boss)
         attack_timer_ = 0;
 
         bool used_spell_card = false;
-        if (GameScene::currentStage == 3)
+        if (GameScene::current_stage_ == 3)
         {
             if ((rand() % 100) < 20)
             {

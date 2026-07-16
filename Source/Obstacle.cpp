@@ -20,7 +20,7 @@ Obstacle::Obstacle(float x, float y)
     , collider_(nullptr)
     , fall_speed_(3.0f)
 {
-    SetTag(kTag2dEnemy); // プレイヤーの弾や体当たり判定の対象とするため便宜上敵タグを付与
+    SetTag(kTag2dEnemy); // プレイヤーの弾めE��当たり判定�E対象とするため便宜上敵タグを付丁E
     collider_ = new CapsuleCollider(this, position_, position_, 40.0f);
 }
 
@@ -35,15 +35,15 @@ Obstacle::~Obstacle()
 
 void Obstacle::Update()
 {
-    position_.y += fall_speed_ * Utility::TimeScale;
+    position_.y += fall_speed_ * Utility::time_scale_;
     
     if (collider_)
     {
         collider_->position_ = position_;
-        collider_->position2 = position_;
+        collider_->position2_ = position_;
     }
 
-    if (position_.y > Utility::SCREEN_HEIGHT + 100.0f)
+    if (position_.y > Utility::kScreenHeight + 100.0f)
     {
         SetDeleteFlag(true);
         if (collider_)
@@ -72,12 +72,12 @@ void Obstacle::Draw()
     }
 }
 
-void Obstacle::OnTrigger(Collider* collider_, Collider* check)
+void Obstacle::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
         Object2D* parent = check->GetParentObject();
-        // プレイヤー側の攻撃と衝突した場合の処理（特殊弾かどうかで分岐）
+        // プレイヤー側の攻撁E��衝突した場合�E処琁E��特殊弾かどぁE��で刁E��！E
         if (parent->GetTag() == kTag2dPlayerBullet)
         {
             bool isSpecial = false;
@@ -107,12 +107,12 @@ void Obstacle::OnTrigger(Collider* collider_, Collider* check)
     }
 }
 
-void Obstacle::OnEnter(Collider* collider_, Collider* check)
+void Obstacle::OnEnter(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
         Object2D* parent = check->GetParentObject();
-        // プレイヤー自身が障害物に衝突した場合、回避ペナルティとしてダメージを与える
+        // プレイヤー自身が障害物に衝突した場合、回避ペナルチE��としてダメージを与えめE
         if (parent->GetTag() == kTag2dPlayer)
         {
             Player* p = dynamic_cast<Player*>(parent);

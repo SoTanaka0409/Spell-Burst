@@ -27,7 +27,7 @@ void ResultScene::Initialize()
     {
         SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.mp3");
         bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase1.png");
-        Utility::SaveTimeRanking((GameScene::playFrameCount * 1000) / 60); 
+        Utility::SaveTimeRanking((GameScene::play_frame_count_ * 1000) / 60); 
     } else
     {
         SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.mp3");
@@ -56,7 +56,7 @@ void ResultScene::Update()
         if (state_timer_ > 60)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
         }
     }
     
@@ -74,13 +74,13 @@ void ResultScene::Update()
             {
                 p.x += p.vx_;
                 p.y += p.vy_;
-                p.angle += p.rot_speed;
+                p.angle_ += p.rot_speed_;
                 if (kIsVictory)
                 {
                     p.vx_ += std::sin(state_timer_ * 0.05f + p.y * 0.01f) * 0.1f;
                 }
-                p.life--;
-                return p.life <= 0 || p.y > Utility::SCREEN_HEIGHT + 100 || p.y < -100;
+                p.life_--;
+                return p.life_ <= 0 || p.y > Utility::kScreenHeight + 100 || p.y < -100;
             }),
         particles_.end());
     
@@ -92,19 +92,19 @@ void ResultScene::UpdateVictory()
     if (state_timer_ % 2 == 0)
     {
         ResultParticle p;
-        p.x = static_cast<float>(rand() % Utility::SCREEN_WIDTH);
+        p.x = static_cast<float>(rand() % Utility::kScreenWidth);
         p.y = -50.0f;
         p.vx_ = (rand() % 100 - 50) / 20.0f;
         p.vy_ = (rand() % 100 + 50) / 20.0f;
         p.size_ = 5.0f + (rand() % 15);
-        p.angle = 0.0f;
-        p.rot_speed = (rand() % 100 - 50) / 200.0f;
+        p.angle_ = 0.0f;
+        p.rot_speed_ = (rand() % 100 - 50) / 200.0f;
         
         int r = 150 + rand() % 105;
         int g = 150 + rand() % 105;
         int b = 50 + rand() % 105;
         p.color_ = GetColor(r, g, b);
-        p.life = 300;
+        p.life_ = 300;
         particles_.push_back(p);
     }
 }
@@ -114,27 +114,27 @@ void ResultScene::UpdateGameOver()
     if (state_timer_ % 3 == 0)
     {
         ResultParticle p;
-        p.x = static_cast<float>(rand() % Utility::SCREEN_WIDTH);
-        p.y = Utility::SCREEN_HEIGHT + 50.0f;
+        p.x = static_cast<float>(rand() % Utility::kScreenWidth);
+        p.y = Utility::kScreenHeight + 50.0f;
         p.vx_ = (rand() % 100 - 50) / 30.0f;
         p.vy_ = -(rand() % 100 + 50) / 30.0f;
         p.size_ = 3.0f + (rand() % 10);
-        p.angle = 0.0f;
-        p.rot_speed = 0.0f;
+        p.angle_ = 0.0f;
+        p.rot_speed_ = 0.0f;
         
         p.color_ = GetColor(150 + rand() % 105, 0, 0);
-        p.life = 300;
+        p.life_ = 300;
         particles_.push_back(p);
     }
 }
 
-void ResultScene::DrawOutlinedString(int x, int y, const char* str, unsigned int color_, unsigned int outline_color, int font_handle)
+void ResultScene::DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle)
 {
-    DrawStringToHandle(x - 2, y - 2, str, outline_color, font_handle);
-    DrawStringToHandle(x + 2, y - 2, str, outline_color, font_handle);
-    DrawStringToHandle(x - 2, y + 2, str, outline_color, font_handle);
-    DrawStringToHandle(x + 2, y + 2, str, outline_color, font_handle);
-    DrawStringToHandle(x, y, str, color_, font_handle);
+    DrawStringToHandle(x - 2, y - 2, str, outlineColor, fontHandle);
+    DrawStringToHandle(x + 2, y - 2, str, outlineColor, fontHandle);
+    DrawStringToHandle(x - 2, y + 2, str, outlineColor, fontHandle);
+    DrawStringToHandle(x + 2, y + 2, str, outlineColor, fontHandle);
+    DrawStringToHandle(x, y, str, color, fontHandle);
 }
 
 void ResultScene::Draw()
@@ -143,21 +143,21 @@ void ResultScene::Draw()
     
     if (bg_graph_ != -1)
     {
-        DrawExtendGraph(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, bg_graph_, FALSE);
+        DrawExtendGraph(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, bg_graph_, FALSE);
         if (!kIsVictory)
         {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-            DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(30, 0, 0), TRUE);
+            DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(30, 0, 0), TRUE);
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         } else
         {
             SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-            DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(255, 255, 255), TRUE);
+            DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(255, 255, 255), TRUE);
             SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
         }
     } else
     {
-        DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 10, 20), TRUE);
+        DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 10, 20), TRUE);
     }
     
     if (player_graph_ != -1)
@@ -168,10 +168,10 @@ void ResultScene::Draw()
         int drawW = (int)(w * scale);
         int drawH = (int)(h * scale);
         
-        int targetX = kIsVictory ? 150 : Utility::SCREEN_WIDTH / 2 - drawW / 2;
-        int startX = kIsVictory ? -500 : Utility::SCREEN_WIDTH / 2 - drawW / 2;
-        int targetY = Utility::SCREEN_HEIGHT - drawH - 50;
-        int startY = kIsVictory ? targetY : Utility::SCREEN_HEIGHT + 200;
+        int targetX = kIsVictory ? 150 : Utility::kScreenWidth / 2 - drawW / 2;
+        int startX = kIsVictory ? -500 : Utility::kScreenWidth / 2 - drawW / 2;
+        int targetY = Utility::kScreenHeight - drawH - 50;
+        int startY = kIsVictory ? targetY : Utility::kScreenHeight + 200;
         
         float t = (state_timer_ > 60) ? 1.0f : (state_timer_ / 60.0f);
         t = 1.0f - std::pow(1.0f - t, 3.0f);
@@ -194,14 +194,14 @@ void ResultScene::Draw()
     {
         if (kIsVictory)
         {
-            SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 200) ? 255 : p.life);
+            SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life_ > 200) ? 255 : p.life_);
             int s = static_cast<int>(p.size_);
             int cx = static_cast<int>(p.x);
             int cy = static_cast<int>(p.y);
             DrawCircle(cx, cy, s, p.color_, TRUE);
         } else
         {
-            SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life > 100) ? 150 : p.life);
+            SetDrawBlendMode(DX_BLENDMODE_ALPHA, (p.life_ > 100) ? 150 : p.life_);
             DrawCircle(static_cast<int>(p.x), static_cast<int>(p.y), static_cast<int>(p.size_), p.color_, TRUE);
         }
     }

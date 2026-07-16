@@ -4,35 +4,42 @@ class Player;
 class Boss;
 class EnemyManager;
 
-// UI・ｽ・ｽ・ｽﾌ描・ｽ・ｽﾇ暦ｿｽ・ｽN・ｽ・ｽ・ｽX
-// HUD・ｽv・ｽf・ｽﾌア・ｽj・ｽ・ｽ・ｽ[・ｽV・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ・ｽ(・ｽC・ｽ[・ｽW・ｽ・ｽ・ｽO)・ｽ・ｽs・ｽ・ｽ・ｽ・ｽ・ｽﾟ、・ｽﾃ的・ｽﾏ撰ｿｽ・ｽ・ｽﾛ趣ｿｽ・ｽ・ｽ・ｽ・ｽ
 class HUD
 {
 public:
-    // [・ｽ・ｽ・ｽ・ｽ] ・ｽﾈゑｿｽ
-    // [・ｽo・ｽ・ｽ] ・ｽﾈゑｿｽ
-    // [・ｽ・ｽ・ｽ・ｽp] ・ｽC・ｽ[・ｽW・ｽ・ｽ・ｽO・ｽp・ｽﾏ撰ｿｽ・ｽﾈどの静的・ｽ・ｽﾔゑｿｽ・ｽ・ｽZ・ｽb・ｽg・ｽ・ｽ・ｽ・ｽ
+    /*
+     * イージング用変数などの静的変数をリセットする。
+     * [入力] なし
+     * [出力] なし
+     * [副作用] 表示比率が初期化される
+     */
     static void Initialize();
 
-    // [・ｽ・ｽ・ｽ・ｽ] player: ・ｽ・ｽ・ｽ@, enemy_manager_: ・ｽG・ｽﾇ暦ｿｽ, boss: ・ｽ{・ｽX
-    // [・ｽo・ｽ・ｽ] ・ｽﾈゑｿｽ
-    // [・ｽ・ｽ・ｽ・ｽp] ・ｽ・ｽ・ｽﾝゑｿｽHP・ｽ・ｽ・ｽﾉ奇ｿｽﾃゑｿｽ・ｽA・ｽ\・ｽ・ｽ・ｽp・ｽﾌ包ｿｽﾔ比率・ｽi・ｽC・ｽ[・ｽW・ｽ・ｽ・ｽO・ｽj・ｽ・ｽv・ｽZ・ｽE・ｽX・ｽV・ｽ・ｽ・ｽ・ｽ
-    static void Update(Player* player, EnemyManager* enemy_manager_, Boss* boss);
+    /*
+     * 現在のHPなどに基づき、表示用の比率（イージング）を計算・更新する。
+     * [入力] player: プレイヤー, enemyManager: 敵マネージャー, boss: ボス
+     * [出力] なし
+     * [副作用] displayHpRatio_等が更新される
+     */
+    static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
 
-    // [] player, enemy_manager_, boss, cutin_timer_: o, cutin_image_handle_: o鞫・
-    // [o] ﾈ・
-    // [p] ﾊ称最前ﾊに各UIR|[lgiQ[WAJbgCj`謔ｷ
-    static void Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cutin_timer_, int cutin_image_handle_);
+    /*
+     * 画面最前面に各UIコンポーネント（ゲームUI、カットイン等）を描画する。
+     * [入力] player: プレイヤー, enemyManager: 敵マネージャー, boss: ボス, cutinTimer: カットインタイマー, cutinImageHandle: 画像ハンドル
+     * [出力] なし
+     * [副作用] 画面に描画される
+     */
+    static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
 
 private:
-    static float displayHpRatio; // Aj[Vﾔ用HP\范ｦ
-    static float displayXpRatio; // Aj[Vﾔ用ﾌ経l\范ｦ
-    static float displaySpellRatio; // Aj[Vﾔ用ﾌスyQ[W\范ｦ
-    static float displayBarrierRatio; // Aj[Vﾔ用ﾌバAQ[W\范ｦ
-    static float bossHpRatio; // Aj[Vﾔ用ﾌボXHP\范ｦ
+    static float display_hp_ratio_;
+    static float display_xp_ratio_;
+    static float display_spell_ratio_;
+    static float display_barrier_ratio_;
+    static float boss_hp_ratio_;
 
     static void DrawPlayerStatus(Player* player);
     static void DrawBossStatus(Boss* boss);
-    static void DrawEnemyProgress(EnemyManager* enemy_manager_);
-    static void DrawCutin(int cutin_timer_, int cutin_image_handle_);
+    static void DrawEnemyProgress(EnemyManager* enemyManager);
+    static void DrawCutin(int cutinTimer, int cutinImageHandle);
 };

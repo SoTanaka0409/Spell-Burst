@@ -1,17 +1,34 @@
-ï»¿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #include "Collider.h"
 #include"Object2D.h"
 class CapsuleCollider : public Collider
 {
 public:
-	CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius_);
+    /*
+     * ƒJƒvƒZƒ‹ƒRƒ‰ƒCƒ_[‚Ì‰Šú‰»‚ğs‚¤B
+     * [“ü—Í] parent: eƒIƒuƒWƒFƒNƒg, pos1: n“_, pos2: I“_, radius: ”¼Œa
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒRƒ‰ƒCƒ_[‚Ìƒpƒ‰ƒ[ƒ^‚ªİ’è‚³‚êAŠÇ—ƒŠƒXƒg‚É“o˜^‚³‚ê‚é
+     */
+    CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius);
 	virtual ~CapsuleCollider();
 
-	void Update(Collider* check) override;
-	void Draw() override;
+    /*
+     * ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚ÌƒJƒvƒZƒ‹Õ“Ë”»’è‚ğs‚¤B
+     * [“ü—Í] check: ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] Õ“Ë‚ªŒŸ’m‚³‚ê‚½ê‡AeƒNƒ‰ƒX‚ÌHitCheck‚ğŒÄ‚Ño‚·
+     */
+    void Update(Collider* check) override;
+    /*
+     * ƒJƒvƒZƒ‹Œ`ó‚ğƒfƒoƒbƒO—p‚É•`‰æ‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‰æ–Ê‚É•`‰æ‚³‚ê‚é
+     */
+    void Draw() override;
 
 	
 
-	//ww
 };

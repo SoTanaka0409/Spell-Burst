@@ -39,7 +39,7 @@ void RuleScene::Update()
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
             return;
         }
         
@@ -52,7 +52,7 @@ void RuleScene::Update()
                 current_slide_++;
             } else
             {
-                Master::sceneManager->SetNextScene(SceneManager::SCENE_TITLE);
+                Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
                 return;
             }
         }
@@ -71,7 +71,7 @@ void RuleScene::Update()
 
 void RuleScene::Draw()
 {
-    DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
+    DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 0, 0), TRUE);
     
     if (current_slide_ >= 0 && current_slide_ < 6 && rule_graphs_[current_slide_] != -1)
     {
@@ -89,7 +89,7 @@ void RuleScene::Draw()
             
             int drawW = (int)(imgW * scale);
             int drawH = (int)(imgH * scale);
-            int drawX = (Utility::SCREEN_WIDTH - drawW) / 2;
+            int drawX = (Utility::kScreenWidth - drawW) / 2;
             int drawY = 20 + (650 - drawH) / 2;
             
             DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, rule_graphs_[current_slide_], FALSE);

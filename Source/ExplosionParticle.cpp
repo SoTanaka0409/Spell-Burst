@@ -24,8 +24,8 @@ ExplosionParticle::~ExplosionParticle()
 
 void ExplosionParticle::Update()
 {
-    position_.x += vx_ * Utility::TimeScale;
-    position_.y += vy_ * Utility::TimeScale;
+    position_.x += vx_ * Utility::time_scale_;
+    position_.y += vy_ * Utility::time_scale_;
     
     vx_ *= 0.95f;
     vy_ *= 0.95f;

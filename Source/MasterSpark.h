@@ -21,6 +21,6 @@ private:
     virtual void Update() override;
     virtual void Draw() override;
     virtual void Kill() override;
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
-    virtual void OnEnter(Collider* collider_, Collider* check) override;
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
+    virtual void OnEnter(Collider* collider, Collider* check) override;
 };

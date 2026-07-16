@@ -41,8 +41,8 @@ void TitleScene::Update()
     
     int btnW = 300;
     int btnH = 80;
-    int btnX = (Utility::SCREEN_WIDTH - btnW) / 2;
-    int btnY1 = Utility::SCREEN_HEIGHT / 2 - 50;
+    int btnX = (Utility::kScreenWidth - btnW) / 2;
+    int btnY1 = Utility::kScreenHeight / 2 - 50;
     int btnY2 = btnY1 + 100;
     int btnY3 = btnY2 + 100;
     
@@ -51,24 +51,24 @@ void TitleScene::Update()
         if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_LEVEL);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneLevel);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_RULE);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneRule);
         }
         else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH)
         {
             SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
-            Master::sceneManager->SetNextScene(SceneManager::SCENE_NONE);
+            Master::sceneManager->SetNextScene(SceneManager::kSceneNone);
         }
     }
     
-    bg_scroll_x_ += 1.0f * Utility::TimeScale;
-    if (bg_scroll_x_ >= Utility::SCREEN_WIDTH)
+    bg_scroll_x_ += 1.0f * Utility::time_scale_;
+    if (bg_scroll_x_ >= Utility::kScreenWidth)
     {
-        bg_scroll_x_ -= Utility::SCREEN_WIDTH;
+        bg_scroll_x_ -= Utility::kScreenWidth;
     }
     
     Scene::Update();
@@ -77,7 +77,7 @@ void TitleScene::Update()
 void TitleScene::DrawRankings()
 {
     int rankFont = ResourceManager::GetInstance()->GetFont(32, 2);
-    DrawStringToHandle(Utility::SCREEN_WIDTH - 320, 50, "TIME ATTACK TOP 3", GetColor(200, 200, 255), rankFont);
+    DrawStringToHandle(Utility::kScreenWidth - 320, 50, "TIME ATTACK TOP 3", GetColor(200, 200, 255), rankFont);
     for (size_t i = 0; i < rankings_.size() && i < 3; ++i)
     {
         int totalMs = rankings_[i];
@@ -87,7 +87,7 @@ void TitleScene::DrawRankings()
         int min = totalSec / 60;
         char rankStr[64];
         sprintf_s(rankStr, "%d. %02d:%02d.%03d", (int)i+1, min, sec, ms);
-        DrawStringToHandle(Utility::SCREEN_WIDTH - 300, 100 + static_cast<int>(i) * 50, rankStr, GetColor(255, 215, 0), rankFont);
+        DrawStringToHandle(Utility::kScreenWidth - 300, 100 + static_cast<int>(i) * 50, rankStr, GetColor(255, 215, 0), rankFont);
     }
 }
 
@@ -95,15 +95,15 @@ void TitleScene::DrawTitleLogo()
 {
     int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
     int titleW = GetDrawStringWidthToHandle("AI SUSHI CHEF", 13, titleFont);
-    DrawStringToHandle((Utility::SCREEN_WIDTH - titleW) / 2, Utility::SCREEN_HEIGHT / 4 - 30, "AI SUSHI CHEF", GetColor(255, 215, 0), titleFont);
+    DrawStringToHandle((Utility::kScreenWidth - titleW) / 2, Utility::kScreenHeight / 4 - 30, "AI SUSHI CHEF", GetColor(255, 215, 0), titleFont);
 }
 
 void TitleScene::DrawButtons(int mouseX, int mouseY)
 {
     int btnW = 300;
     int btnH = 80;
-    int btnX = (Utility::SCREEN_WIDTH - btnW) / 2;
-    int btnY1 = Utility::SCREEN_HEIGHT / 2 - 50;
+    int btnX = (Utility::kScreenWidth - btnW) / 2;
+    int btnY1 = Utility::kScreenHeight / 2 - 50;
     int btnY2 = btnY1 + 100;
     int btnY3 = btnY2 + 100;
     int subFont = ResourceManager::GetInstance()->GetFont(32, 4);
@@ -149,13 +149,13 @@ void TitleScene::Draw()
 {
     if (bg_graph_ != -1)
     {
-        float sw = Utility::SCREEN_WIDTH;
-        float sh = Utility::SCREEN_HEIGHT;
+        float sw = Utility::kScreenWidth;
+        float sh = Utility::kScreenHeight;
         DrawExtendGraph(static_cast<int>(-bg_scroll_x_), 0, static_cast<int>(-bg_scroll_x_ + sw), static_cast<int>(sh), bg_graph_, FALSE);
         DrawExtendGraph(static_cast<int>(-bg_scroll_x_ + sw), 0, static_cast<int>(-bg_scroll_x_ + sw * 2), static_cast<int>(sh), bg_graph_, FALSE);
     } else
     {
-        DrawBox(0, 0, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(15, 20, 30), TRUE);
+        DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(15, 20, 30), TRUE);
     }
     Scene::Draw();
     

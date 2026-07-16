@@ -3,11 +3,11 @@
 #include "CapsuleCollider.h"
 #include "Utility.h"
 
-Projectile::Projectile(Vector2 pos, Vector2 dir, float speed_, int damage_)
+Projectile::Projectile(Vector2 pos, Vector2 dir_, float speed, int damage)
     : Object2D(pos)
-    , dir(dir)
-    , speed_(speed_)
-    , damage_(damage_)
+    , dir_(dir_)
+    , speed_(speed)
+    , damage_(damage)
     , is_active_(true)
     , collider_(nullptr)
 {
@@ -28,7 +28,7 @@ void Projectile::Update()
     if (collider_)
     {
         collider_->position_ = position_;
-        collider_->position2 = position_;
+        collider_->position2_ = position_;
     }
 }
 
@@ -37,7 +37,7 @@ void Projectile::Draw()
     // 基底クラスは描画しない
 }
 
-void Projectile::OnTrigger(Collider* collider_, Collider* check)
+void Projectile::OnTrigger(Collider* collider, Collider* check)
 {
     // デフォルト実装：派生クラスでオーバーライド
 }
@@ -54,8 +54,8 @@ void Projectile::Kill()
 
 bool Projectile::IsOutOfBounds(float margin) const
 {
-    if (position_.x < -margin || position_.x > Utility::SCREEN_WIDTH + margin ||
-        position_.y < -margin || position_.y > Utility::SCREEN_HEIGHT + margin)
+    if (position_.x < -margin || position_.x > Utility::kScreenWidth + margin ||
+        position_.y < -margin || position_.y > Utility::kScreenHeight + margin)
         {
         return true;
     }

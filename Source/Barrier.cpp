@@ -10,17 +10,17 @@
 #include "SoundManager.h"
 #include <cmath>
 
-Barrier::Barrier(float x, float y, float radius_, Object2D::Tag2D obj)
+Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
     : Object2D(Vector2(x, y))
     , collider_(nullptr)
 {
     SetTag(obj); 
-    deployInterval = 300.0f;
-    activeDuration = 120.0f;
-    timer = 0.0f;
+    deploy_interval_ = 300.0f;
+    active_duration_ = 120.0f;
+    timer_ = 0.0f;
     this->radius_ = radius_;
-    isDeployed = false;
-    hit_count = 0;
+    is_deployed_ = false;
+    hit_count_ = 0;
 }
 
 Barrier::~Barrier()
@@ -34,28 +34,28 @@ Barrier::~Barrier()
 
 void Barrier::Update()
 {
-    timer += 1.0f * Utility::TimeScale;
+    timer_ += 1.0f * Utility::time_scale_;
 
-    if (!isDeployed)
+    if (!is_deployed_)
     {
-        if (timer >= deployInterval)
+        if (timer_ >= deploy_interval_)
         {
-            isDeployed = true;
+            is_deployed_ = true;
             SoundManager::GetInstance()->PlaySE("Resource/se_barrier.wav");
-            timer = 0.0f;
+            timer_ = 0.0f;
             collider_ = new CapsuleCollider(this, position_, position_, radius_);
         }
     } else
     {
-        if (timer >= activeDuration)
+        if (timer_ >= active_duration_)
         {
-            isDeployed = false;
-            timer = 0.0f;
+            is_deployed_ = false;
+            timer_ = 0.0f;
            
             if (collider_)
             {
                 collider_->position_ = position_;
-                collider_->position2 = position_;
+                collider_->position2_ = position_;
             }
             if (collider_)
             {
@@ -68,13 +68,13 @@ void Barrier::Update()
     if (collider_)
     {
         collider_->position_ = position_;
-        collider_->position2 = position_;
+        collider_->position2_ = position_;
     }
 }
 
 void Barrier::Draw()
 {
-    if (isDeployed)
+    if (is_deployed_)
     {
         int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
         
@@ -104,9 +104,9 @@ void Barrier::Draw()
     }
 }
 
-void Barrier::OnTrigger(Collider* collider_, Collider* check)
+void Barrier::OnTrigger(Collider* collider, Collider* check)
 {
-    if (!isDeployed) return;
+    if (!is_deployed_) return;
 
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
@@ -114,10 +114,10 @@ void Barrier::OnTrigger(Collider* collider_, Collider* check)
         if (this->GetTag() == kTag2dBarrierPlayer && tag_ == kTag2dEnemyBullet)
         {
             check->GetParentObject()->SetDeleteFlag(true);
-            hit_count++;
-            if (hit_count >= 30)
+            hit_count_++;
+            if (hit_count_ >= 30)
             {
-                hit_count = 0;
+                hit_count_ = 0;
                 SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
                 float baseSpeed = 10.0f;
                 for (int dir = 0; dir < 4; ++dir)

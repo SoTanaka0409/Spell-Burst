@@ -3,42 +3,55 @@
 
 class Collider;
 
-// ï¿½eï¿½ï¿½zï¿½ï¿½ï¿½Eï¿½hï¿½ä‚·ï¿½ï¿½oï¿½ï¿½ï¿½Aï¿½Nï¿½ï¿½ï¿½Xï¿½iï¿½ï¿½ï¿½: Object2Dï¿½j
-// ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½eï¿½Ìï¿½ï¿½ï¿½~ï¿½Ï‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½É—ï¿½ï¿½pï¿½ï¿½ï¿½é§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class Barrier : public Object2D
 {
 public:
-    Barrier(float x, float y, float radius_, Object2D::Tag2D obj);
+    /*
+     * ƒoƒŠƒAƒIƒuƒWƒFƒNƒg‚ğ‰Šú‰»‚·‚éB
+     * [“ü—Í] x: À•WX, y: À•WY, radius: ”¼Œa, obj: ƒ^ƒOí•Ê
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒRƒ‰ƒCƒ_[‚ª¶¬‚³‚êŠÇ—ƒŠƒXƒg‚É“o˜^‚³‚ê‚é
+     */
+    Barrier(float x, float y, float radius, Object2D::Tag2D obj);
     virtual ~Barrier();
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½oï¿½ï¿½ï¿½Aï¿½Ì“Wï¿½Jï¿½Eï¿½ï¿½ï¿½kï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½Aï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½Ì—Lï¿½ï¿½ï¿½ï¿½Ô‚ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½
+    /*
+     * ƒoƒŠƒA‚Ì“WŠJƒJƒEƒ“ƒgƒ_ƒEƒ“AƒRƒ‰ƒCƒ_[‚Ì—L–³‚ğŠÇ—‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒ^ƒCƒ}[‚ªXV‚³‚êƒRƒ‰ƒCƒ_[‚ª¶¬Eíœ‚³‚ê‚é
+     */
     virtual void Update() override;
 
-    // [ï¿½ï¿½ï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Wï¿½Jï¿½ï¿½ï¿½(isDeployed)ï¿½Ìê‡ï¿½Ì‚İAï¿½oï¿½ï¿½ï¿½Aï¿½Ìï¿½ï¿½oï¿½Gï¿½tï¿½Fï¿½Nï¿½gï¿½ï¿½`ï¿½æ‚·ï¿½ï¿½
+    /*
+     * ƒoƒŠƒA‚ÌƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚éiisDeployed=true‚Ì‚Ì‚İjB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‰æ–Ê‚É•`‰æ‚³‚ê‚é
+     */
     virtual void Draw() override;
 
-    // [ï¿½ï¿½ï¿½ï¿½] collider_: ï¿½ï¿½ï¿½gï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[, check: ï¿½Õ“Ë‘ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[
-    // [ï¿½oï¿½ï¿½] ï¿½È‚ï¿½
-    // [ï¿½ï¿½ï¿½ï¿½p] ï¿½Gï¿½Ì’eï¿½ÆÕ“Ë‚ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½eï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Ä–hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(hit_count)ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
+    /*
+     * “G‚Ì’e‚ÆÕ“Ë‚µ‚½ÛA‚»‚Ì’e‚ğ–h‚¬hit_count_‚ğ‰ÁZ‚·‚éB
+     * [“ü—Í] collider: ©g‚ÌƒRƒ‰ƒCƒ_[, check: ‘Šè‚ÌƒRƒ‰ƒCƒ_[
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] hit_count_‚ªXV‚³‚ê‚é
+     */
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    int GetHitCount() const { return hit_count; }
-    bool IsDeployed() const { return isDeployed; }
-    void SetDeployInterval(float v) { deployInterval = v; }
-    void SetActiveDuration(float v) { activeDuration = v; }
+    int GetHitCount() const { return hit_count_; }
+    bool IsDeployed() const { return is_deployed_; }
+    void SetDeployInterval(float v) { deploy_interval_ = v; }
+    void SetActiveDuration(float v) { active_duration_ = v; }
     void SetPosition(Vector2 pos) { position_ = pos; }
 
 private:
-    float deployInterval;
-    float activeDuration;
-    float timer;
+    float deploy_interval_;
+    float active_duration_;
+    float timer_;
     float radius_;
-    bool isDeployed;
+    bool is_deployed_;
 
     Collider* collider_;
-    int hit_count;
+    int hit_count_;
 };

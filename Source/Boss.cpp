@@ -29,16 +29,16 @@
 #include "BossStateAttack.h"
 #include "Barrier.h"
 
-Boss::Boss(float x, float y, int bossType)
+Boss::Boss(float x, float y, int boss_type_)
     : Character(Vector2(x, y), 150, 2.5f)
 {
     SetTag(kTag2dEnemy);
-    this->bossType = bossType;
-    if (bossType == 1)
+    this->boss_type_ = boss_type_;
+    if (boss_type_ == 1)
     {
         speed_ = 1.5f;
         max_hp_ = 60;
-    } else if (bossType == 2)
+    } else if (boss_type_ == 2)
     {
         speed_ = 2.0f;
         max_hp_ = 80;
@@ -48,35 +48,35 @@ Boss::Boss(float x, float y, int bossType)
         max_hp_ = 150;
     }
 
-    if (GameScene::currentStage == 2)
+    if (GameScene::current_stage_ == 2)
     {
         max_hp_ = static_cast<int>(max_hp_ * 1.3f);
-    } else if (GameScene::currentStage == 3)
+    } else if (GameScene::current_stage_ == 3)
     {
         max_hp_ = static_cast<int>(max_hp_ * 1.5f);
     }
 
     hp_ = max_hp_;
     attack_timer_ = 0;
-    patternIndex = 0;
-    isDying = false;
-    if (bossType == 3)
+    pattern_index_ = 0;
+    is_dying_ = false;
+    if (boss_type_ == 3)
     {
-        lives = 3;
+        lives_ = 3;
     } else
     {
-        lives = 1;
+        lives_ = 1;
     }
-    invincibleTimer = 0;
-    invincibleCycleTimer = 0;
-    deathTimer = 0;
+    invincible_timer_ = 0;
+    invincible_cycle_timer_ = 0;
+    death_timer_ = 0;
 
     if (collider_) delete collider_;
     collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
     SelectNewTarget();
 
     // ボス2体目・3体目にバリアを生成！E.5秒ごとに2秒間展開�E�E
-    if (bossType != 1)
+    if (boss_type_ != 1)
     {
         auto bar = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 100.0f, Object2D::kTag2dBarrierEnemy);
         if (auto locked = bar.lock())
@@ -88,10 +88,10 @@ Boss::Boss(float x, float y, int bossType)
     }
 
     // Initialize behavior state based on boss type
-    if (this->bossType == 1)
+    if (this->boss_type_ == 1)
     {
         state_ = std::make_unique<BossStateSimple>();
-    } else if (this->bossType == 2)
+    } else if (this->boss_type_ == 2)
     {
         state_ = std::make_unique<BossStateBouncing>();
     } else
@@ -106,8 +106,8 @@ Boss::~Boss()
 
 void Boss::SelectNewTarget()
 {
-    targetX = 100.0f + static_cast<float>(rand() % 1080);
-    targetY = 80.0f + static_cast<float>(rand() % 180);
+    target_x_ = 100.0f + static_cast<float>(rand() % 1080);
+    target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
 void Boss::Update()
@@ -116,14 +116,14 @@ void Boss::Update()
 
     if (stun_timer_ > 0) return;
 
-    if (isDying)
+    if (is_dying_)
     {
         UpdateDeath();
         return;
     }
 
     // Movement: chase target position
-    Vector2 target(targetX, targetY);
+    Vector2 target(target_x_, target_y_);
     float dist = position_.DistanceTo(target);
     if (dist < 15.0f)
     {
@@ -131,11 +131,11 @@ void Boss::Update()
     }
     else
     {
-        position_ += (target - position_).Normalized() * (speed_ * Utility::TimeScale);
+        position_ += (target - position_).Normalized() * (speed_ * Utility::time_scale_);
     }
 
     // バリアの位置を�Eスに追従させる
-    if (bossType != 1)
+    if (boss_type_ != 1)
     {
         if (auto bar = barrier_.lock())
         {
@@ -157,7 +157,7 @@ void Boss::ShootRadialBarrage()
     static float spiralAngle = 0.0f;
     spiralAngle += 0.15f;
 
-    bool reflect = (lives == 2);
+    bool reflect = (lives_ == 2);
     for (int i = 0; i < bulletCount; i++)
     {
         float angle = spiralAngle + (i * 2.0f * PI) / bulletCount;
@@ -168,7 +168,7 @@ void Boss::ShootFanBarrage()
 {
     const float PI = 3.14159265f;
     const int bulletCount = 15;
-    bool reflect = (lives == 2);
+    bool reflect = (lives_ == 2);
     float baseAngle = PI / 2.0f;
     for (int layer = 0; layer < 4; layer++)
     {
@@ -240,11 +240,11 @@ void Boss::ShootSpellCardBarrage()
     }
 }
 
-void Boss::TakeDamage(int damage_)
+void Boss::TakeDamage(int damage)
 {
-    if (isDying || invincibleTimer > 0) return;
+    if (is_dying_ || invincible_timer_ > 0) return;
 
-    Character::TakeDamage(damage_);
+    Character::TakeDamage(damage);
 
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
     if (scene != nullptr)
@@ -262,22 +262,22 @@ void Boss::TakeDamage(int damage_)
 
 void Boss::UpdateDamage()
 {
-    lives--;
+    lives_--;
     auto bullets = Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DListByTag(kTag2dEnemyBullet);
     for (auto& b : bullets)
     {
         b->SetDeleteFlag(true);
     }
     
-    if (lives > 0)
+    if (lives_ > 0)
     {
         hp_ = max_hp_;
-        invincibleTimer = 180;
+        invincible_timer_ = 180;
     } else
     {
-        isDying = true;
+        is_dying_ = true;
         SoundManager::GetInstance()->PlaySE("Resource/se_boss_die.wav");
-        deathTimer = 180;
+        death_timer_ = 180;
         if (collider_)
         {
             collider_->SetDeleteFlag(true);
@@ -318,9 +318,9 @@ void Boss::UpdateDamage()
 
 void Boss::UpdateDeath()
 {
-    deathTimer--;
+    death_timer_--;
     position_.y -= 1.0f;
-    if (deathTimer <= 0)
+    if (death_timer_ <= 0)
     {
         Kill();
     }
@@ -330,29 +330,29 @@ void Boss::Kill()
 {
     Character::Kill();
 
-    if (bossType == 3)
+    if (boss_type_ == 3)
     {
         ResultScene::kIsVictory = true;
-        GameScene::isTimeAttackActive = false;
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+        GameScene::is_time_attack_active_ = false;
+        Master::sceneManager->SetNextScene(SceneManager::kSceneResult);
     }
 }
 
-void Boss::OnTrigger(Collider* collider_, Collider* check)
+void Boss::OnTrigger(Collider* collider, Collider* check)
 {
-    if (isDying) return;
+    if (is_dying_) return;
 }
 
 void Boss::DrawInvincibility()
 {
-    if (invincibleTimer > 0)
+    if (invincible_timer_ > 0)
     {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (invincibleTimer % 20) * 5);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100 + (invincible_timer_ % 20) * 5);
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(200, 50, 255), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 110, GetColor(255, 150, 255), FALSE);
         DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 107, GetColor(255, 255, 255), FALSE);
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (invincibleTimer % 20) * 5);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128 + (invincible_timer_ % 20) * 5);
     }
 }
 
@@ -369,7 +369,7 @@ void Boss::Draw()
 
     if (bossGraphHandle != -1)
     {
-        if (!isDying || (deathTimer / 5) % 2 == 0)
+        if (!is_dying_ || (death_timer_ / 5) % 2 == 0)
         {
             DrawInvincibility();
             
@@ -382,17 +382,17 @@ void Boss::Draw()
                 TRUE
             );
             
-            if (invincibleTimer > 0)
+            if (invincible_timer_ > 0)
             {
                 SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
             }
         }
     } else
     {
-        if (!isDying || (deathTimer / 5) % 2 == 0)
+        if (!is_dying_ || (death_timer_ / 5) % 2 == 0)
         {
             unsigned int color_ = GetColor(255, 0, 0);
-            if (invincibleTimer > 0 && (invincibleTimer / 5) % 2 == 0)
+            if (invincible_timer_ > 0 && (invincible_timer_ / 5) % 2 == 0)
             {
                 color_ = GetColor(255, 255, 0);
             }
@@ -400,7 +400,7 @@ void Boss::Draw()
         }
     }
 
-    if (isDying)
+    if (is_dying_)
     {
         DrawString(static_cast<int>(position_.x) - 150, static_cast<int>(position_.y) + 90, "I will be waiting for you in the next stage...!", GetColor(255, 100, 100));
     }

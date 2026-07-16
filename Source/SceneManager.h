@@ -1,77 +1,95 @@
-ï»¿#include <memory>
+#include <memory>
 #pragma once
 #include "Scene.h"
 
-// ã‚²ãƒ¼ãƒ å…¨ä½“ã®ã‚·ãƒ¼ãƒ³é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+// ƒQ[ƒ€‘S‘Ì‚ÌƒV[ƒ“‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class SceneManager
 {
 public:
-	enum SCENE_TYPE
+	enum SceneType
 	{
-		SCENE_NONE = 0,
-		SCENE_RESET,
-		SCENE_NAME,
-		SCENE_TITLE,
-		SCENE_OPERATION,
-		SCENE_RULE,
-		SCENE_TUTORIAL,
-		SCENE_LEVEL,
-		SCENE_GAME,
-		SCENE_3DHARD,
-		SCENE_RESULT,
-		SCENE_RESULTWIN,
-		SCENE_NORMALRESULTSCENE,
-		SCENE_3D
+		kSceneNone = 0,
+		kSceneReset,
+		kSceneName,
+		kSceneTitle,
+		kSceneOperation,
+		kSceneRule,
+		kSceneTutorial,
+		kSceneLevel,
+		kSceneGame,
+		kScene3dHard,
+		kSceneResult,
+		kSceneResultWin,
+		kSceneNormalResultScene,
+		kScene3d
 	};
 
 public:
 	SceneManager();
 	~SceneManager();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] æœ€åˆã®ã‚·ãƒ¼ãƒ³ï¼ˆé€šå¸¸ã¯TITLEç­‰ï¼‰ã®Initializeã‚’å‘¼ã³å‡ºã—åˆæœŸåŒ–ã™ã‚‹
+    /*
+     * Å‰‚ÌƒV[ƒ“i’Êí‚ÍTITLE“™j‚ÌInitialize‚ğŒÄ‚Ño‚µ‰Šú‰»‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒV[ƒ“‚ª‰Šú‰»‚³‚ê‚é
+     */
 	void Initialize();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Drawé–¢æ•°ã‚’å‘¼ã³å‡ºã—ã€æç”»å‡¦ç†ã‚’å§”è­²ã™ã‚‹
+    /*
+     * Œ»İ‚ÌƒV[ƒ“‚ÌDrawŠÖ”‚ğŒÄ‚Ño‚µA•`‰æˆ—‚ğˆÏ÷‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ‰æ–Ê‚ÉƒV[ƒ“‚Ì—v‘f‚ª•`‰æ‚³‚ê‚é
+     */
 	void Draw();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Updateé–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚ã¾ãŸã€æ¬¡ã‚·ãƒ¼ãƒ³ãŒäºˆç´„ã•ã‚Œã¦ã„ã‚Œã°é·ç§»å‡¦ç†ã‚’è¡Œã†
+    /*
+     * Œ»İ‚ÌƒV[ƒ“‚ÌUpdateŠÖ”‚ğŒÄ‚Ño‚·B‚Ü‚½AŸƒV[ƒ“‚ª—\–ñ‚³‚ê‚Ä‚¢‚ê‚Î‘JˆÚˆ—‚ğs‚¤B
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒV[ƒ“‚ÌXV‚âØ‚è‘Ö‚¦‚ª”­¶‚·‚é
+     */
 	void Update();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®Finalizeã‚’å‘¼ã³å‡ºã—ã€ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
+    /*
+     * Œ»İ‚ÌƒV[ƒ“‚ÌFinalize‚ğŒÄ‚Ño‚µAƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒV[ƒ“‚ÌƒŠƒ\[ƒX‚ª‰ğ•ú‚³‚ê‚é
+     */
 	void Finalize();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] mnNextSceneTypeãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã€æ—§ã‚·ãƒ¼ãƒ³ã‚’ç ´æ£„ã—ã¦æ–°ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆãƒ»åˆæœŸåŒ–ã™ã‚‹
+    /*
+     * next_scene_type_‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡A‹ŒƒV[ƒ“‚ğ”jŠü‚µ‚ÄVƒV[ƒ“‚ğ¶¬E‰Šú‰»‚·‚éB
+     * [“ü—Í] ‚È‚µ
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] ƒV[ƒ“‚ÌØ‚è‘Ö‚¦‚ªŠ®—¹‚·‚é
+     */
 	void ChangeSceneIfNeeded();
 
-    // [å…¥åŠ›] next: æ¬¡ã«é·ç§»ã—ãŸã„ã‚·ãƒ¼ãƒ³ã®ç¨®åˆ¥åˆ—æŒ™å­
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] æ¬¡å›Updateæ™‚ã«ã‚·ãƒ¼ãƒ³é·ç§»ãŒè¡Œã‚ã‚Œã‚‹ã‚ˆã†ãƒ•ãƒ©ã‚°(next_scene_type_)ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
-	void SetNextScene(SCENE_TYPE next) { next_scene_type_ = next; }
+    /*
+     * Ÿ‚ÌƒV[ƒ“‚ğ—\–ñ‚·‚éB
+     * [“ü—Í] next: Ÿ‚É‘JˆÚ‚µ‚½‚¢ƒV[ƒ“‚Ìí•Ê
+     * [o—Í] ‚È‚µ
+     * [•›ì—p] Ÿ‰ñUpdate‚ÉƒV[ƒ“‘JˆÚ‚ªs‚í‚ê‚é
+     */
+	void SetNextScene(SceneType next) { next_scene_type_ = next; }
 
-	void SetSceneHard(bool Hard) { kSceneHard = Hard; }
-	bool GetSceneHard() { return kSceneHard; }
+	void SetSceneHard(bool isHard) { is_scene_hard_ = isHard; }
+	bool GetSceneHard() { return is_scene_hard_; }
 
-	void SetSceneNormal(bool Normal) {kSceneNormal=Normal; }
-	bool GetSceneNormal() { return kSceneNormal; }
+	void SetSceneNormal(bool isNormal) {is_scene_normal_ = isNormal; }
+	bool GetSceneNormal() { return is_scene_normal_; }
 
 	Scene* GetCurrentScene() { return current_scene_.get(); }
 
 private:
-	SCENE_TYPE scene_type_;     
-	SCENE_TYPE next_scene_type_;
+	SceneType scene_type_;     
+	SceneType next_scene_type_;
 	std::unique_ptr<Scene> current_scene_;    
 	
 
-	bool kSceneHard;
-	bool kSceneNormal;
+	bool is_scene_hard_;
+	bool is_scene_normal_;
 };

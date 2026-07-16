@@ -7,9 +7,9 @@
 #include"Master.h"
 
 Collider::Collider(Object2D* parent)
-	: parentObject(parent)
+	: parent_object_(parent)
 	, position_(Vector2(0.0f, 0.0f))
-	, position2(Vector2(0.0f, 0.0f))
+	, position2_(Vector2(0.0f, 0.0f))
 	, radius_(0.0f)
 	, delete_flag_(false)
 {
@@ -55,17 +55,17 @@ void Collider::HitCheck(Collider* check, bool isHit)
 		if (itr != collision_list_.end())
 		{
 			// 邯咏ｶ壽磁隗ｦ荳ｭ 竊・OnTrigger・域ｯ弱ヵ繝ｬ繝ｼ繝蜻ｼ縺ｰ繧後ｋ・・
-			if (this->parentObject != nullptr)
+			if (this->parent_object_ != nullptr)
 			{
-				this->parentObject->OnTrigger(this, check);
+				this->parent_object_->OnTrigger(this, check);
 			}
 		}
 		else
 		{	// 蛻晏屓謗･隗ｦ 竊・繝ｪ繧ｹ繝医↓逋ｻ骭ｲ縺励※OnEnter繧貞他縺ｶ
 			collision_list_.push_back(check);
-			if (this->parentObject != nullptr)
+			if (this->parent_object_ != nullptr)
 			{
-				this->parentObject->OnEnter(this, check);
+				this->parent_object_->OnEnter(this, check);
 			}
 		}
 	}
@@ -79,9 +79,9 @@ void Collider::HitCheck(Collider* check, bool isHit)
 
 		if (itr != collision_list_.end())
 		{
-			if (this->parentObject != nullptr)
+			if (this->parent_object_ != nullptr)
 			{
-				this->parentObject->OnExit(this, check);
+				this->parent_object_->OnExit(this, check);
 			}
 			collision_list_.erase(itr);
 		}
@@ -116,9 +116,9 @@ void Collider::OnExit()
 
 }
 
-void Collider::RemoveCollision(Collider* collider_)
+void Collider::RemoveCollision(Collider* collider)
 {
-    auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider_);
+    auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider);
     if (itr != collision_list_.end())
     {
         collision_list_.erase(itr);

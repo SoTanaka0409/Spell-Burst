@@ -23,7 +23,7 @@ SpecialBullet::~SpecialBullet()
 // 必殺技の弾を上方向に移動させ、画面外に出たら削除フラグを立てます
 void SpecialBullet::Update()
 {
-    position_ += dir * (speed_ * Utility::TimeScale);
+    position_ += dir_ * (speed_ * Utility::time_scale_);
 
     Projectile::Update();
 
@@ -56,7 +56,7 @@ void SpecialBullet::Kill()
     // 敵を貫通して一網打尽にする仕様とするため、衝突時の消滅処理を行わない（オーバーライドして無効化）
 }
 
-void SpecialBullet::OnTrigger(Collider* collider_, Collider* check)
+void SpecialBullet::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {

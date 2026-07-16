@@ -28,7 +28,7 @@
 int Player::kSelectedCharacterType = 1;
 
 Player::Player() 
-    : Character(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f), 15, 5.0f)
+    : Character(Vector2((float)Utility::kScreenWidth / 2.0f, (float)Utility::kScreenHeight / 2.0f), 15, 5.0f)
 {
     SetTag(kTag2dPlayer);
     Initialize();
@@ -45,14 +45,14 @@ Player::~Player()
 
 void Player::Initialize()
 {
-    position_.x = (float)Utility::SCREEN_WIDTH / 2.0f;
-    position_.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
+    position_.x = (float)Utility::kScreenWidth / 2.0f;
+    position_.y = (float)Utility::kScreenHeight / 2.0f;
     
     level_up_timer_ = 0;
     stun_timer_ = 0;
     attack_mode_ = kAttackModeMelee;
     special_cooldown_ = 0;
-    attack = 1;
+    attack_power_ = 1;
     attack_timer_ = 20;
     attack_interval_ = 0;
     attack_timer2_ = 60;
@@ -77,7 +77,7 @@ void Player::Initialize()
         speed_ = 5.0f;
         max_hp_ = 10;
         hp_ = max_hp_;
-        attack = 2;
+        attack_power_ = 2;
     }
     else
     {
@@ -93,7 +93,7 @@ void Player::Initialize()
 
 void Player::Update()
 {
-    Character::Update(); // 繧ｹ繧ｿ繝ｳ繧ｿ繧､繝槭・縺ｪ縺ｩ縺ｮ蜃ｦ逅・
+    Character::Update(); // 繧�E�繧�E�繝ｳ繧�E�繧�E�繝槭・縺�E�縺�E�縺�E�蜁E��送E�E
 
     if (level_up_timer_ > 0)
     {
@@ -128,12 +128,12 @@ void Player::Draw()
     DrawPlayerSprite();
 }
 
-void Player::TakeDamage(int damage_) 
+void Player::TakeDamage(int damage) 
 {
-    Character::TakeDamage(damage_);
+    Character::TakeDamage(damage);
     SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
 
-    // 陲ｫ蠑ｾ貍泌・: 繧ｹ繧ｯ繝ｪ繝ｼ繝ｳ繧ｷ繧ｧ繧､繧ｯ + 繝€繝｡繝ｼ繧ｸ繝輔Λ繝・す繝･・郁ｵ､・・
+    // 陲�E�蠑ｾ貍泌�E: 繧�E�繧�E�繝ｪ繝ｼ繝ｳ繧�E�繧�E�繧�E�繧�E� + 繝€繝｡繝ｼ繧�E�繝輔Λ繝�Eす繝･・郁E���E�・・
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
     if (scene != nullptr)
     {
@@ -150,7 +150,7 @@ void Player::TakeDamage(int damage_)
 void Player::OnDeath()
 {
     ResultScene::kIsVictory = false;
-    Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
+    Master::sceneManager->SetNextScene(SceneManager::kSceneResult);
 }
 
 void Player::Attack()
@@ -213,7 +213,7 @@ void Player::AddXp(int amount)
     }
 }
 
-void Player::OnEnter(Collider* collider_, Collider* check)
+void Player::OnEnter(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
@@ -227,25 +227,25 @@ void Player::OnEnter(Collider* collider_, Collider* check)
         }
     }
 }
-void Player::OnTrigger(Collider* collider_, Collider* check) 
+void Player::OnTrigger(Collider* collider, Collider* check) 
 {
 
 }
-void Player::OnExit(Collider* collider_, Collider* check) {}
+void Player::OnExit(Collider* collider, Collider* check) {}
 void Player::RunBarrierAttack() {}
 
 void Player::HandleMovement()
 {
     bool isFocus = InputManager::ActionPress(InputAction::kFocus);
-    float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::TimeScale;
+    float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::time_scale_;
 
     if (InputManager::ActionPress(InputAction::kMoveUp))    { position_.y -= currentSpeed; }
     if (InputManager::ActionPress(InputAction::kMoveDown))  { position_.y += currentSpeed; }
     if (InputManager::ActionPress(InputAction::kMoveLeft))  { position_.x -= currentSpeed; }
     if (InputManager::ActionPress(InputAction::kMoveRight)) { position_.x += currentSpeed; }
 
-    position_.x = std::clamp(position_.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
-    position_.y = std::clamp(position_.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
+    position_.x = std::clamp(position_.x, 45.0f, Utility::kScreenWidth - 45.0f);
+    position_.y = std::clamp(position_.y, 45.0f, Utility::kScreenHeight - 45.0f);
 }
 
 void Player::ShootNormalBullets()
@@ -258,7 +258,7 @@ void Player::ShootNormalBullets()
         float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
         for (int i = 0; i < numBullets; ++i)
         {
-            ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack));
+            ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack_power_));
         }
     }
 }

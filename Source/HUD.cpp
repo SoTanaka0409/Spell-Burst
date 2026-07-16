@@ -9,57 +9,57 @@
 #endif
 #include "DxLib.h"
 
-float HUD::displayHpRatio = 1.0f;
-float HUD::displayXpRatio = 0.0f;
-float HUD::displaySpellRatio = 0.0f;
-float HUD::displayBarrierRatio = 0.0f;
-float HUD::bossHpRatio = 1.0f;
+float HUD::display_hp_ratio_ = 1.0f;
+float HUD::display_xp_ratio_ = 0.0f;
+float HUD::display_spell_ratio_ = 0.0f;
+float HUD::display_barrier_ratio_ = 0.0f;
+float HUD::boss_hp_ratio_ = 1.0f;
 
 void HUD::Initialize()
 {
-    displayHpRatio = 1.0f;
-    displayXpRatio = 0.0f;
-    displaySpellRatio = 0.0f;
-    displayBarrierRatio = 0.0f;
-    bossHpRatio = 1.0f;
+    display_hp_ratio_ = 1.0f;
+    display_xp_ratio_ = 0.0f;
+    display_spell_ratio_ = 0.0f;
+    display_barrier_ratio_ = 0.0f;
+    boss_hp_ratio_ = 1.0f;
 }
 
-void HUD::Update(Player* player, EnemyManager* enemy_manager_, Boss* boss)
+void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
 {
-    float lerpSpeed = 0.1f * Utility::TimeScale;
+    float lerpSpeed = 0.1f * Utility::time_scale_;
 
     if (player != nullptr)
     {
         float targetHpRatio = static_cast<float>(player->GetHp()) / static_cast<float>(player->GetMaxHp());
-        displayHpRatio += (targetHpRatio - displayHpRatio) * lerpSpeed;
+        display_hp_ratio_ += (targetHpRatio - display_hp_ratio_) * lerpSpeed;
 
         float targetXpRatio = (player->GetXpNeeded() > 0) ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) : 1.0f;
-        displayXpRatio += (targetXpRatio - displayXpRatio) * lerpSpeed;
+        display_xp_ratio_ += (targetXpRatio - display_xp_ratio_) * lerpSpeed;
 
         float targetSpellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
-        displaySpellRatio += (targetSpellRatio - displaySpellRatio) * lerpSpeed;
+        display_spell_ratio_ += (targetSpellRatio - display_spell_ratio_) * lerpSpeed;
     }
 
     if (boss != nullptr && boss->IsActive())
     {
         float targetBossHpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
-        bossHpRatio += (targetBossHpRatio - bossHpRatio) * lerpSpeed;
+        boss_hp_ratio_ += (targetBossHpRatio - boss_hp_ratio_) * lerpSpeed;
     } else
     {
-        bossHpRatio = 1.0f;
+        boss_hp_ratio_ = 1.0f;
     }
 }
 
-void HUD::Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cutin_timer_, int cutin_image_handle_)
+void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle)
 {
     if (player != nullptr)
     {
         DrawPlayerStatus(player);
     }
     
-    if (enemy_manager_ != nullptr)
+    if (enemyManager != nullptr)
     {
-        DrawEnemyProgress(enemy_manager_);
+        DrawEnemyProgress(enemyManager);
     }
 
     if (boss != nullptr && boss->IsActive())
@@ -67,9 +67,9 @@ void HUD::Draw(Player* player, EnemyManager* enemy_manager_, Boss* boss, int cut
         DrawBossStatus(boss);
     }
 
-    if (cutin_timer_ > 0)
+    if (cutinTimer > 0)
     {
-        DrawCutin(cutin_timer_, cutin_image_handle_);
+        DrawCutin(cutinTimer, cutinImageHandle);
     }
 }
 
@@ -86,7 +86,7 @@ void HUD::DrawPlayerStatus(Player* player)
     int hpBarY = 22;
     int hpBarWidth = 140;
     DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
-    int hpFill = static_cast<int>(hpBarWidth * displayHpRatio);
+    int hpFill = static_cast<int>(hpBarWidth * display_hp_ratio_);
     if (hpFill > 0)
     {
         DrawBox(hpBarX, hpBarY, hpBarX + hpFill, hpBarY + 10, GetColor(100, 255, 100), TRUE);
@@ -98,7 +98,7 @@ void HUD::DrawPlayerStatus(Player* player)
     int xpBarWidth = 260;
     int xpBarX = 35;
     int xpBarY = 70;
-    int xpFill = static_cast<int>(xpBarWidth * displayXpRatio);
+    int xpFill = static_cast<int>(xpBarWidth * display_xp_ratio_);
     DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
     if (xpFill > 0)
     {
@@ -109,7 +109,7 @@ void HUD::DrawPlayerStatus(Player* player)
 
     DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
     int spellBarY = 105;
-    int spellFill = static_cast<int>(xpBarWidth * displaySpellRatio);
+    int spellFill = static_cast<int>(xpBarWidth * display_spell_ratio_);
     
     DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
     if (spellFill > 0)
@@ -147,16 +147,16 @@ void HUD::DrawPlayerStatus(Player* player)
     }
 }
 
-void HUD::DrawEnemyProgress(EnemyManager* enemy_manager_)
+void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
 {
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-    DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 15, 30), TRUE);
+    DrawBox(Utility::kScreenWidth - 230, 10, Utility::kScreenWidth - 10, 50, GetColor(0, 15, 30), TRUE);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
+    DrawBox(Utility::kScreenWidth - 230, 10, Utility::kScreenWidth - 10, 50, GetColor(0, 128, 255), FALSE);
 
-    if (enemy_manager_->GetDefeatedCount() < 10)
+    if (enemyManager->GetDefeatedCount() < 10)
     {
-        DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemy_manager_->GetDefeatedCount());
+        DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemyManager->GetDefeatedCount());
     }
 }
 
@@ -164,7 +164,7 @@ void HUD::DrawBossStatus(Boss* boss)
 {
     int barWidth = 400;
     int barHeight = 20;
-    int barX = (Utility::SCREEN_WIDTH - barWidth) / 2;
+    int barX = (Utility::kScreenWidth - barWidth) / 2;
     int barY = 50;
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -172,7 +172,7 @@ void HUD::DrawBossStatus(Boss* boss)
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE);
 
-    int fillWidth = static_cast<int>(barWidth * bossHpRatio);
+    int fillWidth = static_cast<int>(barWidth * boss_hp_ratio_);
     if (fillWidth > 0)
     {
         DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
@@ -183,16 +183,16 @@ void HUD::DrawBossStatus(Boss* boss)
     DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
 }
 
-void HUD::DrawCutin(int cutin_timer_, int cutin_image_handle_)
+void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
 {
     int maxTimer = 90;
-    int progress = maxTimer - cutin_timer_; 
+    int progress = maxTimer - cutinTimer; 
     
     float xOffset = 0;
     if (progress < 15)
     {
         float t = progress / 15.0f;
-        xOffset = Utility::SCREEN_WIDTH * (1.0f - t);
+        xOffset = Utility::kScreenWidth * (1.0f - t);
     } else if (progress <= 75)
     {
         float t = (progress - 15) / 60.0f;
@@ -200,17 +200,17 @@ void HUD::DrawCutin(int cutin_timer_, int cutin_image_handle_)
     } else
     {
         float t = (progress - 75) / 15.0f;
-        xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
+        xOffset = -30.0f - (Utility::kScreenWidth * t);
     }
     
-    if (cutin_image_handle_ != -1)
+    if (cutinImageHandle != -1)
     {
-        DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutin_image_handle_, TRUE);
+        DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::kScreenWidth), 570, cutinImageHandle, TRUE);
     }
 
     SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-    DrawBox(0, 0, Utility::SCREEN_WIDTH, 150, GetColor(0, 0, 0), TRUE);
-    DrawBox(0, 570, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
+    DrawBox(0, 0, Utility::kScreenWidth, 150, GetColor(0, 0, 0), TRUE);
+    DrawBox(0, 570, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 0, 0), TRUE);
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
     if (progress > 10)

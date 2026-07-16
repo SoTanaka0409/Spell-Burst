@@ -22,12 +22,12 @@ SoundManager* SoundManager::GetInstance()
 
 int SoundManager::GetSound(const std::string& path)
 {
-    if (soundMap.find(path) == soundMap.end())
+    if (sound_map_.find(path) == sound_map_.end())
     {
         int handle = LoadSoundMem(path.c_str());
-        soundMap[path] = handle;
+        sound_map_[path] = handle;
     }
-    return soundMap[path];
+    return sound_map_[path];
 }
 
 void SoundManager::PlayBGM(const std::string& path)
@@ -71,7 +71,7 @@ void SoundManager::StopBGM()
 void SoundManager::StopAll()
 {
     // 全てのサウンドの再生を停止
-    for (auto& pair : soundMap)
+    for (auto& pair : sound_map_)
     {
         if (pair.second != -1)
         {
@@ -84,13 +84,13 @@ void SoundManager::StopAll()
 void SoundManager::ClearAll() 
 {
     StopAll();
-    for (auto& pair : soundMap)
+    for (auto& pair : sound_map_)
     {
         if (pair.second != -1)
         {
             DeleteSoundMem(pair.second);
         }
     }
-    soundMap.clear();
+    sound_map_.clear();
 }
 

@@ -3,11 +3,11 @@
 #include "CapsuleCollider.h"
 #include <algorithm>
 
-Character::Character(Vector2 pos, int max_hp_, float speed_)
+Character::Character(Vector2 pos, int maxHp, float speed)
     : Object2D(pos)
     , hp_(max_hp_)
-    , max_hp_(max_hp_)
-    , speed_(speed_)
+    , max_hp_(maxHp)
+    , speed_(speed)
     , is_active_(true)
     , stun_timer_(0)
     , collider_(nullptr)
@@ -35,7 +35,7 @@ void Character::Update()
     if (collider_)
     {
         collider_->position_ = position_;
-        collider_->position2 = position_;
+        collider_->position2_ = position_;
     }
 }
 
@@ -44,7 +44,7 @@ void Character::Draw()
     // 基底クラスは描画しない
 }
 
-void Character::OnTrigger(Collider* collider_, Collider* check)
+void Character::OnTrigger(Collider* collider, Collider* check)
 {
     // デフォルト実装：派生先でオーバーライド
 }

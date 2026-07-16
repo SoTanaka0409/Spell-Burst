@@ -61,9 +61,9 @@ void ObjectManager::DeleteAll2DIfNeeded()
 	});
 }
 
-std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
+std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 {
-	if (tag_ == Object2D::kTag2dPlayer)
+	if (tag == Object2D::kTag2dPlayer)
 	{
 		if (auto p = player_2d_.lock())
 		{
@@ -74,7 +74,7 @@ std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
 	auto itr = std::find_if(
 		object_2d_list_.begin(),
 		object_2d_list_.end(),
-		[&](const std::shared_ptr<Object2D>& obj) { return obj->GetTag() == tag_; }
+		[&](const std::shared_ptr<Object2D>& obj) { return obj->GetTag() == tag; }
 	);
 
 	if (itr != object_2d_list_.end())
@@ -84,12 +84,12 @@ std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag_)
 	return nullptr;
 }
 
-std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag_)
+std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag)
 {
 	std::vector<std::shared_ptr<Object2D>> ret;
 	for (auto& obj : object_2d_list_)
 	{
-		if (obj->GetTag() == tag_)
+		if (obj->GetTag() == tag)
 		{
 			ret.push_back(obj);
 		}

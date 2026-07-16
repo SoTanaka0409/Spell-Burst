@@ -72,7 +72,7 @@ void MeleeAttack::Kill()
     // ‹ßÚUŒ‚‚Í“G’e‚É‚æ‚Á‚Ä‘ŠŽE‚³‚ê‚È‚¢Žd—l‚Æ‚·‚é‚½‚ß‹óˆ—
 }
 
-void MeleeAttack::OnTrigger(Collider* collider_, Collider* check)
+void MeleeAttack::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)
     {

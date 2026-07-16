@@ -46,7 +46,7 @@ void EnemyManager::Update()
         if (defeated_count_ >= required_kills_)
         {
             DeleteEnemy();
-            current_boss_ = ObjectManager::Instantiate<Boss>((float)Utility::SCREEN_WIDTH / 2.0f, -80.0f, current_phase_);
+            current_boss_ = ObjectManager::Instantiate<Boss>((float)Utility::kScreenWidth / 2.0f, -80.0f, current_phase_);
             boss_spawned_ = true;
         } else
         {
@@ -66,8 +66,8 @@ void EnemyManager::SpawnPhaseEnemies()
 {
     spawn_timer_++;
     int interval = 45;
-    if (GameScene::currentStage == 2) interval = 40;
-    if (GameScene::currentStage == 3) interval = 35;
+    if (GameScene::current_stage_ == 2) interval = 40;
+    if (GameScene::current_stage_ == 3) interval = 35;
     
     if (spawn_timer_ >= interval)
     {
@@ -75,7 +75,7 @@ void EnemyManager::SpawnPhaseEnemies()
         float spawnX = 80.0f + static_cast<float>(rand() % 1120);
         float spawnY = -50.0f;
         bool spawnObstacle = false;
-        if (GameScene::currentStage >= 2 && (rand() % 100) < 30)
+        if (GameScene::current_stage_ >= 2 && (rand() % 100) < 30)
         {
             spawnObstacle = true;
         }

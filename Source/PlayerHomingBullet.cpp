@@ -13,8 +13,8 @@
 #include <cmath>
 #include "utility.h"
 
-PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed_)
-    : Projectile(pos, dir.Normalized(), speed_, 5) // 隨倥・蟶･邵ｺ・ｮ郢敖郢晢ｽ｡郢晢ｽｼ郢ｧ・ｸ郢ｧ繝ｻ邵ｺ・ｫ陟・懷・
+PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir_, float speed_)
+    : Projectile(pos, dir_.Normalized(), speed_, 5) // 隨倥・蟶･邵ｺ・ｮ郢敖郢晢ｽ｡郢晢ｽｼ郢ｧ・ｸ郢ｧ繝ｻ邵ｺ・ｫ陟・懷・
 {
     SetTag(kTag2dPlayerBullet);
     life_timer_ = 60 * 3;
@@ -55,19 +55,19 @@ void PlayerHomingBullet::Update()
 
     if (targetEnemy)
     {
-        float currentAngle = Vector2(1, 0).AngleTo(dir);
+        float currentAngle = Vector2(1, 0).AngleTo(dir_);
         float targetAngle = Vector2(1, 0).AngleTo(targetEnemy->GetPosition() - position_);
         float diff = targetAngle - currentAngle;
         while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
         while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
-        float turnSpeed = 0.1f * Utility::TimeScale;
+        float turnSpeed = 0.1f * Utility::time_scale_;
         if (diff > turnSpeed) currentAngle += turnSpeed;
         else if (diff < -turnSpeed) currentAngle -= turnSpeed;
         else currentAngle = targetAngle;
-        dir = Vector2::FromAngle(currentAngle);
+        dir_ = Vector2::FromAngle(currentAngle);
     }
 
-    position_ += dir * (speed_ * Utility::TimeScale);
+    position_ += dir_ * (speed_ * Utility::time_scale_);
 
     Projectile::Update();
 
@@ -86,7 +86,7 @@ void PlayerHomingBullet::Draw()
     DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(100, 255, 200), TRUE);
 }
 
-void PlayerHomingBullet::OnTrigger(Collider* collider_, Collider* check)
+void PlayerHomingBullet::OnTrigger(Collider* collider, Collider* check)
 {
     if(check!=nullptr&&check->GetParentObject() != nullptr)
     {

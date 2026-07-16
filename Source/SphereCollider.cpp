@@ -2,11 +2,11 @@
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
-SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius_)
+SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
 	position_ = center;
-	position2 = center;
+	position2_ = center;
 	this->radius_ = radius_;
 }
 
@@ -25,7 +25,7 @@ void SphereCollider::Update(Collider* check)
 				this->position_,
 				this->radius_,
 				capsule->position_,
-				capsule->position2,
+				capsule->position2_,
 				capsule->radius_
 			);
 			HitCheck(check, isHit);

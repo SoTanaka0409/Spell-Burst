@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -8,86 +8,104 @@
 
 class Object2D;
 
-// 当たり判定（コライダー）の基底クラス
-// 親オブジェクトにアタッチされ、他コライダーとの衝突判定やイベント発火を管理する
+// �����蔻��i�R���C�_�[�j�̊��N���X
+// �e�I�u�W�F�N�g�ɃA�^�b�`����A���R���C�_�[�Ƃ̏Փ˔����C�x���g���΂��Ǘ�����
 class Collider
 {
 public:
-    // [入力] parent: このコライダーを所有する親オブジェクト（Object2D）
-    // [出力] なし
-    // [副作用] 親オブジェクトのポインタを保持し、初期化を行う
+    /*
+     * �R���C�_�[�̏������Ɛe�I�u�W�F�N�g�̓o�^���s���B
+     * [����] parent: ���̃R���C�_�[�����L����e�I�u�W�F�N�g
+     * [�o��] �Ȃ�
+     * [����p] �e�I�u�W�F�N�g�̃|�C���^��ێ�����
+     */
     Collider(Object2D* parent);
     virtual ~Collider();
 
-    // [入力] check: 判定対象となる他のコライダー
-    // [出力] なし
-    // [副作用] 派生クラスにて実装。自身の座標更新や、対象コライダーとの具体的な衝突計算を行う
+    /*
+     * ���̃R���C�_�[�Ƃ̋�̓I�ȏՓˌv�Z���s���B
+     * [����] check: ����ΏۂƂȂ鑼�̃R���C�_�[
+     * [�o��] �Ȃ�
+     * [����p] �Փ˂����m���ꂽ�ꍇ�AHitCheck���Ăяo��
+     */
     virtual void Update(Collider* check);
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] デバッグ用。コライダーの形状（円や線分など）を画面に描画する
+    /*
+     * �R���C�_�[�̌`����f�o�b�O�p�ɕ`�悷��B
+     * [����] �Ȃ�
+     * [�o��] �Ȃ�
+     * [����p] ��ʂɕ`�悳���
+     */
     virtual void Draw();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 他のコライダーと接触した最初のフレームに呼ばれる（OnCollisionEnter相当）
+    /*
+     * ���̃R���C�_�[�ƐڐG�����ŏ��̃t���[���ɌĂ΂��C�x���g�B
+     * [����] �Ȃ�
+     * [�o��] �Ȃ�
+     * [����p] �h���N���X�̐ڐG���������s�����
+     */
     virtual void OnEnter();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 他のコライダーと接触している間、毎フレーム呼ばれる（OnCollisionStay/Trigger相当）
+    /*
+     * ���̃R���C�_�[�ƐڐG���Ă���ԌĂ΂��C�x���g�B
+     * [����] �Ȃ�
+     * [�o��] �Ȃ�
+     * [����p] �p���I�ȐڐG���������s�����
+     */
     virtual void OnTrigger();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 他のコライダーとの接触が離れたフレームに呼ばれる（OnCollisionExit相当）
+    /*
+     * ���̃R���C�_�[�Ƃ̐ڐG�����ꂽ�t���[���ɌĂ΂��C�x���g�B
+     * [����] �Ȃ�
+     * [�o��] �Ȃ�
+     * [����p] ���E���̏��������s�����
+     */
     virtual void OnExit();
 
-    // [入力] check: 判定対象のコライダー, isHit: 現在衝突しているかどうか
-    // [出力] なし
-    // [副作用] 衝突状態に応じてmCollisionListを更新し、OnEnter / OnTrigger / OnExit を呼び出す
+    /*
+     * �Փˏ�Ԃɉ����ďՓ˃��X�g���X�V���A�e��C�x���g���Ăяo���B
+     * [����] check: ����Ώۂ̃R���C�_�[, isHit: ���ݏՓ˂��Ă��邩
+     * [�o��] �Ȃ�
+     * [����p] collision_list_���X�V�����
+     */
     void HitCheck(Collider* check, bool isHit);
 
-    // --- フラグ管理・ゲッター群 ---
-    // [入力] flag: 削除フラグ（trueで削除予定）
-    // [出力] なし
-    // [副作用] コライダーの削除フラグを更新する
+    // --- �t���O�Ǘ��E�Q�b�^�[�Q ---
     void SetDeleteFlag(bool flag) { delete_flag_ = flag; }
 
-    // 削除フラグの状態を取得する
+    // �폜�t���O�̏�Ԃ��擾����
     bool IsDeleteFlag() { return delete_flag_; }
 
-    // このコライダーを所有している親オブジェクトを取得する
+    // ���̃R���C�_�[�����L���Ă���e�I�u�W�F�N�g���擾����
     Object2D* GetParentObject()
     {
-        return parentObject;
+        return parent_object_;
     }
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 親オブジェクトへのポインタを無効化する（親が破棄された際などに使用）
     void InvalidateParent()
     {
-        parentObject = nullptr;
+        parent_object_ = nullptr;
     }
 
-    // [入力] collider_: 衝突リストから削除するコライダー
-    // [出力] なし
-    // [副作用] mCollisionListから指定されたコライダーを検索し、取り除く
-    void RemoveCollision(Collider* collider_);
+    /*
+     * �Փ˃��X�g����w�肳�ꂽ�R���C�_�[����菜���B
+     * [����] collider: �폜����R���C�_�[
+     * [�o��] �Ȃ�
+     * [����p] collision_list_����v�f���폜�����
+     */
+    void RemoveCollision(Collider* collider);
 
     const std::vector<Collider*>& GetCollisionList() const { return collision_list_; }
 
 public:
-    Object2D* parentObject;               // このコライダーを所有する親オブジェクト
+    Object2D* parent_object_;
 
-    Vector2 position_;                      // コライダーの座標（中心点など）
-    Vector2 position2;                     // コライダーの座標2（カプセル型の終点など、形状に応じて使用）
-    float radius_;                         // コライダーの半径（円形やカプセル型の太さ）
+    Vector2 position_;                      // �R���C�_�[�̍��W�i���S�_�Ȃǁj
+    Vector2 position2_;
+    float radius_;                         // �R���C�_�[�̔��a�i�~�`��J�v�Z���^�̑����j
 
-    bool delete_flag_;                      // 削除フラグ（trueの場合、管理クラスによって破棄される）
+    bool delete_flag_;                      // �폜�t���O�itrue�̏ꍇ�A�Ǘ��N���X�ɂ���Ĕj�������j
 
 protected:
-    std::vector<Collider*> collision_list_;  // 現在衝突している（重なっている）他のコライダーのリスト
+    std::vector<Collider*> collision_list_;  // ���ݏՓ˂��Ă���i�d�Ȃ��Ă���j���̃R���C�_�[�̃��X�g
 };

@@ -1,11 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+// ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é’Êí‚Ì’e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Bullet : public Projectile
 {
 public:
-    Bullet(float x, float y, int damage_);
+    Bullet(float x, float y, int damage);
     virtual ~Bullet() override;
     
     void Draw() override;
@@ -16,11 +16,11 @@ public:
     float GetY() { return position_.y; }
     float GetRadius() const { return 10.0f; }
 
-	void AddReceivedDamage() { recivedDamage++; }
+	void AddReceivedDamage() { received_damage_++; }
 
-    virtual void OnTrigger(Collider* collider_, Collider* check) override;
+    virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-	int recivedDamage;    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸå›æ•°  
-	int maxrecivedDamage; // ã“ã®å¼¾ãŒä¸ãˆã‚‰ã‚Œã‚‹æœ€å¤§ãƒ€ãƒ¡ãƒ¼ã‚¸ä¸Šé™ï¼ˆè²«é€šåˆ¶é™ï¼‰
+	int received_damage_;    // ƒ_ƒ[ƒW‚ğó‚¯‚½‰ñ”  
+	int max_received_damage_; // ‚±‚Ì’e‚ª—^‚¦‚ç‚ê‚éÅ‘åƒ_ƒ[ƒWãŒÀiŠÑ’Ê§ŒÀj
 };

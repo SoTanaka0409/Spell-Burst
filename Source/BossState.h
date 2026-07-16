@@ -1,4 +1,4 @@
-﻿// BossState.h
+// BossState.h
 // State Pattern for Boss behavior.
 // Each concrete state handles its own attack timing and movement logic,
 // making it easy to add new boss types without modifying Boss.cpp.
