@@ -20,7 +20,7 @@ Obstacle::Obstacle(float x, float y)
     , collider_(nullptr)
     , fall_speed_(3.0f)
 {
-    SetTag(kTag2dEnemy); // ƒvƒŒƒCƒ„[‚Ì’e‚â‘Ì“–‚½‚è”»’è‚Ì‘ÎÛ‚Æ‚·‚é‚½‚ß•Ö‹Xã“Gƒ^ƒO‚ğ•t—^
+    SetTag(kTag2dEnemy); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ã‚„ä½“å½“ãŸã‚Šåˆ¤å®šã®å¯¾è±¡ã¨ã™ã‚‹ãŸã‚ä¾¿å®œä¸Šæ•µã‚¿ã‚°ã‚’ä»˜ä¸
     collider_ = new CapsuleCollider(this, position_, position_, 40.0f);
 }
 
@@ -77,7 +77,7 @@ void Obstacle::OnTrigger(Collider* collider_, Collider* check)
     if (check != nullptr && check->GetParentObject() != nullptr)
     {
         Object2D* parent = check->GetParentObject();
-        // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚ÆÕ“Ë‚µ‚½ê‡‚Ìˆ—i“Áê’e‚©‚Ç‚¤‚©‚Å•ªŠòj
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨è¡çªã—ãŸå ´åˆã®å‡¦ç†ï¼ˆç‰¹æ®Šå¼¾ã‹ã©ã†ã‹ã§åˆ†å²ï¼‰
         if (parent->GetTag() == kTag2dPlayerBullet)
         {
             bool isSpecial = false;
@@ -104,7 +104,15 @@ void Obstacle::OnTrigger(Collider* collider_, Collider* check)
                 check->SetDeleteFlag(true);
             }
         }
-        // ƒvƒŒƒCƒ„[©g‚ªáŠQ•¨‚ÉÕ“Ë‚µ‚½ê‡A‰ñ”ğƒyƒiƒ‹ƒeƒB‚Æ‚µ‚Äƒ_ƒ[ƒW‚ğ—^‚¦‚é
+    }
+}
+
+void Obstacle::OnEnter(Collider* collider_, Collider* check)
+{
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        Object2D* parent = check->GetParentObject();
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è‡ªèº«ãŒéšœå®³ç‰©ã«è¡çªã—ãŸå ´åˆã€å›é¿ãƒšãƒŠãƒ«ãƒ†ã‚£ã¨ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
         if (parent->GetTag() == kTag2dPlayer)
         {
             Player* p = dynamic_cast<Player*>(parent);

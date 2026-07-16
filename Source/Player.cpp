@@ -93,7 +93,7 @@ void Player::Initialize()
 
 void Player::Update()
 {
-    Character::Update(); // スタンタイマ�Eなどの処琁E
+    Character::Update(); // 繧ｹ繧ｿ繝ｳ繧ｿ繧､繝槭・縺ｪ縺ｩ縺ｮ蜃ｦ逅・
 
     if (level_up_timer_ > 0)
     {
@@ -128,12 +128,12 @@ void Player::Draw()
     DrawPlayerSprite();
 }
 
-void Player::TakeDamage(int damage_)
+void Player::TakeDamage(int damage_) 
 {
     Character::TakeDamage(damage_);
     SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
 
-    // 被弾演�E: スクリーンシェイク + ダメージフラチE��ュ�E�赤�E�E
+    // 陲ｫ蠑ｾ貍泌・: 繧ｹ繧ｯ繝ｪ繝ｼ繝ｳ繧ｷ繧ｧ繧､繧ｯ + 繝€繝｡繝ｼ繧ｸ繝輔Λ繝・す繝･・郁ｵ､・・
     GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
     if (scene != nullptr)
     {
