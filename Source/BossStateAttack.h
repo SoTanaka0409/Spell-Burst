@@ -33,13 +33,12 @@ class BossStateFinal : public BossState
 {
 public:
     BossStateFinal() : attack_timer_(0), pattern_index_(0),
-        invincible_timer_(0), invincible_cycle_timer_(0) {}
+        invincible_cycle_timer_(0) {}
     void Update(Boss* boss) override;
 
 private:
     int attack_timer_;
     int pattern_index_;
-    int invincible_timer_;
     int invincible_cycle_timer_;
 };
 

@@ -13,6 +13,8 @@ public:
     virtual ~RainbowBullet() override;
 
     virtual void Update() override;
+
     virtual void Draw() override;
+
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

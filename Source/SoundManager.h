@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 
+// BGMと効果音を読み込み、キャッシュして再生するクラス
 class SoundManager
 {
 private:
@@ -15,10 +16,10 @@ public:
     static SoundManager* GetInstance();
 
     /*
-     * サウンドハンドルを取得する（キャッシュになければロードする）。
+     * サウンドを取得する。未読み込みならロードする。
      * [入力] path: 音声ファイルのパス
      * [出力] サウンドハンドル
-     * [副作用] メモリに音声データがロードされ、マップに登録される
+     * [副作用] 音声データがキャッシュに登録される
      */
     int GetSound(const std::string& path);
 
@@ -26,40 +27,22 @@ public:
      * BGMをループ再生する。
      * [入力] path: 音声ファイルのパス
      * [出力] なし
-     * [副作用] 現在のBGMが停止し、新しいBGMが再生される
+     * [副作用] 現在のBGMを止め、新しいBGMを再生する
      */
     void PlayBGM(const std::string& path);
-    
+
     /*
-     * SEを単発再生する。
+     * 効果音を一度だけ再生する。
      * [入力] path: 音声ファイルのパス
      * [出力] なし
      * [副作用] SEが再生される
      */
     void PlaySE(const std::string& path);
 
-    /*
-     * 再生中のBGMを停止する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] BGMの再生が止まる
-     */
     void StopBGM();
 
-    /*
-     * 再生中のすべての音を停止する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] すべての音声が停止する
-     */
     void StopAll();
 
-    /*
-     * ロード済みのすべての音声のメモリを解放する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] すべてのサウンドハンドルが削除され、マップがクリアされる
-     */
     void ClearAll();
 
 private:

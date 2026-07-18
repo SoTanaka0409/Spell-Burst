@@ -5,19 +5,19 @@
 class CapsuleCollider;
 class Collider;
 
-// 全ての弾（Bullet）の基底クラス
+// 弾・レーザーなど、移動してダメージを与えるオブジェクトの基底クラス
 class Projectile : public Object2D
 {
 protected:
-    Vector2 dir_;              // 進行方向（正規化ベクトル）または移動ベクトル
-    float speed_;               // 速度
-    int damage_;                // ダメージ
-    bool is_active_;             // 有効フラグ
-    CapsuleCollider* collider_; // 当たり判定コライダー
+    Vector2 dir_;              // 進行方向
+    float speed_;              // 速度
+    int damage_;               // ダメージ
+    bool is_active_;           // 有効状態
+    CapsuleCollider* collider_; // 当たり判定
 
 public:
     /*
-     * 弾の初期化を行う。
+     * 弾を初期化する。
      * [入力] pos: 初期座標, dir: 進行方向, speed: 速度, damage: ダメージ
      * [出力] なし
      * [副作用] コライダーが生成される
@@ -26,10 +26,10 @@ public:
     virtual ~Projectile() override;
 
     /*
-     * 弾の座標やコライダーの位置を毎フレーム更新する。
+     * 弾の座標とコライダー位置を更新する。
      * [入力] なし
      * [出力] なし
-     * [副作用] コライダーの座標が更新される
+     * [副作用] 位置が変化する
      */
     virtual void Update() override;
 
@@ -37,24 +37,23 @@ public:
 
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    // --- ゲッター・セッター ---
     bool IsActive() const { return is_active_; }
     int GetDamage() const { return damage_; }
     Vector2 GetDir() const { return dir_; }
     void SetDir(Vector2 dir) { dir_ = dir; }
 
     /*
-     * 弾を無効化し、自身とコライダーの削除フラグを立てる。
+     * 弾を無効化し、削除対象にする。
      * [入力] なし
      * [出力] なし
-     * [副作用] is_active_がfalseになり削除される
+     * [副作用] is_active_をfalseにし、コライダーにも削除フラグを立てる
      */
     virtual void Kill();
 
     /*
      * 弾が画面外に出たかを判定する。
-     * [入力] margin: 判定のゆとりマージン
-     * [出力] 画面外に出たかどうか
+     * [入力] margin: 判定の余白
+     * [出力] 画面外ならtrue
      * [副作用] なし
      */
     bool IsOutOfBounds(float margin = 50.0f) const;

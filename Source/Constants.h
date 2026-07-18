@@ -5,7 +5,7 @@ namespace Constants
     // Screen settings
     constexpr int kScreenWidth = 1600;
     constexpr int kScreenHeight = 900;
-    
+
     // Player settings
     constexpr float PLAYER_START_X = 800.0f;
     constexpr float PLAYER_START_Y = 800.0f;

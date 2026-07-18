@@ -7,7 +7,7 @@ SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 {
 	position_ = center;
 	position2_ = center;
-	this->radius_ = radius_;
+	this->radius_ = radius;
 }
 
 SphereCollider::~SphereCollider()
@@ -67,4 +67,3 @@ void SphereCollider::OnTrigger()
 void SphereCollider::OnExit()
 {
 }
-

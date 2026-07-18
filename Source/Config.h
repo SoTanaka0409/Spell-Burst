@@ -25,7 +25,7 @@ namespace Config
     // Enemy
     constexpr int kEnemyMaxHp = 5;
     constexpr float kEnemySpeed = 2.0f;
-    
+
     // Grid
     constexpr int kGridCellSize = 100;
 }

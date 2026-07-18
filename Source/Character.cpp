@@ -5,7 +5,7 @@
 
 Character::Character(Vector2 pos, int maxHp, float speed)
     : Object2D(pos)
-    , hp_(max_hp_)
+    , hp_(maxHp)
     , max_hp_(maxHp)
     , speed_(speed)
     , is_active_(true)
@@ -25,13 +25,13 @@ Character::~Character()
 
 void Character::Update()
 {
-    // スタン時間の減少
+    // Decrease stun time.
     if (stun_timer_ > 0)
     {
         stun_timer_--;
     }
 
-    // コライダーの座標追従
+    // Keep the collider aligned with the current position.
     if (collider_)
     {
         collider_->position_ = position_;
@@ -41,27 +41,29 @@ void Character::Update()
 
 void Character::Draw()
 {
-    // 基底クラスは描画しない
+    // Base class does not draw anything.
 }
 
 void Character::OnTrigger(Collider* collider, Collider* check)
 {
-    // デフォルト実装：派生先でオーバーライド
+    // Default implementation for derived classes to override.
 }
 
 void Character::Heal(int amount)
 {
-    // std::clampを使って回復後のHPが0?最大HPの間に収まるように制限
+    // Clamp HP between 0 and max HP after healing.
     hp_ = std::clamp(hp_ + amount, 0, max_hp_);
 }
 
 void Character::TakeDamage(int damage)
 {
-    // std::clampを使ってダメージ後のHPが0?最大HPの間に収まるように制限
+    if (!is_active_) return;
+
+    // Clamp HP between 0 and max HP after damage.
     hp_ = std::clamp(hp_ - damage, 0, max_hp_);
     if (hp_ == 0)
     {
-        Kill();
+        OnDeath();
     }
 }
 
@@ -73,4 +75,9 @@ void Character::Kill()
     {
         collider_->SetDeleteFlag(true);
     }
+}
+
+void Character::OnDeath()
+{
+    Kill(); // Default behavior is to destroy itself.
 }

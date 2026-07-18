@@ -23,7 +23,6 @@ void BulletManager::Initialize()
 
 void BulletManager::Update()
 {
-    // Erase-Remove イディオムを使用して、アクティブでない弾を安全に一括削除
     bullets.erase(
         std::remove_if(bullets.begin(), bullets.end(),
             [](const std::weak_ptr<Bullet>& w)
@@ -43,7 +42,7 @@ void BulletManager::Update()
 
 void BulletManager::Draw()
 {
-   
+
 }
 
 void BulletManager::SpawnBullet(float x, float y)

@@ -1,43 +1,46 @@
-﻿# RuleScene.h - fix garbled comments
-$file = 'Source\RuleScene.h'
-$lines = [System.IO.File]::ReadAllLines($file, [System.Text.Encoding]::GetEncoding(932))
-$outLines = @()
-foreach ($line in $lines) {
-    if ($line -match '^\s*//') { continue }
-    if ($line -match '^\s*void Initialize\(\) override;') {
-        $outLines += "    /*"
-        $outLines += "     * 各スライド（画像）を読み込み配列に格納する。"
-        $outLines += "     * [入力] なし"
-        $outLines += "     * [出力] なし"
-        $outLines += "     * [副作用] rule_graphs_に画像が読み込まれる"
-        $outLines += "     */"
-        $outLines += "    void Initialize() override;"
-    } elseif ($line -match '^\s*void Update\(\) override;') {
-        $outLines += "    /*"
-        $outLines += "     * 左右キーでスライドを切り替え、ZキーまたはE最終スライドでStageSelectSceneへ遷移する。"
-        $outLines += "     * [入力] なし"
-        $outLines += "     * [出力] なし"
-        $outLines += "     * [副作用] current_slide_が更新され、シーン遷移が起きる場合がある"
-        $outLines += "     */"
-        $outLines += "    void Update() override;"
-    } elseif ($line -match '^\s*void Draw\(\) override;') {
-        $outLines += "    /*"
-        $outLines += "     * 現在選択されているルールのスライド画像と、ナビゲーションテキストを描画する。"
-        $outLines += "     * [入力] なし"
-        $outLines += "     * [出力] なし"
-        $outLines += "     * [副作用] 画面に描画される"
-        $outLines += "     */"
-        $outLines += "    void Draw() override;"
-    } elseif ($line -match '^\s*void Finalize\(\) override;') {
-        $outLines += "    /*"
-        $outLines += "     * 読み込んだ全てのスライド画像を解放する。"
-        $outLines += "     * [入力] なし"
-        $outLines += "     * [出力] なし"
-        $outLines += "     * [副作用] メモリが解放される"
-        $outLines += "     */"
-        $outLines += "    void Finalize() override;"
-    } else {
-        $outLines += $line
-    }
-}
-[System.IO.File]::WriteAllLines($file, $outLines, [System.Text.Encoding]::GetEncoding(932))
+﻿
+$file = "Source\RuleScene.cpp"
+$c = [System.IO.File]::ReadAllText($file, [System.Text.Encoding]::UTF8)
+
+$replacement = @"
+    const char* titles[] =
+    {
+        "1. キャラクターの選択",
+        "2. 難易度の選択",
+        "3. 敵を倒してレベルを上げ、ボスを倒せ！",
+        "4. UIの説明",
+        "5. バリアの使い方",
+        "6. ボスのHPは3段階！"
+    };
+    const char* descs1[] =
+    {
+        "タイトル画面から「GAME START」を選択後、3人の中から好きなキャラクターを選ぼう！",
+        "自分の腕前に合わせた難易度を選ぼう。NORMAL, HARD, VERY HARDがあるぞ。",
+        "敵を倒して経験値を稼ごう。敵はウェーブ制で出現し、最後にボスが登場するぞ。",
+        "画面左上には自分のHPやレベルが、",
+        "バリア展開中に敵の弾を受けると弾き返すことができるぞ！",
+        "ボスのHPは3回回復するぞ！"
+    };
+    const char* descs2[] =
+    {
+        "",
+        "",
+        "レベルが上がると攻撃力がアップし、より強力な弾を撃てるようになるぞ！",
+        "右下にはボスのHPゲージが表示されるぞ！",
+        "ここぞというタイミングでバリアを展開してピンチを切り抜けよう！",
+        "最後まで油断せずに戦おう！"
+    };
+    const char* descs3[] =
+    {
+        "※現在選択中のキャラクターの色は少し暗く表示されます。",
+        "",
+        "",
+        "",
+        "",
+        ""
+    };
+"@
+
+$c = $c -replace "(?s)const char\* titles\[\] =.*?const char\* descs3\[\] =\s*\{[^}]*\};", $replacement
+[System.IO.File]::WriteAllText($file, $c, [System.Text.Encoding]::UTF8)
+

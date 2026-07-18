@@ -11,7 +11,7 @@
 SpecialBullet::SpecialBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 5)
 {
-    SetTag(kTag2dPlayerBullet); // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚Æ‚µ‚Ä”»’è‚³‚¹‚é‚½‚ß‚Ìƒ^ƒOİ’è
+    SetTag(kTag2dPlayerBullet); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨ã—ã¦åˆ¤å®šã•ã›ã‚‹ãŸã‚ã®ã‚¿ã‚°è¨­å®š
     collider_ = new CapsuleCollider(this, position_, position_, 90.0f);
 }
 
@@ -19,8 +19,6 @@ SpecialBullet::~SpecialBullet()
 {
 }
 
-// –ˆƒtƒŒ[ƒ€ŒÄ‚Î‚ê‚éXVˆ—
-// •KE‹Z‚Ì’e‚ğã•ûŒü‚ÉˆÚ“®‚³‚¹A‰æ–ÊŠO‚Éo‚½‚çíœƒtƒ‰ƒO‚ğ—§‚Ä‚Ü‚·
 void SpecialBullet::Update()
 {
     position_ += dir_ * (speed_ * Utility::time_scale_);
@@ -29,12 +27,10 @@ void SpecialBullet::Update()
 
     if (position_.y < -120.0f)
     {
-        Projectile::Kill(); // ‰æ–ÊŠO‚È‚ç–{“–‚ÉÁ‚·
+        Projectile::Kill(); // ç”»é¢å¤–ãªã‚‰æœ¬å½“ã«æ¶ˆã™
     }
 }
 
-// •`‰æˆ—
-// •KE‹Z‚ÌƒGƒtƒFƒNƒgi‘å‚«‚ÈŒõ’e‚È‚Çj‚ğ•`‰æ‚µ‚Ü‚·
 void SpecialBullet::Draw()
 {
     if (!is_active_) return;
@@ -53,7 +49,6 @@ void SpecialBullet::Draw()
 
 void SpecialBullet::Kill()
 {
-    // “G‚ğŠÑ’Ê‚µ‚Äˆê–Ô‘Ås‚É‚·‚éd—l‚Æ‚·‚é‚½‚ßAÕ“Ë‚ÌÁ–Åˆ—‚ğs‚í‚È‚¢iƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä–³Œø‰»j
 }
 
 void SpecialBullet::OnTrigger(Collider* collider, Collider* check)

@@ -43,7 +43,6 @@ void SceneManager::Update()
 	}
 }
 
-
 void SceneManager::Draw()
 {
 	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)current_scene_.get());
@@ -68,12 +67,15 @@ void SceneManager::ChangeSceneIfNeeded()
 	{
 		return;
 	}
+
 	SoundManager::GetInstance()->StopBGM();
+
 	if (current_scene_ != nullptr)
 	{
 		current_scene_->Finalize();
 		current_scene_.reset();
 	}
+
 	scene_type_ = next_scene_type_;
 	switch (scene_type_)
 	{
@@ -96,9 +98,9 @@ void SceneManager::ChangeSceneIfNeeded()
 		current_scene_ = nullptr;
 		break;
 	}
+
 	if (current_scene_ != nullptr)
 	{
 		current_scene_->Initialize();
 	}
 }
-

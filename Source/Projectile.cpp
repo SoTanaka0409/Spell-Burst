@@ -34,12 +34,10 @@ void Projectile::Update()
 
 void Projectile::Draw()
 {
-    // 基底クラスは描画しない
 }
 
 void Projectile::OnTrigger(Collider* collider, Collider* check)
 {
-    // デフォルト実装：派生クラスでオーバーライド
 }
 
 void Projectile::Kill()

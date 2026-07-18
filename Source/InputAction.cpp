@@ -29,7 +29,7 @@ int InputBinding::GetKey(InputAction action)
     {
         return it->second;
     }
-    return -1; // –¢Š„‚è“–‚Ä
+    return -1;
 }
 
 void InputBinding::Rebind(InputAction action, int keyCode)

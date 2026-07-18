@@ -1,17 +1,16 @@
 #include "CapsuleCollider.h"
-
 #include "ObjectManager.h"
+
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
 	position_ = pos1;
 	position2_ = pos2;
-	this->radius_ = radius_;
+	this->radius_ = radius;
 }
 
 CapsuleCollider::~CapsuleCollider()
 {
-
 }
 
 void CapsuleCollider::Update(Collider* check)
@@ -19,7 +18,7 @@ void CapsuleCollider::Update(Collider* check)
 	if (check != nullptr)
 	{
 		CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(check);
-		
+
 		if (capsule != nullptr)
 		{
 			bool isHit = HitCheck_Capsule_Capsule(
@@ -34,7 +33,6 @@ void CapsuleCollider::Update(Collider* check)
 			HitCheck(check, isHit);
 		}
 	}
-
 }
 
 void CapsuleCollider::Draw()
@@ -65,6 +63,3 @@ void CapsuleCollider::Draw()
 		);
 	}
 }
-
-
-

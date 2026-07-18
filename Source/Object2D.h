@@ -27,18 +27,10 @@ public:
 	virtual ~Object2D();
 
     /*
-     * オブジェクトの位置や状態をフレームごとに更新する（派生クラスで実装）。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] オブジェクトの状態が更新される
      */
     virtual void Update();
 
     /*
-     * オブジェクトのグラフィックを画面に描画する（派生クラスで実装）。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] 画面に描画される
      */
     virtual void Draw();
 
@@ -57,26 +49,14 @@ public:
 	Tag2D GetTag() { return tag_; }
 
     /*
-     * コライダー同士が接触を開始した瞬間に呼び出されるイベントハンドラ。
-     * [入力] collider: 自身のコライダー, check: 相手のコライダー
-     * [出力] なし
-     * [副作用] 派生クラスによって接触時の処理が実行される
      */
     virtual void OnEnter(Collider* collider, Collider* check);
 
     /*
-     * コライダー同士が接触している間に毎フレーム呼び出されるイベントハンドラ。
-     * [入力] collider: 自身のコライダー, check: 相手のコライダー
-     * [出力] なし
-     * [副作用] 派生クラスによって継続的な接触処理が実行される
      */
     virtual void OnTrigger(Collider* collider, Collider* check);
 
     /*
-     * コライダー同士が離脱した瞬間に呼び出されるイベントハンドラ。
-     * [入力] collider: 自身のコライダー, check: 相手のコライダー
-     * [出力] なし
-     * [副作用] 派生クラスによって離脱時の処理が実行される
      */
     virtual void OnExit(Collider* collider, Collider* check);
 

@@ -9,66 +9,64 @@
 #include "Utility.h"
 #include "InputAction.h"
 
-//SceneManager* Master::sceneManager = std::make_unique<SceneManager>();
-
 float Utility::time_scale_ = 1.0f;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES)
-    {
-        if (GetFileAttributesA("..\\..\\Resource") != INVALID_FILE_ATTRIBUTES)
-        {
-            SetCurrentDirectoryA("..\\..");
-        }
-    }
+	if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES)
+	{
+		if (GetFileAttributesA("..\\..\\Resource") != INVALID_FILE_ATTRIBUTES)
+		{
+			SetCurrentDirectoryA("..\\..");
+		}
+	}
 
-    FILE* fpLog = nullptr;
-    fopen_s(&fpLog, "debug.log", "w");
-    if (fpLog) fclose(fpLog);
+	FILE* fpLog = nullptr;
+	fopen_s(&fpLog, "debug.log", "w");
+	if (fpLog) fclose(fpLog);
 
-    AllocConsole();
-    FILE* fp = nullptr;
-    freopen_s(&fp, "CONOUT$", "w", stdout);
-    freopen_s(&fp, "CONOUT$", "w", stderr);
-    printf("Debug Console Started!\n");
+	AllocConsole();
+	FILE* fp = nullptr;
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	freopen_s(&fp, "CONOUT$", "w", stderr);
 
-    SetOutApplicationLogValidFlag(FALSE);
-    ChangeWindowMode(TRUE);
-    SetGraphMode(Utility::kScreenWidth, Utility::kScreenHeight, 32);
-    SetMainWindowText("Shooting Action Game");
 
-    if (DxLib_Init() == -1)
-    {
-        return -1;
-    }
+	SetOutApplicationLogValidFlag(FALSE);
+	ChangeWindowMode(TRUE);
+	SetGraphMode(Utility::kScreenWidth, Utility::kScreenHeight, 32);
+	SetMainWindowText("Shooting Action Game");
 
-    // 描画先を裏画面に設定し、チラつき�EなぁE��ブルバッファリングを実現`r`n    SetDrawScreen(DX_SCREEN_BACK);
+	if (DxLib_Init() == -1)
+	{
+		return -1;
+	}
 
-    Master::sceneManager = std::make_unique<SceneManager>();
-    InputBinding::Initialize();
-    Master::sceneManager->Initialize();
+	SetDrawScreen(DX_SCREEN_BACK);
 
-    LONGLONG lastTime = GetNowHiPerformanceCount();
+	Master::sceneManager = std::make_unique<SceneManager>();
+	InputBinding::Initialize();
+	Master::sceneManager->Initialize();
 
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && Master::sceneManager->GetCurrentScene() != nullptr)
-    {
-        ClearDrawScreen();
+	LONGLONG lastTime = GetNowHiPerformanceCount();
 
-        LONGLONG currentTime = GetNowHiPerformanceCount();
-        Utility::time_scale_ = (float)(currentTime - lastTime) / (1000000.0f / 60.0f);
-        if (Utility::time_scale_ > 3.0f) Utility::time_scale_ = 3.0f;
-        lastTime = currentTime;
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && Master::sceneManager->GetCurrentScene() != nullptr)
+	{
+		ClearDrawScreen();
 
-        Master::sceneManager->Update();
-        Master::sceneManager->Draw();
+		LONGLONG currentTime = GetNowHiPerformanceCount();
 
-        ScreenFlip();
-    }
+		Utility::time_scale_ = (float)(currentTime - lastTime) / (1000000.0f / 60.0f);
 
-    
+		if (Utility::time_scale_ > 3.0f) Utility::time_scale_ = 3.0f;
+		lastTime = currentTime;
 
-    DxLib_End();
+		Master::sceneManager->Update();
+		Master::sceneManager->Draw();
 
-    return 0;
+		ScreenFlip();
+	}
+
+	DxLib_End();
+
+	return 0;
 }

@@ -2,66 +2,47 @@
 #include "Scene.h"
 #include <vector>
 
-// 設計ルール：リザルト画面での紙吹雪や火花などの演出エフェクトを制御するための、軽量なデータ保持用構造体
 struct ResultParticle
 {
-	float x, y;                      // 画面解像度や基準解像度に依存せず、滑らかな等速移動を可能にするための現在座標（実数値）
-	float vx_;                       // 毎フレームのX軸移動量（勝利演出時の紙吹雪の水平ヒラヒラ移動などに使用）
-	float vy_;                       // 毎フレームのY軸移動量（重力加速度と減衰を適用して落ちていく挙動に使用）
-	float size_;                     // 時間経過とともにスケールダウン（収縮消滅）させるための描画サイズ（ピクセル幅）
-	float angle_;                    // 演出アセットが不規則に回転しながら落下していく様子を描画するための現在の回転角度（ラジアン）
-	float rot_speed_;                // パーティクルごとに回転運動の周期をずらし、単調さを解消するための毎フレームの回転速度加算量
-	int color_;                      // DxLibの GetColor() でパックされたカラーデータ（勝利時は金・赤、敗北時は灰・青などで色分け）
-	int life_;                       // 不要になったパーティクルを生存ベクターから確実にイレーズし、描画負荷を下げるための残寿命フレーム
+    float x, y;       // 座標
+    float vx_;        // X方向の速度
+    float vy_;        // Y方向の速度
+    float size_;      // サイズ
+    float angle_;     // 回転角
+    float rot_speed_; // 回転速度
+    int color_;       // 描画色
+    int life_;        // 残り寿命フレーム数
 };
 
-// 設計ルール：ゲーム終了時の結果（勝利・敗北）を判定し、それぞれの結末に適したテーマBGM、演出演出、およびボタン制御を統括するシーン
+// 勝利・敗北のリザルト画面を表示するシーン
 class ResultScene : public Scene
 {
 public:
-	static bool kIsVictory;          // 前のプレイステージ（GameScene）の終了トリガーから引き継いだ、クリア（勝利）か全滅（敗北）かの判別フラグ
+    static bool kIsVictory; // 勝利リザルトかどうか
 
 public:
-	// 入力：なし
-	// 出力：なし
-	// 副作用：結果（kIsVictory）に応じた演出リソース（紙吹雪用アセット、悲哀アニメ用スプライト等）の読み込み、および初期パーティクルの大量生成
-	void Initialize() override;
+    void Initialize() override;
 
-	// 入力：なし
-	// 出力：なし
-	// 副作用：勝利または敗北用の異なるタイムスケールに沿った演出制御、およびシーン遷移を促すボタン入力の監視
-	void Update() override;
+    void Update() override;
 
-	// 入力：なし
-	// 出力：なし
-	// 副作用：結果ごとの背景ブレンド、勝利時の祝福メッセージ/敗北時の絶望テキスト、および独自アニメーションを行うパーティクルの描画
-	void Draw() override;
+    void Draw() override;
 
-	// 入力：なし
-	// 出力：なし
-	// 副作用：リザルト画面専用のファンファーレ/悲哀BGMの完全停止、および動的にロードしたスプライトテクスチャの完全解放
-	void Finalize() override;
+    void Finalize() override;
 
 private:
-	// 副作用：風に舞う紙吹雪やスコア加算のポップアップなど、勝利時専用の明るいパーティクル演出パラメーターの更新
-	void UpdateVictory();
+    void UpdateVictory();
 
-	// 副作用：自機が力なく画面下へ落下・フェードアウトしていく演出、および暗い火花が散る敗北時専用の物理挙動更新
-	void UpdateGameOver();
+    void UpdateGameOver();
 
-	// 副作用：勝利時の「STAGE CLEAR!」などの強調ロゴ、およびスコアボードの描画
-	void DrawVictory();
+    void DrawVictory();
 
-	// 副作用：敗北時の「GAME OVER...」の暗いグラデーション、および再挑戦へと導くボタンの静的描画
-	void DrawGameOver();
+    void DrawGameOver();
 
 private:
-	std::vector<ResultParticle> particles_; // 画面を華やかに飾る大量の演出用パーティクル（紙吹雪・煙など）を一括更新・描画するための動的配列
-	int state_timer_;                // リザルト遷移直後のボタン誤入力を防ぐ「操作ロック時間」と、徐々に画面が明るくなる「フェードイン」を共有管理するタイムカウンタ
-	int bg_graph_;                   // 勝利時は晴れ渡る空、敗北時は暗雲立ち込める荒野など、結果テーマに応じてロードされる背景テクスチャ
-	int player_graph_;               // 勝利時は喜び、敗北時は破損して煙を吹く自機（UFO）を結果に合わせて切り替えて表示するための画像ハンドル
+    std::vector<ResultParticle> particles_; // 背景演出用パーティクル
+    int state_timer_;                // リザルト画面の経過タイマー
+    int bg_graph_;                   // 背景画像ハンドル
+    int player_graph_;               // プレイヤー画像ハンドル
 
-	// 入力：x, y=描画位置, str=表示文字列, color=メイン文字色, outlineColor=輪郭（フチ）色, fontHandle=使用フォント
-	// 副作用：メイン文字の背後に少しずらしたフチ用テキストを4方向に重ねて描画し、背景の明暗に左右されずテキストの視認性を極限まで高める処理
-	void DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle);
+    void DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle);
 };

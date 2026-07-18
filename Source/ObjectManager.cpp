@@ -13,7 +13,6 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::Update()
 {
-	// 遽・峁E��吶・繧�E�for繝ｫ繝ｼ繝励〒邁�E�貎斐↓蜈�E�繧�E�繝悶ず繧�E�繧�E�繝医�E�譖ｴ譁E��
 	for (auto& obj : object_2d_list_)
 	{
 		obj->Update();
@@ -23,7 +22,6 @@ void ObjectManager::Update()
 
 void ObjectManager::Draw()
 {
-	// 遽・峁E��吶・繧�E�for繝ｫ繝ｼ繝励〒謠冗判繝輔Λ繧�E�縺檎ｫ九▲縺�E�縺・�E�繧めE�E繧呈緒逕ｻ
 	for (auto& obj : object_2d_list_)
 	{
 		if (obj->IsDrawFlag())
@@ -35,7 +33,13 @@ void ObjectManager::Draw()
 
 void ObjectManager::AddObject(std::shared_ptr<Object2D> object2D)
 {
+	if (!object2D)
+	{
+		return;
+	}
+
 	object_2d_list_.push_back(object2D);
+
 	if (object2D->GetTag() == Object2D::kTag2dPlayer)
 	{
 		player_2d_ = object2D;
@@ -51,14 +55,14 @@ void ObjectManager::DeleteAll2D()
 void ObjectManager::DeleteAll2DIfNeeded()
 {
 	object_2d_list_.remove_if([this](std::shared_ptr<Object2D>& obj)
-	{
-		if (obj && obj->IsDeleteFlag())
 		{
-			if (player_2d_.lock() == obj) player_2d_.reset();
-			return true;
-		}
-		return false;
-	});
+			if (obj && obj->IsDeleteFlag())
+			{
+				if (player_2d_.lock() == obj) player_2d_.reset();
+				return true;
+			}
+			return false;
+		});
 }
 
 std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
@@ -87,6 +91,7 @@ std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag)
 {
 	std::vector<std::shared_ptr<Object2D>> ret;
+
 	for (auto& obj : object_2d_list_)
 	{
 		if (obj->GetTag() == tag)
@@ -96,4 +101,3 @@ std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Objec
 	}
 	return ret;
 }
-

@@ -3,19 +3,20 @@
 
 class CapsuleCollider;
 
+// 敵が発射する弾を管理するクラス
 class EnemyBullet : public Projectile
 {
 private:
-    bool can_reflect_; // 画面端で反射する仕様の弾かどうか
-    bool has_reflected_; // すでに反射を一度行ったかどうかのフラグ
-    bool is_stun_bullet_; // 当たった相手を行動不能（スタン）にする状態異常弾かどうか
-    int homing_timer_;   // ホーミング（追尾）処理が有効な残りフレーム数
-    int homing_delay_timer_; // 発射後、ホーミングを開始するまでの遅延タイマー
+    bool can_reflect_;       // バリアで反射できる弾か
+    bool has_reflected_;     // 既に反射済みか
+    bool is_stun_bullet_;    // プレイヤーをスタンさせる弾か
+    int homing_timer_;       // 追尾する残りフレーム数
+    int homing_delay_timer_; // 追尾開始までの遅延フレーム数
 
 public:
     /*
-     * 敵弾を初期化する。直進・反射・スタン・ホーミングなど多様な属性をサポートする。
-     * [入力] pos: 初期座標, dir: 進行方向, speed: 速度, canReflect: 反射弾か, isStun: スタン弾か, homingFrames: 追尾フレーム数, homingDelayFrames: 追尾開始遅延
+     * 敵弾を生成する。直進・反射・スタン・追尾などの種類を指定できる。
+     * [入力] pos: 初期座標, dir: 進行方向, speed: 速度, canReflect: 反射可能か, isStunBullet: スタン弾か, homingFrames: 追尾時間, homingDelayFrames: 追尾開始遅延
      * [出力] なし
      * [副作用] コライダーが生成される
      */
@@ -23,10 +24,10 @@ public:
     virtual ~EnemyBullet() override;
 
     /*
-     * 弾の座標を更新し、追尾処理や画面端での反射・消滅判定を行う。
+     * 弾の座標や追尾、画面端での反射・削除判定を更新する。
      * [入力] なし
      * [出力] なし
-     * [副作用] 座標が更新され、必要に応じて弾が消滅する
+     * [副作用] 座標や削除フラグが変化する
      */
     void Update() override;
 
@@ -39,10 +40,10 @@ public:
     void Draw() override;
 
     /*
-     * プレイヤーやバリアとの衝突時にダメージ付与や弾消し処理を行う。
+     * プレイヤーやバリアとの衝突時の処理を行う。
      * [入力] collider: 自身のコライダー, check: 相手のコライダー
      * [出力] なし
-     * [副作用] 相手にダメージが入り、弾が削除される
+     * [副作用] ダメージ、反射、削除などを行う
      */
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };
