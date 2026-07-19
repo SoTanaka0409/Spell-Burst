@@ -1,4 +1,5 @@
 #include "SoundManager.h"
+#include "ResourceManager.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -20,41 +21,44 @@ SoundManager* SoundManager::GetInstance()
 	return &instance;
 }
 
-int SoundManager::GetSound(const std::string& path)
+int SoundManager::GetSound(const std::string& id)
 {
-	if (sound_map_.find(path) == sound_map_.end())
-	{
-		int handle = LoadSoundMem(path.c_str());
-		sound_map_[path] = handle;
-	}
-	return sound_map_[path];
+    std::string path = ResourceManager::GetInstance()->GetAssetPath(id);
+
+    auto it = sound_map_.find(path);
+    if (it != sound_map_.end())
+    {
+        return it->second;
+    }
+
+    int handle = LoadSoundMem(path.c_str());
+    if (handle != -1)
+    {
+        sound_map_[path] = handle;
+    }
+    return handle;
 }
 
-void SoundManager::PlayBGM(const std::string& path)
+void SoundManager::PlayBGM(const std::string& id)
 {
-	int handle = GetSound(path);
-	if (handle != -1)
-	{
-		if (current_bgm_handle_ != -1 && current_bgm_handle_ != handle)
-		{
-			StopSoundMem(current_bgm_handle_);
-		}
+    int handle = GetSound(id);
+    if (handle == -1) return;
 
-		if (CheckSoundMem(handle) == 0)
-		{
-			PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
-			current_bgm_handle_ = handle;
-		}
-	}
+    if (current_bgm_handle_ != handle)
+    {
+        StopBGM();
+        PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
+        current_bgm_handle_ = handle;
+    }
 }
 
-void SoundManager::PlaySE(const std::string& path)
+void SoundManager::PlaySE(const std::string& id)
 {
-	int handle = GetSound(path);
-	if (handle != -1)
-	{
-		PlaySoundMem(handle, DX_PLAYTYPE_BACK, TRUE);
-	}
+    int handle = GetSound(id);
+    if (handle != -1)
+    {
+        PlaySoundMem(handle, DX_PLAYTYPE_BACK);
+    }
 }
 
 void SoundManager::StopBGM()

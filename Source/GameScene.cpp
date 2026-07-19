@@ -1,4 +1,4 @@
-#include "GameScene.h"
+﻿#include "GameScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -65,15 +65,15 @@ void GameScene::Initialize()
 	int charType = Player::kSelectedCharacterType;
 	if (charType == 1)
 	{
-		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_normal.png");
+		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("IMG_CUTIN_NORMAL");
 	}
 	else if (charType == 2)
 	{
-		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_girl.png");
+		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("IMG_CUTIN_GIRL");
 	}
 	else
 	{
-		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("Resource/cutin_old.png");
+		cutin_image_handle_ = ResourceManager::GetInstance()->GetGraph("IMG_CUTIN_OLD");
 	}
 
 	screen_handle_ = MakeScreen(Utility::kScreenWidth, Utility::kScreenHeight, TRUE);
@@ -86,7 +86,7 @@ void GameScene::Initialize()
 	enemy_manager_->SpawnEnemy(1330.0f, 150.0f);
 	enemy_manager_->SpawnEnemy(1330.0f, 350.0f);
 	enemy_manager_->SpawnEnemy(1330.0f, 550.0f);
-	SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-170.mp3");
+	SoundManager::GetInstance()->PlayBGM("BGM_170");
 }
 
 void GameScene::Update()
@@ -171,19 +171,19 @@ void GameScene::Draw()
 
 void GameScene::DrawBackground()
 {
-	std::string bgPath = "Resource/background.png";
+	std::string bgPath = "IMG_BG_TITLE";
 	if (enemy_manager_)
 	{
 		int phase_ = enemy_manager_->GetCurrentPhase();
-		if (phase_ == 1) bgPath = "Resource/bg_phase1.png";
-		else if (phase_ == 2) bgPath = "Resource/bg_phase2.png";
-		else bgPath = "Resource/bg_phase3.png";
+		if (phase_ == 1) bgPath = "IMG_BG_PHASE1";
+		else if (phase_ == 2) bgPath = "IMG_BG_PHASE2";
+		else bgPath = "IMG_BG_PHASE3";
 	}
 
 	int bgGraphHandle = ResourceManager::GetInstance()->GetGraph(bgPath);
 	if (bgGraphHandle == -1)
 	{
-		bgGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
+		bgGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_BG_TITLE");
 	}
 
 	if (bgGraphHandle != -1)

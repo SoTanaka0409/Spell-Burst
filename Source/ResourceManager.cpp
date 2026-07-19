@@ -5,6 +5,9 @@
 #endif
 #include "DxLib.h"
 
+#include <fstream>
+#include <sstream>
+
 ResourceManager::ResourceManager()
 {
 }
@@ -20,8 +23,44 @@ ResourceManager* ResourceManager::GetInstance()
 	return &instance;
 }
 
-int ResourceManager::GetGraph(const std::string& path)
+bool ResourceManager::LoadCSV(const std::string& csv_path)
 {
+	std::ifstream file(csv_path);
+	if (!file.is_open()) return false;
+
+	std::string line;
+	// ヘッダー行をスキップする場合は以下を有効に
+	std::getline(file, line); 
+
+	while (std::getline(file, line))
+	{
+		std::stringstream ss(line);
+		std::string id, path;
+		if (std::getline(ss, id, ',') && std::getline(ss, path, ','))
+		{
+			// Windows環境の改行コード(\r)が混入する対策
+			if (!path.empty() && path.back() == '\r') path.pop_back();
+			asset_paths_[id] = path;
+		}
+	}
+	return true;
+}
+
+std::string ResourceManager::GetAssetPath(const std::string& id)
+{
+	auto it = asset_paths_.find(id);
+	if (it != asset_paths_.end())
+	{
+		return it->second;
+	}
+	// IDが見つからない場合、後方互換性のためID自体をパスとして返す
+	return id;
+}
+
+int ResourceManager::GetGraph(const std::string& id)
+{
+	std::string path = GetAssetPath(id);
+
 	auto it = graph_map_.find(path);
 	if (it != graph_map_.end())
 	{

@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Master.h"
+#include "ResourceManager.h"
 #include <iostream>
 #include "Utility.h"
 #include "InputAction.h"
@@ -40,6 +41,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;
 	}
+
+	ResourceManager::GetInstance()->LoadCSV("Resource/assets.csv");
 
 	SetDrawScreen(DX_SCREEN_BACK);
 

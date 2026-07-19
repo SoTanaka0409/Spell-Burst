@@ -1,4 +1,4 @@
-#include "Barrier.h"
+﻿#include "Barrier.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -41,7 +41,7 @@ void Barrier::Update()
 		if (timer_ >= deploy_interval_)
 		{
 			is_deployed_ = true;
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BARRIER_HIT");
 			timer_ = 0.0f;
 			collider_ = new CapsuleCollider(this, position_, position_, radius_);
 		}
@@ -120,7 +120,7 @@ void Barrier::OnTrigger(Collider* collider, Collider* check)
 			if (hit_count_ >= 30)
 			{
 				hit_count_ = 0;
-				SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+				SoundManager::GetInstance()->PlaySE("SE_BTN1");
 				float baseSpeed = 10.0f;
 
 				for (int dir = 0; dir < 4; ++dir)

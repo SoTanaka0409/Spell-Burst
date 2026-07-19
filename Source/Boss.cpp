@@ -1,4 +1,4 @@
-#include "Boss.h"
+﻿#include "Boss.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Bullet.h"
@@ -258,7 +258,7 @@ void Boss::OnDeath()
     else
     {
         is_dying_ = true;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/se_destroy_glass01.mp3");
+        SoundManager::GetInstance()->PlaySE("SE_GLASS_DESTROY");
         death_timer_ = 180;
 
         if (collider_)
@@ -349,7 +349,7 @@ void Boss::Draw()
 {
     if (!is_active_) return;
 
-    int bossGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/boss.png");
+    int bossGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_BOSS");
 
     if (bossGraphHandle != -1)
     {

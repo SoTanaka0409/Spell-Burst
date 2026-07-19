@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+﻿#include "TitleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -22,10 +22,10 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/background.png");
-	ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
+	bg_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_BG_TITLE");
+	ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_UI_BTN_BASE");
 	bg_scroll_x_ = 0.0f;
-	SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-096.mp3");
+	SoundManager::GetInstance()->PlayBGM("BGM_096");
 	Utility::LoadTimeRanking(rankings_);
 }
 
@@ -50,17 +50,17 @@ void TitleScene::Update()
 	{
 		if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Master::sceneManager->SetNextScene(SceneManager::kSceneLevel);
 		}
 		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Master::sceneManager->SetNextScene(SceneManager::kSceneRule);
 		}
 		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Master::sceneManager->SetNextScene(SceneManager::kSceneNone);
 		}
 	}

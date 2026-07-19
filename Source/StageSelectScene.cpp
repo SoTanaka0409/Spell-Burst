@@ -1,4 +1,4 @@
-#include "StageSelectScene.h"
+﻿#include "StageSelectScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -16,9 +16,9 @@
 void StageSelectScene::Initialize()
 {
 	phase_ = 0;
-	ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/ui_button.png");
+	ui_button_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_UI_BTN_BASE");
 	wait_count_ = 0;
-	SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-169.mp3");
+	SoundManager::GetInstance()->PlayBGM("BGM_169");
 }
 
 void StageSelectScene::Update()
@@ -40,7 +40,7 @@ void StageSelectScene::Update()
 
 	if (isLeftClicked && mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60)
 	{
-		SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+		SoundManager::GetInstance()->PlaySE("SE_BTN1");
 
 		if (phase_ == 1)
 		{
@@ -80,19 +80,19 @@ void StageSelectScene::UpdateCharacterSelect(int mouseX, int mouseY, bool isLeft
 	{
 		if (mouseX >= char1X && mouseX <= char1X + charW && mouseY >= charY && mouseY <= charY + charH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Player::kSelectedCharacterType = 1;
 			phase_ = 1;
 		}
 		else if (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Player::kSelectedCharacterType = 2;
 			phase_ = 1;
 		}
 		else if (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Player::kSelectedCharacterType = 3;
 			phase_ = 1;
 		}
@@ -112,19 +112,19 @@ void StageSelectScene::UpdateStageSelect(int mouseX, int mouseY, bool isLeftClic
 	{
 		if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			GameScene::current_stage_ = 1;
 			Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
 		}
 		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			GameScene::current_stage_ = 2;
 			Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
 		}
 		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			GameScene::current_stage_ = 3;
 			Master::sceneManager->SetNextScene(SceneManager::kSceneGame);
 		}
@@ -200,9 +200,9 @@ void StageSelectScene::DrawCharacterSelect(int cx, int cy, int mouseX, int mouse
 	int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), subFont);
 	DrawStringToHandle((Utility::kScreenWidth - tw) / 2, cy - 150, titleTxt, GetColor(200, 200, 200), subFont);
 
-	int tex1 = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
-	int tex2 = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
-	int tex3 = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+	int tex1 = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER1");
+	int tex2 = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER2");
+	int tex3 = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER3");
 
 	int gap = 200;
 	int charW = 120;

@@ -1,4 +1,4 @@
-#include "Obstacle.h"
+﻿#include "Obstacle.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
@@ -56,7 +56,7 @@ void Obstacle::Update()
 
 void Obstacle::Draw()
 {
-	int graph = ResourceManager::GetInstance()->GetGraph("Resource/rock.png");
+	int graph = ResourceManager::GetInstance()->GetGraph("IMG_OBJ_ROCK");
 	if (graph != -1)
 	{
 		DrawExtendGraph(
@@ -94,7 +94,7 @@ void Obstacle::OnTrigger(Collider* collider, Collider* check)
 			{
 				this->SetDeleteFlag(true);
 				if (collider_) collider_->SetDeleteFlag(true);
-				SoundManager::GetInstance()->PlaySE("Resource/SE/se_destroy_glass01.mp3");
+				SoundManager::GetInstance()->PlaySE("SE_GLASS_DESTROY");
 				EffectManager::SpawnExplosion(position_, 5, GetColor(150, 150, 150), 10.0f, 2.0f);
 			}
 			else

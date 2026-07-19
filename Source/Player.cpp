@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "ObjectManager.h"
 #include <cmath>
 #include <algorithm>
@@ -132,7 +132,7 @@ void Player::Draw()
 void Player::TakeDamage(int damage)
 {
 	Character::TakeDamage(damage);
-	SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+	SoundManager::GetInstance()->PlaySE("SE_BTN1");
 
 	GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
 	if (scene != nullptr)
@@ -193,7 +193,7 @@ void Player::AddXp(int amount)
 		spell_gauge_ = max_spell_gauge_;
 		if (oldGauge < max_spell_gauge_)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 		}
 	}
 
@@ -201,7 +201,7 @@ void Player::AddXp(int amount)
 	{
 		xp_ -= xp_needed_;
 		level_++;
-		SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+		SoundManager::GetInstance()->PlaySE("SE_BTN1");
 		xp_needed_ = level_ * 5;
 
 		hp_ = max_hp_;
@@ -291,21 +291,21 @@ void Player::UseSpellCard()
 	if (spell_gauge_ >= max_spell_gauge_)
 	{
 		spell_gauge_ = 0;
-		SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+		SoundManager::GetInstance()->PlaySE("SE_BTN1");
 
 		if (kSelectedCharacterType == 1)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
 		}
 		else if (kSelectedCharacterType == 2)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_barrier_hit.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BARRIER_HIT");
 			ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
 		}
 		else if (kSelectedCharacterType == 3)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
 		}
 
@@ -366,15 +366,15 @@ void Player::DrawPlayerSprite()
 	int playerGraphHandle = -1;
 	if (kSelectedCharacterType == 1)
 	{
-		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER1");
 	}
 	else if (kSelectedCharacterType == 2)
 	{
-		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER2");
 	}
 	else if (kSelectedCharacterType == 3)
 	{
-		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER3");
 	}
 
 	if (playerGraphHandle != -1)

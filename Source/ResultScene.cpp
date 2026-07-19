@@ -1,4 +1,4 @@
-#include "ResultScene.h"
+﻿#include "ResultScene.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"
 #include "Master.h"
@@ -25,28 +25,28 @@ void ResultScene::Initialize()
 
 	if (kIsVictory)
 	{
-		SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-115.mp3");
-		bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase1.png");
+		SoundManager::GetInstance()->PlayBGM("BGM_115");
+		bg_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_BG_PHASE1");
 
 		Utility::SaveTimeRanking((GameScene::play_frame_count_ * 1000) / 60);
 	}
 	else
 	{
-		SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-112.mp3");
-		bg_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/bg_phase3.png");
+		SoundManager::GetInstance()->PlayBGM("BGM_112");
+		bg_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_BG_PHASE3");
 	}
 
 	if (Player::kSelectedCharacterType == 2)
 	{
-		player_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
+		player_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER2");
 	}
 	else if (Player::kSelectedCharacterType == 3)
 	{
-		player_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
+		player_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER3");
 	}
 	else
 	{
-		player_graph_ = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
+		player_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER1");
 	}
 }
 
@@ -59,7 +59,7 @@ void ResultScene::Update()
 	{
 		if (state_timer_ > 60)
 		{
-			SoundManager::GetInstance()->PlaySE("Resource/SE/se_button1.mp3");
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
 		}
 	}

@@ -1,4 +1,4 @@
-#include "Enemy.h"
+﻿#include "Enemy.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -107,7 +107,7 @@ void Enemy::OnDeath()
 {
 	Character::OnDeath();
 
-	SoundManager::GetInstance()->PlaySE("Resource/SE/se_destroy_glass01.mp3");
+	SoundManager::GetInstance()->PlaySE("SE_GLASS_DESTROY");
 	Player* player = dynamic_cast<Player*>(
 		Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get()
 		);
@@ -192,7 +192,7 @@ void Enemy::UpdateAttackPattern()
 
 void Enemy::DrawEnemySprite()
 {
-	int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
+	int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_ENEMY");
 
 	if (enemyGraphHandle != -1)
 	{

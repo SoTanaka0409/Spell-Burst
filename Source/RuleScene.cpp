@@ -1,4 +1,4 @@
-#include "RuleScene.h"
+﻿#include "RuleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -13,14 +13,14 @@
 
 void RuleScene::Initialize()
 {
-    rule_graphs_[0] = ResourceManager::GetInstance()->GetGraph("Resource/rule1.png");
-    rule_graphs_[1] = ResourceManager::GetInstance()->GetGraph("Resource/rule2.png");
-    rule_graphs_[2] = ResourceManager::GetInstance()->GetGraph("Resource/rule3.png");
-    rule_graphs_[3] = ResourceManager::GetInstance()->GetGraph("Resource/rule4.png");
+    rule_graphs_[0] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_01");
+    rule_graphs_[1] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_02");
+    rule_graphs_[2] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_03");
+    rule_graphs_[3] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_04");
     rule_graphs_[4] = -1; // 画像がないページはテキスト説明のみで表示する
     rule_graphs_[5] = -1;
     current_slide_ = 0;
-    SoundManager::GetInstance()->PlayBGM("Resource/BGM/MusMus-BGM-146.mp3");
+    SoundManager::GetInstance()->PlayBGM("BGM_146");
 }
 
 void RuleScene::Update()
@@ -38,7 +38,7 @@ void RuleScene::Update()
         // タイトルへ戻る
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890)
         {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
             Master::sceneManager->SetNextScene(SceneManager::kSceneTitle);
             return;
         }
@@ -46,7 +46,7 @@ void RuleScene::Update()
         // 次のページへ進む。最終ページではタイトルへ戻る
         if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890)
         {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
             if (current_slide_ < 5)
             {
                 current_slide_++;
@@ -60,7 +60,7 @@ void RuleScene::Update()
         // 前のページへ戻る。最初のページでは何もしない
         if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890)
         {
-            SoundManager::GetInstance()->PlaySE("Resource/se_click.wav");
+            SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
             if (current_slide_ > 0)
             {
                 current_slide_--;
