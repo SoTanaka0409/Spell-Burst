@@ -12,6 +12,12 @@
 
 float Utility::time_scale_ = 1.0f;
 
+/// @brief アプリケーションのエントリーポイントを実行する
+/// @param hInstance hInstance の値
+/// @param hPrevInstance hPrevInstance の値
+/// @param lpCmdLine lpCmdLine の値
+/// @param nCmdShow nCmdShow の値
+/// @return int WINAPI 戻り値
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES)
@@ -26,16 +32,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	fopen_s(&fpLog, "debug.log", "w");
 	if (fpLog) fclose(fpLog);
 
-	AllocConsole();
-	FILE* fp = nullptr;
-	freopen_s(&fp, "CONOUT$", "w", stdout);
-	freopen_s(&fp, "CONOUT$", "w", stderr);
+	// AllocConsole();
+	// FILE* fp = nullptr;
+	// freopen_s(&fp, "CONOUT$", "w", stdout);
+	// freopen_s(&fp, "CONOUT$", "w", stderr);
 
 
 	SetOutApplicationLogValidFlag(FALSE);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(Utility::kScreenWidth, Utility::kScreenHeight, 32);
-	SetMainWindowText("Shooting Action Game");
+	SetMainWindowText("Spell Burst");
 
 	if (DxLib_Init() == -1)
 	{

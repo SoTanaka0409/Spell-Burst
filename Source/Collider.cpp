@@ -6,6 +6,8 @@
 #include <cassert>
 #include "Master.h"
 
+/// @brief Collider を生成する
+/// @param parent parent の値
 Collider::Collider(Object2D* parent)
 	: parent_object_(parent)
 	, position_(Vector2(0.0f, 0.0f))
@@ -18,6 +20,7 @@ Collider::Collider(Object2D* parent)
 	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
 }
 
+/// @brief 破棄処理を行う
 Collider::~Collider()
 {
 	if (Master::sceneManager && Master::sceneManager->GetCurrentScene())
@@ -37,6 +40,9 @@ Collider::~Collider()
 	}
 }
 
+/// @brief HitCheck を実行する
+/// @param check check の値
+/// @param isHit isHit の値
 void Collider::HitCheck(Collider* check, bool isHit)
 {
 	if (isHit)
@@ -82,26 +88,34 @@ void Collider::HitCheck(Collider* check, bool isHit)
 	}
 }
 
+/// @brief 毎フレームの更新処理を行う
+/// @param check check の値
 void Collider::Update(Collider* check)
 {
 }
 
+/// @brief 描画処理を行う
 void Collider::Draw()
 {
 }
 
+/// @brief 接触開始時の処理を行う
 void Collider::OnEnter()
 {
 }
 
+/// @brief 接触中の処理を行う
 void Collider::OnTrigger()
 {
 }
 
+/// @brief 接触終了時の処理を行う
 void Collider::OnExit()
 {
 }
 
+/// @brief RemoveCollision を実行する
+/// @param collider collider の値
 void Collider::RemoveCollision(Collider* collider)
 {
 	auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider);

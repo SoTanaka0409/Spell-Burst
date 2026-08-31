@@ -1,4 +1,4 @@
-﻿#include "EffectManager.h"
+#include "EffectManager.h"
 #include "ObjectManager.h"
 #include "ExplosionParticle.h"
 #ifndef NOMINMAX
@@ -7,22 +7,28 @@
 #include "DxLib.h"
 #include <cstdlib>
 
-// 入力：position=爆発の中心座標, count=生成するパーティクル総数, color=描画色, size=基準サイズ, speed=基準初速
-// 出力：なし
-// 副作用：ObjectManagerを介した、ランダムなベクトルと寿命を持つ爆発パーティクル（ExplosionParticle）の動的一括生成
+// ���́Fposition=�����̒��S���W, count=��������p�[�e�B�N������, color=�`��F, size=��T�C�Y, speed=�����
+// �o�́F�Ȃ�
+// ����p�FObjectManager������A�����_���ȃx�N�g���Ǝ������������p�[�e�B�N���iExplosionParticle�j�̓��I�ꊇ����
+/// @brief SpawnExplosion �����s����
+/// @param position position �̒l
+/// @param count count �̒l
+/// @param color color �̒l
+/// @param size size �̒l
+/// @param speed speed �̒l
 void EffectManager::SpawnExplosion(Vector2 position, int count, int color, float size, float speed)
 {
 	for (int i = 0; i < count; i++)
 	{
 		float angle = static_cast<float>(rand() % 360) * DX_PI_F / 180.0f;
 
-		// 演出仕様：すべての粒子が一斉に同じ速度で広がると不自然な「真円の輪」になってしまうため、初速にゆらぎを与えて泥臭い爆発の質感を表現
+		// ���o�d�l�F���ׂĂ̗��q����Ăɓ������x�ōL����ƕs���R�ȁu�^�~�̗ցv�ɂȂ��Ă��܂����߁A�����ɂ�炬��^���ēD�L�������̎�����\��
 		float currentSpeed = speed * (0.5f + (rand() % 50) / 100.0f);
 
-		// パフォーマンス理由：撃破ラッシュ時に数千個の粒子が画面内に滞留して処理落ち（描画ドローコール爆発）を起こさないよう、約0.5秒（20〜40f）の短命に設定
+		// �p�t�H�[�}���X���R�F���j���b�V�����ɐ���̗��q����ʓ��ɑؗ����ď��������i�`��h���[�R�[�������j���N�����Ȃ��悤�A��0.5�b�i20����40�t���[���j�̒Z���ɐݒ�
 		int life = 20 + rand() % 20;
 
-		// 演出仕様：破片の大小に個体差を設けることで、大粒の火花から火の粉までが混ざり合った視覚的な密度感と立体感をシミュレート
+		// ���o�d�l�F�j�Ђ̑召�Ɍ̍���݂��邱�ƂŁA�嗱�̉ΉԂ���΂̕��܂ł������荇�������o�I�Ȗ��x���Ɨ��̊����V�~�����[�g
 		float currentSize = size * (0.5f + (rand() % 50) / 100.0f);
 
 		ObjectManager::Instantiate<ExplosionParticle>(position.x, position.y, currentSpeed, angle, color, life, currentSize);

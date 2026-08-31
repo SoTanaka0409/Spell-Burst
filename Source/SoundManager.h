@@ -2,50 +2,47 @@
 #include <string>
 #include <unordered_map>
 
-// BGMと効果音を読み込み、キャッシュして再生するクラス
+/// @brief BGMと効果音を読み込み、キャッシュして再生するクラス
 class SoundManager
 {
 private:
+    /// @brief サウンド管理クラスを生成する
     SoundManager();
+
+    /// @brief サウンド管理クラスを破棄する
     ~SoundManager();
 
 public:
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
 
+    /// @brief サウンド管理クラスのインスタンスを取得する
+    /// @return SoundManager* シングルトンインスタンス
     static SoundManager* GetInstance();
 
-    /*
-     * サウンドを取得する。未読み込みならロードする。
-     * [入力] path: 音声ファイルのパス
-     * [出力] サウンドハンドル
-     * [副作用] 音声データがキャッシュに登録される
-     */
+    /// @brief サウンドを取得する。未読み込みならロードする
+    /// @param path 音声ファイルのパス
+    /// @return int サウンドハンドル
     int GetSound(const std::string& path);
 
-    /*
-     * BGMをループ再生する。
-     * [入力] path: 音声ファイルのパス
-     * [出力] なし
-     * [副作用] 現在のBGMを止め、新しいBGMを再生する
-     */
+    /// @brief BGMをループ再生する
+    /// @param path 音声ファイルのパス
     void PlayBGM(const std::string& path);
 
-    /*
-     * 効果音を一度だけ再生する。
-     * [入力] path: 音声ファイルのパス
-     * [出力] なし
-     * [副作用] SEが再生される
-     */
+    /// @brief 効果音を一度だけ再生する
+    /// @param path 音声ファイルのパス
     void PlaySE(const std::string& path);
 
+    /// @brief 再生中のBGMを停止する
     void StopBGM();
 
+    /// @brief 再生中の全サウンドを停止する
     void StopAll();
 
+    /// @brief 読み込んだ全サウンドを解放する
     void ClearAll();
 
 private:
-    std::unordered_map<std::string, int> sound_map_;
-    int current_bgm_handle_;
+    std::unordered_map<std::string, int> sound_map_; ///< 音声パスとサウンドハンドルの対応表
+    int current_bgm_handle_;                         ///< 現在再生中のBGMハンドル
 };

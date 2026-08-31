@@ -1,4 +1,4 @@
-Ôªø#include "TitleScene.h"
+#include "TitleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -12,14 +12,17 @@
 #include "DxLib.h"
 #include <cmath>
 
+/// @brief TitleScene Çê∂ê¨Ç∑ÇÈ
 TitleScene::TitleScene() : bg_graph_(-1), bg_scroll_x_(0.0f), ui_button_graph_(-1)
 {
 }
 
+/// @brief îjä¸èàóùÇçsÇ§
 TitleScene::~TitleScene()
 {
 }
 
+/// @brief èâä˙âªèàóùÇçsÇ§
 void TitleScene::Initialize()
 {
 	bg_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_BG_TITLE");
@@ -29,6 +32,7 @@ void TitleScene::Initialize()
 	Utility::LoadTimeRanking(rankings_);
 }
 
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
 void TitleScene::Update()
 {
 	static int prevMouseInput = 0;
@@ -74,10 +78,11 @@ void TitleScene::Update()
 	Scene::Update();
 }
 
+/// @brief DrawRankings Çé¿çsÇ∑ÇÈ
 void TitleScene::DrawRankings()
 {
 	int rankFont = ResourceManager::GetInstance()->GetFont(32, 2);
-	DrawStringToHandle(Utility::kScreenWidth - 320, 50, "TIME ATTACK TOP 3", GetColor(200, 200, 255), rankFont);
+	DrawStringToHandle(Utility::kScreenWidth - 320, 50, "É^ÉCÉÄÉAÉ^ÉbÉN è„à 3ãLò^", GetColor(200, 200, 255), rankFont);
 
 	for (size_t i = 0; i < rankings_.size() && i < 3; ++i)
 	{
@@ -92,14 +97,19 @@ void TitleScene::DrawRankings()
 	}
 }
 
+/// @brief DrawTitleLogo Çé¿çsÇ∑ÇÈ
 void TitleScene::DrawTitleLogo()
 {
 	int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
 
-	int titleW = GetDrawStringWidthToHandle("AI SUSHI CHEF", 13, titleFont);
-	DrawStringToHandle((Utility::kScreenWidth - titleW) / 2, Utility::kScreenHeight / 4 - 30, "AI SUSHI CHEF", GetColor(255, 215, 0), titleFont);
+	const char* titleText = "Spell Burst";
+	int titleW = GetDrawStringWidthToHandle(titleText, (int)strlen(titleText), titleFont);
+	DrawStringToHandle((Utility::kScreenWidth - titleW) / 2, Utility::kScreenHeight / 4 - 30, titleText, GetColor(255, 215, 0), titleFont);
 }
 
+/// @brief DrawButtons Çé¿çsÇ∑ÇÈ
+/// @param mouseX mouseX ÇÃíl
+/// @param mouseY mouseY ÇÃíl
 void TitleScene::DrawButtons(int mouseX, int mouseY)
 {
 	int btnW = 300;
@@ -141,15 +151,16 @@ void TitleScene::DrawButtons(int mouseX, int mouseY)
 		};
 
 	bool hover1 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH);
-	drawBtn(btnX, btnY1, "GAME START", hover1);
+	drawBtn(btnX, btnY1, "ÉQÅ[ÉÄäJén", hover1);
 
 	bool hover2 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH);
-	drawBtn(btnX, btnY2, "SETTINGS", hover2);
+	drawBtn(btnX, btnY2, "ÉãÅ[Éã", hover2);
 
 	bool hover3 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH);
-	drawBtn(btnX, btnY3, "EXIT", hover3);
+	drawBtn(btnX, btnY3, "èIóπ", hover3);
 }
 
+/// @brief ï`âÊèàóùÇçsÇ§
 void TitleScene::Draw()
 {
 	if (bg_graph_ != -1)
@@ -174,6 +185,7 @@ void TitleScene::Draw()
 	DrawButtons(mouseX, mouseY);
 }
 
+/// @brief èIóπèàóùÇçsÇ§
 void TitleScene::Finalize()
 {
 }

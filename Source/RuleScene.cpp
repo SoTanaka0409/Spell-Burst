@@ -1,4 +1,4 @@
-ï»¿#include "RuleScene.h"
+#include "RuleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -11,18 +11,20 @@
 #include "DxLib.h"
 #include <algorithm>
 
+/// @brief ‰Šú‰»ˆ—‚ğs‚¤
 void RuleScene::Initialize()
 {
     rule_graphs_[0] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_01");
     rule_graphs_[1] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_02");
     rule_graphs_[2] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_03");
     rule_graphs_[3] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_04");
-    rule_graphs_[4] = -1; // ç”»åƒãŒãªã„ãƒšãƒ¼ã‚¸ã¯ãƒ†ã‚­ã‚¹ãƒˆèª¬æ˜ã®ã¿ã§è¡¨ç¤ºã™ã‚‹
+    rule_graphs_[4] = -1; // ‰æ‘œ‚ª‚È‚¢ƒy[ƒW‚ÍƒeƒLƒXƒgà–¾‚Ì‚İ‚Å•\¦‚·‚é
     rule_graphs_[5] = -1;
     current_slide_ = 0;
     SoundManager::GetInstance()->PlayBGM("BGM_146");
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void RuleScene::Update()
 {
     static int prevMouseInput = 0;
@@ -35,7 +37,7 @@ void RuleScene::Update()
 
     if (isLeftClicked)
     {
-        // ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹
+        // ƒ^ƒCƒgƒ‹‚Ö–ß‚é
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -43,7 +45,7 @@ void RuleScene::Update()
             return;
         }
 
-        // æ¬¡ã®ãƒšãƒ¼ã‚¸ã¸é€²ã‚€ã€‚æœ€çµ‚ãƒšãƒ¼ã‚¸ã§ã¯ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹
+        // Ÿ‚Ìƒy[ƒW‚Öi‚ŞBÅIƒy[ƒW‚Å‚Íƒ^ƒCƒgƒ‹‚Ö–ß‚é
         if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -57,7 +59,7 @@ void RuleScene::Update()
             }
         }
 
-        // å‰ã®ãƒšãƒ¼ã‚¸ã¸æˆ»ã‚‹ã€‚æœ€åˆã®ãƒšãƒ¼ã‚¸ã§ã¯ä½•ã‚‚ã—ãªã„
+        // ‘O‚Ìƒy[ƒW‚Ö–ß‚éBÅ‰‚Ìƒy[ƒW‚Å‚Í‰½‚à‚µ‚È‚¢
         if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -69,6 +71,7 @@ void RuleScene::Update()
     }
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void RuleScene::Draw()
 {
     DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 0, 0), TRUE);
@@ -82,7 +85,7 @@ void RuleScene::Draw()
         if (imgW > 0 && imgH > 0)
         {
             float maxWidth = 1400.0f;
-            float maxHeight = 650.0f; // ç”»åƒãŒèª¬æ˜æ¬„ã«é‡ãªã‚‰ãªã„ã‚ˆã†é«˜ã•ã‚’åˆ¶é™ã™ã‚‹
+            float maxHeight = 650.0f; // ‰æ‘œ‚ªà–¾—“‚Éd‚È‚ç‚È‚¢‚æ‚¤‚‚³‚ğ§ŒÀ‚·‚é
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -102,34 +105,34 @@ void RuleScene::Draw()
 
     const char* titles[] =
     {
-        "1. Choose Character",
-        "2. Choose Difficulty",
-        "3. Defeat enemies, level up, and beat the boss!",
-        "4. UI Guide",
-        "5. Barrier Guide",
-        "6. Boss HP has 3 phases!"
+        "1. ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ",
+        "2. “ïˆÕ“x‘I‘ğ",
+        "3. “G‚ğ“|‚µ‚Ä¬’·‚µ‚æ‚¤",
+        "4. ‰æ–Ê•\¦‚ÌŒ©•û",
+        "5. ƒoƒŠƒA‚Ìg‚¢•û",
+        "6. ƒ{ƒXí‚Ì—¬‚ê"
     };
     const char* descs1[] =
     {
-        "After GAME START, choose one of three characters.",
-        "Pick NORMAL, HARD, or VERY HARD to match your skill.",
-        "Defeat waves of enemies to gain XP. A boss appears at the end.",
-        "Your HP and level are shown at the upper left.",
-        "Deploy the barrier to reflect enemy bullets.",
-        "The boss restores HP across multiple phases."
+        "ƒQ[ƒ€ŠJnŒãA3l‚Ì’†‚©‚ç‘€ìƒLƒƒƒ‰ƒNƒ^[‚ğ‘I‚Ñ‚Ü‚·B",
+        "‚Ó‚Â‚¤A‚Ş‚¸‚©‚µ‚¢A‚Æ‚Ä‚à‚Ş‚¸‚©‚µ‚¢‚©‚ç“ïˆÕ“x‚ğ‘I‚Ñ‚Ü‚·B",
+        "“G‚ğ“|‚·‚ÆŒoŒ±’l‚ª“ü‚èAˆê’è”‚ğ“|‚·‚Æƒ{ƒX‚ªoŒ»‚µ‚Ü‚·B",
+        "¶ã‚ÉƒvƒŒƒCƒ„[‚Ì‘Ì—ÍAƒŒƒxƒ‹Aƒ`ƒƒ[ƒW—Ê‚ª•\¦‚³‚ê‚Ü‚·B",
+        "ƒoƒŠƒA‚ğo‚·‚ÆA“G‚Ì’e‚ğ–h‚¢‚¾‚è’µ‚Ë•Ô‚µ‚½‚è‚Å‚«‚Ü‚·B",
+        "ƒ{ƒX‚Ì‘Ì—Í‚Í•¡”’iŠK‚ ‚èAí‚èØ‚é‚½‚Ñ‚ÉŸ‚Ì’iŠK‚Öi‚İ‚Ü‚·B"
     };
     const char* descs2[] =
     {
-        "",
-        "",
-        "Leveling up increases attack power and unlocks stronger shots.",
-        "The boss HP gauge is shown at the lower right.",
-        "Use the barrier at the right moment to escape danger.",
-        "Stay focused until the final phase is defeated."
+        "‘I‘ğ’†‚ÌƒLƒƒƒ‰ƒNƒ^[‚Í­‚µˆÃ‚­•\¦‚³‚ê‚Ü‚·B",
+        "“ï‚µ‚¢‚Ù‚Ç“G‚ÌoŒ»‚âUŒ‚‚ªŒƒ‚µ‚­‚È‚è‚Ü‚·B",
+        "ƒŒƒxƒ‹‚ªã‚ª‚é‚ÆUŒ‚‚ª‹­‰»‚³‚êAí‚¢‚â‚·‚­‚È‚è‚Ü‚·B",
+        "‰E‰º‚É‚Íƒ{ƒX‚Ì‘Ì—ÍƒQ[ƒW‚ª•\¦‚³‚ê‚Ü‚·B",
+        "Šë‚È‚¢ê–Ê‚Ù‚ÇAƒ^ƒCƒ~ƒ“ƒO‚æ‚­g‚¤‚±‚Æ‚ª‘åØ‚Å‚·B",
+        "ÅŒã‚Ì’iŠK‚ğ“|‚·‚Ü‚Å–û’f‚¹‚¸‚Éí‚¢‚Ü‚µ‚å‚¤B"
     };
     const char* descs3[] =
     {
-        "The currently selected character is shown slightly darker.",
+        "",
         "",
         "",
         "",
@@ -156,19 +159,23 @@ void RuleScene::Draw()
     Scene::Draw();
 }
 
+/// @brief DrawNavigationButtons ‚ğÀs‚·‚é
+/// @param mouseX mouseX ‚Ì’l
+/// @param mouseY mouseY ‚Ì’l
+/// @param font24 font24 ‚Ì’l
 void RuleScene::DrawNavigationButtons(int mouseX, int mouseY, int font24)
 {
     bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
     DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
     DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(615, 855, "BACK", GetColor(255, 255, 255), font24);
+    DrawStringToHandle(620, 855, "–ß‚é", GetColor(255, 255, 255), font24);
 
     if (current_slide_ > 0)
     {
         bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
         DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
         DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
-        DrawStringToHandle(770, 855, "PREV", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(775, 855, "‘O‚Ö", GetColor(255, 255, 255), font24);
     }
 
     bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
@@ -176,13 +183,14 @@ void RuleScene::DrawNavigationButtons(int mouseX, int mouseY, int font24)
     DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
     if (current_slide_ < 5)
     {
-        DrawStringToHandle(920, 855, "NEXT", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(925, 855, "Ÿ‚Ö", GetColor(255, 255, 255), font24);
     } else
     {
-        DrawStringToHandle(920, 855, "DONE", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(925, 855, "Š®—¹", GetColor(255, 255, 255), font24);
     }
 }
 
+/// @brief I—¹ˆ—‚ğs‚¤
 void RuleScene::Finalize()
 {
 }

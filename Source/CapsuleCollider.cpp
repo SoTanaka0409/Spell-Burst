@@ -1,6 +1,11 @@
 #include "CapsuleCollider.h"
 #include "ObjectManager.h"
 
+/// @brief CapsuleCollider を生成する
+/// @param parent parent の値
+/// @param pos1 pos1 の値
+/// @param pos2 pos2 の値
+/// @param radius radius の値
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
@@ -9,10 +14,13 @@ CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, f
 	this->radius_ = radius;
 }
 
+/// @brief 破棄処理を行う
 CapsuleCollider::~CapsuleCollider()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
+/// @param check check の値
 void CapsuleCollider::Update(Collider* check)
 {
 	if (check != nullptr)
@@ -35,6 +43,7 @@ void CapsuleCollider::Update(Collider* check)
 	}
 }
 
+/// @brief 描画処理を行う
 void CapsuleCollider::Draw()
 {
 	DrawCircle(

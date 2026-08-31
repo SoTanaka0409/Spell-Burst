@@ -1,14 +1,15 @@
-ï»¿#pragma once
+#pragma once
 #include "Vector2.h"
 
+/// @brief ”š”­‚È‚Ç‚Ì‰‰oƒIƒuƒWƒFƒNƒg¶¬‚ğ‚Ü‚Æ‚ß‚éƒNƒ‰ƒX
 class EffectManager
 {
 public:
-    /*
-     * æŒ‡å®šã—ãŸä½ç½®ã«çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’è¤‡æ•°ç”Ÿæˆã™ã‚‹ã€‚
-     * [å…¥åŠ›] position: çˆ†ç™ºã®ä¸­å¿ƒä½ç½®, count: ç”Ÿæˆã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æ•°, color: ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®è‰²(DXLibã®Color), size: æœ€å¤§ã‚µã‚¤ã‚º, speed: æœ€å¤§é€Ÿåº¦
-     * [å‡ºåŠ›] ãªã—
-     * [å‰¯ä½œç”¨] ObjectManagerçµŒç”±ã§è¤‡æ•°ã®ExplosionParticleãŒç”Ÿæˆã•ã‚Œã‚‹
-     */
+    /// @brief w’è‚µ‚½ˆÊ’u‚É”š”­ƒp[ƒeƒBƒNƒ‹‚ğ•¡”¶¬‚·‚é
+    /// @param position ”š”­‚Ì’†SˆÊ’u
+    /// @param count ¶¬‚·‚éƒp[ƒeƒBƒNƒ‹”
+    /// @param color ƒp[ƒeƒBƒNƒ‹‚ÌF
+    /// @param size Å‘åƒTƒCƒY
+    /// @param speed Å‘å‘¬“x
     static void SpawnExplosion(Vector2 position, int count, int color, float size, float speed);
 };

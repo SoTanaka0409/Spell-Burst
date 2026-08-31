@@ -4,47 +4,34 @@
 
 class Bullet;
 
-// プレイヤーが発射する通常弾をまとめて管理するクラス
+/// @brief プレイヤーが発射する通常弾をまとめて管理するクラス
 class BulletManager
 {
 private:
-	std::vector<std::weak_ptr<Bullet>> bullets; // ObjectManagerが所有する弾を追跡する弱参照リスト
+	std::vector<std::weak_ptr<Bullet>> bullets; ///< ObjectManagerが所有する弾を追跡する弱参照リスト
 
 public:
+	/// @brief 弾管理クラスを生成する
 	BulletManager();
+
+	/// @brief 弾管理クラスを破棄する
 	~BulletManager();
 
-	/*
-	 * 弾リストを初期化する。
-	 * [入力] なし
-	 * [出力] なし
-	 * [副作用] 追跡用リストをクリアする
-	 */
+	/// @brief 弾リストを初期化する
 	void Initialize();
 
-	/*
-	 * 管理中の弾を更新し、無効になった弾をリストから取り除く。
-	 * [入力] なし
-	 * [出力] なし
-	 * [副作用] 弾の座標更新と追跡リストの整理を行う
-	 */
+	/// @brief 管理中の弾を更新し、無効になった弾をリストから取り除く
 	void Update();
 
-	/*
-	 * 管理中の弾を描画する。
-	 * [入力] なし
-	 * [出力] なし
-	 * [副作用] 有効な弾のみ画面に描画する
-	 */
+	/// @brief 管理中の弾を描画する
 	void Draw();
 
-	/*
-	 * 指定座標にプレイヤー弾を生成する。
-	 * [入力] x, y: 生成する画面座標
-	 * [出力] なし
-	 * [副作用] 弾を生成し、追跡リストへ追加する
-	 */
+	/// @brief 指定座標にプレイヤー弾を生成する
+	/// @param x 生成X座標
+	/// @param y 生成Y座標
 	void SpawnBullet(float x, float y);
 
+	/// @brief 管理中の弾リストを取得する
+	/// @return const std::vector<std::weak_ptr<Bullet>>& 弾の弱参照リスト
 	const std::vector<std::weak_ptr<Bullet>>& GetBullets() const { return bullets; }
 };

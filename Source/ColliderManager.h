@@ -3,39 +3,35 @@
 
 class Collider;
 
-// 生成された全コライダーを管理し、衝突判定と削除を行うクラス
+/// @brief 生成された全コライダーを管理し、衝突判定と削除を行うクラス
 class ColliderManager
 {
 public:
+    /// @brief コライダー管理クラスを生成する
     ColliderManager();
+
+    /// @brief コライダー管理クラスを破棄する
     ~ColliderManager();
 
-    /*
-     * 管理している全コライダーの衝突判定を行う。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] 衝突が発生した場合、各コライダーのイベントが発火する
-     */
+    /// @brief 管理している全コライダーの衝突判定を行う
     void Update();
 
-    /*
-     * 管理している全コライダーをデバッグ描画する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] 画面にコライダー形状が描画される
-     */
+    /// @brief 管理している全コライダーをデバッグ描画する
     void Draw();
 
+    /// @brief コライダー管理クラスのインスタンスを取得する
+    /// @return ColliderManager* シングルトンインスタンス
     static ColliderManager* Getinstance_()
     {
         if (instance_ == nullptr)
         {
             instance_ = new ColliderManager();
-        }//
+        }
 
         return instance_;
     }
 
+    /// @brief コライダー管理クラスのインスタンスを解放する
     static void Finalize()
     {
         if (instance_ != nullptr)
@@ -46,42 +42,25 @@ public:
     }
 
 public:
-    /*
-     * 新しいコライダーを管理リストに追加する。
-     * [入力] collider: 追加するコライダー
-     * [出力] なし
-     * [副作用] collider_list_に追加される
-     */
+    /// @brief 新しいコライダーを管理リストに追加する
+    /// @param collider 追加するコライダー
     void AddCollider(Collider* collider);
 
-    /*
-     * 全てのコライダーをリストから削除し、メモリを解放する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] collider_list_が空になる
-     */
+    /// @brief 全てのコライダーをリストから削除し、メモリを解放する
     void DeleteAllCollider();
 
-    /*
-     * 削除フラグが立っているコライダーをリストから除外し、破棄する。
-     * [入力] なし
-     * [出力] なし
-     * [副作用] 対象コライダーが解放される
-     */
+    /// @brief 削除フラグが立っているコライダーをリストから除外し、破棄する
     void DeleteAllColliderIfNeeded();
 
-    /*
-     * 指定されたコライダーを管理リストから除外する。メモリ解放は行わない。
-     * [入力] collider: 除外するコライダー
-     * [出力] なし
-     * [副作用] collider_list_から要素が削除される
-     */
+    /// @brief 指定されたコライダーを管理リストから除外する
+    /// @param collider 除外するコライダー
     void RemoveCollider(Collider* collider);
 
+    /// @brief 管理中のコライダーリストを取得する
+    /// @return std::list<Collider*>& コライダーリスト
     std::list<Collider*>& GetColliderList();
 
 private:
-    std::list<Collider*> collider_list_;
-
-    static ColliderManager* instance_;
+    std::list<Collider*> collider_list_; ///< 管理中のコライダーリスト
+    static ColliderManager* instance_;   ///< シングルトンインスタンス
 };

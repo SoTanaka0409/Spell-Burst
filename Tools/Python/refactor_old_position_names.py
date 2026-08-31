@@ -1,7 +1,7 @@
-import os
+﻿import os
 import re
 
-dir_path = r"c:\Users\Admin\Desktop\progtram\AiGame_\Source"
+dir_path = r"c:\Users\Admin\Desktop\progtram\AiGame_net\Source"
 
 for root, _, files in os.walk(dir_path):
     for file in files:

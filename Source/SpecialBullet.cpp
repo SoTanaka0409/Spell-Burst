@@ -8,17 +8,22 @@
 #include "DxLib.h"
 #include "Utility.h"
 
+/// @brief SpecialBullet ‚ğ¶¬‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
 SpecialBullet::SpecialBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 5)
 {
-    SetTag(kTag2dPlayerBullet); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨ã—ã¦åˆ¤å®šã•ã›ã‚‹ãŸã‚ã®ã‚¿ã‚°è¨­å®š
+    SetTag(kTag2dPlayerBullet); // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚Æ‚µ‚Ä”»’è‚·‚é‚½‚ß‚Ìƒ^ƒO‚ğİ’è‚·‚é
     collider_ = new CapsuleCollider(this, position_, position_, 90.0f);
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 SpecialBullet::~SpecialBullet()
 {
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void SpecialBullet::Update()
 {
     position_ += dir_ * (speed_ * Utility::time_scale_);
@@ -27,10 +32,11 @@ void SpecialBullet::Update()
 
     if (position_.y < -120.0f)
     {
-        Projectile::Kill(); // ç”»é¢å¤–ãªã‚‰æœ¬å½“ã«æ¶ˆã™
+        Projectile::Kill(); // ‰æ–ÊŠO‚Éo‚½‚çíœ‚·‚é
     }
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void SpecialBullet::Draw()
 {
     if (!is_active_) return;
@@ -47,10 +53,14 @@ void SpecialBullet::Draw()
     DrawLine(static_cast<int>(position_.x), static_cast<int>(position_.y - 90), static_cast<int>(position_.x), static_cast<int>(position_.y + 90), colorGold);
 }
 
+/// @brief íœ‘ÎÛ‚É‚·‚é
 void SpecialBullet::Kill()
 {
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void SpecialBullet::OnTrigger(Collider* collider, Collider* check)
 {
     if (check != nullptr && check->GetParentObject() != nullptr)

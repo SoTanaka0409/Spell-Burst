@@ -9,6 +9,9 @@
 #include "Utility.h"
 #include <cmath>
 
+/// @brief RainbowBullet を生成する
+/// @param x x の値
+/// @param y y の値
 RainbowBullet::RainbowBullet(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 1)
 {
@@ -17,10 +20,12 @@ RainbowBullet::RainbowBullet(float x, float y)
 	collider_ = new CapsuleCollider(this, position_, position_, 12.0f);
 }
 
+/// @brief 破棄処理を行う
 RainbowBullet::~RainbowBullet()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void RainbowBullet::Update()
 {
 	position_ += dir_ * (speed_ * Utility::time_scale_);
@@ -36,6 +41,7 @@ void RainbowBullet::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void RainbowBullet::Draw()
 {
 	if (!is_active_) return;
@@ -51,6 +57,9 @@ void RainbowBullet::Draw()
 	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void RainbowBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

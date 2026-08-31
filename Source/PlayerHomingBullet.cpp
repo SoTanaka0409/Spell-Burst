@@ -13,6 +13,10 @@
 #include <cmath>
 #include "utility.h"
 
+/// @brief PlayerHomingBullet を生成する
+/// @param pos pos の値
+/// @param dir_ dir_ の値
+/// @param speed_ speed_ の値
 PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir_, float speed_)
 	: Projectile(pos, dir_.Normalized(), speed_, 5)
 {
@@ -23,10 +27,12 @@ PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir_, float speed_)
 	collider_ = new CapsuleCollider(this, position_, position_, 15.0f);
 }
 
+/// @brief 破棄処理を行う
 PlayerHomingBullet::~PlayerHomingBullet()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void PlayerHomingBullet::Update()
 {
 	life_timer_--;
@@ -82,6 +88,7 @@ void PlayerHomingBullet::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void PlayerHomingBullet::Draw()
 {
 	if (!is_active_) return;
@@ -92,6 +99,9 @@ void PlayerHomingBullet::Draw()
 	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(100, 255, 200), TRUE);
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void PlayerHomingBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

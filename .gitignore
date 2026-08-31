@@ -1,67 +1,5 @@
-<<<<<<< HEAD
-# DXライブラリ (C++ / Visual Studio) 用の .gitignore
-
-# Visual Studio関連の一時ファイル・キャッシュ
+# Visual Studio
 .vs/
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-
-# ビルド出力ディレクトリと生成物
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-
-# コンパイルされたオブジェクトファイルなど
-*.obj
-*.exe
-*.pdb
-*.ilk
-*.idb
-*.exp
-*.map
-*.res
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.pch
-*.ipch
-
-# その他一時ファイル
-*.log
-*.tmp
-.vs/Project1/v17/.suo
-.vs/Project1/v17/.suo
-.vs/Project1/v17/Browse.VC.db
-.vs/Project1/v17/Browse.VC.db-shm
-.vs/Project1/v17/Browse.VC.db-wal
-.vs/Project1/v17/DocumentLayout.json
-
-=======
-# Visual Studio cache/options directory
-.vs/
-
-# Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Oo]bj/
-[Bb]in/
-Project1/x64/
-
-# Visual Studio files
 *.suo
 *.user
 *.userosscache
@@ -72,21 +10,42 @@ Project1/x64/
 *.VC.db-shm
 *.VC.db-wal
 
-# Build artifacts and logs
+# Build outputs
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]in/
+[Oo]bj/
+bld/
+Project1/x64/
+
+# Build artifacts
+*.obj
 *.exe
 *.dll
 *.pdb
 *.ilk
-*.obj
-*.log
-*.tlog
 *.idb
+*.exp
+*.map
+*.res
+*.tlb
+*.tlh
+*.pch
 *.ipch
+*.tlog
 *.recipe
+*.cache
 
-# Temporary files
+# Logs and temporary files
+*.log
+Logs/*.log
 *.tmp
 *.bak
 *.swp
 *~
->>>>>>> main

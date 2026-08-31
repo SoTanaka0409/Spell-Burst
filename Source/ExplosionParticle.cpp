@@ -7,6 +7,14 @@
 #include "DxLib.h"
 #include <cmath>
 
+/// @brief ExplosionParticle を生成する
+/// @param x x の値
+/// @param y y の値
+/// @param speed_ speed_ の値
+/// @param angle angle の値
+/// @param color_ color_ の値
+/// @param life_time_ life_time_ の値
+/// @param size_ size_ の値
 ExplosionParticle::ExplosionParticle(float x, float y, float speed_, float angle, int color_, int life_time_, float size_)
 	: Object2D(Vector2(x, y))
 {
@@ -18,10 +26,12 @@ ExplosionParticle::ExplosionParticle(float x, float y, float speed_, float angle
 	this->size_ = size_;
 }
 
+/// @brief 破棄処理を行う
 ExplosionParticle::~ExplosionParticle()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void ExplosionParticle::Update()
 {
 	position_.x += vx_ * Utility::time_scale_;
@@ -37,6 +47,7 @@ void ExplosionParticle::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void ExplosionParticle::Draw()
 {
 	int alpha = static_cast<int>(255.0f * (static_cast<float>(life_time_) / max_life_));

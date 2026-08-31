@@ -1,38 +1,38 @@
-ï»¿// InputAction.h
-// Command pattern for input abstraction.
-// Maps game actions (Move_Up, Attack, etc.) to key codes,
-// allowing key rebinding from a single location.
 #pragma once
 #include <unordered_map>
 
-// Enum representing in-game actions (intent)
+/// @brief ƒQ[ƒ€“à‚Ì“ü—ÍƒAƒNƒVƒ‡ƒ“í•Ê
 enum class InputAction
 {
-    kMoveUp,
-    kMoveDown,
-    kMoveLeft,
-    kMoveRight,
-    kFocus,         // Slow movement (LShift)
-    kAttack,        // Normal attack (Z key / Mouse left)
-    kSwitchMode,    // Switch attack mode (Q)
-    kPause,         // Pause (Escape)
-    kConfirm,       // Confirm (Enter / Z)
-    kCancel,        // Cancel (X / Escape)
+    kMoveUp,      ///< ãˆÚ“®
+    kMoveDown,    ///< ‰ºˆÚ“®
+    kMoveLeft,    ///< ¶ˆÚ“®
+    kMoveRight,   ///< ‰EˆÚ“®
+    kFocus,       ///< ’á‘¬ˆÚ“®
+    kAttack,      ///< ’ÊíUŒ‚
+    kSwitchMode,  ///< UŒ‚ƒ‚[ƒhØ‚è‘Ö‚¦
+    kPause,       ///< ƒ|[ƒY
+    kConfirm,     ///< Œˆ’è
+    kCancel,      ///< ƒLƒƒƒ“ƒZƒ‹
 };
 
-// Manages key bindings: InputAction -> DxLib KeyCode
+/// @brief “ü—ÍƒAƒNƒVƒ‡ƒ“‚ÆƒL[ƒR[ƒh‚Ì‘Î‰‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class InputBinding
 {
 public:
-    // Initialize with default key bindings
+    /// @brief ƒfƒtƒHƒ‹ƒg‚ÌƒL[Š„‚è“–‚Ä‚Å‰Šú‰»‚·‚é
     static void Initialize();
 
-    // Get the key code for a given action
+    /// @brief w’èƒAƒNƒVƒ‡ƒ“‚É‘Î‰‚·‚éƒL[ƒR[ƒh‚ğæ“¾‚·‚é
+    /// @param action Šm”F‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
+    /// @return int ƒL[ƒR[ƒh
     static int GetKey(InputAction action);
 
-    // Rebind an action to a new key code
+    /// @brief w’èƒAƒNƒVƒ‡ƒ“‚ÉV‚µ‚¢ƒL[ƒR[ƒh‚ğŠ„‚è“–‚Ä‚é
+    /// @param action •ÏX‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
+    /// @param keyCode V‚µ‚¢ƒL[ƒR[ƒh
     static void Rebind(InputAction action, int keyCode);
 
 private:
-    static std::unordered_map<int, int> bindings_;
+    static std::unordered_map<int, int> bindings_; ///< “ü—ÍƒAƒNƒVƒ‡ƒ“‚ÆƒL[ƒR[ƒh‚Ì‘Î‰•\
 };

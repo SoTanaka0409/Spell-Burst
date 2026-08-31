@@ -15,6 +15,7 @@ float HUD::display_spell_ratio_ = 0.0f;
 float HUD::display_barrier_ratio_ = 0.0f;
 float HUD::boss_hp_ratio_ = 1.0f;
 
+/// @brief 初期化処理を行う
 void HUD::Initialize()
 {
 	display_hp_ratio_ = 1.0f;
@@ -24,6 +25,10 @@ void HUD::Initialize()
 	boss_hp_ratio_ = 1.0f;
 }
 
+/// @brief 毎フレームの更新処理を行う
+/// @param player player の値
+/// @param enemyManager enemyManager の値
+/// @param boss boss の値
 void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
 {
 	float lerpSpeed = 0.1f * Utility::time_scale_;
@@ -51,6 +56,12 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
 	}
 }
 
+/// @brief 描画処理を行う
+/// @param player player の値
+/// @param enemyManager enemyManager の値
+/// @param boss boss の値
+/// @param cutinTimer cutinTimer の値
+/// @param cutinImageHandle cutinImageHandle の値
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle)
 {
 	if (player != nullptr)
@@ -74,6 +85,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
 	}
 }
 
+/// @brief DrawPlayerStatus を実行する
+/// @param player player の値
 void HUD::DrawPlayerStatus(Player* player)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -81,7 +94,7 @@ void HUD::DrawPlayerStatus(Player* player)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE);
 
-	DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
+	DrawFormatString(20, 20, GetColor(100, 255, 100), "体力：%d / %d", player->GetHp(), player->GetMaxHp());
 
 	int hpBarX = 200;
 	int hpBarY = 22;
@@ -94,7 +107,7 @@ void HUD::DrawPlayerStatus(Player* player)
 	}
 	DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
 
-	DrawFormatString(20, 50, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
+	DrawFormatString(20, 50, GetColor(255, 215, 0), "レベル：%d", player->GetLevel());
 
 	int xpBarWidth = 260;
 	int xpBarX = 35;
@@ -106,9 +119,9 @@ void HUD::DrawPlayerStatus(Player* player)
 		DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
 	}
 	DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
-	DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
+	DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "経験値：%d / %d", player->GetXp(), player->GetXpNeeded());
 
-	DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
+	DrawFormatString(20, 90, GetColor(255, 100, 200), "スペル");
 	int spellBarY = 105;
 	int spellFill = static_cast<int>(xpBarWidth * display_spell_ratio_);
 
@@ -123,16 +136,16 @@ void HUD::DrawPlayerStatus(Player* player)
 	{
 		if ((GetNowCount() / 150) % 2 == 0)
 		{
-			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "READY!! (PRESS X)");
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "発動可能！必殺技キー");
 		}
 		else
 		{
-			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "READY!! (PRESS X)");
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "発動可能！必殺技キー");
 		}
 	}
 	else
 	{
-		DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
+		DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "チャージ：%d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
 	}
 
 	int lvTimer = player->GetLevelUpTimer();
@@ -142,14 +155,16 @@ void HUD::DrawPlayerStatus(Player* player)
 		{
 			int px = static_cast<int>(player->GetX());
 			int py = static_cast<int>(player->GetY()) - 60;
-			DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "LEVEL UP!");
-			DrawFormatString(px - 60, py, GetColor(255, 215, 0), "LEVEL UP!");
+			DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "レベルアップ！");
+			DrawFormatString(px - 60, py, GetColor(255, 215, 0), "レベルアップ！");
 			DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100),
-				"LV.%d -> LV.%d", player->GetLevel() - 1, player->GetLevel());
+				"レベル%d → レベル%d", player->GetLevel() - 1, player->GetLevel());
 		}
 	}
 }
 
+/// @brief DrawEnemyProgress を実行する
+/// @param enemyManager enemyManager の値
 void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -159,10 +174,12 @@ void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
 
 	if (enemyManager->GetDefeatedCount() < 10)
 	{
-		DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemyManager->GetDefeatedCount());
+		DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "撃破数：%d / 10", enemyManager->GetDefeatedCount());
 	}
 }
 
+/// @brief DrawBossStatus を実行する
+/// @param boss boss の値
 void HUD::DrawBossStatus(Boss* boss)
 {
 	int barWidth = 400;
@@ -182,10 +199,13 @@ void HUD::DrawBossStatus(Boss* boss)
 	}
 	DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE);
 
-	DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "BOSS: FISHMAN KING (PHASE %d)", 4 - boss->GetLives());
+	DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "ボス：半魚人王（第%d段階）", 4 - boss->GetLives());
 	DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
 }
 
+/// @brief DrawCutin を実行する
+/// @param cutinTimer cutinTimer の値
+/// @param cutinImageHandle cutinImageHandle の値
 void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
 {
 	int maxTimer = 90;
@@ -220,9 +240,9 @@ void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
 
 	if (progress > 10)
 	{
-		const char* spellName = "SPELL CARD: MASTER SPARK!!";
-		if (Player::kSelectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
-		else if (Player::kSelectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
+		const char* spellName = "スペルカード：極太レーザー！！";
+		if (Player::kSelectedCharacterType == 2) spellName = "スペルカード：虹色ウェーブ！！";
+		else if (Player::kSelectedCharacterType == 3) spellName = "スペルカード：桜吹雪！！";
 		DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
 	}
 }

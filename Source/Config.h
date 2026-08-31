@@ -1,31 +1,26 @@
 #pragma once
 
+/// @brief ゲームバランス調整用の設定値
 namespace Config
 {
-    // Player
-    constexpr int kPlayerMaxHp = 15;
-    constexpr float kPlayerSpeed = 5.0f;
-    constexpr int kPlayerAttackInterval = 20;
-    constexpr int kPlayerSpecialInterval = 60;
-    constexpr int kPlayerXpNeeded = 5;
+    constexpr int kPlayerMaxHp = 15;             ///< プレイヤー最大HP
+    constexpr float kPlayerSpeed = 5.0f;         ///< プレイヤー移動速度
+    constexpr int kPlayerAttackInterval = 20;    ///< プレイヤー通常攻撃間隔
+    constexpr int kPlayerSpecialInterval = 60;   ///< プレイヤー特殊攻撃間隔
+    constexpr int kPlayerXpNeeded = 5;           ///< 初期レベルアップ必要経験値
 
-    // Boss Type 1
-    constexpr int kBoss1MaxHp = 60;
-    constexpr float kBoss1Speed = 1.5f;
+    constexpr int kBoss1MaxHp = 60;              ///< ボス1最大HP
+    constexpr float kBoss1Speed = 1.5f;          ///< ボス1移動速度
 
-    // Boss Type 2
-    constexpr int kBoss2MaxHp = 80;
-    constexpr float kBoss2Speed = 2.0f;
+    constexpr int kBoss2MaxHp = 80;              ///< ボス2最大HP
+    constexpr float kBoss2Speed = 2.0f;          ///< ボス2移動速度
 
-    // Boss Type 3 (Final)
-    constexpr int kBoss3MaxHp = 150;
-    constexpr float kBoss3Speed = 2.5f;
-    constexpr int kBoss3Lives = 3;
+    constexpr int kBoss3MaxHp = 150;             ///< ボス3最大HP
+    constexpr float kBoss3Speed = 2.5f;          ///< ボス3移動速度
+    constexpr int kBoss3Lives = 3;               ///< ボス3のHP段階数
 
-    // Enemy
-    constexpr int kEnemyMaxHp = 5;
-    constexpr float kEnemySpeed = 2.0f;
+    constexpr int kEnemyMaxHp = 5;               ///< 通常敵最大HP
+    constexpr float kEnemySpeed = 2.0f;          ///< 通常敵移動速度
 
-    // Grid
-    constexpr int kGridCellSize = 100;
+    constexpr int kGridCellSize = 100;           ///< 衝突判定グリッドのセルサイズ
 }

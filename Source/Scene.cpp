@@ -4,13 +4,15 @@
 #include "ColliderManager.h"
 #include "DebugLog.h"
 
+/// @brief Scene ‚ğ¶¬‚·‚é
 Scene::Scene()
 {
-	// ã‚·ãƒ¼ãƒ³å›ºæœ‰ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŠã‚ˆã³å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ãŸã‚å°‚ç”¨ã®ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’ç”Ÿæˆ
+	// ƒV[ƒ““à‚ÌƒIƒuƒWƒFƒNƒg‚Æ“–‚½‚è”»’è‚ğŠÇ—‚·‚éƒ}ƒl[ƒWƒƒ[‚ğ¶¬‚·‚é
 	object_manager_ = std::make_unique<ObjectManager>();
 	collider_manager_ = std::make_unique<ColliderManager>();
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 Scene::~Scene()
 {
 	if (object_manager_ != nullptr)
@@ -25,7 +27,8 @@ Scene::~Scene()
 	}
 }
 
-// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼çµŒç”±ã§ä¸€æ‹¬å®Ÿè¡Œ
+// ‘SƒIƒuƒWƒFƒNƒg‚Ì•`‰æ‚ğƒ}ƒl[ƒWƒƒ[Œo—R‚Å‚Ü‚Æ‚ß‚Äs‚¤
+/// @brief •`‰æˆ—‚ğs‚¤
 void Scene::Draw()
 {
 	if (object_manager_ != nullptr)
@@ -38,7 +41,8 @@ void Scene::Draw()
 	}
 }
 
-// å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹æ›´æ–°ãŠã‚ˆã³å½“ãŸã‚Šåˆ¤å®šå‡¦ç†ã‚’ä¸€æ‹¬å®Ÿè¡Œ
+// ‘SƒIƒuƒWƒFƒNƒg‚ÌXV‚Æ“–‚½‚è”»’èˆ—‚ğ‚Ü‚Æ‚ß‚Äs‚¤
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void Scene::Update()
 {
 	if (object_manager_ != nullptr)
@@ -51,11 +55,15 @@ void Scene::Update()
 	}
 }
 
+/// @brief GetObjectManager ‚ğÀs‚·‚é
+/// @return ObjectManager* –ß‚è’l
 ObjectManager* Scene::GetObjectManager()
 {
 	return object_manager_.get();
 }
 
+/// @brief GetCollisionManager ‚ğÀs‚·‚é
+/// @return ColliderManager* –ß‚è’l
 ColliderManager* Scene::GetCollisionManager()
 {
 	return collider_manager_.get();

@@ -13,6 +13,9 @@
 #include "Utility.h"
 #include "PlayerSpellParticle.h"
 
+/// @brief SpellCardBullet を生成する
+/// @param x x の値
+/// @param y y の値
 SpellCardBullet::SpellCardBullet(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 6.0f, 1)
 {
@@ -25,10 +28,12 @@ SpellCardBullet::SpellCardBullet(float x, float y)
 	burst_timer_ = 0;
 }
 
+/// @brief 破棄処理を行う
 SpellCardBullet::~SpellCardBullet()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void SpellCardBullet::Update()
 {
 	if (!is_active_) return;
@@ -72,6 +77,7 @@ void SpellCardBullet::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void SpellCardBullet::Draw()
 {
 	if (!is_active_) return;
@@ -83,6 +89,9 @@ void SpellCardBullet::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void SpellCardBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -112,6 +121,7 @@ void SpellCardBullet::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
+/// @brief Explode を実行する
 void SpellCardBullet::Explode()
 {
 	for (int i = 0; i < 16; i++)

@@ -14,6 +14,9 @@
 #include <cmath>
 #include <cstdlib>
 
+/// @brief MasterSpark を生成する
+/// @param x x の値
+/// @param y y の値
 MasterSpark::MasterSpark(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 0.0f, 1)
 {
@@ -27,10 +30,12 @@ MasterSpark::MasterSpark(float x, float y)
 	collider_ = new CapsuleCollider(this, Vector2(position_.x, position_.y), Vector2(position_.x, position_.y - 1200.0f), radius_);
 }
 
+/// @brief 破棄処理を行う
 MasterSpark::~MasterSpark()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void MasterSpark::Update()
 {
 	life_timer_--;
@@ -76,12 +81,14 @@ void MasterSpark::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void MasterSpark::Draw()
 {
 	if (!is_active_) return;
 	DrawParticles();
 }
 
+/// @brief DrawParticles を実行する
 void MasterSpark::DrawParticles()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 180);
@@ -114,10 +121,14 @@ void MasterSpark::DrawParticles()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
+/// @brief 削除対象にする
 void MasterSpark::Kill()
 {
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void MasterSpark::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -139,6 +150,9 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
+/// @brief 接触開始時の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void MasterSpark::OnEnter(Collider* collider, Collider* check)
 {
 }

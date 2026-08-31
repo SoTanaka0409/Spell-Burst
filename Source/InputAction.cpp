@@ -8,6 +8,7 @@
 
 std::unordered_map<int, int> InputBinding::bindings_;
 
+/// @brief 初期化処理を行う
 void InputBinding::Initialize()
 {
     bindings_[static_cast<int>(InputAction::kMoveUp)]     = KEY_INPUT_W;
@@ -22,6 +23,9 @@ void InputBinding::Initialize()
     bindings_[static_cast<int>(InputAction::kCancel)]     = KEY_INPUT_X;
 }
 
+/// @brief GetKey を実行する
+/// @param action action の値
+/// @return int 戻り値
 int InputBinding::GetKey(InputAction action)
 {
     auto it = bindings_.find(static_cast<int>(action));
@@ -32,6 +36,9 @@ int InputBinding::GetKey(InputAction action)
     return -1;
 }
 
+/// @brief Rebind を実行する
+/// @param action action の値
+/// @param keyCode keyCode の値
 void InputBinding::Rebind(InputAction action, int keyCode)
 {
     bindings_[static_cast<int>(action)] = keyCode;

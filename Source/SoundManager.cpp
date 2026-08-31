@@ -6,21 +6,28 @@
 #endif
 #include "DxLib.h"
 
+/// @brief SoundManager を生成する
 SoundManager::SoundManager() : current_bgm_handle_(-1)
 {
 }
 
+/// @brief 破棄処理を行う
 SoundManager::~SoundManager()
 {
 	ClearAll();
 }
 
+/// @brief シングルトンインスタンスを取得する
+/// @return SoundManager* 戻り値
 SoundManager* SoundManager::GetInstance()
 {
 	static SoundManager instance;
 	return &instance;
 }
 
+/// @brief GetSound を実行する
+/// @param id id の値
+/// @return int 戻り値
 int SoundManager::GetSound(const std::string& id)
 {
     std::string path = ResourceManager::GetInstance()->GetAssetPath(id);
@@ -39,6 +46,8 @@ int SoundManager::GetSound(const std::string& id)
     return handle;
 }
 
+/// @brief BGMを再生する
+/// @param id id の値
 void SoundManager::PlayBGM(const std::string& id)
 {
     int handle = GetSound(id);
@@ -52,6 +61,8 @@ void SoundManager::PlayBGM(const std::string& id)
     }
 }
 
+/// @brief 効果音を再生する
+/// @param id id の値
 void SoundManager::PlaySE(const std::string& id)
 {
     int handle = GetSound(id);
@@ -61,6 +72,7 @@ void SoundManager::PlaySE(const std::string& id)
     }
 }
 
+/// @brief BGMを停止する
 void SoundManager::StopBGM()
 {
 	if (current_bgm_handle_ != -1)
@@ -70,6 +82,7 @@ void SoundManager::StopBGM()
 	}
 }
 
+/// @brief すべての音声を停止する
 void SoundManager::StopAll()
 {
 	for (auto& pair : sound_map_)
@@ -82,6 +95,7 @@ void SoundManager::StopAll()
 	current_bgm_handle_ = -1;
 }
 
+/// @brief 読み込み済みリソースを解放する
 void SoundManager::ClearAll()
 {
 	StopAll();

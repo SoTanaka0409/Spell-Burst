@@ -8,28 +8,35 @@
 #include <fstream>
 #include <sstream>
 
+/// @brief ResourceManager ‚ğ¶¬‚·‚é
 ResourceManager::ResourceManager()
 {
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 ResourceManager::~ResourceManager()
 {
 	ClearAll();
 }
 
+/// @brief ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+/// @return ResourceManager* –ß‚è’l
 ResourceManager* ResourceManager::GetInstance()
 {
 	static ResourceManager instance;
 	return &instance;
 }
 
+/// @brief CSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+/// @param csv_path csv_path ‚Ì’l
+/// @return bool –ß‚è’l
 bool ResourceManager::LoadCSV(const std::string& csv_path)
 {
 	std::ifstream file(csv_path);
 	if (!file.is_open()) return false;
 
 	std::string line;
-	// ãƒ˜ãƒƒãƒ€ãƒ¼è¡Œã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹å ´åˆã¯ä»¥ä¸‹ã‚’æœ‰åŠ¹ã«
+	// ƒwƒbƒ_[s‚ğ“Ç‚İ”ò‚Î‚·
 	std::getline(file, line); 
 
 	while (std::getline(file, line))
@@ -38,7 +45,7 @@ bool ResourceManager::LoadCSV(const std::string& csv_path)
 		std::string id, path;
 		if (std::getline(ss, id, ',') && std::getline(ss, path, ','))
 		{
-			// Windowsç’°å¢ƒã®æ”¹è¡Œã‚³ãƒ¼ãƒ‰(\r)ãŒæ··å…¥ã™ã‚‹å¯¾ç­–
+			// WindowsŠÂ‹«‚Ås––‚Ì\r‚ª¬“ü‚µ‚½ê‡‚Éæ‚èœ‚­
 			if (!path.empty() && path.back() == '\r') path.pop_back();
 			asset_paths_[id] = path;
 		}
@@ -46,6 +53,9 @@ bool ResourceManager::LoadCSV(const std::string& csv_path)
 	return true;
 }
 
+/// @brief ƒAƒZƒbƒgID‚É‘Î‰‚·‚éƒpƒX‚ğæ“¾‚·‚é
+/// @param id id ‚Ì’l
+/// @return std::string –ß‚è’l
 std::string ResourceManager::GetAssetPath(const std::string& id)
 {
 	auto it = asset_paths_.find(id);
@@ -53,10 +63,13 @@ std::string ResourceManager::GetAssetPath(const std::string& id)
 	{
 		return it->second;
 	}
-	// IDãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã€å¾Œæ–¹äº’æ›æ€§ã®ãŸã‚IDè‡ªä½“ã‚’ãƒ‘ã‚¹ã¨ã—ã¦è¿”ã™
+	// ID‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍAŒã•ûŒİŠ·‚Ì‚½‚ßID©‘Ì‚ğƒpƒX‚Æ‚µ‚Ä•Ô‚·
 	return id;
 }
 
+/// @brief ‰æ‘œƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+/// @param id id ‚Ì’l
+/// @return int –ß‚è’l
 int ResourceManager::GetGraph(const std::string& id)
 {
 	std::string path = GetAssetPath(id);
@@ -72,6 +85,10 @@ int ResourceManager::GetGraph(const std::string& id)
 	return handle;
 }
 
+/// @brief ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+/// @param size size ‚Ì’l
+/// @param thickness thickness ‚Ì’l
+/// @return int –ß‚è’l
 int ResourceManager::GetFont(int size, int thickness)
 {
 	auto key = std::make_pair(size, thickness);
@@ -86,6 +103,7 @@ int ResourceManager::GetFont(int size, int thickness)
 	return handle;
 }
 
+/// @brief “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
 void ResourceManager::ClearAll()
 {
 	for (auto& pair : graph_map_)

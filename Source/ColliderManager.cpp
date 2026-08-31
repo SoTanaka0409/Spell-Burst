@@ -9,14 +9,17 @@
 
 ColliderManager* ColliderManager::instance_ = nullptr;
 
+/// @brief ColliderManager を生成する
 ColliderManager::ColliderManager()
 {
 }
 
+/// @brief 破棄処理を行う
 ColliderManager::~ColliderManager()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void ColliderManager::Update()
 {
 	const int CELL_SIZE = 100;
@@ -75,6 +78,7 @@ void ColliderManager::Update()
 	DeleteAllColliderIfNeeded();
 }
 
+/// @brief 描画処理を行う
 void ColliderManager::Draw()
 {
 	for (auto* col : collider_list_)
@@ -86,11 +90,14 @@ void ColliderManager::Draw()
 	}
 }
 
+/// @brief AddCollider を実行する
+/// @param collider collider の値
 void ColliderManager::AddCollider(Collider* collider)
 {
 	collider_list_.push_back(collider);
 }
 
+/// @brief DeleteAllCollider を実行する
 void ColliderManager::DeleteAllCollider()
 {
 	for (auto* col : collider_list_)
@@ -100,6 +107,7 @@ void ColliderManager::DeleteAllCollider()
 	collider_list_.clear();
 }
 
+/// @brief DeleteAllColliderIfNeeded を実行する
 void ColliderManager::DeleteAllColliderIfNeeded()
 {
 	collider_list_.remove_if([](Collider* col)
@@ -108,11 +116,15 @@ void ColliderManager::DeleteAllColliderIfNeeded()
 		});
 }
 
+/// @brief RemoveCollider を実行する
+/// @param collider collider の値
 void ColliderManager::RemoveCollider(Collider* collider)
 {
 	collider_list_.remove(collider);
 }
 
+/// @brief GetColliderList を実行する
+/// @return std::list<Collider*>& 戻り値
 std::list<Collider*>& ColliderManager::GetColliderList()
 {
 	return collider_list_;

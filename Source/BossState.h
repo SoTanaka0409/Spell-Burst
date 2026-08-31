@@ -1,24 +1,25 @@
-// BossState.h
-// State Pattern for Boss behavior.
-// Each concrete state handles its own attack timing and movement logic,
-// making it easy to add new boss types without modifying Boss.cpp.
 #pragma once
 
 class Boss;
 
-// Abstract base class for all Boss states
+/// @brief ボスの状態処理を表す抽象基底クラス
 class BossState
 {
 public:
+    /// @brief ボス状態を破棄する
     virtual ~BossState() = default;
 
-    // Called every frame when this state is active
+    /// @brief 状態が有効な間、毎フレーム処理を行う
+    /// @param boss 更新対象のボス
     virtual void Update(Boss* boss) = 0;
 
-    // Returns true if this state should transition to another state
+    /// @brief 次の状態へ遷移すべきかを判定する
+    /// @param boss 判定対象のボス
+    /// @return bool 遷移すべきならtrue
     virtual bool ShouldTransition(Boss* boss) const { return false; }
 
-    // Returns the next state (called when ShouldTransition returns true).
-    // Caller takes ownership of the returned pointer.
+    /// @brief 次の状態オブジェクトを取得する
+    /// @param boss 遷移元のボス
+    /// @return BossState* 次の状態。遷移しない場合はnullptr
     virtual BossState* GetNextState(Boss* boss) const { return nullptr; }
 };

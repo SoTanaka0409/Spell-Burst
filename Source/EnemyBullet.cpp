@@ -12,6 +12,14 @@
 #include <cmath>
 #include "utility.h"
 
+/// @brief EnemyBullet を生成する
+/// @param pos pos の値
+/// @param dir_ dir_ の値
+/// @param speed_ speed_ の値
+/// @param can_reflect_ can_reflect_ の値
+/// @param is_stun_bullet_ is_stun_bullet_ の値
+/// @param homingFrames homingFrames の値
+/// @param homingDelayFrames homingDelayFrames の値
 EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_reflect_, bool is_stun_bullet_, int homingFrames, int homingDelayFrames)
 	: Projectile(pos, dir_.Normalized(), speed_, 1)
 {
@@ -30,10 +38,12 @@ EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_refle
 	collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
 }
 
+/// @brief 破棄処理を行う
 EnemyBullet::~EnemyBullet()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
 void EnemyBullet::Update()
 {
 	if (homing_delay_timer_ > 0)
@@ -72,6 +82,7 @@ void EnemyBullet::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void EnemyBullet::Draw()
 {
 	if (!is_active_) return;
@@ -94,6 +105,9 @@ void EnemyBullet::Draw()
 	}
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

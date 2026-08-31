@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -33,6 +33,7 @@
     <ClCompile Include="Source\EnemyBullet.cpp" />
     <ClCompile Include="Source\EnemyManager.cpp" />
     <ClCompile Include="Source\ExplosionParticle.cpp" />
+    <ClCompile Include="Source\FadeScene.cpp" />
     <ClCompile Include="Source\GameScene.cpp" />
     <ClCompile Include="Source\HUD.cpp" />
     <ClCompile Include="Source\BossStateAttack.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Source\EnemyBullet.h" />
     <ClInclude Include="Source\EnemyManager.h" />
     <ClInclude Include="Source\ExplosionParticle.h" />
+    <ClInclude Include="Source\FadeScene.h" />
     <ClInclude Include="Source\GameScene.h" />
     <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\InputManager.h" />
@@ -112,7 +114,8 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c49f25fa-5ce9-465d-af73-b683308e0b2b}</ProjectGuid>
-    <RootNamespace>Project1</RootNamespace>
+    <RootNamespace>SpellBurst</RootNamespace>
+    <ProjectName>Spell Burst</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

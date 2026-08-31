@@ -1,4 +1,4 @@
-ï»¿#include "BulletFactory.h"
+#include "BulletFactory.h"
 #include "ObjectManager.h"
 #include "EnemyBullet.h"
 #ifndef NOMINMAX
@@ -6,14 +6,23 @@
 #endif
 #include "DxLib.h"
 
-// å…¥åŠ›ï¼šposition=ç™ºå°„èµ·ç‚¹, baseAngle=åŸºæº–å›è»¢è§’, count=æ”¾å°„ç·æ•°, speed=åˆé€Ÿ, canReflect=å£åå°„ãƒ•ãƒ©ã‚°, isStun=ã‚¹ã‚¿ãƒ³å±æ€§ä»˜ä¸ãƒ•ãƒ©ã‚°, homingFrames=èª˜å°æŒç¶šæ™‚é–“, homingDelay=èª˜å°é–‹å§‹é…å»¶
-// å‡ºåŠ›ï¼šãªã—
-// å‰¯ä½œç”¨ï¼šObjectManagerã‚’ä»‹ã—ãŸã€ç­‰é–“éš”ã«é…ç½®ã•ã‚ŒãŸå…¨æ–¹ä½å¼¾ï¼ˆEnemyBulletï¼‰ã®å¤§é‡ä¸€æ‹¬ç”Ÿæˆ
+// “ü—ÍFposition=”­Ë‹N“_, baseAngle=Šî€‰ñ“]Šp, count=•úË‘”, speed=‰‘¬, canReflect=•Ç”½Ëƒtƒ‰ƒO, isStun=ƒXƒ^ƒ“‘®«•t—^ƒtƒ‰ƒO, homingFrames=—U“±‘±ŠÔ, homingDelay=—U“±ŠJn’x‰„
+// o—ÍF‚È‚µ
+// •›ì—pFObjectManager‚ğ‰î‚µ‚½A“™ŠÔŠu‚É”z’u‚³‚ê‚½‘S•ûˆÊ’eiEnemyBulletj‚Ì‘å—ÊˆêŠ‡¶¬
+/// @brief SpawnCircleBullets ‚ğÀs‚·‚é
+/// @param position position ‚Ì’l
+/// @param baseAngle baseAngle ‚Ì’l
+/// @param count count ‚Ì’l
+/// @param speed speed ‚Ì’l
+/// @param canReflect canReflect ‚Ì’l
+/// @param isStun isStun ‚Ì’l
+/// @param homingFrames homingFrames ‚Ì’l
+/// @param homingDelay homingDelay ‚Ì’l
 void BulletFactory::SpawnCircleBullets(Vector2 position, float baseAngle, int count, float speed, bool canReflect, bool isStun, int homingFrames, int homingDelay)
 {
 	if (count <= 0) return;
 
-	// ãƒ¬ãƒ™ãƒ«ãƒ‡ã‚¶ã‚¤ãƒ³ï¼šãƒœã‚¹æˆ¦ã®å…¨æ–¹ä½æ³¢çŠ¶æ”»æ’ƒã«ãŠã„ã¦ã€é…ç½®ã®ç²—å¯†ã«ã‚ˆã‚‹å®‰åœ°ã®åã‚Šã‚’é˜²ãã€å®Œå…¨ãªå¹¾ä½•å­¦çš„å‡ç­‰æ€§ã‚’æŒãŸã›ã‚‹ãŸã‚ã®360åº¦ã‚¹ãƒ†ãƒƒãƒ—åˆ†å‰²
+	// ƒŒƒxƒ‹ƒfƒUƒCƒ“Fƒ{ƒXí‚Ì‘S•ûˆÊ”góUŒ‚‚É‚¨‚¢‚ÄA”z’u‚Ì‘e–§‚É‚æ‚éˆÀ’n‚Ì•Î‚è‚ğ–h‚¬AŠ®‘S‚ÈŠô‰½Šw“I‹Ï“™«‚ğ‚½‚¹‚é‚½‚ß‚Ì360“xƒXƒeƒbƒv•ªŠ„
 	float step = (2.0f * DX_PI_F) / count;
 	for (int i = 0; i < count; i++)
 	{
@@ -22,9 +31,19 @@ void BulletFactory::SpawnCircleBullets(Vector2 position, float baseAngle, int co
 	}
 }
 
-// å…¥åŠ›ï¼šposition=ç™ºå°„èµ·ç‚¹, baseAngle=å°„æ’ƒä¸­å¿ƒåŸºæº–è§’, count=ã‚¦ã‚§ã‚¤æ•°ï¼ˆå¼¾æ•°ï¼‰, spreadAngle=å…¨ä½“ã®æœ€å¤§æ‹¡æ•£ç·è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰, speed=åˆé€Ÿ, å„ç¨®å¼¾è³ªãƒ•ãƒ©ã‚°ç¾¤
-// å‡ºåŠ›ï¼šãªã—
-// å‰¯ä½œç”¨ï¼šObjectManagerã‚’ä»‹ã—ãŸã€è‡ªæ©Ÿæ–¹å‘ã¾ãŸã¯æŒ‡å®šæ–¹å‘ã‚’ä¸­å¿ƒã¨ã™ã‚‹æ‰‡å½¢æ‹¡æ•£å¼¾ï¼ˆEnemyBulletï¼‰ã®ç”Ÿæˆ
+// “ü—ÍFposition=”­Ë‹N“_, baseAngle=ËŒ‚’†SŠî€Šp, count=ƒEƒFƒC”i’e”j, spreadAngle=‘S‘Ì‚ÌÅ‘åŠgU‘Šp“xiƒ‰ƒWƒAƒ“j, speed=‰‘¬, Šeí’e¿ƒtƒ‰ƒOŒQ
+// o—ÍF‚È‚µ
+// •›ì—pFObjectManager‚ğ‰î‚µ‚½A©‹@•ûŒü‚Ü‚½‚Íw’è•ûŒü‚ğ’†S‚Æ‚·‚éîŒ`ŠgU’eiEnemyBulletj‚Ì¶¬
+/// @brief SpawnNWayBullets ‚ğÀs‚·‚é
+/// @param position position ‚Ì’l
+/// @param baseAngle baseAngle ‚Ì’l
+/// @param count count ‚Ì’l
+/// @param spreadAngle spreadAngle ‚Ì’l
+/// @param speed speed ‚Ì’l
+/// @param canReflect canReflect ‚Ì’l
+/// @param isStun isStun ‚Ì’l
+/// @param homingFrames homingFrames ‚Ì’l
+/// @param homingDelay homingDelay ‚Ì’l
 void BulletFactory::SpawnNWayBullets(Vector2 position, float baseAngle, int count, float spreadAngle, float speed, bool canReflect, bool isStun, int homingFrames, int homingDelay)
 {
 	if (count <= 0) return;
@@ -34,7 +53,7 @@ void BulletFactory::SpawnNWayBullets(Vector2 position, float baseAngle, int coun
 		return;
 	}
 
-	// ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ è¨­è¨ˆï¼šç‹™ã£ãŸæ–¹å‘ï¼ˆã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ™ã‚¯ãƒˆãƒ«ï¼‰ã‚’å®Œå…¨ã«ã©çœŸã‚“ä¸­ã«æ®ãˆã€å¥‡æ•°ãƒ»å¶æ•°ã‚¦ã‚§ã‚¤ã«é–¢ã‚ã‚‰ãšå·¦å³å¯¾ç§°ãªç¾ã—ã„æ‰‡å½¢å¼¾é“ã‚’è¨ˆç®—ã™ã‚‹ãŸã‚ã®é–‹å§‹è§’ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+	// ƒAƒ‹ƒSƒŠƒYƒ€İŒvF‘_‚Á‚½•ûŒüiƒ^[ƒQƒbƒgƒxƒNƒgƒ‹j‚ğŠ®‘S‚É‚Ç^‚ñ’†‚É˜‚¦AŠï”E‹ô”ƒEƒFƒC‚ÉŠÖ‚í‚ç‚¸¶‰E‘ÎÌ‚È”ü‚µ‚¢îŒ`’e“¹‚ğŒvZ‚·‚é‚½‚ß‚ÌŠJnŠpƒIƒtƒZƒbƒg
 	float step = spreadAngle / (count - 1);
 	float startAngle = baseAngle - spreadAngle / 2.0f;
 	for (int i = 0; i < count; i++)

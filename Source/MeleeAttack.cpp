@@ -9,6 +9,9 @@
 #include <algorithm>
 #include <cmath>
 
+/// @brief MeleeAttack を生成する
+/// @param x x の値
+/// @param y y の値
 MeleeAttack::MeleeAttack(float x, float y)
 	: Object2D(Vector2(x, y))
 	, collider_(nullptr)
@@ -23,6 +26,7 @@ MeleeAttack::MeleeAttack(float x, float y)
 	collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
 }
 
+/// @brief 破棄処理を行う
 MeleeAttack::~MeleeAttack()
 {
 	if (collider_)
@@ -32,6 +36,7 @@ MeleeAttack::~MeleeAttack()
 	}
 }
 
+/// @brief 毎フレームの更新処理を行う
 void MeleeAttack::Update()
 {
 	life_time_--;
@@ -45,6 +50,7 @@ void MeleeAttack::Update()
 	}
 }
 
+/// @brief 描画処理を行う
 void MeleeAttack::Draw()
 {
 	unsigned int slashColor = GetColor(100, 255, 255);
@@ -62,10 +68,14 @@ void MeleeAttack::Draw()
 	}
 }
 
+/// @brief 削除対象にする
 void MeleeAttack::Kill()
 {
 }
 
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
 void MeleeAttack::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

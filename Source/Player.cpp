@@ -1,4 +1,4 @@
-ï»¿#include "Player.h"
+#include "Player.h"
 #include "ObjectManager.h"
 #include <cmath>
 #include <algorithm>
@@ -27,6 +27,7 @@
 
 int Player::kSelectedCharacterType = 1;
 
+/// @brief Player ‚ğ¶¬‚·‚é
 Player::Player()
 	: Character(Vector2((float)Utility::kScreenWidth / 2.0f, (float)Utility::kScreenHeight / 2.0f), 15, 5.0f)
 {
@@ -34,6 +35,7 @@ Player::Player()
 	Initialize();
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 Player::~Player()
 {
 	if (auto b = barrier_.lock())
@@ -43,6 +45,7 @@ Player::~Player()
 	}
 }
 
+/// @brief ‰Šú‰»ˆ—‚ğs‚¤
 void Player::Initialize()
 {
 	position_.x = (float)Utility::kScreenWidth / 2.0f;
@@ -92,6 +95,7 @@ void Player::Initialize()
 	barrier_ = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void Player::Update()
 {
 	Character::Update();
@@ -122,6 +126,7 @@ void Player::Update()
 	Attack();
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void Player::Draw()
 {
 	DrawBarrierAura();
@@ -129,6 +134,8 @@ void Player::Draw()
 	DrawPlayerSprite();
 }
 
+/// @brief ƒ_ƒ[ƒWˆ—‚ğs‚¤
+/// @param damage damage ‚Ì’l
 void Player::TakeDamage(int damage)
 {
 	Character::TakeDamage(damage);
@@ -142,12 +149,14 @@ void Player::TakeDamage(int damage)
 	}
 }
 
+/// @brief €–S‚Ìˆ—‚ğs‚¤
 void Player::OnDeath()
 {
 	ResultScene::kIsVictory = false;
 	Master::sceneManager->SetNextScene(SceneManager::kSceneResult);
 }
 
+/// @brief Attack ‚ğÀs‚·‚é
 void Player::Attack()
 {
 	int mouseInput = GetMouseInput();
@@ -163,6 +172,7 @@ void Player::Attack()
 	HandleMeleeAndSpecialAttacks(mouseInput);
 }
 
+/// @brief UpdateCooldowns ‚ğÀs‚·‚é
 void Player::UpdateCooldowns()
 {
 	attack_interval_++;
@@ -174,6 +184,8 @@ void Player::UpdateCooldowns()
 	}
 }
 
+/// @brief HandleMeleeAndSpecialAttacks ‚ğÀs‚·‚é
+/// @param mouseInput mouseInput ‚Ì’l
 void Player::HandleMeleeAndSpecialAttacks(int mouseInput)
 {
 	if (mouseInput & MOUSE_INPUT_LEFT)
@@ -182,6 +194,8 @@ void Player::HandleMeleeAndSpecialAttacks(int mouseInput)
 	}
 }
 
+/// @brief AddXp ‚ğÀs‚·‚é
+/// @param amount amount ‚Ì’l
 void Player::AddXp(int amount)
 {
 	xp_ += amount;
@@ -209,6 +223,9 @@ void Player::AddXp(int amount)
 	}
 }
 
+/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Player::OnEnter(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -224,18 +241,26 @@ void Player::OnEnter(Collider* collider, Collider* check)
 	}
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Player::OnTrigger(Collider* collider, Collider* check)
 {
 }
 
+/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Player::OnExit(Collider* collider, Collider* check)
 {
 }
 
+/// @brief RunBarrierAttack ‚ğÀs‚·‚é
 void Player::RunBarrierAttack()
 {
 }
 
+/// @brief HandleMovement ‚ğÀs‚·‚é
 void Player::HandleMovement()
 {
 	bool isFocus = InputManager::ActionPress(InputAction::kFocus);
@@ -250,6 +275,7 @@ void Player::HandleMovement()
 	position_.y = std::clamp(position_.y, 45.0f, Utility::kScreenHeight - 45.0f);
 }
 
+/// @brief ShootNormalBullets ‚ğÀs‚·‚é
 void Player::ShootNormalBullets()
 {
 	if (attack_interval_ >= attack_timer_)
@@ -266,6 +292,8 @@ void Player::ShootNormalBullets()
 	}
 }
 
+/// @brief HandleDebugAttacks ‚ğÀs‚·‚é
+/// @param mouseInput mouseInput ‚Ì’l
 void Player::HandleDebugAttacks(int mouseInput)
 {
 	if ((mouseInput & MOUSE_INPUT_LEFT) && attack_interval2_ >= attack_timer2_)
@@ -286,6 +314,7 @@ void Player::HandleDebugAttacks(int mouseInput)
 	}
 }
 
+/// @brief UseSpellCard ‚ğÀs‚·‚é
 void Player::UseSpellCard()
 {
 	if (spell_gauge_ >= max_spell_gauge_)
@@ -317,6 +346,7 @@ void Player::UseSpellCard()
 	}
 }
 
+/// @brief DrawBarrierAura ‚ğÀs‚·‚é
 void Player::DrawBarrierAura()
 {
 	if (auto b = barrier_.lock())
@@ -351,6 +381,7 @@ void Player::DrawBarrierAura()
 	}
 }
 
+/// @brief DrawStunEffect ‚ğÀs‚·‚é
 void Player::DrawStunEffect()
 {
 	if (stun_timer_ > 0)
@@ -361,6 +392,7 @@ void Player::DrawStunEffect()
 	}
 }
 
+/// @brief DrawPlayerSprite ‚ğÀs‚·‚é
 void Player::DrawPlayerSprite()
 {
 	int playerGraphHandle = -1;

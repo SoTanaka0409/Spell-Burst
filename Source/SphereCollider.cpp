@@ -2,6 +2,10 @@
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
+/// @brief SphereCollider を生成する
+/// @param parent parent の値
+/// @param center center の値
+/// @param radius radius の値
 SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
@@ -10,10 +14,13 @@ SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	this->radius_ = radius;
 }
 
+/// @brief 破棄処理を行う
 SphereCollider::~SphereCollider()
 {
 }
 
+/// @brief 毎フレームの更新処理を行う
+/// @param check check の値
 void SphereCollider::Update(Collider* check)
 {
 	if (check != nullptr)
@@ -45,6 +52,7 @@ void SphereCollider::Update(Collider* check)
 	}
 }
 
+/// @brief 描画処理を行う
 void SphereCollider::Draw()
 {
 	DrawCircle(
@@ -56,14 +64,17 @@ void SphereCollider::Draw()
 	);
 }
 
+/// @brief 接触開始時の処理を行う
 void SphereCollider::OnEnter()
 {
 }
 
+/// @brief 接触中の処理を行う
 void SphereCollider::OnTrigger()
 {
 }
 
+/// @brief 接触終了時の処理を行う
 void SphereCollider::OnExit()
 {
 }

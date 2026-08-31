@@ -3,19 +3,24 @@
 #include "RainbowBullet.h"
 #include "Utility.h"
 
+/// @brief RainbowWaveManager ‚ğ¶¬‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
 RainbowWaveManager::RainbowWaveManager(float x, float y)
     : Object2D(Vector2(x, y))
-    , life_timer_(120) // é‚‚ï½¡é€…ãƒ»ãŒç¹æ‚¶ãšç¹§ï½§ç¹§ï½¯ç¹éƒãƒ»è´è–™ãƒ»é€•æº·ï½­ä¿¶æ‚„é«¢é›£ï½¼ãƒ»é˜æŠµï½¼ãƒ»
-    , spawn_interval_(10) // è ‘ï½¾ç¹§å ¤å‡½è¬ŒèˆŒâ˜†ç¹§ä¹ã†ç¹ï½³ç¹§ï½¿ç¹ï½¼ç¹èˆŒÎãƒ»ãƒ»ç¹è¼”Îç¹ï½¼ç¹ï£°ç¸ºæ–â†’ãƒ»ãƒ»
+    , life_timer_(120) // ‘±ŠÔ
+    , spawn_interval_(10) // ’e‚Ì¶¬ŠÔŠu
     , spawn_timer_(0)
 {
     SetTag(kTag2dPlayerBullet);
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 RainbowWaveManager::~RainbowWaveManager()
 {
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void RainbowWaveManager::Update()
 {
     life_timer_--;
@@ -33,7 +38,7 @@ void RainbowWaveManager::Update()
         int numBullets = 10;
         float spacing = static_cast<float>(Utility::kScreenWidth) / static_cast<float>(numBullets);
         float startX = spacing / 2.0f;
-        float yPos = static_cast<float>(Utility::kScreenHeight) + 20.0f; // é€•ï½»é«±ï½¢èŸæ‚¶Â°ç¹§ç‰™ãƒ»è¿´ï½¾ç¸ºè¼”â—‹ç¹§ä¹â—†ç¹§âˆ½ï½¸çŸ©Îšç¸ºï½«ç¹§ï½ªç¹è¼”ãç¹ãƒ»ãƒ¨
+        float yPos = static_cast<float>(Utility::kScreenHeight) + 20.0f; // ‰æ–Ê‰º‚©‚ç­‚µŠO‚ê‚½ˆÊ’u‚É¶¬‚·‚é
 
         for (int i = 0; i < numBullets; i++)
         {
@@ -42,10 +47,14 @@ void RainbowWaveManager::Update()
     }
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void RainbowWaveManager::Draw()
 {
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check)
 {
 }

@@ -1,4 +1,4 @@
-Ôªø#include "Enemy.h"
+#include "Enemy.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -20,12 +20,17 @@
 #include <cmath>
 #include <cstdlib>
 
+/// @brief SelectNewTarget Çé¿çsÇ∑ÇÈ
 void Enemy::SelectNewTarget()
 {
 	target_x_ = 100.0f + static_cast<float>(rand() % 1080);
 	target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
+/// @brief Enemy Çê∂ê¨Ç∑ÇÈ
+/// @param x x ÇÃíl
+/// @param y y ÇÃíl
+/// @param enemyType enemyType ÇÃíl
 Enemy::Enemy(float x, float y, int enemyType)
 	: Character(Vector2(x, y), 3, 3.0f)
 {
@@ -61,10 +66,12 @@ Enemy::Enemy(float x, float y, int enemyType)
 	collider_ = new CapsuleCollider(this, position_, position_, colRadius);
 }
 
+/// @brief îjä¸èàóùÇçsÇ§
 Enemy::~Enemy()
 {
 }
 
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
 void Enemy::Update()
 {
 	Character::Update();
@@ -98,11 +105,13 @@ void Enemy::Update()
 	}
 }
 
+/// @brief çÌèúëŒè€Ç…Ç∑ÇÈ
 void Enemy::Kill()
 {
 	Character::Kill();
 }
 
+/// @brief éÄñSéûÇÃèàóùÇçsÇ§
 void Enemy::OnDeath()
 {
 	Character::OnDeath();
@@ -122,10 +131,14 @@ void Enemy::OnDeath()
 	}
 }
 
+/// @brief ê⁄êGíÜÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
 void Enemy::OnTrigger(Collider* collider, Collider* check)
 {
 }
 
+/// @brief ï`âÊèàóùÇçsÇ§
 void Enemy::Draw()
 {
 	if (!is_active_) return;
@@ -141,6 +154,7 @@ void Enemy::Draw()
 	DrawHpBar();
 }
 
+/// @brief UpdateAttackPattern Çé¿çsÇ∑ÇÈ
 void Enemy::UpdateAttackPattern()
 {
 	if (enemy_type_ == 2 || enemy_type_ == 3 || enemy_type_ == 4)
@@ -190,6 +204,7 @@ void Enemy::UpdateAttackPattern()
 	}
 }
 
+/// @brief DrawEnemySprite Çé¿çsÇ∑ÇÈ
 void Enemy::DrawEnemySprite()
 {
 	int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_ENEMY");
@@ -225,8 +240,9 @@ void Enemy::DrawEnemySprite()
 	}
 }
 
+/// @brief DrawHpBar Çé¿çsÇ∑ÇÈ
 void Enemy::DrawHpBar()
 {
 	int hpOffset = (enemy_type_ == 4) ? 65 : 55;
-	DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", hp_);
+	DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "ëÃóÕ:%d", hp_);
 }

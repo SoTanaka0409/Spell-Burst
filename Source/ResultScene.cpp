@@ -1,4 +1,4 @@
-ï»¿#include "ResultScene.h"
+#include "ResultScene.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"
 #include "Master.h"
@@ -18,6 +18,7 @@
 
 bool ResultScene::kIsVictory = false;
 
+/// @brief ‰Šú‰»ˆ—‚ğs‚¤
 void ResultScene::Initialize()
 {
 	state_timer_ = 0;
@@ -50,6 +51,7 @@ void ResultScene::Initialize()
 	}
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void ResultScene::Update()
 {
 	state_timer_++;
@@ -92,6 +94,7 @@ void ResultScene::Update()
 	Scene::Update();
 }
 
+/// @brief UpdateVictory ‚ğÀs‚·‚é
 void ResultScene::UpdateVictory()
 {
 	if (state_timer_ % 2 == 0)
@@ -114,6 +117,7 @@ void ResultScene::UpdateVictory()
 	}
 }
 
+/// @brief UpdateGameOver ‚ğÀs‚·‚é
 void ResultScene::UpdateGameOver()
 {
 	if (state_timer_ % 3 == 0)
@@ -133,6 +137,13 @@ void ResultScene::UpdateGameOver()
 	}
 }
 
+/// @brief DrawOutlinedString ‚ğÀs‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
+/// @param str str ‚Ì’l
+/// @param color color ‚Ì’l
+/// @param outlineColor outlineColor ‚Ì’l
+/// @param fontHandle fontHandle ‚Ì’l
 void ResultScene::DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle)
 {
 	DrawStringToHandle(x - 2, y - 2, str, outlineColor, fontHandle);
@@ -142,6 +153,7 @@ void ResultScene::DrawOutlinedString(int x, int y, const char* str, unsigned int
 	DrawStringToHandle(x, y, str, color, fontHandle);
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void ResultScene::Draw()
 {
 	Scene::Draw();
@@ -230,11 +242,12 @@ void ResultScene::Draw()
 	{
 		int alpha = (int)(128 + 127 * std::sin(state_timer_ / 10.0f));
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-		DrawOutlinedString(350, 600, "Press ENTER / Click to return to Title", GetColor(255, 255, 255), GetColor(0, 0, 0), promptFont);
+		DrawOutlinedString(350, 600, "Œˆ’èƒL[EƒNƒŠƒbƒN‚Åƒ^ƒCƒgƒ‹‚Ö–ß‚é", GetColor(255, 255, 255), GetColor(0, 0, 0), promptFont);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
 
+/// @brief DrawVictory ‚ğÀs‚·‚é
 void ResultScene::DrawVictory()
 {
 	int titleFont = ResourceManager::GetInstance()->GetFont(96, 8);
@@ -244,13 +257,14 @@ void ResultScene::DrawVictory()
 	textT = 1.0f - std::pow(1.0f - textT, 4.0f);
 	int titleY = -100 + (int)(250 * textT);
 
-	DrawOutlinedString(500, titleY, "GAME CLEAR!!", GetColor(255, 255, 0), GetColor(255, 100, 0), titleFont);
+	DrawOutlinedString(500, titleY, "ƒQ[ƒ€ƒNƒŠƒAII", GetColor(255, 255, 0), GetColor(255, 100, 0), titleFont);
 	if (state_timer_ > 60)
 	{
-		DrawOutlinedString(550, titleY + 120, "THANK YOU FOR PLAYING", GetColor(255, 255, 255), GetColor(0, 0, 100), subFont);
+		DrawOutlinedString(550, titleY + 120, "ƒvƒŒƒC‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚µ‚½", GetColor(255, 255, 255), GetColor(0, 0, 100), subFont);
 	}
 }
 
+/// @brief DrawGameOver ‚ğÀs‚·‚é
 void ResultScene::DrawGameOver()
 {
 	int titleFont = ResourceManager::GetInstance()->GetFont(96, 8);
@@ -259,13 +273,14 @@ void ResultScene::DrawGameOver()
 	textT = 1.0f - std::pow(1.0f - textT, 4.0f);
 	int titleY = -100 + (int)(250 * textT);
 
-	DrawOutlinedString(350, titleY, "GAME OVER", GetColor(255, 50, 50), GetColor(50, 0, 0), titleFont);
+	DrawOutlinedString(350, titleY, "ƒQ[ƒ€ƒI[ƒo[", GetColor(255, 50, 50), GetColor(50, 0, 0), titleFont);
 	if (state_timer_ > 60)
 	{
-		DrawOutlinedString(400, titleY + 120, "TRY AGAIN...", GetColor(200, 200, 200), GetColor(50, 50, 50), subFont);
+		DrawOutlinedString(400, titleY + 120, "‚à‚¤ˆê“x’§í‚µ‚æ‚¤", GetColor(200, 200, 200), GetColor(50, 50, 50), subFont);
 	}
 }
 
+/// @brief I—¹ˆ—‚ğs‚¤
 void ResultScene::Finalize()
 {
 }
