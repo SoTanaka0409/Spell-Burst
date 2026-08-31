@@ -1,4 +1,4 @@
-# Spell Burst
+# Spell Strike
 
 DxLibを使用したC++弾幕アクションゲームプロジェクトです。
 
