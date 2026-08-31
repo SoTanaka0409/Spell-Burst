@@ -1,10 +1,10 @@
-ï»¿#include "EnemyBullet.h"
+#include "EnemyBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -12,94 +12,128 @@
 #include <cmath>
 #include "utility.h"
 
-EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect, bool isStunBullet, int homingFrames, int homingDelayFrames)
-    : Projectile(pos, dir.Normalized(), speed, 1)
+/// @brief EnemyBullet ‚ð¶¬‚·‚é
+/// @param pos pos ‚Ì’l
+/// @param dir_ dir_ ‚Ì’l
+/// @param speed_ speed_ ‚Ì’l
+/// @param can_reflect_ can_reflect_ ‚Ì’l
+/// @param is_stun_bullet_ is_stun_bullet_ ‚Ì’l
+/// @param homingFrames homingFrames ‚Ì’l
+/// @param homingDelayFrames homingDelayFrames ‚Ì’l
+EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_reflect_, bool is_stun_bullet_, int homingFrames, int homingDelayFrames)
+	: Projectile(pos, dir_.Normalized(), speed_, 1)
 {
-    SetTag(Tag2D_EnemyBullet);
-    m_canReflect = false;
-    m_hasReflected = false;
-    m_isStunBullet = isStunBullet;
-    m_homingTimer = homingFrames;
-    m_homingDelayTimer = homingDelayFrames;
+	SetTag(kTag2dEnemyBullet);
+	this->can_reflect_ = can_reflect_;
+	this->has_reflected_ = false;
+	this->is_stun_bullet_ = is_stun_bullet_;
+	homing_timer_ = homingFrames;
+	homing_delay_timer_ = homingDelayFrames;
 
-    if (m_dir.MagnitudeSq() == 0.0f) {
-        m_dir = Vector2(0.0f, 1.0f);
-    }
-
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
-}
-
-EnemyBullet::~EnemyBullet() {
-}
-
-void EnemyBullet::Update() {
-    if (m_homingDelayTimer > 0) {
-        m_homingDelayTimer--;
-    } else if (m_homingTimer > 0) {
-        m_homingTimer--;
-        Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-        if (player) {
-            Vector2 targetPos(player->GetX(), player->GetY());
-            float currentAngle = Vector2(0, 0).AngleTo(m_dir);
-            float targetAngle = mvPosition.AngleTo(targetPos);
-            float diff = targetAngle - currentAngle;
-            while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
-            while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
-            float turnSpeed = 0.05f * Utility::TimeScale;
-            if (diff > turnSpeed) currentAngle += turnSpeed;
-            else if (diff < -turnSpeed) currentAngle -= turnSpeed;
-            else currentAngle = targetAngle;
-            m_dir = Vector2::FromAngle(currentAngle);
-        }
-    }
-
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
-
-    Projectile::Update();
-
-    if (IsOutOfBounds()) {
-        Kill();
-    }
-}
-
-void EnemyBullet::Draw() {
-    if (!m_isActive) return;
-    
-    if (m_isStunBullet) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(0, 150, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(0, 255, 255), TRUE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE);
-    } else {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 14, GetColor(255, 0, 128), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 100, 200), TRUE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 6, GetColor(255, 255, 255), TRUE);
-    }
-}
-
-void EnemyBullet::OnTrigger(Collider* collider, Collider* check) 
-{
-    if(check!=nullptr&&check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == tag2D_BarierPla)
-        {
-            check->GetParentObject()->OnTrigger(check, collider);
-            Kill();
-            return;
-        }
+	if (dir_.MagnitudeSq() == 0.0f)
+	{
+		dir_ = Vector2(0.0f, 1.0f);
 	}
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_Player) {
-            Player* player = dynamic_cast<Player*>(check->GetParentObject());
-            if (player != nullptr) {
-                player->TakeDamage(1);
-                if (m_isStunBullet) {
-                    player->Stun(60);
-                }
-            }
-            Kill();
-        }
-    }
+
+	collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
+}
+
+/// @brief ”jŠüˆ—‚ðs‚¤
+EnemyBullet::~EnemyBullet()
+{
+}
+
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+void EnemyBullet::Update()
+{
+	if (homing_delay_timer_ > 0)
+	{
+		homing_delay_timer_--;
+	}
+	else if (homing_timer_ > 0)
+	{
+		homing_timer_--;
+		Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
+		if (player)
+		{
+			Vector2 targetPos(player->GetX(), player->GetY());
+			float currentAngle = Vector2(1, 0).AngleTo(dir_);
+			float targetAngle = Vector2(1, 0).AngleTo(targetPos - position_);
+			float diff = targetAngle - currentAngle;
+
+			while (diff > 3.14159265f) diff -= 2.0f * 3.14159265f;
+			while (diff < -3.14159265f) diff += 2.0f * 3.14159265f;
+
+			float turnSpeed = 0.05f * Utility::time_scale_;
+			if (diff > turnSpeed) currentAngle += turnSpeed;
+			else if (diff < -turnSpeed) currentAngle -= turnSpeed;
+			else currentAngle = targetAngle;
+			dir_ = Vector2::FromAngle(currentAngle);
+		}
+	}
+
+	position_ += dir_ * (speed_ * Utility::time_scale_);
+
+	Projectile::Update();
+
+	if (IsOutOfBounds())
+	{
+		Kill();
+	}
+}
+
+/// @brief •`‰æˆ—‚ðs‚¤
+void EnemyBullet::Draw()
+{
+	if (!is_active_) return;
+
+	if (is_stun_bullet_)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 14, GetColor(0, 150, 255), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 10, GetColor(0, 255, 255), TRUE);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 6, GetColor(255, 255, 255), TRUE);
+	}
+	else
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 14, GetColor(255, 0, 128), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 10, GetColor(255, 100, 200), TRUE);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 6, GetColor(255, 255, 255), TRUE);
+	}
+}
+
+/// @brief ÚG’†‚Ìˆ—‚ðs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
+void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
+{
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dBarrierPlayer)
+		{
+			check->GetParentObject()->OnTrigger(check, collider_);
+			Kill();
+			return;
+		}
+	}
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dPlayer)
+		{
+			Player* player = dynamic_cast<Player*>(check->GetParentObject());
+			if (player != nullptr)
+			{
+				player->TakeDamage(1);
+
+				if (is_stun_bullet_)
+				{
+					player->Stun(60);
+				}
+			}
+			Kill();
+		}
+	}
 }

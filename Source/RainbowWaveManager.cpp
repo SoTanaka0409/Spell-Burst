@@ -1,46 +1,64 @@
-ï»¿#include "RainbowWaveManager.h"
+#include "RainbowWaveManager.h"
+#include "ObjectManager.h"
 #include "RainbowBullet.h"
 #include "Utility.h"
 
+/// @brief RainbowWaveManager ‚ğ¶¬‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
 RainbowWaveManager::RainbowWaveManager(float x, float y)
     : Object2D(Vector2(x, y))
-    , m_lifeTimer(120) // ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã®ç”Ÿå­˜æœŸé–“ï¼ˆ3ç§’ï¼‰
-    , m_spawnInterval(10) // å¼¾ã‚’ç”Ÿæˆã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«ï¼ˆ5ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ï¼‰
-    , m_spawnTimer(0)
+    , life_timer_(120) // ‘±ŠÔ
+    , spawn_interval_(10) // ’e‚Ì¶¬ŠÔŠu
+    , spawn_timer_(0)
 {
-    SetTag(Tag2D_PlayerBullet);
+    SetTag(kTag2dPlayerBullet);
 }
 
-RainbowWaveManager::~RainbowWaveManager() {
+/// @brief ”jŠüˆ—‚ğs‚¤
+RainbowWaveManager::~RainbowWaveManager()
+{
 }
 
-void RainbowWaveManager::Update() {
-    m_lifeTimer--;
-    if (m_lifeTimer <= 0) {
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+void RainbowWaveManager::Update()
+{
+    life_timer_--;
+    if (life_timer_ <= 0)
+    {
         SetDeleteFlag(true);
         return;
     }
 
-    m_spawnTimer++;
-    if (m_spawnTimer >= m_spawnInterval) {
-        m_spawnTimer = 0;
-        
-        // ç”»é¢ä¸‹éƒ¨ã‹ã‚‰ç”»é¢å…¨ä½“ã‚’è¦†ã†ã‚ˆã†ã«å¼¾ã‚’é…ç½®ã™ã‚‹ãŸã‚ã€ç­‰é–“éš”ã«åº§æ¨™ã‚’è¨ˆç®—
-        int numBullets = 10;
-        float spacing = static_cast<float>(Utility::SCREEN_WIDTH) / static_cast<float>(numBullets);
-        float startX = spacing / 2.0f;
-        float yPos = static_cast<float>(Utility::SCREEN_HEIGHT) + 20.0f; // ç”»é¢å¤–ã‹ã‚‰å‡ºç¾ã•ã›ã‚‹ãŸã‚ä¸‹éƒ¨ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+    spawn_timer_++;
+    if (spawn_timer_ >= spawn_interval_)
+    {
+        spawn_timer_ = 0;
 
-        for (int i = 0; i < numBullets; i++) {
-            new RainbowBullet(startX + i * spacing, yPos);
+        int numBullets = 10;
+        float spacing = static_cast<float>(Utility::kScreenWidth) / static_cast<float>(numBullets);
+        float startX = spacing / 2.0f;
+        float yPos = static_cast<float>(Utility::kScreenHeight) + 20.0f; // ‰æ–Ê‰º‚©‚ç­‚µŠO‚ê‚½ˆÊ’u‚É¶¬‚·‚é
+
+        for (int i = 0; i < numBullets; i++)
+        {
+            ObjectManager::Instantiate<RainbowBullet>(startX + i * spacing, yPos);
         }
     }
 }
 
-void RainbowWaveManager::Draw() {
-    // å¼¾ã®ç”Ÿæˆç®¡ç†ã®ã¿ã‚’è¡Œã†ä¸å¯è¦–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ãŸã‚æç”»å‡¦ç†ã¯ä¸è¦
+/// @brief •`‰æˆ—‚ğs‚¤
+void RainbowWaveManager::Draw()
+{
 }
 
-void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check) {
-    // è‡ªèº«ã¯å½“ãŸã‚Šåˆ¤å®šã‚’æŒãŸãšã€ç”Ÿæˆã—ãŸå¼¾ã«åˆ¤å®šã‚’å§”ã­ã‚‹ãŸã‚ç©ºå‡¦ç†
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
+void RainbowWaveManager::OnTrigger(Collider* collider, Collider* check)
+{
 }
+
+
+
+

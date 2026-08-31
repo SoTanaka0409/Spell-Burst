@@ -1,67 +1,111 @@
 #include "PlayerSpellParticle.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 #include "Utility.h"
 #include <cmath>
+#include "Character.h"
+#include "CapsuleCollider.h"
 
-PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed)
-    : Object2D(pos)
+/// @brief PlayerSpellParticle を生成する
+/// @param pos pos の値
+/// @param dir dir の値
+/// @param speed_ speed_ の値
+PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_)
+	: Object2D(pos)
 {
-    SetTag(Tag2D_PlayerBullet);
-    mvPosition = pos;
-    m_dir = dir.Normalized();
-    m_speed = speed;
-    m_isActive = true;
-    m_lifeTimer = 60;
-    m_damage = 5;
-    mpCollider = nullptr;
+	SetTag(kTag2dPlayerBullet);
+	this->position_ = pos;
+	this->dir = dir.Normalized();
+	this->speed_ = speed_;
+	this->is_active_ = true;
+	this->life_timer_ = 180;
+	this->damage_ = 5;
+	this->collider_ = new CapsuleCollider(this, this->position_, this->position_, 15.0f);
 }
 
-PlayerSpellParticle::~PlayerSpellParticle() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
+/// @brief 破棄処理を行う
+PlayerSpellParticle::~PlayerSpellParticle()
+{
+	if (collider_)
+	{
+		delete collider_;
+		collider_ = nullptr;
+	}
 }
 
-void PlayerSpellParticle::Update() {
-    if (!m_isActive) return;
-
-    m_lifeTimer--;
-    if (m_lifeTimer <= 0) {
-        m_isActive = false;
-        SetDeleteFlag(true);
-        return;
-    }
-
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
-
-    if (mvPosition.x < -50.0f || mvPosition.x > Utility::SCREEN_WIDTH + 50.0f || mvPosition.y < -50.0f || mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
-        m_isActive = false;
-        SetDeleteFlag(true);
-        return;
-    }
-
-    if (m_lifeTimer > 20) {
-        float currentAngle = Vector2(0,0).AngleTo(m_dir);
-        currentAngle += 0.05f;
-        m_dir = Vector2::FromAngle(currentAngle);
-    }
+/// @brief 削除対象にする
+void PlayerSpellParticle::Kill()
+{
+	is_active_ = false;
+	SetDeleteFlag(true);
 }
 
-void PlayerSpellParticle::Draw() {
-    if (!m_isActive) return;
+/// @brief 毎フレームの更新処理を行う
+void PlayerSpellParticle::Update()
+{
+	if (!is_active_) return;
 
-    int alpha = (m_lifeTimer * 255) / 60;
-    SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-    
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 15, GetColor(150, 255, 255), TRUE);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 8, GetColor(255, 255, 255), TRUE);
+	life_timer_--;
+	if (life_timer_ <= 0)
+	{
+		is_active_ = false;
+		SetDeleteFlag(true);
+		return;
+	}
 
-    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	position_ += dir * (speed_ * Utility::time_scale_);
+
+	if (position_.x < -50.0f || position_.x > Utility::kScreenWidth + 50.0f || position_.y < -50.0f || position_.y > Utility::kScreenHeight + 50.0f)
+	{
+		is_active_ = false;
+		SetDeleteFlag(true);
+		return;
+	}
+
+	if (collider_)
+	{
+		collider_->position_ = position_;
+		collider_->position2_ = position_;
+	}
 }
 
-void PlayerSpellParticle::OnTrigger(Collider* collider, Collider* check) {
+/// @brief 描画処理を行う
+void PlayerSpellParticle::Draw()
+{
+	if (!is_active_) return;
+
+	int alpha = (life_timer_ * 255) / 180;
+	if (alpha > 255) alpha = 255;
+	SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
+
+	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 15, GetColor(150, 255, 255), TRUE);
+	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+}
+
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
+void PlayerSpellParticle::OnTrigger(Collider* collider, Collider* check)
+{
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+		{
+			Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+			if (enemy != nullptr)
+			{
+				enemy->TakeDamage(damage_);
+			}
+			Kill();
+		}
+		else if (check->GetParentObject()->GetTag() == kTag2dEnemyBullet)
+		{
+			check->GetParentObject()->SetDeleteFlag(true);
+		}
+	}
 }

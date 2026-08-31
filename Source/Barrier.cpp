@@ -1,4 +1,5 @@
 #include "Barrier.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -9,101 +10,147 @@
 #include "SoundManager.h"
 #include <cmath>
 
+/// @brief Barrier を生成する
+/// @param x x の値
+/// @param y y の値
+/// @param radius radius の値
+/// @param obj obj の値
 Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
-    : Object2D(Vector2(x, y))
-    , mpCollider(nullptr)
+	: Object2D(Vector2(x, y))
+	, collider_(nullptr)
 {
-    SetTag(obj); 
-    m_deployInterval = 300.0f;
-    m_activeDuration = 180.0f;
-    m_timer = 0.0f;
-    m_radius = radius;
-    m_isDeployed = false;
-    m_hitCount = 0;
+	SetTag(obj);
+	deploy_interval_ = 300.0f;
+	active_duration_ = 120.0f;
+	timer_ = 0.0f;
+	this->radius_ = radius;
+	is_deployed_ = false;
+	hit_count_ = 0;
 }
 
-Barrier::~Barrier() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
-    }
+/// @brief 破棄処理を行う
+Barrier::~Barrier()
+{
+	if (collider_)
+	{
+		delete collider_;
+		collider_ = nullptr;
+	}
 }
 
-void Barrier::Update() {
-    m_timer += 1.0f * Utility::TimeScale;
+/// @brief 毎フレームの更新処理を行う
+void Barrier::Update()
+{
+	timer_ += 1.0f * Utility::time_scale_;
 
-    if (!m_isDeployed) {
-        if (m_timer >= m_deployInterval) {
-            m_isDeployed = true;
-            SoundManager::GetInstance()->PlaySE("Resource/se_barrier.wav");
-            m_timer = 0.0f;
-            mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, m_radius);
-        }
-    } else {
-        if (m_timer >= m_activeDuration) {
-            m_isDeployed = false;
-            m_timer = 0.0f;
-           
-            if (mpCollider)
-            {
-                mpCollider->mvPosition = mvPosition;
-                mpCollider->mvPosition2 = mvPosition;
-            }
-            if (mpCollider) {
-                mpCollider->SetDeleteFlag(true);
-                mpCollider = nullptr;
-            }
-        }
-    }
+	if (!is_deployed_)
+	{
+		if (timer_ >= deploy_interval_)
+		{
+			is_deployed_ = true;
+			SoundManager::GetInstance()->PlaySE("SE_BARRIER_HIT");
+			timer_ = 0.0f;
+			collider_ = new CapsuleCollider(this, position_, position_, radius_);
+		}
+	}
+	else
+	{
+		if (timer_ >= active_duration_)
+		{
+			is_deployed_ = false;
+			timer_ = 0.0f;
 
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
+			if (collider_)
+			{
+				collider_->position_ = position_;
+				collider_->position2_ = position_;
+			}
+			if (collider_)
+			{
+				collider_->SetDeleteFlag(true);
+				delete collider_; // MEMORY LEAK FIX
+				collider_ = nullptr;
+			}
+		}
+	}
+
+	if (collider_)
+	{
+		collider_->position_ = position_;
+		collider_->position2_ = position_;
+	}
 }
 
-void Barrier::Draw() {
-    if (m_isDeployed) {
-        int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
-        SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
-        
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(0, 50, 150), TRUE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius), GetColor(255, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius) - 1, GetColor(0, 255, 255), FALSE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(m_radius) + 1, GetColor(0, 255, 255), FALSE);
-        
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
+/// @brief 描画処理を行う
+void Barrier::Draw()
+{
+	if (is_deployed_)
+	{
+		int alpha = 150 + static_cast<int>(std::sin(GetNowCount() * 0.005f) * 50);
+
+		if (GetTag() == kTag2dBarrierEnemy)
+		{
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(150, 20, 0), TRUE);
+
+			SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(255, 80, 0), FALSE);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 2, GetColor(255, 200, 0), FALSE);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 2, GetColor(255, 200, 0), FALSE);
+		}
+		else
+		{
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(0, 50, 150), TRUE);
+
+			SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_), GetColor(100, 255, 255), FALSE);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) - 2, GetColor(0, 255, 255), FALSE);
+			DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radius_) + 2, GetColor(0, 255, 255), FALSE);
+		}
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 
-void Barrier::OnTrigger(Collider* collider, Collider* check) {
-    if (!m_isDeployed) return;
+/// @brief 接触中の処理を行う
+/// @param collider collider の値
+/// @param check check の値
+void Barrier::OnTrigger(Collider* collider, Collider* check)
+{
+	if (!is_deployed_) return;
 
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        auto tag = check->GetParentObject()->GetTag();
-        if (this->GetTag() == tag2D_BarierPla && tag == Tag2D_EnemyBullet)
-        {
-            check->GetParentObject()->SetDeleteFlag(true);
-            m_hitCount++;
-            if (m_hitCount >= 30) {
-                m_hitCount = 0;
-                SoundManager::GetInstance()->PlaySE("Resource/SE/?K???X???????1.mp3");
-                float baseSpeed = 10.0f;
-                for (int dir = 0; dir < 4; ++dir) {
-                    float baseAngle = dir * (3.14159265f / 2.0f);
-                    for (int i = 0; i < 10; ++i) {
-                        float spread = (i - 4.5f) * 0.1f; 
-                        float angle = baseAngle + spread;
-                        
-                        Vector2 dir = Vector2::FromAngle(angle);
-                        new PlayerHomingBullet(mvPosition + dir * 30.0f, dir, baseSpeed);
-                    }
-                }
-            }
-        }
-        else if (GetTag() == tag2D_BarierEne && tag == Tag2D_PlayerBullet) {
-            check->GetParentObject()->SetDeleteFlag(true);
-        }
-       
-    }
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		auto tag_ = check->GetParentObject()->GetTag();
+		if (this->GetTag() == kTag2dBarrierPlayer && tag_ == kTag2dEnemyBullet)
+		{
+			check->GetParentObject()->SetDeleteFlag(true);
+			hit_count_++;
+
+			if (hit_count_ >= 30)
+			{
+				hit_count_ = 0;
+				SoundManager::GetInstance()->PlaySE("SE_BTN1");
+				float baseSpeed = 10.0f;
+
+				for (int dir = 0; dir < 4; ++dir)
+				{
+					float baseAngle = dir * (3.14159265f / 2.0f);
+					for (int i = 0; i < 10; ++i)
+					{
+						float spread = (i - 4.5f) * 0.1f;
+						float angle = baseAngle + spread;
+
+						Vector2 dir = Vector2::FromAngle(angle);
+						ObjectManager::Instantiate<PlayerHomingBullet>(position_ + dir * 30.0f, dir, baseSpeed);
+					}
+				}
+			}
+		}
+		else if (GetTag() == kTag2dBarrierEnemy && tag_ == kTag2dPlayerBullet)
+		{
+			check->GetParentObject()->SetDeleteFlag(true);
+		}
+	}
 }

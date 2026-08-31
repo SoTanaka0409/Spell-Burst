@@ -1,37 +1,37 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 class Bullet;
 
-// 画面上に存在する全ての弾オブジェクトを管理するクラス
-// (現在未使用または旧仕様の可能性があるが、存在する場合はリスト管理を行う)
-class BulletManager {
+/// @brief プレイヤーが発射する通常弾をまとめて管理するクラス
+class BulletManager
+{
 private:
-    std::vector<Bullet*> m_bullets; 
+	std::vector<std::weak_ptr<Bullet>> bullets; ///< ObjectManagerが所有する弾を追跡する弱参照リスト
 
 public:
-    BulletManager();
-    ~BulletManager();
+	/// @brief 弾管理クラスを生成する
+	BulletManager();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 管理しているすべての弾を破棄しリストを空にする
-    void Initialize();
+	/// @brief 弾管理クラスを破棄する
+	~BulletManager();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 各弾のUpdateを呼び、無効(isActive == false)な弾をリストから除外してdeleteする
-    void Update();
+	/// @brief 弾リストを初期化する
+	void Initialize();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 生存しているすべての弾のDraw関数を呼び出す
-    void Draw();
+	/// @brief 管理中の弾を更新し、無効になった弾をリストから取り除く
+	void Update();
 
-    // [入力] x, y: 生成座標
-    // [出力] なし
-    // [副作用] 新しい弾を生成し、管理リストに追加する
-    void SpawnBullet(float x, float y);
+	/// @brief 管理中の弾を描画する
+	void Draw();
 
-    const std::vector<Bullet*>& GetBullets() const { return m_bullets; }
+	/// @brief 指定座標にプレイヤー弾を生成する
+	/// @param x 生成X座標
+	/// @param y 生成Y座標
+	void SpawnBullet(float x, float y);
+
+	/// @brief 管理中の弾リストを取得する
+	/// @return const std::vector<std::weak_ptr<Bullet>>& 弾の弱参照リスト
+	const std::vector<std::weak_ptr<Bullet>>& GetBullets() const { return bullets; }
 };

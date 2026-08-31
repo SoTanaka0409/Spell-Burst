@@ -1,17 +1,32 @@
-ï»¿#pragma once
+#pragma once
 #include "Collider.h"
 
+/// @brief ’†SÀ•W‚Æ”¼Œa‚Å•\‚·‰~Œ`ƒRƒ‰ƒCƒ_[
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(Object2D* parent, Vector2 center, float radius);
+    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»‚·‚é
+    /// @param parent eƒIƒuƒWƒFƒNƒg
+    /// @param center ’†SÀ•W
+    /// @param radius ”¼Œa
+    SphereCollider(Object2D* parent, Vector2 center, float radius);
+
+    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğ”jŠü‚·‚é
 	virtual ~SphereCollider();
 
-	void Update(Collider* check) override;
-	void Draw() override;
+    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚Ì‰~Œ`Õ“Ë”»’è‚ğs‚¤
+    /// @param check ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+    void Update(Collider* check) override;
 
+    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğƒfƒoƒbƒO•`‰æ‚·‚é
+    void Draw() override;
+
+	/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
 	void OnEnter() override;
-	void OnTrigger() override;
-	void OnExit() override;
 
+	/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+	void OnTrigger() override;
+
+	/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+	void OnExit() override;
 };

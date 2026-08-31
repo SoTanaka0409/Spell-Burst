@@ -1,37 +1,48 @@
-ï»¿#pragma once
+#pragma once
 #include <string>
 #include <unordered_map>
 
-class SoundManager {
+/// @brief BGM‚ÆŒø‰Ê‰¹‚ğ“Ç‚İ‚İAƒLƒƒƒbƒVƒ…‚µ‚ÄÄ¶‚·‚éƒNƒ‰ƒX
+class SoundManager
+{
 private:
+    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
     SoundManager();
+
+    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
     ~SoundManager();
 
 public:
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
 
+    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+    /// @return SoundManager* ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
     static SoundManager* GetInstance();
 
-    // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ï¼ˆç„¡ã‘ã‚Œã°ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ï¼‰
+    /// @brief ƒTƒEƒ“ƒh‚ğæ“¾‚·‚éB–¢“Ç‚İ‚İ‚È‚çƒ[ƒh‚·‚é
+    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    /// @return int ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹
     int GetSound(const std::string& path);
 
-    // BGMã®å†ç”Ÿï¼ˆãƒ«ãƒ¼ãƒ—ï¼‰
+    /// @brief BGM‚ğƒ‹[ƒvÄ¶‚·‚é
+    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
     void PlayBGM(const std::string& path);
-    
-    // SEã®å†ç”Ÿï¼ˆå˜ç™ºï¼‰
+
+    /// @brief Œø‰Ê‰¹‚ğˆê“x‚¾‚¯Ä¶‚·‚é
+    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
     void PlaySE(const std::string& path);
 
-    // BGMã®åœæ­¢
+    /// @brief Ä¶’†‚ÌBGM‚ğ’â~‚·‚é
     void StopBGM();
 
-    // ã™ã¹ã¦ã®éŸ³ã‚’åœæ­¢
+    /// @brief Ä¶’†‚Ì‘SƒTƒEƒ“ƒh‚ğ’â~‚·‚é
     void StopAll();
 
-    // ã™ã¹ã¦ã®éŸ³ã®ãƒ¡ãƒ¢ãƒªè§£æ”¾
+    /// @brief “Ç‚İ‚ñ‚¾‘SƒTƒEƒ“ƒh‚ğ‰ğ•ú‚·‚é
     void ClearAll();
 
 private:
-    std::unordered_map<std::string, int> m_soundMap;
-    int m_currentBGMHandle;
+    std::unordered_map<std::string, int> sound_map_; ///< ‰¹ºƒpƒX‚ÆƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
+    int current_bgm_handle_;                         ///< Œ»İÄ¶’†‚ÌBGMƒnƒ“ƒhƒ‹
 };

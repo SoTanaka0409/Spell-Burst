@@ -1,54 +1,104 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 #include "Vector2.h"
 
 class CapsuleCollider;
 class Collider;
 
-// å…¨ã¦ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ï¼ˆãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€æ•µã€ãƒœã‚¹ï¼‰ã®åŸºåº•ã‚¯ãƒ©ã‚¹
-class Character : public Object2D {
+/// @brief ‘S‚Ä‚ÌƒLƒƒƒ‰ƒNƒ^[iƒvƒŒƒCƒ„[A“GAƒ{ƒXj‚ÌŠî’êƒNƒ‰ƒX
+class Character : public Object2D
+{
 protected:
-    int m_hp;                    // ç¾åœ¨ã®ä½“åŠ›ï¼ˆHPï¼‰
-    int m_maxHp;                 // æœ€å¤§ä½“åŠ›
-    float m_speed;               // ç§»å‹•é€Ÿåº¦
-    bool m_isActive;             // æœ‰åŠ¹ãƒ•ãƒ©ã‚°
-    int m_stunTimer;             // ã‚¹ã‚¿ãƒ³ï¼ˆè¡Œå‹•ä¸èƒ½ï¼‰ã®æ®‹ã‚Šæ™‚é–“ï¼ˆãƒ•ãƒ¬ãƒ¼ãƒ æ•°ï¼‰
-    CapsuleCollider* mpCollider; // å½“ãŸã‚Šåˆ¤å®šã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	int hp_;                     ///< Œ»İ‚ÌHP
+	int max_hp_;                 ///< Å‘åHP
+	float speed_;                ///< ˆÚ“®‘¬“x
+	bool is_active_;             ///< XVE•`‰æ‘ÎÛ‚Æ‚µ‚Ä¶‘¶‚µ‚Ä‚¢‚é‚©‚ğ¦‚·ƒtƒ‰ƒO
+	int stun_timer_;             ///< s“®•s”\‚Ìc‚èƒtƒŒ[ƒ€”
+	CapsuleCollider* collider_;  ///< ƒLƒƒƒ‰ƒNƒ^[‹¤’Ê‚Ì“–‚½‚è”»’è
 
 public:
-    // [å…¥åŠ›] pos: åˆæœŸåº§æ¨™, maxHp: æœ€å¤§ä½“åŠ›, speed: ç§»å‹•é€Ÿåº¦
-    Character(Vector2 pos, int maxHp, float speed);
-    virtual ~Character() override;
+	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ‰Šú‰»‚·‚é
+	/// @param pos ‰ŠúÀ•W
+	/// @param maxHp Å‘åHP
+	/// @param speed ˆÚ“®‘¬“x
+	Character(Vector2 pos, int maxHp, float speed);
 
-    virtual void Update() override;
-    virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ”jŠü‚·‚é
+	virtual ~Character() override;
 
-    // --- ã‚²ãƒƒã‚¿ãƒ¼ ---
-    int GetHp() const { return m_hp; }
-    int GetMaxHp() const { return m_maxHp; }
-    float GetSpeed() const { return m_speed; }
-    bool IsActive() const { return m_isActive; }
-    bool IsStunned() const { return m_stunTimer > 0; }
-    int GetStunTimer() const { return m_stunTimer; }
-    float GetX() const { return mvPosition.x; }
-    float GetY() const { return mvPosition.y; }
+	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	virtual void Update() override;
 
-    // --- ã‚»ãƒƒã‚¿ãƒ¼ãƒ»æ“ä½œ ---
-    void SetHp(int hp) { m_hp = hp; }
-    void SetMaxHp(int maxHp) { m_maxHp = maxHp; }
-    void SetSpeed(float speed) { m_speed = speed; }
-    void Stun(int frames) { m_stunTimer = frames; }
+	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ•`‰æ‚·‚é
+	virtual void Draw() override;
 
-    // [å…¥åŠ›] amount: å›å¾©é‡
-    // [å‰¯ä½œç”¨] HPã‚’å›å¾©ã—ã€æœ€å¤§å€¤ã‚’è¶…ãˆãªã„ã‚ˆã†ã«åˆ¶é™ã™ã‚‹
-    virtual void Heal(int amount);
+	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    // [å…¥åŠ›] damage: å—ã‘ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
-    // [å‰¯ä½œç”¨] HPã‚’æ¸›ã‚‰ã—ã€0ä»¥ä¸‹ã«ãªã£ãŸã‚‰æ­»äº¡å‡¦ç†ãªã©ã‚’å‘¼ã¶
-    virtual void TakeDamage(int damage);
+	/// @brief Œ»İHP‚ğæ“¾‚·‚é
+	/// @return int Œ»İHP
+	int GetHp() const { return hp_; }
 
-    // [å…¥åŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’æ­»äº¡çŠ¶æ…‹ã«ã—ã€å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
-    virtual void Kill();
+	/// @brief Å‘åHP‚ğæ“¾‚·‚é
+	/// @return int Å‘åHP
+	int GetMaxHp() const { return max_hp_; }
+
+	/// @brief ˆÚ“®‘¬“x‚ğæ“¾‚·‚é
+	/// @return float ˆÚ“®‘¬“x
+	float GetSpeed() const { return speed_; }
+
+	/// @brief ¶‘¶ó‘Ô‚ğæ“¾‚·‚é
+	/// @return bool —LŒø‚ÈƒLƒƒƒ‰ƒNƒ^[‚È‚çtrue
+	bool IsActive() const { return is_active_; }
+
+	/// @brief ƒXƒ^ƒ“ó‘Ô‚©‚ğæ“¾‚·‚é
+	/// @return bool ƒXƒ^ƒ“’†‚È‚çtrue
+	bool IsStunned() const { return stun_timer_ > 0; }
+
+	/// @brief ƒXƒ^ƒ“c‚èŠÔ‚ğæ“¾‚·‚é
+	/// @return int ƒXƒ^ƒ“c‚èƒtƒŒ[ƒ€”
+	int GetStunTimer() const { return stun_timer_; }
+
+	/// @brief XÀ•W‚ğæ“¾‚·‚é
+	/// @return float XÀ•W
+	float GetX() const { return position_.x; }
+
+	/// @brief YÀ•W‚ğæ“¾‚·‚é
+	/// @return float YÀ•W
+	float GetY() const { return position_.y; }
+
+	/// @brief Œ»İHP‚ğİ’è‚·‚é
+	/// @param hp İ’è‚·‚éHP
+	void SetHp(int hp) { hp_ = hp; }
+
+	/// @brief Å‘åHP‚ğİ’è‚·‚é
+	/// @param maxHp İ’è‚·‚éÅ‘åHP
+	void SetMaxHp(int maxHp) { max_hp_ = maxHp; }
+
+	/// @brief ˆÚ“®‘¬“x‚ğİ’è‚·‚é
+	/// @param speed İ’è‚·‚éˆÚ“®‘¬“x
+	void SetSpeed(float speed) { speed_ = speed; }
+
+	/// @brief w’èƒtƒŒ[ƒ€”‚¾‚¯ƒXƒ^ƒ“‚³‚¹‚é
+	/// @param frames ƒXƒ^ƒ“‚³‚¹‚éƒtƒŒ[ƒ€”
+	void Stun(int frames) { stun_timer_ = frames; }
+
+	/// @brief HP‚ğ‰ñ•œ‚·‚é
+	/// @param amount ‰ñ•œ—Ê
+	/// @details HP‚ÍÅ‘åHP‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀ‚³‚ê‚éB
+	virtual void Heal(int amount);
+
+	/// @brief ƒ_ƒ[ƒW‚ğó‚¯‚é
+	/// @param damage ó‚¯‚éƒ_ƒ[ƒW—Ê
+	/// @details HP‚ª0ˆÈ‰º‚É‚È‚Á‚½ê‡‚Í€–Sˆ—‚ğŒÄ‚Ño‚·B
+	virtual void TakeDamage(int damage);
+
+	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ€–Só‘Ô‚É‚·‚é
+	/// @details íœƒtƒ‰ƒO‚ğ—§‚ÄAˆÈŒã‚ÌXVE•`‰æ‘ÎÛ‚©‚çŠO‚·B
+	virtual void Kill();
+
+	/// @brief €–S‚Ì’Ç‰Áˆ—‚ğs‚¤
+	virtual void OnDeath();
 };

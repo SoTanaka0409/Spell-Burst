@@ -3,39 +3,57 @@
 
 class Collider;
 
-// 弾を吸収・防御するバリアクラス（基底: Object2D）
-// 防いだ弾の数を蓄積し、反撃やエフェクトに利用する制約を持つ
+/// @brief 一定周期で展開され、敵弾を防ぐバリアクラス
 class Barrier : public Object2D
 {
 public:
-    Barrier(float x, float y, float radius, Object2D::Tag2D obj);
-    virtual ~Barrier();
+	/// @brief バリアを生成する
+	/// @param x 初期X座標
+	/// @param y 初期Y座標
+	/// @param radius バリア半径
+	/// @param obj 所有者を表すタグ
+	Barrier(float x, float y, float radius, Object2D::Tag2D obj);
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] バリアの展開・収縮タイマーを更新し、コライダーの有効状態を切り替える
-    virtual void Update() override;
+	/// @brief バリアを破棄する
+	virtual ~Barrier();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 展開状態(m_isDeployed)の場合のみ、バリアの視覚エフェクトを描画する
-    virtual void Draw() override;
+	/// @brief 展開タイマーとコライダー状態を更新する
+	virtual void Update() override;
 
-    // [入力] collider: 自身のコライダー, check: 衝突相手のコライダー
-    // [出力] なし
-    // [副作用] 敵の弾と衝突した場合、弾を消滅させて防いだ回数(m_hitCount)を加算する
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief 展開中のバリアエフェクトを描画する
+	virtual void Draw() override;
 
-    int GetHitCount() const { return m_hitCount; }
-    bool IsDeployed() const { return m_isDeployed; }
+	/// @brief 弾との接触処理を行う
+	/// @param collider 自身のコライダー
+	/// @param check 接触相手のコライダー
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+	/// @brief 被弾回数を取得する
+	/// @return int 被弾回数
+	int GetHitCount() const { return hit_count_; }
+
+	/// @brief バリアが展開中かを取得する
+	/// @return bool 展開中ならtrue
+	bool IsDeployed() const { return is_deployed_; }
+
+	/// @brief 再展開までの間隔を設定する
+	/// @param v 展開間隔
+	void SetDeployInterval(float v) { deploy_interval_ = v; }
+
+	/// @brief 展開している時間を設定する
+	/// @param v 展開時間
+	void SetActiveDuration(float v) { active_duration_ = v; }
+
+	/// @brief バリアの座標を設定する
+	/// @param pos 設定する座標
+	void SetPosition(Vector2 pos) { position_ = pos; }
 
 private:
-    float m_deployInterval;
-    float m_activeDuration;
-    float m_timer;
-    float m_radius;
-    bool m_isDeployed;
-
-    Collider* mpCollider;
-    int m_hitCount;
+	float deploy_interval_;  ///< 再展開までの待機時間
+	float active_duration_;  ///< 展開を維持する時間
+	float timer_;            ///< 展開周期を管理するタイマー
+	float radius_;           ///< バリアの半径
+	bool is_deployed_;       ///< 現在バリアが展開中かを示すフラグ
+	Collider* collider_;     ///< バリアの当たり判定
+	int hit_count_;          ///< バリアが弾を受けた回数
 };

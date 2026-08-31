@@ -1,33 +1,68 @@
-ï»¿#pragma once
+#pragma once
 #include "Character.h"
 
 class CapsuleCollider;
 
-// æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¯ãƒ©ã‚¹ï¼ˆCharacterç¶™æ‰¿ï¼‰
-class Enemy : public Character {
+/// @brief ’Êí“GE’†ƒ{ƒX“G‚ÌˆÚ“®AUŒ‚A€–Sˆ—‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+class Enemy : public Character
+{
 private:
-    int m_enemyType;      
-    int m_attackTimer;    
+	int enemy_type_;  ///< “Gƒ^ƒCƒvBƒXƒe[ƒ^ƒX‚âUŒ‚ƒpƒ^[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	int attack_timer_; ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
+	float target_x_;  ///< ˆÚ“®–Ú•W‚ÌXÀ•W
+	float target_y_;  ///< ˆÚ“®–Ú•W‚ÌYÀ•W
 
-    float m_targetX, m_targetY; 
-    void SelectNewTarget();     
+	/// @brief V‚µ‚¢ˆÚ“®–Ú•W‚ğ‘I‚Ô
+	void SelectNewTarget();
 
 public:
-    Enemy(float x, float y, int enemyType = 1);
-    virtual ~Enemy() override;
+	/// @brief “G‚ğ¶¬‚·‚é
+	/// @param x ‰ŠúXÀ•W
+	/// @param y ‰ŠúYÀ•W
+	/// @param enemyType “Gƒ^ƒCƒv
+	Enemy(float x, float y, int enemyType = 1);
 
-    void Update() override;
-    void Draw() override;
+	/// @brief “G‚ğ”jŠü‚·‚é
+	virtual ~Enemy() override;
 
-    int GetEnemyType() const { return m_enemyType; }
+	/// @brief “G‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	void Update() override;
 
-    virtual void TakeDamage(int damage) override;
-    virtual void Kill() override;
+	/// @brief “G‚ğ•`‰æ‚·‚é
+	void Draw() override;
 
-    float GetRadius() const { 
-        if (m_enemyType == 4) return 45.0f;
-        return 15.0f; 
-    }
+	/// @brief “Gƒ^ƒCƒv‚ğæ“¾‚·‚é
+	/// @return int “Gƒ^ƒCƒv
+	int GetEnemyType() const { return enemy_type_; }
 
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief “G‚ğíœ‘ÎÛ‚É‚·‚é
+	virtual void Kill() override;
+
+	/// @brief “G‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
+	/// @return float “–‚½‚è”»’è”¼Œa
+	float GetRadius() const
+	{
+		// “Gƒ^ƒCƒv4‚Í’†ƒ{ƒXˆµ‚¢‚È‚Ì‚ÅA’Êí“G‚æ‚è‘å‚«‚¢“–‚½‚è”»’è‚É‚·‚éB
+		if (enemy_type_ == 4) return 45.0f;
+		return 15.0f;
+	}
+
+	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+	/// @brief “G‚Ì€–Sˆ—‚ğs‚¤
+	/// @details íœƒtƒ‰ƒO‚ğ—§‚ÄAƒXƒRƒAEŒoŒ±’lE‰‰o‚ğ”­¶‚³‚¹‚éB
+	virtual void OnDeath() override;
+
+	/// @brief “Gƒ^ƒCƒv‚É‰‚¶‚½UŒ‚ƒpƒ^[ƒ“‚ğXV‚·‚é
+	/// @details ƒ^ƒCƒ}[‚É‰‚¶‚Ä’e‚ğ¶¬‚·‚éB
+	void UpdateAttackPattern();
+
+	/// @brief “GƒXƒvƒ‰ƒCƒg‚ğ•`‰æ‚·‚é
+	void DrawEnemySprite();
+
+	/// @brief “GHPƒo[‚ğ•`‰æ‚·‚é
+	void DrawHpBar();
 };

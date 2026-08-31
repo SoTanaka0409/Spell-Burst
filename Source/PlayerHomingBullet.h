@@ -1,17 +1,32 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class PlayerHomingBullet : public Projectile {
+/// @brief “G‚ğ’Ç”ö‚·‚éƒvƒŒƒCƒ„[’eƒNƒ‰ƒX
+class PlayerHomingBullet : public Projectile
+{
 private:
-    int m_lifeTimer;
+    int life_timer_; ///< c‚èõ–½ƒtƒŒ[ƒ€”
 
 public:
+    /// @brief ’Ç”ö’e‚ğ¶¬‚·‚é
+    /// @param pos ‰ŠúÀ•W
+    /// @param dir ‰Šúis•ûŒü
+    /// @param speed ‘¬“x
     PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed);
+
+    /// @brief ’Ç”ö’e‚ğ”jŠü‚·‚é
     virtual ~PlayerHomingBullet() override;
 
+    /// @brief ’Ç”ö•ûŒü‚Æõ–½‚ğXV‚·‚é
     virtual void Update() override;
+
+    /// @brief ’Ç”ö’e‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
+
+    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
+    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

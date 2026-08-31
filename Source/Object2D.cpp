@@ -1,39 +1,52 @@
-ï»¿#include "Object2D.h"
-#include "Master.h"
+#include "Object2D.h"
 #include "ObjectManager.h"
+#include "Master.h"
 #include "Collider.h"
 #include "Scene.h"
 
+/// @brief Object2D ‚ğ¶¬‚·‚é
+/// @param initPos initPos ‚Ì’l
 Object2D::Object2D(Vector2 initPos)
-	: mvPosition(initPos)
-	, mvRotation(Vector2(0.0f, 0.0f))
-	, mbDeleteFlag(false)
-	, mnTag(Tag2D::None2D)
-	, mbDrawFlag(true)
+	: position_(initPos)
+	, rotation_(Vector2(0.0f, 0.0f))
+	, delete_flag_(false)
+	, tag_(Tag2D::kNone2d)
+	, draw_flag_(true)
 {
-	Master::sceneManager->GetCurrentScene()->GetObjectManager()->AddObject(this);
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 Object2D::~Object2D()
 {
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void Object2D::Draw()
 {
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void Object2D::Update()
 {
 }
 
+/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Object2D::OnEnter(Collider* collider, Collider* check)
 {
 }
 
+/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Object2D::OnExit(Collider* collider, Collider* check)
 {
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Object2D::OnTrigger(Collider* collider, Collider* check)
 {
 }

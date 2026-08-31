@@ -1,4 +1,4 @@
-Ôªø#include "SceneManager.h"
+#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "Scene.h"
 #include "TitleScene.h"
@@ -6,98 +6,144 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 #include "RuleScene.h"
+#include "FadeScene.h"
 #include "DebugLog.h"
 #include "Master.h"
 #include "SoundManager.h"
 
 std::unique_ptr<SceneManager> Master::sceneManager = nullptr;
 
+/// @brief SceneManager Çê∂ê¨Ç∑ÇÈ
 SceneManager::SceneManager()
-	: mnSceneType(SCENE_TYPE::SCENE_NONE)
-	, mnNextSceneType(SCENE_TYPE::SCENE_NONE)
-	, SceneHard(false)
-	, SceneNormal(false)
+	: scene_type_(SceneType::kSceneNone)
+	, next_scene_type_(SceneType::kSceneNone)
+	, fade_target_scene_type_(SceneType::kSceneNone)
+	, is_scene_hard_(false)
+	, is_scene_normal_(false)
 {
 }
 
+/// @brief îjä¸èàóùÇçsÇ§
 SceneManager::~SceneManager()
 {
-	if (mpCurrentScene != nullptr)
+	if (current_scene_ != nullptr)
 	{
-		mpCurrentScene.reset();
+		current_scene_.reset();
 	}
 }
 
+/// @brief èâä˙âªèàóùÇçsÇ§
 void SceneManager::Initialize()
 {
-	mnNextSceneType = SCENE_TYPE::SCENE_TITLE;
+	next_scene_type_ = SceneType::kSceneTitle;
 	ChangeSceneIfNeeded();
 }
 
-void SceneManager::Update()
+/// @brief éüÇ…ëJà⁄Ç∑ÇÈÉVÅ[ÉìÇê›íËÇ∑ÇÈ
+/// @param next éüÉVÅ[ÉìéÌï 
+void SceneManager::SetNextScene(SceneType next)
 {
-	ChangeSceneIfNeeded();
-	if (mpCurrentScene != nullptr)
+	if (scene_type_ == SceneType::kSceneNone || scene_type_ == SceneType::kSceneFade)
 	{
-		mpCurrentScene->Update();
+		next_scene_type_ = next;
+		return;
 	}
-}
 
-
-void SceneManager::Draw()
-{
-	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)mpCurrentScene.get());
-	if (mpCurrentScene != nullptr)
-	{
-		mpCurrentScene->Draw();
-	}
-}
-
-void SceneManager::Finalize()
-{
-	if (mpCurrentScene != nullptr)
-	{
-		mpCurrentScene->Finalize();
-		mpCurrentScene.reset();
-	}
-}
-
-void SceneManager::ChangeSceneIfNeeded()
-{
-	if (mnSceneType == mnNextSceneType)
+	if (scene_type_ == next)
 	{
 		return;
 	}
-	SoundManager::GetInstance()->StopBGM();
-	if (mpCurrentScene != nullptr)
+
+	fade_target_scene_type_ = next;
+	next_scene_type_ = SceneType::kSceneFade;
+}
+
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
+void SceneManager::Update()
+{
+	ChangeSceneIfNeeded();
+	if (current_scene_ != nullptr)
 	{
-		mpCurrentScene->Finalize();
-		mpCurrentScene.reset();
+		current_scene_->Update();
 	}
-	mnSceneType = mnNextSceneType;
-	switch (mnSceneType)
+}
+
+/// @brief ï`âÊèàóùÇçsÇ§
+void SceneManager::Draw()
+{
+	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)current_scene_.get());
+	if (current_scene_ != nullptr)
 	{
-	case SCENE_TYPE::SCENE_TITLE:
-		mpCurrentScene = std::make_unique<TitleScene>();
+		current_scene_->Draw();
+	}
+}
+
+/// @brief èIóπèàóùÇçsÇ§
+void SceneManager::Finalize()
+{
+	if (current_scene_ != nullptr)
+	{
+		current_scene_->Finalize();
+		current_scene_.reset();
+	}
+}
+
+/// @brief ChangeSceneIfNeeded Çé¿çsÇ∑ÇÈ
+void SceneManager::ChangeSceneIfNeeded()
+{
+	if (scene_type_ == next_scene_type_)
+	{
+		return;
+	}
+
+	SoundManager::GetInstance()->StopBGM();
+
+	SceneType new_scene_type = next_scene_type_;
+	if (new_scene_type == SceneType::kSceneFade)
+	{
+		scene_type_ = new_scene_type;
+		current_scene_ = std::make_unique<FadeScene>(fade_target_scene_type_, std::move(current_scene_));
+		if (current_scene_ != nullptr)
+		{
+			current_scene_->Initialize();
+		}
+		return;
+	}
+
+	if (current_scene_ != nullptr)
+	{
+		current_scene_->Finalize();
+		current_scene_.reset();
+	}
+
+	scene_type_ = new_scene_type;
+	switch (scene_type_)
+	{
+	case SceneType::kSceneTitle:
+		current_scene_ = std::make_unique<TitleScene>();
 		break;
-	case SCENE_TYPE::SCENE_LEVEL:
-		mpCurrentScene = std::make_unique<StageSelectScene>();
+	case SceneType::kSceneLevel:
+		current_scene_ = std::make_unique<StageSelectScene>();
 		break;
-	case SCENE_TYPE::SCENE_GAME:
-		mpCurrentScene = std::make_unique<GameScene>();
+	case SceneType::kSceneGame:
+		current_scene_ = std::make_unique<GameScene>();
 		break;
-	case SCENE_TYPE::SCENE_RESULT:
-		mpCurrentScene = std::make_unique<ResultScene>();
+	case SceneType::kSceneResult:
+		current_scene_ = std::make_unique<ResultScene>();
 		break;
-	case SCENE_TYPE::SCENE_RULE:
-		mpCurrentScene = std::make_unique<RuleScene>();
+	case SceneType::kSceneRule:
+		current_scene_ = std::make_unique<RuleScene>();
+		break;
+	case SceneType::kSceneFade:
+		current_scene_ = std::make_unique<FadeScene>(fade_target_scene_type_, nullptr);
 		break;
 	default:
-		mpCurrentScene = nullptr;
+		current_scene_ = nullptr;
 		break;
 	}
-	if (mpCurrentScene != nullptr)
+
+	if (current_scene_ != nullptr)
 	{
-		mpCurrentScene->Initialize();
+		current_scene_->Initialize();
 	}
 }

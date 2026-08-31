@@ -1,26 +1,46 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸ã®å¼¾ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+/// @brief ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é’Êí’eƒNƒ‰ƒX
 class Bullet : public Projectile
 {
 public:
-    Bullet(float x, float y, int damage);
-    virtual ~Bullet() override;
-    
-    void Draw() override;
-    void Update() override;
+	/// @brief ƒvƒŒƒCƒ„[’e‚ğ¶¬‚·‚é
+	/// @param x ‰ŠúXÀ•W
+	/// @param y ‰ŠúYÀ•W
+	/// @param damage ƒ_ƒ[ƒW—Ê
+	Bullet(float x, float y, int damage);
 
-    // Collision helper
-    float GetX() { return mvPosition.x; }
-    float GetY() { return mvPosition.y; }
-    float GetRadius() const { return 10.0f; }
+	/// @brief ƒvƒŒƒCƒ„[’e‚ğ”jŠü‚·‚é
+	virtual ~Bullet() override;
 
-	void AddReceivedDamage() { m_recivedDamage++; }
+	/// @brief ’e‚ğ•`‰æ‚·‚é
+	void Draw() override;
 
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief ’e‚ÌˆÚ“®‚Æó‘Ô‚ğXV‚·‚é
+	void Update() override;
+
+	/// @brief XÀ•W‚ğæ“¾‚·‚é
+	/// @return float XÀ•W
+	float GetX() { return position_.x; }
+
+	/// @brief YÀ•W‚ğæ“¾‚·‚é
+	/// @return float YÀ•W
+	float GetY() { return position_.y; }
+
+	/// @brief ’e‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
+	/// @return float “–‚½‚è”»’è”¼Œa
+	float GetRadius() const { return 10.0f; }
+
+	/// @brief ‚±‚ÌƒtƒŒ[ƒ€‚Åó‚¯‚½ƒqƒbƒg”‚ğ‰ÁZ‚·‚é
+	void AddReceivedDamage() { received_damage_++; }
+
+	/// @brief “G‚âáŠQ•¨‚Æ‚ÌÚGˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-	int m_recivedDamage;    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸå›æ•°  
-	int m_MaxrecivedDamage; // ã“ã®å¼¾ãŒä¸ãˆã‚‰ã‚Œã‚‹æœ€å¤§ãƒ€ãƒ¡ãƒ¼ã‚¸ä¸Šé™ï¼ˆè²«é€šåˆ¶é™ï¼‰
+	int received_damage_;      ///< “¯ˆêƒtƒŒ[ƒ€“à‚Ì‘½dƒqƒbƒg‚ğ—}‚¦‚é‚½‚ß‚ÌƒJƒEƒ“ƒ^[
+	int max_received_damage_;  ///< ŠÑ’Ê’e‚ªˆê“x‚Éˆ—‚Å‚«‚éÅ‘åƒqƒbƒg”
 };

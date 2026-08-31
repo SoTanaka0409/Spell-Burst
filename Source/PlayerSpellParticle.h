@@ -1,24 +1,40 @@
-ï»¿#pragma once
+#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-class PlayerSpellParticle : public Object2D {
+/// @brief ƒvƒŒƒCƒ„[‚ÌƒXƒyƒ‹ƒJ[ƒh‰‰o‚Åg‚¤UŒ‚ƒp[ƒeƒBƒNƒ‹
+class PlayerSpellParticle : public Object2D
+{
 private:
-    Vector2 m_dir;
-    float m_speed;
-    int m_damage;
-    bool m_isActive;
-    int m_lifeTimer;
-    CapsuleCollider* mpCollider;
+	Vector2 dir;                 ///< is•ûŒü
+	float speed_;                ///< ‘¬“x
+	int damage_;                 ///< ƒ_ƒ[ƒW—Ê
+	bool is_active_;             ///< —LŒøó‘Ô‚ğ¦‚·ƒtƒ‰ƒO
+	int life_timer_;             ///< c‚èõ–½ƒtƒŒ[ƒ€”
+	CapsuleCollider* collider_;  ///< “–‚½‚è”»’è
 
 public:
-    PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed);
-    virtual ~PlayerSpellParticle() override;
+	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ¶¬‚·‚é
+	/// @param pos ‰ŠúÀ•W
+	/// @param dir is•ûŒü
+	/// @param speed_ ‘¬“x
+	PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_);
 
-    virtual void Update() override;
-    virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
-    
-    void Kill(); 
+	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ”jŠü‚·‚é
+	virtual ~PlayerSpellParticle() override;
+
+	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğXV‚·‚é
+	virtual void Update() override;
+
+	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ•`‰æ‚·‚é
+	virtual void Draw() override;
+
+	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğíœ‘ÎÛ‚É‚·‚é
+	void Kill();
 };

@@ -1,50 +1,124 @@
-ï»¿#pragma once
+#pragma once
 #include <cmath>
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-struct Vector2 {
-    float x;
-    float y;
+/// @brief 2DÀ•W‚â‘¬“x‚ğˆµ‚¤‚½‚ß‚ÌƒxƒNƒgƒ‹\‘¢‘Ì
+struct Vector2
+{
+	float x; ///< XÀ•W‚Ü‚½‚ÍX•ûŒü¬•ª
+	float y; ///< YÀ•W‚Ü‚½‚ÍY•ûŒü¬•ª
 
-    Vector2();
-    Vector2(float x, float y);
+	/// @brief ƒ[ƒƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
+	Vector2();
 
-    // Operator overloads
-    Vector2 operator+(const Vector2& other) const;
-    Vector2 operator-(const Vector2& other) const;
-    Vector2 operator*(float scalar) const;
-    Vector2 operator/(float scalar) const;
+	/// @brief w’è¬•ª‚ÅƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
+	/// @param x X¬•ª
+	/// @param y Y¬•ª
+	Vector2(float x, float y);
 
-    Vector2& operator+=(const Vector2& other);
-    Vector2& operator-=(const Vector2& other);
-    Vector2& operator*=(float scalar);
-    Vector2& operator/=(float scalar);
+	/// @brief ƒxƒNƒgƒ‹“¯m‚ğ‰ÁZ‚·‚é
+	/// @param other ‰ÁZ‚·‚éƒxƒNƒgƒ‹
+	/// @return Vector2 ‰ÁZŒ‹‰Ê
+	Vector2 operator+(const Vector2& other) const;
 
-    // Utility methods
-    float Magnitude() const;
-    float MagnitudeSq() const; // Squared magnitude (faster)
-    Vector2 Normalized() const;
-    void Normalize();
+	/// @brief ƒxƒNƒgƒ‹“¯m‚ğŒ¸Z‚·‚é
+	/// @param other Œ¸Z‚·‚éƒxƒNƒgƒ‹
+	/// @return Vector2 Œ¸ZŒ‹‰Ê
+	Vector2 operator-(const Vector2& other) const;
 
-    float DistanceTo(const Vector2& other) const;
-    float DistanceSqTo(const Vector2& other) const;
+	/// @brief ƒxƒNƒgƒ‹‚ÉƒXƒJƒ‰[‚ğæZ‚·‚é
+	/// @param scalar æZ‚·‚é’l
+	/// @return Vector2 æZŒ‹‰Ê
+	Vector2 operator*(float scalar) const;
 
-    float AngleTo(const Vector2& other) const; // Returns angle in radians
-    float Dot(const Vector2& other) const;
+	/// @brief ƒxƒNƒgƒ‹‚ğƒXƒJƒ‰[‚ÅœZ‚·‚é
+	/// @param scalar œZ‚·‚é’l
+	/// @return Vector2 œZŒ‹‰Ê
+	Vector2 operator/(float scalar) const;
 
-    // Static utilities
-    static Vector2 FromAngle(float radians, float length = 1.0f);
-    static float Distance(const Vector2& a, const Vector2& b);
+	/// @brief ƒxƒNƒgƒ‹‚ğ‰ÁZ‘ã“ü‚·‚é
+	/// @param other ‰ÁZ‚·‚éƒxƒNƒgƒ‹
+	/// @return Vector2& ©g‚ÌQÆ
+	Vector2& operator+=(const Vector2& other);
 
-    operator VECTOR() const {
-        return VGet(x, y, 0.0f);
-    }
+	/// @brief ƒxƒNƒgƒ‹‚ğŒ¸Z‘ã“ü‚·‚é
+	/// @param other Œ¸Z‚·‚éƒxƒNƒgƒ‹
+	/// @return Vector2& ©g‚ÌQÆ
+	Vector2& operator-=(const Vector2& other);
+
+	/// @brief ƒXƒJƒ‰[‚ğæZ‘ã“ü‚·‚é
+	/// @param scalar æZ‚·‚é’l
+	/// @return Vector2& ©g‚ÌQÆ
+	Vector2& operator*=(float scalar);
+
+	/// @brief ƒXƒJƒ‰[‚ğœZ‘ã“ü‚·‚é
+	/// @param scalar œZ‚·‚é’l
+	/// @return Vector2& ©g‚ÌQÆ
+	Vector2& operator/=(float scalar);
+
+	/// @brief ƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚é
+	/// @return float ’·‚³
+	float Magnitude() const;
+
+	/// @brief ƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚é
+	/// @return float ’·‚³‚Ì“ñæ
+	float MagnitudeSq() const;
+
+	/// @brief ³‹K‰»‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+	/// @return Vector2 ³‹K‰»Œã‚ÌƒxƒNƒgƒ‹
+	Vector2 Normalized() const;
+
+	/// @brief ©g‚ğ³‹K‰»‚·‚é
+	void Normalize();
+
+	/// @brief ‘¼ƒxƒNƒgƒ‹‚Æ‚Ì‹——£‚ğæ“¾‚·‚é
+	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
+	/// @return float ‹——£
+	float DistanceTo(const Vector2& other) const;
+
+	/// @brief ‘¼ƒxƒNƒgƒ‹‚Æ‚Ì‹——£‚Ì“ñæ‚ğæ“¾‚·‚é
+	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
+	/// @return float ‹——£‚Ì“ñæ
+	float DistanceSqTo(const Vector2& other) const;
+
+	/// @brief ‘¼ƒxƒNƒgƒ‹‚Ö‚ÌŠp“x‚ğæ“¾‚·‚é
+	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
+	/// @return float Šp“xiƒ‰ƒWƒAƒ“j
+	float AngleTo(const Vector2& other) const;
+
+	/// @brief “àÏ‚ğæ“¾‚·‚é
+	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
+	/// @return float “àÏ
+	float Dot(const Vector2& other) const;
+
+	/// @brief Šp“x‚Æ’·‚³‚©‚çƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
+	/// @param radians Šp“xiƒ‰ƒWƒAƒ“j
+	/// @param length ’·‚³
+	/// @return Vector2 ¶¬‚³‚ê‚½ƒxƒNƒgƒ‹
+	static Vector2 FromAngle(float radians, float length = 1.0f);
+
+	/// @brief 2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚é
+	/// @param a “_A
+	/// @param b “_B
+	/// @return float ‹——£
+	static float Distance(const Vector2& a, const Vector2& b);
+
+	/// @brief DxLib‚ÌVECTOR‚Ö•ÏŠ·‚·‚é
+	/// @return VECTOR DxLib—pƒxƒNƒgƒ‹
+	operator VECTOR() const
+	{
+		return VGet(x, y, 0.0f);
+	}
 };
 
-// Global operator for scalar * Vector2
-inline Vector2 operator*(float scalar, const Vector2& v) {
-    return v * scalar;
+/// @brief ƒXƒJƒ‰[‚ÆƒxƒNƒgƒ‹‚ğæZ‚·‚é
+/// @param scalar æZ‚·‚é’l
+/// @param v ‘ÎÛƒxƒNƒgƒ‹
+/// @return Vector2 æZŒ‹‰Ê
+inline Vector2 operator*(float scalar, const Vector2& v)
+{
+	return v * scalar;
 }

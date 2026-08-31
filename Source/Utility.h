@@ -1,63 +1,84 @@
-ï»¿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
-#define NOMINMAX
+#define NOMINMAX // Windows.h‚Ìmin/maxƒ}ƒNƒÕ“Ë‚ğ”ğ‚¯‚é
 #endif
 #include "DxLib.h"
 #include <vector>
 #include <fstream>
 #include <algorithm>
 
-// ã‚²ãƒ¼ãƒ å…¨ä½“ã§å…±é€šã—ã¦ä½¿ç”¨ã™ã‚‹å®šæ•°ã€æ•°å¼ã€ãƒ©ãƒ³ã‚­ãƒ³ã‚°IOé–¢æ•°ã‚’å®šç¾©ã™ã‚‹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
+/// @brief ‰æ–ÊƒTƒCƒYAƒ‰ƒ“ƒLƒ“ƒOAŠp“x•ÏŠ·‚È‚Ç‚Ì‹¤’Êƒ†[ƒeƒBƒŠƒeƒB
 class Utility
 {
 public:
-	static const int SCREEN_WIDTH = 1600; 
-	static const int SCREEN_HEIGHT = 900; 
+    static const int kScreenWidth = 1600;  ///< ‰æ–Ê•
+    static const int kScreenHeight = 900;  ///< ‰æ–Ê‚‚³
 
-	static Vector2 StageSize;
-	static float TimeScale;
+    static Vector2 stage_size_;            ///< ƒXƒe[ƒW‘S‘Ì‚ÌƒTƒCƒY
+    static float time_scale_;              ///< ƒQ[ƒ€‘S‘Ì‚ÌŠÔ”{—¦
 
-	// [å…¥åŠ›] deg: åº¦æ•°æ³•ã«ã‚ˆã‚‹è§’åº¦
-	// [å‡ºåŠ›] å¼§åº¦æ³•ã«ã‚ˆã‚‹è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
-	// [å‰¯ä½œç”¨] ãªã—
-	static float DegToRad(float deg)
-	{
-		return deg * DX_PI_F / 180.0f;
-	}
+    /// @brief “x”–@‚ÌŠp“x‚ğƒ‰ƒWƒAƒ“‚Ö•ÏŠ·‚·‚é
+    /// @param deg “x”–@‚ÌŠp“x
+    /// @return float ƒ‰ƒWƒAƒ“Šp
+    static float DegToRad(float deg)
+    {
+        return deg * DX_PI_F / 180.0f;
+    }
 
-	// [å…¥åŠ›] outTimes: ãƒ©ãƒ³ã‚­ãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹å‹•çš„é…åˆ—
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ranking.txt ã‹ã‚‰ã‚¹ã‚³ã‚¢ã‚’èª­ã¿è¾¼ã¿ã€æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦é…åˆ—ã«æ ¼ç´ã™ã‚‹
-	static void LoadTimeRanking(std::vector<int>& outTimes) {
-		outTimes.clear();
-		std::ifstream ifs("ranking.txt");
-		if (ifs.is_open()) {
-			int t;
-			while (ifs >> t) {
-				outTimes.push_back(t);
-			}
-			ifs.close();
-		}
-		std::sort(outTimes.begin(), outTimes.end());
-	}
+    /// @brief ƒ^ƒCƒ€ƒ‰ƒ“ƒLƒ“ƒO‚ğ“Ç‚İ‚Ş
+    /// @param outTimes “Ç‚İ‚ñ‚¾ƒ^ƒCƒ€‚Ìo—Íæ
+    static void LoadTimeRanking(std::vector<int>& outTimes)
+    {
+        outTimes.clear();
+        std::ifstream ifs("ranking.txt");
+        if (ifs.is_open())
+        {
+            int t;
+            while (ifs >> t)
+            {
+                outTimes.push_back(t);
+            }
+            ifs.close();
+        }
+        std::sort(outTimes.begin(), outTimes.end());
+    }
 
-	// [å…¥åŠ›] timeMs: ä¿å­˜ã™ã‚‹ã‚¯ãƒªã‚¢ã‚¿ã‚¤ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
-	// [å‡ºåŠ›] ãªã—
-	// [å‰¯ä½œç”¨] ranking.txt ã«ä¸Šä½5ã¤ã®è¨˜éŒ²ã‚’æ˜‡é †ã‚½ãƒ¼ãƒˆã—ã¦æ›¸ãè¾¼ã‚€
-	static void SaveTimeRanking(int timeMs) {
-		std::vector<int> times;
-		LoadTimeRanking(times);
-		times.push_back(timeMs);
-		std::sort(times.begin(), times.end());
-		
-		std::ofstream ofs("ranking.txt", std::ios::trunc);
-		if (ofs.is_open()) {
-			int count = (times.size() < 5) ? static_cast<int>(times.size()) : 5;
-			for (int i = 0; i < count; ++i) {
-				ofs << times[i] << "\n";
-			}
-			ofs.close();
-		}
-	}
+    /// @brief ƒ^ƒCƒ€ƒ‰ƒ“ƒLƒ“ƒO‚ğ•Û‘¶‚·‚é
+    /// @param timeMs •Û‘¶‚·‚éƒ^ƒCƒ€iƒ~ƒŠ•bj
+    static void SaveTimeRanking(int timeMs)
+    {
+        std::vector<int> times;
+        LoadTimeRanking(times);
+        times.push_back(timeMs);
+        std::sort(times.begin(), times.end());
+
+        std::ofstream ofs("ranking.txt", std::ios::trunc);
+        if (ofs.is_open())
+        {
+            int count = (times.size() < 5) ? static_cast<int>(times.size()) : 5;
+            for (int i = 0; i < count; ++i)
+            {
+                ofs << times[i] << "\n";
+            }
+            ofs.close();
+        }
+    }
+
+    /// @brief Œ»İ•ûŒü‚©‚ç–Ú•W•ûŒü‚Ö­‚µ‚¸‚Â‰ñ“]‚µ‚½’Ç”ö•ûŒü‚ğŒvZ‚·‚é
+    /// @param currentDir Œ»İ‚Ìis•ûŒü
+    /// @param currentPos Œ»İÀ•W
+    /// @param targetPos –Ú•WÀ•W
+    /// @param rotationSpeed ’Ç”ö‚Ì‰ñ“]‘¬“x
+    /// @return Vector2 V‚µ‚¢is•ûŒü
+    static Vector2 CalculateHomingDirection(Vector2 currentDir, Vector2 currentPos, Vector2 targetPos, float rotationSpeed)
+    {
+        Vector2 toTarget = (targetPos - currentPos).Normalized();
+        Vector2 newDir = (currentDir * (1.0f - rotationSpeed) + toTarget * rotationSpeed);
+        if (newDir.MagnitudeSq() > 0.0f)
+        {
+            return newDir.Normalized();
+        }
+        return currentDir;
+    }
 };

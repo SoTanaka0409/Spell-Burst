@@ -1,16 +1,31 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹ç‰¹æ®Šå¼¾ï¼ˆé«˜å¨åŠ›ã¾ãŸã¯è¿½å°¾ç­‰ï¼‰ã‚’å®šç¾©ã™ã‚‹ã‚¯ãƒ©ã‚¹
-class SpecialBullet : public Projectile {
+/// @brief ƒvƒŒƒCƒ„[‚Ì“ÁêUŒ‚’eƒNƒ‰ƒX
+class SpecialBullet : public Projectile
+{
 public:
+    /// @brief “Áê’e‚ğ¶¬‚·‚é
+    /// @param x ‰ŠúXÀ•W
+    /// @param y ‰ŠúYÀ•W
     SpecialBullet(float x, float y);
+
+    /// @brief “Áê’e‚ğ”jŠü‚·‚é
     virtual ~SpecialBullet() override;
 
+    /// @brief “Áê’e‚ğXV‚·‚é
     virtual void Update() override;
+
+    /// @brief “Áê’e‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
+
+    /// @brief “Áê’e‚ğíœ‘ÎÛ‚É‚·‚é
     virtual void Kill() override;
+
+    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
+    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

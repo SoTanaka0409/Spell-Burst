@@ -1,61 +1,76 @@
-ï»¿#include "Bullet.h"
+#include "Bullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
+#include "Character.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 #include "Utility.h"
 
-Bullet::Bullet(float x, float y, int damage) 
-    : Projectile(Vector2(x, y), Vector2(0, -1), 20.0f, damage)
+/// @brief Bullet ‚ğ¶¬‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
+/// @param damage damage ‚Ì’l
+Bullet::Bullet(float x, float y, int damage)
+	: Projectile(Vector2(x, y), Vector2(0, -1), 20.0f, damage)
 {
-    SetTag(Tag2D_PlayerBullet);
-    m_recivedDamage = 0;
-    m_MaxrecivedDamage = 20; // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦ã‹ã‚‰3å›ã§æŠ€ã‚’å‡ºã™
-    // Create a circular collider with radius 10 (previously 5)
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 10.0f);
+	SetTag(kTag2dPlayerBullet);
+	received_damage_ = 0;
+
+	max_received_damage_ = 20;
+
+	collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 Bullet::~Bullet()
 {
 }
 
-// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹æ›´æ–°å‡¦ç†
-// å¼¾ã‚’ä¸Šæ–¹å‘ã«ç§»å‹•ã•ã›ã€ç”»é¢å¤–ã«å‡ºãŸã‚‰å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¾ã™
-void Bullet::Update() 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+void Bullet::Update()
 {
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
+	position_ += dir_ * (speed_ * Utility::time_scale_);
 
-    Projectile::Update();
+	Projectile::Update();
 
-    if (IsOutOfBounds()) {
-        Kill();
-    }
+	if (IsOutOfBounds())
+	{
+		Kill();
+	}
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
 void Bullet::OnTrigger(Collider* collider, Collider* check)
 {
-    if (check != nullptr && check->GetParentObject() != nullptr)
-    {
-        if(check->GetParentObject()->GetTag() == tag2D_BarierEne)
-        {
-            Kill();
-            return;
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dBarrierEnemy)
+		{
+			Kill();
+			return;
 		}
-    }
-    if (check != nullptr && check->GetParentObject() != nullptr) 
-    {
-        if (check->GetParentObject()->GetTag() == Tag2D_Enemy)
-        {
-            Kill();
-        }
-    }
+	}
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+		{
+			Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+			if (enemy != nullptr)
+			{
+				enemy->TakeDamage(damage_);
+			}
+			Kill();
+		}
+	}
 }
 
-// æç”»å‡¦ç†
-// å¼¾ã®ç”»åƒã‚’æç”»ã—ã¾ã™
+/// @brief •`‰æˆ—‚ğs‚¤
 void Bullet::Draw()
 {
-    if (!m_isActive) return;
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 10, GetColor(255, 255, 255), TRUE);
+	if (!is_active_) return;
+	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 10, GetColor(255, 255, 255), TRUE);
 }

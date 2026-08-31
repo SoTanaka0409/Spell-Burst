@@ -4,29 +4,48 @@ class Player;
 class Boss;
 class EnemyManager;
 
-// UI情報の描画管理クラス
-// HUD要素のアニメーション補間(イージング)を行うため、静的変数を保持する
-class HUD {
+/// @brief プレイヤーやボスの状態を画面に表示するHUDクラス
+class HUD
+{
 public:
-    // [入力] なし
-    // [出力] なし
-    // [副作用] イージング用変数などの静的状態をリセットする
-    static void Initialize();
+	/// @brief HUD表示用の値を初期化する
+	static void Initialize();
 
-    // [入力] player: 自機, enemyManager: 敵管理, boss: ボス
-    // [出力] なし
-    // [副作用] 現在のHP等に基づき、表示用の補間比率（イージング）を計算・更新する
-    static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
+	/// @brief HUD表示用の補間値を更新する
+	/// @param player プレイヤー
+	/// @param enemyManager 敵管理クラス
+	/// @param boss ボス
+	static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
 
-    // [入力] player, enemyManager, boss, cutinTimer: 演出時間, cutinImageHandle: 演出画像
-    // [出力] なし
-    // [副作用] 画面上の最前面に各UIコンポーネント（ゲージ、カットイン等）を描画する
-    static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
+	/// @brief HUD全体を描画する
+	/// @param player プレイヤー
+	/// @param enemyManager 敵管理クラス
+	/// @param boss ボス
+	/// @param cutinTimer カットイン残り時間
+	/// @param cutinImageHandle カットイン画像ハンドル
+	static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
 
 private:
-    static float s_displayHpRatio; // アニメーション補間用のHP表示比率
-    static float s_displayXpRatio; // アニメーション補間用の経験値表示比率
-    static float s_displaySpellRatio; // アニメーション補間用のスペルゲージ表示比率
-    static float s_displayBarrierRatio; // アニメーション補間用のバリアゲージ表示比率
-    static float s_bossHpRatio; // アニメーション補間用のボスHP表示比率
+	static float display_hp_ratio_;      ///< 表示用HP比率
+	static float display_xp_ratio_;      ///< 表示用経験値比率
+	static float display_spell_ratio_;   ///< 表示用スペルゲージ比率
+	static float display_barrier_ratio_; ///< 表示用バリア比率
+	static float boss_hp_ratio_;         ///< 表示用ボスHP比率
+
+	/// @brief プレイヤー状態を描画する
+	/// @param player プレイヤー
+	static void DrawPlayerStatus(Player* player);
+
+	/// @brief ボス状態を描画する
+	/// @param boss ボス
+	static void DrawBossStatus(Boss* boss);
+
+	/// @brief 敵撃破進行度を描画する
+	/// @param enemyManager 敵管理クラス
+	static void DrawEnemyProgress(EnemyManager* enemyManager);
+
+	/// @brief カットインを描画する
+	/// @param cutinTimer カットイン残り時間
+	/// @param cutinImageHandle カットイン画像ハンドル
+	static void DrawCutin(int cutinTimer, int cutinImageHandle);
 };

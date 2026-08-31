@@ -1,78 +1,111 @@
-ï»¿#include "SoundManager.h"
+#include "SoundManager.h"
+#include "ResourceManager.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-SoundManager::SoundManager() : m_currentBGMHandle(-1) {
-}
-
-SoundManager::~SoundManager() {
-    ClearAll();
-}
-
-SoundManager* SoundManager::GetInstance() {
-    static SoundManager instance;
-    return &instance;
-}
-
-int SoundManager::GetSound(const std::string& path) {
-    if (m_soundMap.find(path) == m_soundMap.end()) {
-        int handle = LoadSoundMem(path.c_str());
-        m_soundMap[path] = handle;
-    }
-    return m_soundMap[path];
-}
-
-void SoundManager::PlayBGM(const std::string& path) {
-    int handle = GetSound(path);
-    if (handle != -1) {
-        // ç¾åœ¨ã®BGMãŒé•ã†å ´åˆã¯æ­¢ã‚ã‚‹
-        if (m_currentBGMHandle != -1 && m_currentBGMHandle != handle) {
-            StopSoundMem(m_currentBGMHandle);
-        }
-        
-        // å†ç”Ÿã•ã‚Œã¦ã„ãªã„å ´åˆã®ã¿å†ç”Ÿé–‹å§‹
-        if (CheckSoundMem(handle) == 0) {
-            PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
-            m_currentBGMHandle = handle;
-        }
-    }
-}
-
-void SoundManager::PlaySE(const std::string& path) {
-    int handle = GetSound(path);
-    if (handle != -1) {
-        PlaySoundMem(handle, DX_PLAYTYPE_BACK, TRUE);
-    }
-}
-
-void SoundManager::StopBGM() 
-{//ï¼¢ï¼§ï¼­ã®åœæ­¢
-    if (m_currentBGMHandle != -1)
-    {
-        StopSoundMem(m_currentBGMHandle);
-        m_currentBGMHandle = -1;
-    }
-}
-
-void SoundManager::StopAll() {
-    // å…¨ã¦ã®ã‚µã‚¦ãƒ³ãƒ‰ã®å†ç”Ÿã‚’åœæ­¢
-    for (auto& pair : m_soundMap) {
-        if (pair.second != -1) {
-            StopSoundMem(pair.second);
-        }
-    }
-    m_currentBGMHandle = -1;
-}
-
-void SoundManager::ClearAll() 
+/// @brief SoundManager ‚ğ¶¬‚·‚é
+SoundManager::SoundManager() : current_bgm_handle_(-1)
 {
-    StopAll();
-    for (auto& pair : m_soundMap) {
-        if (pair.second != -1) {
-            DeleteSoundMem(pair.second);
-        }
+}
+
+/// @brief ”jŠüˆ—‚ğs‚¤
+SoundManager::~SoundManager()
+{
+	ClearAll();
+}
+
+/// @brief ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+/// @return SoundManager* –ß‚è’l
+SoundManager* SoundManager::GetInstance()
+{
+	static SoundManager instance;
+	return &instance;
+}
+
+/// @brief GetSound ‚ğÀs‚·‚é
+/// @param id id ‚Ì’l
+/// @return int –ß‚è’l
+int SoundManager::GetSound(const std::string& id)
+{
+    std::string path = ResourceManager::GetInstance()->GetAssetPath(id);
+
+    auto it = sound_map_.find(path);
+    if (it != sound_map_.end())
+    {
+        return it->second;
     }
-    m_soundMap.clear();
+
+    int handle = LoadSoundMem(path.c_str());
+    if (handle != -1)
+    {
+        sound_map_[path] = handle;
+    }
+    return handle;
+}
+
+/// @brief BGM‚ğÄ¶‚·‚é
+/// @param id id ‚Ì’l
+void SoundManager::PlayBGM(const std::string& id)
+{
+    int handle = GetSound(id);
+    if (handle == -1) return;
+
+    if (current_bgm_handle_ != handle)
+    {
+        StopBGM();
+        PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
+        current_bgm_handle_ = handle;
+    }
+}
+
+/// @brief Œø‰Ê‰¹‚ğÄ¶‚·‚é
+/// @param id id ‚Ì’l
+void SoundManager::PlaySE(const std::string& id)
+{
+    int handle = GetSound(id);
+    if (handle != -1)
+    {
+        PlaySoundMem(handle, DX_PLAYTYPE_BACK);
+    }
+}
+
+/// @brief BGM‚ğ’â~‚·‚é
+void SoundManager::StopBGM()
+{
+	if (current_bgm_handle_ != -1)
+	{
+		StopSoundMem(current_bgm_handle_);
+		current_bgm_handle_ = -1;
+	}
+}
+
+/// @brief ‚·‚×‚Ä‚Ì‰¹º‚ğ’â~‚·‚é
+void SoundManager::StopAll()
+{
+	for (auto& pair : sound_map_)
+	{
+		if (pair.second != -1)
+		{
+			StopSoundMem(pair.second);
+		}
+	}
+	current_bgm_handle_ = -1;
+}
+
+/// @brief “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
+void SoundManager::ClearAll()
+{
+	StopAll();
+
+	for (auto& pair : sound_map_)
+	{
+		if (pair.second != -1)
+		{
+			DeleteSoundMem(pair.second);
+		}
+	}
+	sound_map_.clear();
 }

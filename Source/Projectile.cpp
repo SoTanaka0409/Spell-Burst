@@ -1,51 +1,75 @@
-Ôªø#include "Projectile.h"
+#include "Projectile.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 
-Projectile::Projectile(Vector2 pos, Vector2 dir, float speed, int damage)
+/// @brief Projectile Çê∂ê¨Ç∑ÇÈ
+/// @param pos pos ÇÃíl
+/// @param dir_ dir_ ÇÃíl
+/// @param speed speed ÇÃíl
+/// @param damage damage ÇÃíl
+Projectile::Projectile(Vector2 pos, Vector2 dir_, float speed, int damage)
     : Object2D(pos)
-    , m_dir(dir)
-    , m_speed(speed)
-    , m_damage(damage)
-    , m_isActive(true)
-    , mpCollider(nullptr)
+    , dir_(dir_)
+    , speed_(speed)
+    , damage_(damage)
+    , is_active_(true)
+    , collider_(nullptr)
 {
-    mvPosition = pos;
+    position_ = pos;
 }
 
-Projectile::~Projectile() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
+/// @brief îjä¸èàóùÇçsÇ§
+Projectile::~Projectile()
+{
+    if (collider_)
+    {
+        delete collider_;
+        collider_ = nullptr;
     }
 }
 
-void Projectile::Update() {
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
+void Projectile::Update()
+{
+    if (collider_)
+    {
+        collider_->position_ = position_;
+        collider_->position2_ = position_;
     }
 }
 
-void Projectile::Draw() {
-    // Âü∫Â∫ï„ÇØ„É©„Çπ„ÅØÊèèÁîª„Åó„Å™„ÅÑ
+/// @brief ï`âÊèàóùÇçsÇ§
+void Projectile::Draw()
+{
 }
 
-void Projectile::OnTrigger(Collider* collider, Collider* check) {
-    // „Éá„Éï„Ç©„É´„ÉàÂÆüË£ÖÔºöÊ¥æÁîü„ÇØ„É©„Çπ„Åß„Ç™„Éº„Éê„Éº„É©„Ç§„Éâ
+/// @brief ê⁄êGíÜÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
+void Projectile::OnTrigger(Collider* collider, Collider* check)
+{
 }
 
-void Projectile::Kill() {
-    m_isActive = false;
+/// @brief çÌèúëŒè€Ç…Ç∑ÇÈ
+void Projectile::Kill()
+{
+    is_active_ = false;
     SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
+    if (collider_)
+    {
+        collider_->SetDeleteFlag(true);
     }
 }
 
-bool Projectile::IsOutOfBounds(float margin) const {
-    if (mvPosition.x < -margin || mvPosition.x > Utility::SCREEN_WIDTH + margin ||
-        mvPosition.y < -margin || mvPosition.y > Utility::SCREEN_HEIGHT + margin) {
+/// @brief IsOutOfBounds Çé¿çsÇ∑ÇÈ
+/// @param margin margin ÇÃíl
+/// @return bool ñﬂÇËíl
+bool Projectile::IsOutOfBounds(float margin) const
+{
+    if (position_.x < -margin || position_.x > Utility::kScreenWidth + margin ||
+        position_.y < -margin || position_.y > Utility::kScreenHeight + margin)
+        {
         return true;
     }
     return false;

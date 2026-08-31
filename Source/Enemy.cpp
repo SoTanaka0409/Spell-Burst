@@ -1,4 +1,5 @@
-Ôªø#include "Enemy.h"
+#include "Enemy.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -9,8 +10,9 @@
 #include "Player.h"
 #include "Master.h"
 #include "SceneManager.h"
-#include "ObjectManager.h"
 #include "Utility.h"
+#include "BulletFactory.h"
+#include "EffectManager.h"
 #include "ResourceManager.h"
 #include "GameScene.h"
 #include "EnemyManager.h"
@@ -18,183 +20,229 @@
 #include <cmath>
 #include <cstdlib>
 
-void Enemy::SelectNewTarget() {
-    m_targetX = 100.0f + static_cast<float>(rand() % 1080);
-    m_targetY = 80.0f + static_cast<float>(rand() % 180);
-}
-
-Enemy::Enemy(float x, float y, int enemyType)
-    : Character(Vector2(x, y), 3, 3.0f)
+/// @brief SelectNewTarget Çé¿çsÇ∑ÇÈ
+void Enemy::SelectNewTarget()
 {
-    SetTag(Tag2D_Enemy);
-    m_enemyType = enemyType;
-    m_attackTimer = 0;
-    
-    if (m_enemyType == 1) {
-        m_speed = 3.0f;
-        m_maxHp = 3;
-    }
-    else if (m_enemyType == 2) {
-        m_speed = 2.0f;
-        m_maxHp = 5;
-    }
-    else if (m_enemyType == 3) {
-        m_speed = 1.5f;
-        m_maxHp = 8;
-    }
-    else if (m_enemyType == 4) {
-        m_speed = 2.5f;
-        m_maxHp = 20; // ‰∏≠„Éú„Çπ
-        SelectNewTarget();
-    }
-    m_hp = m_maxHp;
-    
-    if (mpCollider) delete mpCollider;
-    float colRadius = (m_enemyType == 4) ? 45.0f : 35.0f;
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, colRadius);
+	target_x_ = 100.0f + static_cast<float>(rand() % 1080);
+	target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
-Enemy::~Enemy() {
+/// @brief Enemy Çê∂ê¨Ç∑ÇÈ
+/// @param x x ÇÃíl
+/// @param y y ÇÃíl
+/// @param enemyType enemyType ÇÃíl
+Enemy::Enemy(float x, float y, int enemyType)
+	: Character(Vector2(x, y), 3, 3.0f)
+{
+	SetTag(kTag2dEnemy);
+	this->enemy_type_ = enemyType;
+	attack_timer_ = 0;
+
+	if (enemy_type_ == 1)
+	{
+		speed_ = 3.0f;
+		max_hp_ = 3;
+	}
+	else if (enemy_type_ == 2)
+	{
+		speed_ = 2.0f;
+		max_hp_ = 5;
+	}
+	else if (enemy_type_ == 3)
+	{
+		speed_ = 1.5f;
+		max_hp_ = 8;
+	}
+	else if (enemy_type_ == 4)
+	{
+		speed_ = 2.5f;
+		max_hp_ = 20;
+		SelectNewTarget();
+	}
+	hp_ = max_hp_;
+
+	if (collider_) delete collider_;
+	float colRadius = (enemy_type_ == 4) ? 45.0f : 35.0f;
+	collider_ = new CapsuleCollider(this, position_, position_, colRadius);
 }
 
-void Enemy::Update() {
-    Character::Update(); // „Çπ„Çø„É≥ÊôÇÈñì„ÅÆÊ∏õÂ∞ë„Å™„Å©
-
-    if (m_stunTimer > 0) return; // „Çπ„Çø„É≥‰∏≠„ÅØË°åÂãï‰∏çËÉΩ
-
-    if (m_enemyType == 4) {
-        Vector2 target(m_targetX, m_targetY);
-        float dist = mvPosition.DistanceTo(target);
-
-        if (dist < 15.0f) {
-            SelectNewTarget();
-        }
-        else {
-            mvPosition += (target - mvPosition).Normalized() * (m_speed * Utility::TimeScale);
-        }
-    }
-    else {
-        mvPosition.y += m_speed * Utility::TimeScale;
-    }
-
-    if (m_enemyType == 2 || m_enemyType == 3 || m_enemyType == 4) 
-    {
-        m_attackTimer++;
-        int interval = (m_enemyType == 4) ? 120 : 150; 
-        if (m_attackTimer >= interval)
-        {
-            m_attackTimer = 0;
-            Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Tag2D_Player));
-            Vector2 targetPos(mvPosition.x, mvPosition.y + 100.0f);
-            if (player != nullptr) {
-                targetPos = Vector2(player->GetX(), player->GetY());
-            }
-            Vector2 dir = (targetPos - mvPosition).Normalized();
-            if (dir.MagnitudeSq() == 0.0f) {
-                dir = Vector2(0.0f, 1.0f);
-            }
-            if (m_enemyType == 2) {
-                new EnemyBullet(mvPosition, dir, 4.0f, false, false);
-            }
-            else if (m_enemyType == 3) {
-                new EnemyBullet(mvPosition, dir, 3.5f, false, true);  
-            }
-            else if (m_enemyType == 4) {
-                static float mbAngle = 0.0f;
-                mbAngle += 0.2f;
-                for (int i = 0; i < 4; i++) {
-                    float angle = mbAngle + (i * 2.0f * 3.14159265f) / 16;
-                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 2.0f);
-                }
-                float baseAngle = mvPosition.AngleTo(targetPos);
-                for (int i = -1; i <= 1; i++) {
-                    float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
-                    new EnemyBullet(mvPosition, Vector2::FromAngle(angle), 3.5f);
-                }
-            }
-        }
-    }
-    
-    if (mvPosition.y > Utility::SCREEN_HEIGHT + 50.0f) {
-        Character::Kill();
-    }
+/// @brief îjä¸èàóùÇçsÇ§
+Enemy::~Enemy()
+{
 }
 
-void Enemy::Kill() {
-    Character::Kill();
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
+void Enemy::Update()
+{
+	Character::Update();
+
+	if (stun_timer_ > 0) return;
+
+	if (enemy_type_ == 4)
+	{
+		Vector2 target(target_x_, target_y_);
+		float dist = position_.DistanceTo(target);
+
+		if (dist < 15.0f)
+		{
+			SelectNewTarget();
+		}
+		else
+		{
+			position_ += (target - position_).Normalized() * (speed_ * Utility::time_scale_);
+		}
+	}
+	else
+	{
+		position_.y += speed_ * Utility::time_scale_;
+	}
+
+	UpdateAttackPattern();
+
+	if (position_.y > Utility::kScreenHeight + 50.0f)
+	{
+		Character::Kill();
+	}
 }
 
-void Enemy::TakeDamage(int damage) {
-    if (!m_isActive) return;
-
-    Character::TakeDamage(damage); // HP„ÇíÊ∏õ„Çâ„Åó„ÄÅ0„Å´„Å™„Å£„Åü„ÇâKill„ÇíÂëº„Å∂Âá¶ÁêÜ„Å™„Å©
-
-    if (m_hp <= 0) {
-        SoundManager::GetInstance()->PlaySE("Resource/se_enemy_die.wav");
-        Player* player = dynamic_cast<Player*>(
-            Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::Tag2D_Player)
-        );
-        if (player != nullptr) {
-            player->AddXp(1);
-        }
-        GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-        if (gs != nullptr && gs->GetEnemyManager() != nullptr) {
-            gs->GetEnemyManager()->AddDefeatedCount();
-        }
-    }
+/// @brief çÌèúëŒè€Ç…Ç∑ÇÈ
+void Enemy::Kill()
+{
+	Character::Kill();
 }
 
-void Enemy::OnTrigger(Collider* collider, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_PlayerBullet) {
-            Bullet* bullet = dynamic_cast<Bullet*>(check->GetParentObject());
-            if (bullet != nullptr) {
-                TakeDamage(bullet->GetDamage());
-                bullet->Kill(); 
-            }
-        }
-    }
+/// @brief éÄñSéûÇÃèàóùÇçsÇ§
+void Enemy::OnDeath()
+{
+	Character::OnDeath();
+
+	SoundManager::GetInstance()->PlaySE("SE_GLASS_DESTROY");
+	Player* player = dynamic_cast<Player*>(
+		Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(Object2D::kTag2dPlayer).get()
+		);
+	if (player != nullptr)
+	{
+		player->AddXp(1);
+	}
+	GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+	if (gs != nullptr && gs->GetEnemyManager() != nullptr)
+	{
+		gs->GetEnemyManager()->AddDefeatedCount();
+	}
 }
 
+/// @brief ê⁄êGíÜÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
+void Enemy::OnTrigger(Collider* collider, Collider* check)
+{
+}
+
+/// @brief ï`âÊèàóùÇçsÇ§
 void Enemy::Draw()
 {
-    if (!m_isActive) return;
+	if (!is_active_) return;
 
-    if (m_stunTimer > 0) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 200, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
+	if (stun_timer_ > 0)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 200, 255), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 
-    int s_enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/enemy.png");
+	DrawEnemySprite();
+	DrawHpBar();
+}
 
-    if (s_enemyGraphHandle != -1) {
-        if (m_enemyType == 1) SetDrawBright(255, 255, 255);
-        else if (m_enemyType == 2) SetDrawBright(255, 200, 100);
-        else if (m_enemyType == 3) SetDrawBright(100, 100, 255);
-        else if (m_enemyType == 4) SetDrawBright(255, 50, 50);
+/// @brief UpdateAttackPattern Çé¿çsÇ∑ÇÈ
+void Enemy::UpdateAttackPattern()
+{
+	if (enemy_type_ == 2 || enemy_type_ == 3 || enemy_type_ == 4)
+	{
+		attack_timer_++;
+		int interval = (enemy_type_ == 4) ? 120 : 150;
+		if (attack_timer_ >= interval)
+		{
+			attack_timer_ = 0;
+			Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
+			Vector2 targetPos(position_.x, position_.y + 100.0f);
+			if (player != nullptr)
+			{
+				targetPos = Vector2(player->GetX(), player->GetY());
+			}
+			Vector2 dir = (targetPos - position_).Normalized();
+			if (dir.MagnitudeSq() == 0.0f)
+			{
+				dir = Vector2(0.0f, 1.0f);
+			}
 
-        float drawSize = (m_enemyType == 4) ? 45.0f : 35.0f;
-        DrawExtendGraph(
-            static_cast<int>(mvPosition.x - drawSize),
-            static_cast<int>(mvPosition.y - drawSize),
-            static_cast<int>(mvPosition.x + drawSize),
-            static_cast<int>(mvPosition.y + drawSize),
-            s_enemyGraphHandle,
-            TRUE
-        );
+			if (enemy_type_ == 2)
+			{
+				ObjectManager::Instantiate<EnemyBullet>(position_, dir, 4.0f, false, false);
+			}
+			else if (enemy_type_ == 3)
+			{
+				ObjectManager::Instantiate<EnemyBullet>(position_, dir, 3.5f, false, true);
+			}
+			else if (enemy_type_ == 4)
+			{
+				static float current_angle = 0.0f;
+				current_angle += 0.2f;
+				for (int i = 0; i < 4; i++)
+				{
+					float bullet_angle = current_angle + (i * 2.0f * 3.14159265f) / 16;
+					ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(bullet_angle), 2.0f);
+				}
+				float baseAngle = Vector2(1, 0).AngleTo(targetPos - position_);
+				for (int i = -1; i <= 1; i++)
+				{
+					float angle = baseAngle + (i * 8.0f * 3.14159265f / 180.0f);
+					ObjectManager::Instantiate<EnemyBullet>(position_, Vector2::FromAngle(angle), 3.5f);
+				}
+			}
+		}
+	}
+}
 
-        SetDrawBright(255, 255, 255);
-    }
-    else {
-        unsigned int color = GetColor(255, 100, 100);
-        if (m_enemyType == 2) color = GetColor(255, 200, 100);
-        else if (m_enemyType == 3) color = GetColor(100, 100, 255);
-        else if (m_enemyType == 4) color = GetColor(255, 50, 50);
+/// @brief DrawEnemySprite Çé¿çsÇ∑ÇÈ
+void Enemy::DrawEnemySprite()
+{
+	int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_ENEMY");
 
-        int drawRadius = (m_enemyType == 4) ? 45 : 35;
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), drawRadius, color, TRUE);
-    }
-    int hpOffset = (m_enemyType == 4) ? 65 : 55;
-    DrawFormatString(static_cast<int>(mvPosition.x) - 15, static_cast<int>(mvPosition.y) - hpOffset, GetColor(255, 255, 255), "HP:%d", m_hp);
+	if (enemyGraphHandle != -1)
+	{
+		if (enemy_type_ == 1) SetDrawBright(255, 255, 255);
+		else if (enemy_type_ == 2) SetDrawBright(255, 200, 100);
+		else if (enemy_type_ == 3) SetDrawBright(100, 100, 255);
+		else if (enemy_type_ == 4) SetDrawBright(255, 50, 50);
+
+		float drawSize = (enemy_type_ == 4) ? 45.0f : 35.0f;
+		DrawExtendGraph(
+			static_cast<int>(position_.x - drawSize),
+			static_cast<int>(position_.y - drawSize),
+			static_cast<int>(position_.x + drawSize),
+			static_cast<int>(position_.y + drawSize),
+			enemyGraphHandle,
+			TRUE
+		);
+
+		SetDrawBright(255, 255, 255);
+	}
+	else
+	{
+		unsigned int color_ = GetColor(255, 100, 100);
+		if (enemy_type_ == 2) color_ = GetColor(255, 200, 100);
+		else if (enemy_type_ == 3) color_ = GetColor(100, 100, 255);
+		else if (enemy_type_ == 4) color_ = GetColor(255, 50, 50);
+
+		int drawRadius = (enemy_type_ == 4) ? 45 : 35;
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), drawRadius, color_, TRUE);
+	}
+}
+
+/// @brief DrawHpBar Çé¿çsÇ∑ÇÈ
+void Enemy::DrawHpBar()
+{
+	int hpOffset = (enemy_type_ == 4) ? 65 : 55;
+	DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "ëÃóÕ:%d", hp_);
 }

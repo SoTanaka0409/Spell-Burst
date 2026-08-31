@@ -1,98 +1,126 @@
-ï»¿#include "Collider.h"
+#include "Collider.h"
+#include "ObjectManager.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
-#include"ObjectManager.h"
+#include "ObjectManager.h"
 #include <cassert>
-#include"Master.h"
+#include "Master.h"
 
+/// @brief Collider ‚ğ¶¬‚·‚é
+/// @param parent parent ‚Ì’l
 Collider::Collider(Object2D* parent)
-	: mpParentObject(parent)
-	, mvPosition(Vector2(0.0f, 0.0f))
-	, mvPosition2(Vector2(0.0f, 0.0f))
-	, mfRadius(0.0f)
-	, mbDeleteFlag(false)
+	: parent_object_(parent)
+	, position_(Vector2(0.0f, 0.0f))
+	, position2_(Vector2(0.0f, 0.0f))
+	, radius_(0.0f)
+	, delete_flag_(false)
 {
 	assert(parent);
+
 	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
-
-
-
-
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 Collider::~Collider()
 {
-	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->RemoveCollider(this);
+	if (Master::sceneManager && Master::sceneManager->GetCurrentScene())
+	{
+		auto colMgr = Master::sceneManager->GetCurrentScene()->GetCollisionManager();
+		if (colMgr)
+		{
+			for (auto* col : colMgr->GetColliderList())
+			{
+				if (col != this)
+				{
+					col->RemoveCollision(this);
+				}
+			}
+			colMgr->RemoveCollider(this);
+		}
+	}
 }
 
+/// @brief HitCheck ‚ğÀs‚·‚é
+/// @param check check ‚Ì’l
+/// @param isHit isHit ‚Ì’l
 void Collider::HitCheck(Collider* check, bool isHit)
 {
-
-
 	if (isHit)
 	{
 		auto itr = std::find_if(
-			mCollisionList.begin(),
-			mCollisionList.end(),
-			[&](Collider* col) { return col == check; } // ãƒ©ãƒ ãƒ€å¼
+			collision_list_.begin(),
+			collision_list_.end(),
+			[&](Collider* col) { return col == check; }
 		);
 
-		if (itr != mCollisionList.end())
+		if (itr != collision_list_.end())
 		{
-			this->mpParentObject->OnEnter(this, check);
+			if (this->parent_object_ != nullptr)
+			{
+				this->parent_object_->OnTrigger(this, check);
+			}
 		}
 		else
-		{	// ãƒªã‚¹ãƒˆã«ç™»éŒ²ã—ã¦ãŠã
-			mCollisionList.push_back(check);//ä»»æ„ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§ã—ã‹è¿½åŠ ã—ãªã„ã‚ˆã†ã«ã™ã‚Œã°
-			if (this->mpParentObject != nullptr)
+		{
+			collision_list_.push_back(check);
+			if (this->parent_object_ != nullptr)
 			{
-				this->mpParentObject->OnTrigger(this, check);
+				this->parent_object_->OnEnter(this, check);
 			}
 		}
 	}
 	else
 	{
 		auto itr = std::find_if(
-			mCollisionList.begin(),
-			mCollisionList.end(),
-			[&](Collider* col) { return col == check; } // ãƒ©ãƒ ãƒ€å¼
+			collision_list_.begin(),
+			collision_list_.end(),
+			[&](Collider* col) { return col == check; }
 		);
 
-		if (itr != mCollisionList.end())
+		if (itr != collision_list_.end())
 		{
-			if (this->mpParentObject != nullptr)
+			if (this->parent_object_ != nullptr)
 			{
-				this->mpParentObject->OnExit(this, check);
+				this->parent_object_->OnExit(this, check);
 			}
-			mCollisionList.erase(itr);
+			collision_list_.erase(itr);
 		}
 	}
 }
 
-
-
-
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @param check check ‚Ì’l
 void Collider::Update(Collider* check)
 {
-
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void Collider::Draw()
 {
-
 }
 
+/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
 void Collider::OnEnter()
 {
-
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
 void Collider::OnTrigger()
 {
-
 }
 
+/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
 void Collider::OnExit()
 {
+}
 
+/// @brief RemoveCollision ‚ğÀs‚·‚é
+/// @param collider collider ‚Ì’l
+void Collider::RemoveCollision(Collider* collider)
+{
+	auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider);
+	if (itr != collision_list_.end())
+	{
+		collision_list_.erase(itr);
+	}
 }

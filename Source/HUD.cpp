@@ -1,4 +1,5 @@
 #include "HUD.h"
+#include "ObjectManager.h"
 #include "Player.h"
 #include "Boss.h"
 #include "EnemyManager.h"
@@ -8,181 +9,240 @@
 #endif
 #include "DxLib.h"
 
-float HUD::s_displayHpRatio = 1.0f;
-float HUD::s_displayXpRatio = 0.0f;
-float HUD::s_displaySpellRatio = 0.0f;
-float HUD::s_displayBarrierRatio = 0.0f;
-float HUD::s_bossHpRatio = 1.0f;
+float HUD::display_hp_ratio_ = 1.0f;
+float HUD::display_xp_ratio_ = 0.0f;
+float HUD::display_spell_ratio_ = 0.0f;
+float HUD::display_barrier_ratio_ = 0.0f;
+float HUD::boss_hp_ratio_ = 1.0f;
 
-void HUD::Initialize() {
-    s_displayHpRatio = 1.0f;
-    s_displayXpRatio = 0.0f;
-    s_displaySpellRatio = 0.0f;
-    s_displayBarrierRatio = 0.0f;
-    s_bossHpRatio = 1.0f;
+/// @brief 初期化処理を行う
+void HUD::Initialize()
+{
+	display_hp_ratio_ = 1.0f;
+	display_xp_ratio_ = 0.0f;
+	display_spell_ratio_ = 0.0f;
+	display_barrier_ratio_ = 0.0f;
+	boss_hp_ratio_ = 1.0f;
 }
 
-void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss) {
-    float lerpSpeed = 0.1f * Utility::TimeScale;
+/// @brief 毎フレームの更新処理を行う
+/// @param player player の値
+/// @param enemyManager enemyManager の値
+/// @param boss boss の値
+void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
+{
+	float lerpSpeed = 0.1f * Utility::time_scale_;
 
-    if (player != nullptr) {
-        float targetHpRatio = static_cast<float>(player->GetHp()) / static_cast<float>(player->GetMaxHp());
-        s_displayHpRatio += (targetHpRatio - s_displayHpRatio) * lerpSpeed;
+	if (player != nullptr)
+	{
+		float targetHpRatio = static_cast<float>(player->GetHp()) / static_cast<float>(player->GetMaxHp());
+		display_hp_ratio_ += (targetHpRatio - display_hp_ratio_) * lerpSpeed;
 
-        float targetXpRatio = (player->GetXpNeeded() > 0) ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) : 1.0f;
-        s_displayXpRatio += (targetXpRatio - s_displayXpRatio) * lerpSpeed;
+		float targetXpRatio = (player->GetXpNeeded() > 0) ? static_cast<float>(player->GetXp()) / static_cast<float>(player->GetXpNeeded()) : 1.0f;
+		display_xp_ratio_ += (targetXpRatio - display_xp_ratio_) * lerpSpeed;
 
-        float targetSpellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
-        s_displaySpellRatio += (targetSpellRatio - s_displaySpellRatio) * lerpSpeed;
-    }
+		float targetSpellRatio = static_cast<float>(player->GetSpellGauge()) / static_cast<float>(player->GetMaxSpellGauge());
+		display_spell_ratio_ += (targetSpellRatio - display_spell_ratio_) * lerpSpeed;
+	}
 
-    if (boss != nullptr && boss->IsActive()) {
-        float targetBossHpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
-        s_bossHpRatio += (targetBossHpRatio - s_bossHpRatio) * lerpSpeed;
-    } else {
-        s_bossHpRatio = 1.0f;
-    }
+	if (boss != nullptr && boss->IsActive())
+	{
+		float targetBossHpRatio = static_cast<float>(boss->GetHp()) / static_cast<float>(boss->GetMaxHp());
+		boss_hp_ratio_ += (targetBossHpRatio - boss_hp_ratio_) * lerpSpeed;
+	}
+	else
+	{
+		boss_hp_ratio_ = 1.0f;
+	}
 }
 
-void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle) {
-    if (player != nullptr) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(10, 10, 350, 135, GetColor(0, 15, 30), TRUE); 
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE); 
+/// @brief 描画処理を行う
+/// @param player player の値
+/// @param enemyManager enemyManager の値
+/// @param boss boss の値
+/// @param cutinTimer cutinTimer の値
+/// @param cutinImageHandle cutinImageHandle の値
+void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle)
+{
+	if (player != nullptr)
+	{
+		DrawPlayerStatus(player);
+	}
 
-        // プレイヤーの現在体力を数値で明示するためHPを描画
-        DrawFormatString(20, 20, GetColor(100, 255, 100), "PLAYER HP: %d / %d", player->GetHp(), player->GetMaxHp());
+	if (enemyManager != nullptr)
+	{
+		DrawEnemyProgress(enemyManager);
+	}
 
-        // 視覚的に直感的な体力把握を可能にするためゲージを描画
-        int hpBarX = 200;
-        int hpBarY = 22;
-        int hpBarWidth = 140;
-        DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
-        int hpFill = static_cast<int>(hpBarWidth * s_displayHpRatio);
-        if (hpFill > 0) {
-            DrawBox(hpBarX, hpBarY, hpBarX + hpFill, hpBarY + 10, GetColor(100, 255, 100), TRUE);
-        }
-        DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
+	if (boss != nullptr && boss->IsActive())
+	{
+		DrawBossStatus(boss);
+	}
 
-        
+	if (cutinTimer > 0)
+	{
+		DrawCutin(cutinTimer, cutinImageHandle);
+	}
+}
 
-        // 成長度合いをフィードバックするためレベルと経験値枠を描画
-        DrawFormatString(20, 50, GetColor(255, 215, 0), "LV: %d", player->GetLevel());
+/// @brief DrawPlayerStatus を実行する
+/// @param player player の値
+void HUD::DrawPlayerStatus(Player* player)
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(10, 10, 350, 135, GetColor(0, 15, 30), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE);
 
-        int xpBarWidth = 260;
-        int xpBarX = 35;
-        int xpBarY = 70;
-        int xpFill = static_cast<int>(xpBarWidth * s_displayXpRatio);
-        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
-        if (xpFill > 0) {
-            DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
-        }
-        DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
-        DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "XP: %d / %d", player->GetXp(), player->GetXpNeeded());
+	DrawFormatString(20, 20, GetColor(100, 255, 100), "体力：%d / %d", player->GetHp(), player->GetMaxHp());
 
-        // スペルカード（必殺技）の準備状況を視覚的に通知するためのゲージ処理
-        DrawFormatString(20, 90, GetColor(255, 100, 200), "SPELL");
-        int spellBarY = 105;
-        int spellFill = static_cast<int>(xpBarWidth * s_displaySpellRatio);
-        
-        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
-        if (spellFill > 0) {
-            DrawBox(xpBarX, spellBarY, xpBarX + spellFill, spellBarY + 14, GetColor(255, 100, 200), TRUE);
-        }
-        DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(255, 150, 220), FALSE);
-        
-        if (player->GetSpellGauge() >= player->GetMaxSpellGauge()) {
-            if ((GetNowCount() / 150) % 2 == 0) {
-                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "READY!! (PRESS X)");
-            } else {
-                DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "READY!! (PRESS X)");
-            }
-        } else {
-            DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "CHARGE: %d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
-        }
+	int hpBarX = 200;
+	int hpBarY = 22;
+	int hpBarWidth = 140;
+	DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(50, 0, 0), TRUE);
+	int hpFill = static_cast<int>(hpBarWidth * display_hp_ratio_);
+	if (hpFill > 0)
+	{
+		DrawBox(hpBarX, hpBarY, hpBarX + hpFill, hpBarY + 10, GetColor(100, 255, 100), TRUE);
+	}
+	DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
 
-        // レベルアップ時の視覚的な報酬感を高めるため一定フレーム文字を点滅描画
-        int lvTimer = player->GetLevelUpTimer();
-        if (lvTimer > 0) {
-            if ((lvTimer / 10) % 2 == 0) {
-                int px = static_cast<int>(player->GetX());
-                int py = static_cast<int>(player->GetY()) - 60;
-                DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "LEVEL UP!");
-                DrawFormatString(px - 60, py, GetColor(255, 215, 0), "LEVEL UP!");
-                DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100), 
-                    "LV.%d -> LV.%d", player->GetLevel() - 1, player->GetLevel());
-            }
-        }
-    }
+	DrawFormatString(20, 50, GetColor(255, 215, 0), "レベル：%d", player->GetLevel());
 
-    if (enemyManager != nullptr) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 15, 30), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(Utility::SCREEN_WIDTH - 230, 10, Utility::SCREEN_WIDTH - 10, 50, GetColor(0, 128, 255), FALSE);
+	int xpBarWidth = 260;
+	int xpBarX = 35;
+	int xpBarY = 70;
+	int xpFill = static_cast<int>(xpBarWidth * display_xp_ratio_);
+	DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(20, 40, 80), TRUE);
+	if (xpFill > 0)
+	{
+		DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
+	}
+	DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
+	DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "経験値：%d / %d", player->GetXp(), player->GetXpNeeded());
 
-        if (enemyManager->GetDefeatedCount() >= 10) {
-            //DrawString(Utility::SCREEN_WIDTH - 220, 20, "BOSS BATTLE!", GetColor(255, 50, 50));
-        } else {
-            DrawFormatString(Utility::SCREEN_WIDTH - 220, 20, GetColor(255, 255, 255), "DEFEATED: %d / 10", enemyManager->GetDefeatedCount());
-        }
-    }
+	DrawFormatString(20, 90, GetColor(255, 100, 200), "スペル");
+	int spellBarY = 105;
+	int spellFill = static_cast<int>(xpBarWidth * display_spell_ratio_);
 
-    if (boss != nullptr && boss->IsActive()) {
-        int barWidth = 400;
-        int barHeight = 20;
-        int barX = (Utility::SCREEN_WIDTH - barWidth) / 2;
-        int barY = 50;
+	DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(50, 0, 50), TRUE);
+	if (spellFill > 0)
+	{
+		DrawBox(xpBarX, spellBarY, xpBarX + spellFill, spellBarY + 14, GetColor(255, 100, 200), TRUE);
+	}
+	DrawBox(xpBarX, spellBarY, xpBarX + xpBarWidth, spellBarY + 14, GetColor(255, 150, 220), FALSE);
 
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
-        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(0, 15, 30), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-        DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE);
+	if (player->GetSpellGauge() >= player->GetMaxSpellGauge())
+	{
+		if ((GetNowCount() / 150) % 2 == 0)
+		{
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "発動可能！必殺技キー");
+		}
+		else
+		{
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "発動可能！必殺技キー");
+		}
+	}
+	else
+	{
+		DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "チャージ：%d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
+	}
 
-        int fillWidth = static_cast<int>(barWidth * s_bossHpRatio);
-        if (fillWidth > 0) {
-            DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
-        }
-        DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE);
+	int lvTimer = player->GetLevelUpTimer();
+	if (lvTimer > 0)
+	{
+		if ((lvTimer / 10) % 2 == 0)
+		{
+			int px = static_cast<int>(player->GetX());
+			int py = static_cast<int>(player->GetY()) - 60;
+			DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "レベルアップ！");
+			DrawFormatString(px - 60, py, GetColor(255, 215, 0), "レベルアップ！");
+			DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100),
+				"レベル%d → レベル%d", player->GetLevel() - 1, player->GetLevel());
+		}
+	}
+}
 
-        DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "BOSS: FISHMAN KING (PHASE %d)", 4 - boss->GetLives());
-        DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
-    }
+/// @brief DrawEnemyProgress を実行する
+/// @param enemyManager enemyManager の値
+void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
+{
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(Utility::kScreenWidth - 230, 10, Utility::kScreenWidth - 10, 50, GetColor(0, 15, 30), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	DrawBox(Utility::kScreenWidth - 230, 10, Utility::kScreenWidth - 10, 50, GetColor(0, 128, 255), FALSE);
 
-    if (cutinTimer > 0) {
-        int maxTimer = 90;
-        int progress = maxTimer - cutinTimer; 
-        
-        float xOffset = 0;
-        if (progress < 15) {
-            // カットイン登場時の勢いを演出するためイージングをかけて高速移動
-            float t = progress / 15.0f;
-            xOffset = Utility::SCREEN_WIDTH * (1.0f - t);
-        } else if (progress <= 75) {
-            // プレイヤーにカットイン内容を視認させるため中央付近で微速移動を維持
-            float t = (progress - 15) / 60.0f;
-            xOffset = -30.0f * t;
-        } else {
-            // 演出終了後に速やかに画面外へ退場させるための座標計算
-            float t = (progress - 75) / 15.0f;
-            xOffset = -30.0f - (Utility::SCREEN_WIDTH * t);
-        }
-        
-        if (cutinImageHandle != -1) {
-            DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::SCREEN_WIDTH), 570, cutinImageHandle, TRUE);
-        }
+	if (enemyManager->GetDefeatedCount() < 10)
+	{
+		DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "撃破数：%d / 10", enemyManager->GetDefeatedCount());
+	}
+}
 
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-        DrawBox(0, 0, Utility::SCREEN_WIDTH, 150, GetColor(0, 0, 0), TRUE);
-        DrawBox(0, 570, Utility::SCREEN_WIDTH, Utility::SCREEN_HEIGHT, GetColor(0, 0, 0), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+/// @brief DrawBossStatus を実行する
+/// @param boss boss の値
+void HUD::DrawBossStatus(Boss* boss)
+{
+	int barWidth = 400;
+	int barHeight = 20;
+	int barX = (Utility::kScreenWidth - barWidth) / 2;
+	int barY = 50;
 
-        if (progress > 10) {
-            const char* spellName = "SPELL CARD: MASTER SPARK!!";
-            if (Player::s_selectedCharacterType == 2) spellName = "SPELL CARD: RAINBOW WAVE!!";
-            else if (Player::s_selectedCharacterType == 3) spellName = "SPELL CARD: CHERRY BLOSSOM!!";
-            DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
-        }
-    }
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
+	DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(0, 15, 30), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	DrawBox(barX - 10, barY - 25, barX + barWidth + 10, barY + barHeight + 5, GetColor(255, 0, 0), FALSE);
+
+	int fillWidth = static_cast<int>(barWidth * boss_hp_ratio_);
+	if (fillWidth > 0)
+	{
+		DrawBox(barX, barY, barX + fillWidth, barY + barHeight, GetColor(255, 50, 50), TRUE);
+	}
+	DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE);
+
+	DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "ボス：半魚人王（第%d段階）", 4 - boss->GetLives());
+	DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
+}
+
+/// @brief DrawCutin を実行する
+/// @param cutinTimer cutinTimer の値
+/// @param cutinImageHandle cutinImageHandle の値
+void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
+{
+	int maxTimer = 90;
+	int progress = maxTimer - cutinTimer;
+
+	float xOffset = 0;
+	if (progress < 15)
+	{
+		float t = progress / 15.0f;
+		xOffset = Utility::kScreenWidth * (1.0f - t);
+	}
+	else if (progress <= 75)
+	{
+		float t = (progress - 15) / 60.0f;
+		xOffset = -30.0f * t;
+	}
+	else
+	{
+		float t = (progress - 75) / 15.0f;
+		xOffset = -30.0f - (Utility::kScreenWidth * t);
+	}
+
+	if (cutinImageHandle != -1)
+	{
+		DrawExtendGraph(static_cast<int>(xOffset), 150, static_cast<int>(xOffset + Utility::kScreenWidth), 570, cutinImageHandle, TRUE);
+	}
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+	DrawBox(0, 0, Utility::kScreenWidth, 150, GetColor(0, 0, 0), TRUE);
+	DrawBox(0, 570, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 0, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	if (progress > 10)
+	{
+		const char* spellName = "スペルカード：極太レーザー！！";
+		if (Player::kSelectedCharacterType == 2) spellName = "スペルカード：虹色ウェーブ！！";
+		else if (Player::kSelectedCharacterType == 3) spellName = "スペルカード：桜吹雪！！";
+		DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
+	}
 }

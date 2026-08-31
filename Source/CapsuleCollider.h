@@ -1,17 +1,26 @@
-ï»¿#include "Vector2.h"
+#include "Vector2.h"
 #pragma once
 #include "Collider.h"
-#include"Object2D.h"
+#include "Object2D.h"
+
+/// @brief 2“_ŠÔ‚Ìü•ª‚Æ”¼Œa‚Å•\‚·ƒJƒvƒZƒ‹Œ^ƒRƒ‰ƒCƒ_[
 class CapsuleCollider : public Collider
 {
 public:
-	CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius);
+    /// @brief ƒJƒvƒZƒ‹ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»‚·‚é
+    /// @param parent eƒIƒuƒWƒFƒNƒg
+    /// @param pos1 n“_
+    /// @param pos2 I“_
+    /// @param radius ”¼Œa
+    CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius);
+
+    /// @brief ƒJƒvƒZƒ‹ƒRƒ‰ƒCƒ_[‚ğ”jŠü‚·‚é
 	virtual ~CapsuleCollider();
 
-	void Update(Collider* check) override;
-	void Draw() override;
+    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚ÌƒJƒvƒZƒ‹Õ“Ë”»’è‚ğs‚¤
+    /// @param check ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+    void Update(Collider* check) override;
 
-	
-
-	//ww
+    /// @brief ƒJƒvƒZƒ‹Œ`ó‚ğƒfƒoƒbƒO•`‰æ‚·‚é
+    void Draw() override;
 };

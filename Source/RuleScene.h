@@ -1,29 +1,34 @@
 #pragma once
 #include "Scene.h"
 
-// 操作説明やルール（チュートリアル）をスライド形式で表示するシーンクラス
-class RuleScene : public Scene {
+/// @brief ゲームのルールや操作方法をスライド形式で説明するシーン
+class RuleScene : public Scene
+{
 public:
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 各スライド（画像）を読み込み配列に格納する
+    /// @brief ルールシーンを初期化する
     void Initialize() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 左右キーでスライドを切り替え、Zキーまたは最終スライド次ページでStageSelectSceneへ遷移する
+    /// @brief ルールシーンを更新する
     void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 現在選択されているルールのスライド画像および、下部のナビゲーションテキストを描画する
+    /// @brief ルールシーンを描画する
     void Draw() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 読み込んだ全てのスライド画像を破棄する
+    /// @brief ルールシーンを終了処理する
     void Finalize() override;
+
 private:
-    int m_ruleGraphs[6];
-    int m_currentSlide;
+    /// @brief ルール説明テキストを描画する
+    /// @param titleFont タイトル用フォントハンドル
+    /// @param font24 本文用フォントハンドル
+    void DrawRuleText(int titleFont, int font24);
+
+    /// @brief ページ移動ボタンを描画する
+    /// @param mouseX マウスX座標
+    /// @param mouseY マウスY座標
+    /// @param font24 ボタン用フォントハンドル
+    void DrawNavigationButtons(int mouseX, int mouseY, int font24);
+
+    int rule_graphs_[6]; ///< 各ページのルール画像ハンドル
+    int current_slide_;  ///< 現在表示中のページ番号
 };

@@ -1,18 +1,37 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class SpellCardBullet : public Projectile {
+/// @brief ƒXƒyƒ‹ƒJ[ƒh”­“®‚É¶¬‚³‚ê‚é“Áê’e
+class SpellCardBullet : public Projectile
+{
 private:
-    int m_lifeTimer;
-    void Explode();
+	int life_timer_;  ///< ”š”­‚Ü‚Å‚Ìõ–½ƒ^ƒCƒ}[
+	int state_;       ///< ’¼iE’â~EŠgU‚È‚Ç‚Ìó‘Ô
+	int burst_count_; ///< ŠgU’e‚Ìc‚è”­Ë‰ñ”
+	int burst_timer_; ///< ŠgU’e‚Ì”­ËŠÔŠuƒ^ƒCƒ}[
+
+	/// @brief ’e‚ğ”š”­‚³‚¹AŠgU’e‚ğ¶¬‚·‚é
+	void Explode();
 
 public:
-    SpellCardBullet(float x, float y);
-    virtual ~SpellCardBullet() override;
+	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e‚ğ¶¬‚·‚é
+	/// @param x ‰ŠúXÀ•W
+	/// @param y ‰ŠúYÀ•W
+	SpellCardBullet(float x, float y);
 
-    virtual void Update() override;
-    virtual void Draw() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e‚ğ”jŠü‚·‚é
+	virtual ~SpellCardBullet() override;
+
+	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e‚Ìó‘Ô‚ğXV‚·‚é
+	virtual void Update() override;
+
+	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e‚ğ•`‰æ‚·‚é
+	virtual void Draw() override;
+
+	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

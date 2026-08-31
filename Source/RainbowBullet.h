@@ -1,17 +1,31 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class RainbowBullet : public Projectile {
+/// @brief “øF‚É•Ï‰»‚µ‚È‚ª‚çi‚ŞƒvƒŒƒCƒ„[’eƒNƒ‰ƒX
+class RainbowBullet : public Projectile
+{
 private:
-    int m_colorHue;
+    int color_hue_; ///< •`‰æF‚ÌF‘Š
 
 public:
+    /// @brief “øF’e‚ğ¶¬‚·‚é
+    /// @param x ‰ŠúXÀ•W
+    /// @param y ‰ŠúYÀ•W
     RainbowBullet(float x, float y);
+
+    /// @brief “øF’e‚ğ”jŠü‚·‚é
     virtual ~RainbowBullet() override;
 
+    /// @brief ’e‚ÌˆÚ“®‚ÆF‘Š‚ğXV‚·‚é
     virtual void Update() override;
+
+    /// @brief “øF’e‚ğ•`‰æ‚·‚é
     virtual void Draw() override;
+
+    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
+    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

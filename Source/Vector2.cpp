@@ -1,97 +1,85 @@
 #include "Vector2.h"
+#include <cmath>
 
 Vector2::Vector2() : x(0.0f), y(0.0f) {}
 Vector2::Vector2(float x, float y) : x(x), y(y) {}
 
-Vector2 Vector2::operator+(const Vector2& other) const {
-    return Vector2(x + other.x, y + other.y);
+Vector2 Vector2::operator+(const Vector2& other) const { return Vector2(x + other.x, y + other.y); }
+Vector2 Vector2::operator-(const Vector2& other) const { return Vector2(x - other.x, y - other.y); }
+Vector2 Vector2::operator*(float scalar) const { return Vector2(x * scalar, y * scalar); }
+
+/// @brief ‰‰ŽZŽqˆ—‚ðs‚¤
+/// @param scalar scalar ‚Ì’l
+/// @return Vector2 –ß‚è’l
+Vector2 Vector2::operator/(float scalar) const
+{
+	float inv = 1.0f / scalar;
+	return Vector2(x * inv, y * inv);
 }
 
-Vector2 Vector2::operator-(const Vector2& other) const {
-    return Vector2(x - other.x, y - other.y);
+Vector2& Vector2::operator+=(const Vector2& other) { x += other.x; y += other.y; return *this; }
+Vector2& Vector2::operator-=(const Vector2& other) { x -= other.x; y -= other.y; return *this; }
+Vector2& Vector2::operator*=(float scalar) { x *= scalar; y *= scalar; return *this; }
+
+/// @brief ‰‰ŽZŽqˆ—‚ðs‚¤
+/// @param scalar scalar ‚Ì’l
+/// @return Vector2& –ß‚è’l
+Vector2& Vector2::operator/=(float scalar)
+{
+	float inv = 1.0f / scalar;
+	x *= inv; y *= inv;
+	return *this;
 }
 
-Vector2 Vector2::operator*(float scalar) const {
-    return Vector2(x * scalar, y * scalar);
+float Vector2::Magnitude() const { return std::sqrt(x * x + y * y); }
+float Vector2::MagnitudeSq() const { return x * x + y * y; }
+
+/// @brief Normalized ‚ðŽÀs‚·‚é
+/// @return Vector2 –ß‚è’l
+Vector2 Vector2::Normalized() const
+{
+	float mag = Magnitude();
+	if (mag > 0.0f)
+	{
+		float invMag = 1.0f / mag;
+		return Vector2(x * invMag, y * invMag);
+	}
+	return Vector2(0.0f, 0.0f);
 }
 
-Vector2 Vector2::operator/(float scalar) const {
-    if (scalar != 0.0f) {
-        return Vector2(x / scalar, y / scalar);
-    }
-    return Vector2(0.0f, 0.0f);
+/// @brief Normalize ‚ðŽÀs‚·‚é
+void Vector2::Normalize()
+{
+	float mag = Magnitude();
+	if (mag > 0.0f)
+	{
+		float invMag = 1.0f / mag;
+		x *= invMag;
+		y *= invMag;
+	}
 }
 
-Vector2& Vector2::operator+=(const Vector2& other) {
-    x += other.x;
-    y += other.y;
-    return *this;
+float Vector2::DistanceTo(const Vector2& other) const { return (*this - other).Magnitude(); }
+
+float Vector2::DistanceSqTo(const Vector2& other) const { return (*this - other).MagnitudeSq(); }
+
+/// @brief AngleTo ‚ðŽÀs‚·‚é
+/// @param other other ‚Ì’l
+/// @return float –ß‚è’l
+float Vector2::AngleTo(const Vector2& other) const
+{
+	return std::atan2(x * other.y - y * other.x, Dot(other));
 }
 
-Vector2& Vector2::operator-=(const Vector2& other) {
-    x -= other.x;
-    y -= other.y;
-    return *this;
+float Vector2::Dot(const Vector2& other) const { return x * other.x + y * other.y; }
+
+/// @brief FromAngle ‚ðŽÀs‚·‚é
+/// @param radians radians ‚Ì’l
+/// @param length length ‚Ì’l
+/// @return Vector2 –ß‚è’l
+Vector2 Vector2::FromAngle(float radians, float length)
+{
+	return Vector2(std::cos(radians) * length, std::sin(radians) * length);
 }
 
-Vector2& Vector2::operator*=(float scalar) {
-    x *= scalar;
-    y *= scalar;
-    return *this;
-}
-
-Vector2& Vector2::operator/=(float scalar) {
-    if (scalar != 0.0f) {
-        x /= scalar;
-        y /= scalar;
-    }
-    return *this;
-}
-
-float Vector2::Magnitude() const {
-    // std::hypot ã‚’ä½¿ç”¨ã—ã¦ã€ã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã‚’é˜²ãŽã¤ã¤ç°¡æ½”ã«ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’è¨ˆç®—
-    return std::hypot(x, y);
-}
-
-float Vector2::MagnitudeSq() const {
-    return x * x + y * y;
-}
-
-Vector2 Vector2::Normalized() const {
-    float mag = Magnitude();
-    if (mag > 0.0f) {
-        return *this / mag;
-    }
-    return Vector2(0.0f, 0.0f);
-}
-
-void Vector2::Normalize() {
-    float mag = Magnitude();
-    if (mag > 0.0f) {
-        *this /= mag;
-    }
-}
-
-float Vector2::DistanceTo(const Vector2& other) const {
-    return (*this - other).Magnitude();
-}
-
-float Vector2::DistanceSqTo(const Vector2& other) const {
-    return (*this - other).MagnitudeSq();
-}
-
-float Vector2::AngleTo(const Vector2& other) const {
-    return std::atan2(other.y - y, other.x - x);
-}
-
-float Vector2::Dot(const Vector2& other) const {
-    return x * other.x + y * other.y;
-}
-
-Vector2 Vector2::FromAngle(float radians, float length) {
-    return Vector2(std::cos(radians) * length, std::sin(radians) * length);
-}
-
-float Vector2::Distance(const Vector2& a, const Vector2& b) {
-    return a.DistanceTo(b);
-}
+float Vector2::Distance(const Vector2& a, const Vector2& b) { return a.DistanceTo(b); }

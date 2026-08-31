@@ -1,18 +1,26 @@
-ï»¿#include "SphereCollider.h"
+#include "SphereCollider.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
+/// @brief SphereCollider ‚ğ¶¬‚·‚é
+/// @param parent parent ‚Ì’l
+/// @param center center ‚Ì’l
+/// @param radius radius ‚Ì’l
 SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
-	mvPosition = center;
-	mvPosition2 = center;
-	mfRadius = radius;
+	position_ = center;
+	position2_ = center;
+	this->radius_ = radius;
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 SphereCollider::~SphereCollider()
 {
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @param check check ‚Ì’l
 void SphereCollider::Update(Collider* check)
 {
 	if (check != nullptr)
@@ -21,11 +29,11 @@ void SphereCollider::Update(Collider* check)
 		if (capsule != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Capsule(
-				this->mvPosition,
-				this->mfRadius,
-				capsule->mvPosition,
-				capsule->mvPosition2,
-				capsule->mfRadius
+				this->position_,
+				this->radius_,
+				capsule->position_,
+				capsule->position2_,
+				capsule->radius_
 			);
 			HitCheck(check, isHit);
 		}
@@ -34,35 +42,39 @@ void SphereCollider::Update(Collider* check)
 		if (sphere != nullptr)
 		{
 			bool isHit = HitCheck_Sphere_Sphere(
-				this->mvPosition,
-				this->mfRadius,
-				sphere->mvPosition,
-				sphere->mfRadius
+				this->position_,
+				this->radius_,
+				sphere->position_,
+				sphere->radius_
 			);
 			HitCheck(check, isHit);
 		}
 	}
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void SphereCollider::Draw()
 {
 	DrawCircle(
-		static_cast<int>(mvPosition.x),
-		static_cast<int>(mvPosition.y),
-		static_cast<int>(mfRadius),
+		static_cast<int>(position_.x),
+		static_cast<int>(position_.y),
+		static_cast<int>(radius_),
 		GetColor(255, 255, 255),
 		FALSE
 	);
 }
 
+/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
 void SphereCollider::OnEnter()
 {
 }
 
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
 void SphereCollider::OnTrigger()
 {
 }
 
+/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
 void SphereCollider::OnExit()
 {
 }

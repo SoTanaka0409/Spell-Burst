@@ -1,4 +1,5 @@
-ï»¿#include "SpecialBullet.h"
+#include "SpecialBullet.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
 #ifndef NOMINMAX
@@ -7,57 +8,72 @@
 #include "DxLib.h"
 #include "Utility.h"
 
+/// @brief SpecialBullet ‚ğ¶¬‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
 SpecialBullet::SpecialBullet(float x, float y)
     : Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 5)
 {
-    SetTag(Tag2D_PlayerBullet); // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å´ã®æ”»æ’ƒã¨ã—ã¦åˆ¤å®šã•ã›ã‚‹ãŸã‚ã®ã‚¿ã‚°è¨­å®š
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 90.0f);
+    SetTag(kTag2dPlayerBullet); // ƒvƒŒƒCƒ„[‘¤‚ÌUŒ‚‚Æ‚µ‚Ä”»’è‚·‚é‚½‚ß‚Ìƒ^ƒO‚ğİ’è‚·‚é
+    collider_ = new CapsuleCollider(this, position_, position_, 90.0f);
 }
 
-SpecialBullet::~SpecialBullet() {
+/// @brief ”jŠüˆ—‚ğs‚¤
+SpecialBullet::~SpecialBullet()
+{
 }
 
-// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹æ›´æ–°å‡¦ç†
-// å¿…æ®ºæŠ€ã®å¼¾ã‚’ä¸Šæ–¹å‘ã«ç§»å‹•ã•ã›ã€ç”»é¢å¤–ã«å‡ºãŸã‚‰å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¾ã™
-void SpecialBullet::Update() {
-    mvPosition += m_dir * (m_speed * Utility::TimeScale);
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+void SpecialBullet::Update()
+{
+    position_ += dir_ * (speed_ * Utility::time_scale_);
 
     Projectile::Update();
 
-    if (mvPosition.y < -120.0f) {
-        Projectile::Kill(); // ç”»é¢å¤–ãªã‚‰æœ¬å½“ã«æ¶ˆã™
+    if (position_.y < -120.0f)
+    {
+        Projectile::Kill(); // ‰æ–ÊŠO‚Éo‚½‚çíœ‚·‚é
     }
 }
 
-// æç”»å‡¦ç†
-// å¿…æ®ºæŠ€ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆï¼ˆå¤§ããªå…‰å¼¾ãªã©ï¼‰ã‚’æç”»ã—ã¾ã™
-void SpecialBullet::Draw() {
-    if (!m_isActive) return;
+/// @brief •`‰æˆ—‚ğs‚¤
+void SpecialBullet::Draw()
+{
+    if (!is_active_) return;
 
     unsigned int colorGold = GetColor(255, 215, 0);
     unsigned int colorOrange = GetColor(255, 140, 0);
     unsigned int colorWhite = GetColor(255, 255, 255);
 
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 90, colorOrange, TRUE);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 75, colorGold, TRUE);
-    DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, colorWhite, TRUE);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 90, colorOrange, TRUE);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 75, colorGold, TRUE);
+    DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, colorWhite, TRUE);
 
-    DrawLine(static_cast<int>(mvPosition.x - 90), static_cast<int>(mvPosition.y), static_cast<int>(mvPosition.x + 90), static_cast<int>(mvPosition.y), colorGold);
-    DrawLine(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y - 90), static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y + 90), colorGold);
+    DrawLine(static_cast<int>(position_.x - 90), static_cast<int>(position_.y), static_cast<int>(position_.x + 90), static_cast<int>(position_.y), colorGold);
+    DrawLine(static_cast<int>(position_.x), static_cast<int>(position_.y - 90), static_cast<int>(position_.x), static_cast<int>(position_.y + 90), colorGold);
 }
 
-void SpecialBullet::Kill() {
-    // æ•µã‚’è²«é€šã—ã¦ä¸€ç¶²æ‰“å°½ã«ã™ã‚‹ä»•æ§˜ã¨ã™ã‚‹ãŸã‚ã€è¡çªæ™‚ã®æ¶ˆæ»…å‡¦ç†ã‚’è¡Œã‚ãªã„ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ç„¡åŠ¹åŒ–ï¼‰
+/// @brief íœ‘ÎÛ‚É‚·‚é
+void SpecialBullet::Kill()
+{
 }
 
-void SpecialBullet::OnTrigger(Collider* collider, Collider* check) {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
+void SpecialBullet::OnTrigger(Collider* collider, Collider* check)
+{
+    if (check != nullptr && check->GetParentObject() != nullptr)
+    {
+        if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+        {
             Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
-                enemy->TakeDamage(m_damage);
+            if (enemy != nullptr)
+            {
+                enemy->TakeDamage(damage_);
             }
-        } else if (check->GetParentObject()->GetTag() == Tag2D_EnemyBullet) {
+        } else if (check->GetParentObject()->GetTag() == kTag2dEnemyBullet)
+        {
             check->GetParentObject()->SetDeleteFlag(true);
         }
     }

@@ -1,34 +1,40 @@
-﻿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-// 敵キャラクター（雑魚およびボス）が発射する弾クラス
-// 直進だけでなく、反射やプレイヤーへのホーミング（追尾）などの特殊軌道もサポートする
-class EnemyBullet : public Projectile {
+/// @brief �G�����˂���e���Ǘ�����N���X
+class EnemyBullet : public Projectile
+{
 private:
-    bool m_canReflect; // 画面端で反射する仕様の弾かどうか
-    bool m_hasReflected; // すでに反射を一度行ったかどうかのフラグ
-    bool m_isStunBullet; // 当たった相手を行動不能（スタン）にする状態異常弾かどうか
-    int m_homingTimer;   // ホーミング（追尾）処理が有効な残りフレーム数
-    int m_homingDelayTimer; // 発射後、ホーミングを開始するまでの遅延タイマー
+    bool can_reflect_;       ///< �o���A�Ŕ��˂ł���e���������t���O
+    bool has_reflected_;     ///< ���ɔ��ˍς݂��������t���O
+    bool is_stun_bullet_;    ///< �v���C���[���X�^��������e���������t���O
+    int homing_timer_;       ///< �ǔ�����c��t���[����
+    int homing_delay_timer_; ///< �ǔ��J�n�܂ł̒x���t���[����
 
 public:
+    /// @brief �G�e�𐶐�����
+    /// @param pos �������W
+    /// @param dir �i�s����
+    /// @param speed ���x
+    /// @param canReflect ���ˉ\��
+    /// @param isStunBullet �X�^���e��
+    /// @param homingFrames �ǔ�����
+    /// @param homingDelayFrames �ǔ��J�n�x��
     EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect = false, bool isStunBullet = false, int homingFrames = 0, int homingDelayFrames = 0);
+
+    /// @brief �G�e��j������
     virtual ~EnemyBullet() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 弾の座標を更新し、追尾処理や画面端での反射・消滅判定を行う
+    /// @brief �e�̍��W��ǔ��A���ˁE�폜������X�V����
     void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 弾の画像やエフェクト（属性に応じた色など）を描画する
+    /// @brief �e�̉摜��G�t�F�N�g��`�悷��
     void Draw() override;
 
-    // [入力] collider: 自身のコライダー, check: 相手のコライダー
-    // [出力] なし
-    // [副作用] プレイヤーやバリアとの衝突時にダメージ付与や弾消し処理を行う
+    /// @brief �v���C���[��o���A�Ƃ̏Փˎ��̏������s��
+    /// @param collider ���g�̃R���C�_�[
+    /// @param check �ڐG����̃R���C�_�[
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

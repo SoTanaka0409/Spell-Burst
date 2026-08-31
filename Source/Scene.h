@@ -1,45 +1,44 @@
-ï»¿#include <memory>
 #pragma once
 #ifndef NOMINMAX
-#define NOMINMAX
+#define NOMINMAX // Windows.h‚Ìmin/maxƒ}ƒNƒÕ“Ë‚ğ”ğ‚¯‚é
 #endif
+#include <memory>
 #include "DxLib.h"
 
 class ObjectManager;
 class ColliderManager;
 
-// å…¨ã¦ã®ã‚·ãƒ¼ãƒ³ã®åŸºåº•ã‚¯ãƒ©ã‚¹
-// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã¨è¡çªåˆ¤å®šç®¡ç†ã®ãƒãƒãƒ¼ã‚¸ãƒ£ã‚’æ¨™æº–ã§ä¿æŒã™ã‚‹
+/// @brief ŠeƒQ[ƒ€‰æ–Ê‚Ì‹¤’ÊŠî’êƒNƒ‰ƒX
 class Scene
 {
 public:
-	Scene();
-	virtual ~Scene();
+    /// @brief ƒV[ƒ“‚ğ¶¬‚·‚é
+    Scene();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ã‚·ãƒ¼ãƒ³é–‹å§‹æ™‚ã«å¿…è¦ãªãƒªã‚½ãƒ¼ã‚¹èª­ã¿è¾¼ã¿ã‚„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã‚’è¡Œã†ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
-	virtual void Initialize() = 0;
+    /// @brief ƒV[ƒ“‚ğ”jŠü‚·‚é
+    virtual ~Scene();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãŠã‚ˆã³è¡çªåˆ¤å®šãƒãƒãƒ¼ã‚¸ãƒ£ã®æ›´æ–°å‡¦ç†ã‚’å‘¼ã¶
-	virtual void Update();
+    /// @brief ƒV[ƒ“ŠJn‚Ì‰Šú‰»‚ğs‚¤
+    virtual void Initialize() = 0;
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ã®æç”»å‡¦ç†ã‚’å‘¼ã¶
-	virtual void Draw();
+    /// @brief ƒV[ƒ“‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+    virtual void Update();
 
-    // [å…¥åŠ›] ãªã—
-    // [å‡ºåŠ›] ãªã—
-    // [å‰¯ä½œç”¨] ã‚·ãƒ¼ãƒ³çµ‚äº†æ™‚ã«ç”»åƒã‚„éŸ³ãªã©ã®ãƒªã‚½ãƒ¼ã‚¹è§£æ”¾ã‚’è¡Œã†ï¼ˆæ´¾ç”Ÿå…ˆã§å®Ÿè£…ï¼‰
-	virtual void Finalize() = 0;
+    /// @brief ƒV[ƒ“‚ğ•`‰æ‚·‚é
+    virtual void Draw();
 
-	ObjectManager* GetObjectManager() { return mpObjectManager.get(); }
-	ColliderManager* GetCollisionManager() { return mpColliderManager.get(); }
-	
+    /// @brief ƒV[ƒ“I—¹‚Ì‰ğ•úˆ—‚ğs‚¤
+    virtual void Finalize() = 0;
+
+    /// @brief ƒV[ƒ““à‚ÌƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ğæ“¾‚·‚é
+    /// @return ObjectManager* ƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX
+    ObjectManager* GetObjectManager();
+
+    /// @brief ƒV[ƒ““à‚ÌƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ğæ“¾‚·‚é
+    /// @return ColliderManager* ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX
+    ColliderManager* GetCollisionManager();
+
 private:
-	std::unique_ptr<ObjectManager> mpObjectManager;
-	std::unique_ptr<ColliderManager> mpColliderManager;
+    std::unique_ptr<ObjectManager> object_manager_;     ///< ƒV[ƒ““àƒIƒuƒWƒFƒNƒg‚ÌŠÇ—
+    std::unique_ptr<ColliderManager> collider_manager_; ///< ƒV[ƒ““àƒRƒ‰ƒCƒ_[‚ÌŠÇ—
 };

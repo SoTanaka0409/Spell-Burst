@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "ObjectManager.h"
 #include <cmath>
 #include <algorithm>
 #include "InputManager.h"
@@ -18,290 +19,412 @@
 #include "RainbowWaveManager.h"
 #include "SpellCardBullet.h"
 #include "SpecialBullet.h"
+#include "Barrier.h"
 #include "ResourceManager.h"
 #include "GameScene.h"
 #include "SoundManager.h"
-#include"DebugLog.h"
+#include "DebugLog.h"
 
-int Player::s_selectedCharacterType = 1;
+int Player::kSelectedCharacterType = 1;
 
-Player::Player() 
-    : Character(Vector2((float)Utility::SCREEN_WIDTH / 2.0f, (float)Utility::SCREEN_HEIGHT / 2.0f), 15, 5.0f)
+/// @brief Player Çê∂ê¨Ç∑ÇÈ
+Player::Player()
+	: Character(Vector2((float)Utility::kScreenWidth / 2.0f, (float)Utility::kScreenHeight / 2.0f), 15, 5.0f)
 {
-    SetTag(Tag2D_Player);
-    Initialize();
+	SetTag(kTag2dPlayer);
+	Initialize();
 }
 
-Player::~Player() {
-    if (mpBarrier) {
-        mpBarrier->SetDeleteFlag(true);
-        mpBarrier = nullptr;
-    }
+/// @brief îjä¸èàóùÇçsÇ§
+Player::~Player()
+{
+	if (auto b = barrier_.lock())
+	{
+		b->SetDeleteFlag(true);
+		barrier_.reset();
+	}
 }
 
-void Player::Initialize() {
-    mvPosition.x = (float)Utility::SCREEN_WIDTH / 2.0f;
-    mvPosition.y = (float)Utility::SCREEN_HEIGHT / 2.0f;
-    
-    m_levelUpTimer = 0;
-    m_stunTimer = 0;
-    m_attackMode = AttackMode_Melee;
-    m_specialCooldown = 0;
-    mfAttack = 1;
-    m_attackTimer = 20;
-    m_AttackInterval = 0;
-    m_AttackTimer_2 = 60;
-    m__BarrierCount = 0;
+/// @brief èâä˙âªèàóùÇçsÇ§
+void Player::Initialize()
+{
+	position_.x = (float)Utility::kScreenWidth / 2.0f;
+	position_.y = (float)Utility::kScreenHeight / 2.0f;
 
-    m_level = 1;
-    m_xp = 0;
-    m_xpNeeded = 5;
-    m_levelUpTimer = 0;                  
-    
-    m_spellGauge = 0;
-    m_maxSpellGauge = 10;
+	level_up_timer_ = 0;
+	stun_timer_ = 0;
+	attack_mode_ = kAttackModeMelee;
+	special_cooldown_ = 0;
+	attack_power_ = 1;
+	attack_timer_ = 20;
+	attack_interval_ = 0;
+	attack_timer2_ = 60;
+	barrier_count_ = 0;
 
-    if (s_selectedCharacterType == 1)
-    {
-        m_speed = 5.0f;
-        m_maxHp = 15;
-        m_hp = m_maxHp;
-    }
-    else if (s_selectedCharacterType == 2)
-    {
-        m_speed = 7.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
-    }
-    else if (s_selectedCharacterType == 3)
-    {
-        m_speed = 5.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
-        mfAttack = 2;
-    }
-    else
-    {
-        m_speed = 5.0f;
-        m_maxHp = 10;
-        m_hp = m_maxHp;
-    }
+	level_ = 1;
+	xp_ = 0;
+	xp_needed_ = 5;
+	level_up_timer_ = 0;
 
-    if (mpCollider) delete mpCollider;
-    mpCollider = new CapsuleCollider(this, mvPosition, mvPosition, 4.0f);
-	mpBarrier = new Barrier(mvPosition.x, mvPosition.y, 60.0f,tag2D_BarierPla);
+	spell_gauge_ = 0;
+	max_spell_gauge_ = 10;
+
+	if (kSelectedCharacterType == 2)
+	{
+		speed_ = 7.0f;
+		max_hp_ = 10;
+		hp_ = max_hp_;
+	}
+	else if (kSelectedCharacterType == 3)
+	{
+		speed_ = 5.0f;
+		max_hp_ = 10;
+		hp_ = max_hp_;
+		attack_power_ = 2;
+	}
+	else
+	{
+		speed_ = 5.0f;
+		max_hp_ = 10;
+		hp_ = max_hp_;
+	}
+
+	if (collider_) delete collider_;
+
+	collider_ = new CapsuleCollider(this, position_, position_, 4.0f);
+	barrier_ = ObjectManager::Instantiate<Barrier>(position_.x, position_.y, 60.0f, Object2D::kTag2dBarrierPlayer);
 }
 
+/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
 void Player::Update()
 {
-    Character::Update(); // „Çπ„Çø„É≥„Çø„Ç§„Éû„Éº„Å™„Å©„ÅÆÂá¶ÁêÜ
+	Character::Update();
 
-    if (m_levelUpTimer > 0) {
-        m_levelUpTimer--;
-    }
+	if (level_up_timer_ > 0)
+	{
+		level_up_timer_--;
+	}
 
-    if (m_stunTimer > 0) {
-        return;
-    }
+	if (stun_timer_ > 0)
+	{
+		return;
+	}
 
-    bool isFocus = InputManager::CheckPressKey(KEY_INPUT_LSHIFT);
-    float currentSpeed = (isFocus ? 2.0f : m_speed) * Utility::TimeScale;
+	HandleMovement();
 
-    if (InputManager::CheckPressKey(KEY_INPUT_W)) { mvPosition.y -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_S)) { mvPosition.y += currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_A)) { mvPosition.x -= currentSpeed; }
-    if (InputManager::CheckPressKey(KEY_INPUT_D)) { mvPosition.x += currentSpeed; }
+	if (auto b = barrier_.lock())
+	{
+		b->SetPosition(position_);
+	}
 
-    // ÁîªÈù¢Á´Ø„Åã„Çâ„ÅØ„ÅøÂá∫„Åï„Å™„ÅÑ„Çà„ÅÜ„Å´Â∫ßÊ®ô„ÇíÂà∂ÈôêÔºàclamp„Çí‰ΩøÁî®Ôºâ
-    mvPosition.x = std::clamp(mvPosition.x, 45.0f, Utility::SCREEN_WIDTH - 45.0f);
-    mvPosition.y = std::clamp(mvPosition.y, 45.0f, Utility::SCREEN_HEIGHT - 45.0f);
+	if (InputManager::ActionDown(InputAction::kSwitchMode))
+	{
+		if (attack_mode_ == kAttackModeMelee) attack_mode_ = kAttackModeSpecial;
+		else attack_mode_ = kAttackModeMelee;
+	}
 
-    if (mpBarrier) {
-        mpBarrier->SetPosition(mvPosition);
-    }
-
-    if (InputManager::CheckDownKey(KEY_INPUT_Q)) {
-        if (m_attackMode == AttackMode_Melee) m_attackMode = AttackMode_Special;
-        else m_attackMode = AttackMode_Melee;
-    }
-
-    Attack();
+	Attack();
 }
 
-void Player::Draw() {
-    if (mpBarrier != nullptr && mpBarrier->IsDeployed() && mpBarrier->GetHitCount() > 0) {
-        int hitCount = mpBarrier->GetHitCount();
-        float ratio = static_cast<float>(hitCount) / 30.0f;
-        
-        SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
-        int auraColor = (hitCount >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
-        
-        for (int i = 0; i < 5; i++) {
-            float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
-            DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
-        }
-        
-        int time = GetNowCount();
-        int numParticles = static_cast<int>(15 * ratio);
-        for (int i = 0; i < numParticles; i++) {
-            float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
-            float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
-            int px = static_cast<int>(mvPosition.x + cosf(angle) * dist);
-            int py = static_cast<int>(mvPosition.y + sinf(angle) * dist);
-            DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
-        }
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
-
-    if (m_stunTimer > 0) {
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 50, GetColor(0, 200, 255), TRUE);
-        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
-    }
-
-    int s_playerGraphHandle = -1;
-    if (s_selectedCharacterType == 1) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player.png");
-    } else if (s_selectedCharacterType == 2) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player2.png");
-    } else if (s_selectedCharacterType == 3) {
-        s_playerGraphHandle = ResourceManager::GetInstance()->GetGraph("Resource/player3.png");
-    }
-
-    if (s_playerGraphHandle != -1) {
-        DrawExtendGraph(
-            static_cast<int>(mvPosition.x - 45.0f), 
-            static_cast<int>(mvPosition.y - 45.0f), 
-            static_cast<int>(mvPosition.x + 45.0f), 
-            static_cast<int>(mvPosition.y + 45.0f), 
-            s_playerGraphHandle, 
-            TRUE
-        );
-    } else {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 45, GetColor(0, 255, 0), TRUE);
-    }
-    if (true) {
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 5, GetColor(255, 255, 255), TRUE);
-        DrawCircle(static_cast<int>(mvPosition.x), static_cast<int>(mvPosition.y), 3, GetColor(255, 0, 0), TRUE);
-    }
+/// @brief ï`âÊèàóùÇçsÇ§
+void Player::Draw()
+{
+	DrawBarrierAura();
+	DrawStunEffect();
+	DrawPlayerSprite();
 }
 
-void Player::TakeDamage(int damage) {
-    Character::TakeDamage(damage);
-    SoundManager::GetInstance()->PlaySE("Resource/SE/ÂºìÁü¢„ÅåÂà∫„Åï„Çã.mp3");
-    if (m_hp <= 0) {
-        ResultScene::s_isVictory = false;
-        Master::sceneManager->SetNextScene(SceneManager::SCENE_RESULT);
-    }
+/// @brief É_ÉÅÅ[ÉWèàóùÇçsÇ§
+/// @param damage damage ÇÃíl
+void Player::TakeDamage(int damage)
+{
+	Character::TakeDamage(damage);
+	SoundManager::GetInstance()->PlaySE("SE_BTN1");
+
+	GameScene* scene = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+	if (scene != nullptr)
+	{
+		scene->AddScreenShake(8, 6.0f);
+		scene->AddDamageFlash(15, GetColor(255, 30, 30));
+	}
 }
 
+/// @brief éÄñSéûÇÃèàóùÇçsÇ§
+void Player::OnDeath()
+{
+	ResultScene::kIsVictory = false;
+	Master::sceneManager->SetNextScene(SceneManager::kSceneResult);
+}
+
+/// @brief Attack Çé¿çsÇ∑ÇÈ
 void Player::Attack()
 {
-    int mouseInput = GetMouseInput();
-    bool zPressed = InputManager::CheckPressKey(KEY_INPUT_Z);
-    
-    m_AttackInterval++;
-    m_AttackInterval_2++;
+	int mouseInput = GetMouseInput();
 
-    if (m_specialCooldown > 0) {
-        m_specialCooldown--;
-    }
-    if ( m_AttackInterval >= m_attackTimer)
-    {
-        m_AttackInterval = 0;
-        int numBullets = m_level;
-        float spacing = 20.0f;
-            
-        float startX = mvPosition.x - (numBullets - 1) * spacing / 2.0f;
-        for (int i = 0; i < numBullets; ++i) 
-        {
-            new Bullet(startX + i * spacing, mvPosition.y - 45.0f, static_cast<int>(mfAttack));
-        }
-    }
-    if (DebugOn)
-    {
-        if (mouseInput & MOUSE_INPUT_LEFT && m_AttackInterval_2 >= m_AttackTimer_2)
-        {
-            m_AttackInterval_2 = 0;
-            if (m_attackMode == AttackMode_Melee) {
-                new MeleeAttack(mvPosition.x, mvPosition.y - 70.0f);
-            }
-            else if (m_attackMode == AttackMode_Special)
-            {
-                if (m_specialCooldown == 0)
-                {
-                    new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
-                    m_specialCooldown = 180; 
-                }
-            }
-        }
-    }
-    if (mouseInput & MOUSE_INPUT_LEFT)
-    {
-        if (DebugOn)
-        {
-            new SpecialBullet(mvPosition.x, mvPosition.y - 90.0f);
-        }
-    }
-    if (mouseInput&&MOUSE_INPUT_LEFT) 
-    {
-        if (m_spellGauge >= m_maxSpellGauge) {
-            m_spellGauge = 0;
-            SoundManager::GetInstance()->PlaySE("Resource/SE/Ââ£„ÅßÊñ¨„ÇÅE.mp3");
-            
-            if (s_selectedCharacterType == 1)
-            {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Ê∞óÂºæ2.mp3");
-                new MasterSpark(mvPosition.x, mvPosition.y);
-            } else if (s_selectedCharacterType == 2) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/ËÅñÈ≠îÊ≥ÅEmp3");
-                new RainbowWaveManager(mvPosition.x, mvPosition.y);
-            } else if (s_selectedCharacterType == 3) {
-                SoundManager::GetInstance()->PlaySE("Resource/SE/Ê∞óÂºæ2.mp3");
-                new SpellCardBullet(mvPosition.x, mvPosition.y - 90.0f);
-            }
-            
-            GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
-            if (gs != nullptr) {
-                gs->TriggerCutin();
-            }
-        }
-    }
+	UpdateCooldowns();
+	ShootNormalBullets();
+
+	if (DebugOn)
+	{
+		HandleDebugAttacks(mouseInput);
+	}
+
+	HandleMeleeAndSpecialAttacks(mouseInput);
 }
 
-void Player::AddXp(int amount) {
-    m_xp += amount;
-    int oldGauge = m_spellGauge;
-    m_spellGauge += amount;
-    if (m_spellGauge >= m_maxSpellGauge) {
-        m_spellGauge = m_maxSpellGauge;
-        if (oldGauge < m_maxSpellGauge) {
-            SoundManager::GetInstance()->PlaySE("Resource/SE/„Çπ„ÉÅE?E„Çø„Çπ‰∏ä?EÈ≠îÊ≥ÅE.mp3");
-        }
-    }
-
-    while (m_xp >= m_xpNeeded) {
-        m_xp -= m_xpNeeded;
-        m_level++;
-        SoundManager::GetInstance()->PlaySE("Resource/SE/„Çπ„ÉÅE?E„Çø„Çπ‰∏ä?EÈ≠îÊ≥ÅE.mp3");
-        m_xpNeeded = m_level * 5;
-
-        m_hp = m_maxHp;
-        m_levelUpTimer = 120;
-    }
-}
-
-void Player::OnEnter(Collider* collider, Collider* check) {}
-void Player::OnTrigger(Collider* collider, Collider* check) 
+/// @brief UpdateCooldowns Çé¿çsÇ∑ÇÈ
+void Player::UpdateCooldowns()
 {
-    if (check != nullptr && check->GetParentObject() != nullptr) {
-        if (check->GetParentObject()->GetTag() == Tag2D_Enemy) {
-            Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
-            if (enemy != nullptr) {
-                TakeDamage(1);
-            }
-        }
-    }
+	attack_interval_++;
+	attack_interval2_++;
+
+	if (special_cooldown_ > 0)
+	{
+		special_cooldown_--;
+	}
 }
-void Player::OnExit(Collider* collider, Collider* check) {}
-void Player::Bariier() {}
+
+/// @brief HandleMeleeAndSpecialAttacks Çé¿çsÇ∑ÇÈ
+/// @param mouseInput mouseInput ÇÃíl
+void Player::HandleMeleeAndSpecialAttacks(int mouseInput)
+{
+	if (mouseInput & MOUSE_INPUT_LEFT)
+	{
+		UseSpellCard();
+	}
+}
+
+/// @brief AddXp Çé¿çsÇ∑ÇÈ
+/// @param amount amount ÇÃíl
+void Player::AddXp(int amount)
+{
+	xp_ += amount;
+	int oldGauge = spell_gauge_;
+	spell_gauge_ += amount;
+
+	if (spell_gauge_ >= max_spell_gauge_)
+	{
+		spell_gauge_ = max_spell_gauge_;
+		if (oldGauge < max_spell_gauge_)
+		{
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
+		}
+	}
+
+	while (xp_ >= xp_needed_)
+	{
+		xp_ -= xp_needed_;
+		level_++;
+		SoundManager::GetInstance()->PlaySE("SE_BTN1");
+		xp_needed_ = level_ * 5;
+
+		hp_ = max_hp_;
+		level_up_timer_ = 120;
+	}
+}
+
+/// @brief ê⁄êGäJénéûÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
+void Player::OnEnter(Collider* collider, Collider* check)
+{
+	if (check != nullptr && check->GetParentObject() != nullptr)
+	{
+		if (check->GetParentObject()->GetTag() == kTag2dEnemy)
+		{
+			Character* enemy = dynamic_cast<Character*>(check->GetParentObject());
+			if (enemy != nullptr)
+			{
+				TakeDamage(1);
+			}
+		}
+	}
+}
+
+/// @brief ê⁄êGíÜÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
+void Player::OnTrigger(Collider* collider, Collider* check)
+{
+}
+
+/// @brief ê⁄êGèIóπéûÇÃèàóùÇçsÇ§
+/// @param collider collider ÇÃíl
+/// @param check check ÇÃíl
+void Player::OnExit(Collider* collider, Collider* check)
+{
+}
+
+/// @brief RunBarrierAttack Çé¿çsÇ∑ÇÈ
+void Player::RunBarrierAttack()
+{
+}
+
+/// @brief HandleMovement Çé¿çsÇ∑ÇÈ
+void Player::HandleMovement()
+{
+	bool isFocus = InputManager::ActionPress(InputAction::kFocus);
+	float currentSpeed = (isFocus ? 2.0f : speed_) * Utility::time_scale_;
+
+	if (InputManager::ActionPress(InputAction::kMoveUp)) { position_.y -= currentSpeed; }
+	if (InputManager::ActionPress(InputAction::kMoveDown)) { position_.y += currentSpeed; }
+	if (InputManager::ActionPress(InputAction::kMoveLeft)) { position_.x -= currentSpeed; }
+	if (InputManager::ActionPress(InputAction::kMoveRight)) { position_.x += currentSpeed; }
+
+	position_.x = std::clamp(position_.x, 45.0f, Utility::kScreenWidth - 45.0f);
+	position_.y = std::clamp(position_.y, 45.0f, Utility::kScreenHeight - 45.0f);
+}
+
+/// @brief ShootNormalBullets Çé¿çsÇ∑ÇÈ
+void Player::ShootNormalBullets()
+{
+	if (attack_interval_ >= attack_timer_)
+	{
+		attack_interval_ = 0;
+
+		int numBullets = level_;
+		float spacing = 20.0f;
+		float startX = position_.x - (numBullets - 1) * spacing / 2.0f;
+		for (int i = 0; i < numBullets; ++i)
+		{
+			ObjectManager::Instantiate<Bullet>(startX + i * spacing, position_.y - 45.0f, static_cast<int>(attack_power_));
+		}
+	}
+}
+
+/// @brief HandleDebugAttacks Çé¿çsÇ∑ÇÈ
+/// @param mouseInput mouseInput ÇÃíl
+void Player::HandleDebugAttacks(int mouseInput)
+{
+	if ((mouseInput & MOUSE_INPUT_LEFT) && attack_interval2_ >= attack_timer2_)
+	{
+		attack_interval2_ = 0;
+		if (attack_mode_ == kAttackModeMelee)
+		{
+			ObjectManager::Instantiate<MeleeAttack>(position_.x, position_.y - 70.0f);
+		}
+		else if (attack_mode_ == kAttackModeSpecial)
+		{
+			if (special_cooldown_ == 0)
+			{
+				ObjectManager::Instantiate<SpecialBullet>(position_.x, position_.y - 90.0f);
+				special_cooldown_ = 180;
+			}
+		}
+	}
+}
+
+/// @brief UseSpellCard Çé¿çsÇ∑ÇÈ
+void Player::UseSpellCard()
+{
+	if (spell_gauge_ >= max_spell_gauge_)
+	{
+		spell_gauge_ = 0;
+		SoundManager::GetInstance()->PlaySE("SE_BTN1");
+
+		if (kSelectedCharacterType == 1)
+		{
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
+			ObjectManager::Instantiate<MasterSpark>(position_.x, position_.y);
+		}
+		else if (kSelectedCharacterType == 2)
+		{
+			SoundManager::GetInstance()->PlaySE("SE_BARRIER_HIT");
+			ObjectManager::Instantiate<RainbowWaveManager>(position_.x, position_.y);
+		}
+		else if (kSelectedCharacterType == 3)
+		{
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
+			ObjectManager::Instantiate<SpellCardBullet>(position_.x, position_.y - 90.0f);
+		}
+
+		GameScene* gs = dynamic_cast<GameScene*>(Master::sceneManager->GetCurrentScene());
+		if (gs != nullptr)
+		{
+			gs->TriggerCutin();
+		}
+	}
+}
+
+/// @brief DrawBarrierAura Çé¿çsÇ∑ÇÈ
+void Player::DrawBarrierAura()
+{
+	if (auto b = barrier_.lock())
+	{
+		if (b->IsDeployed() && b->GetHitCount() > 0)
+		{
+			int hit_count = b->GetHitCount();
+			float ratio = static_cast<float>(hit_count) / 30.0f;
+
+			SetDrawBlendMode(DX_BLENDMODE_ADD, static_cast<int>(255 * ratio * 0.8f));
+
+			int auraColor = (hit_count >= 30) ? GetColor(255, 255, 100) : GetColor(100, 200, 255);
+
+			for (int i = 0; i < 5; i++)
+			{
+				float radiusBase = 60.0f + sinf(GetNowCount() * 0.005f + i) * 10.0f;
+				DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), static_cast<int>(radiusBase - i * 5), auraColor, TRUE);
+			}
+
+			int time = GetNowCount();
+			int numParticles = static_cast<int>(15 * ratio);
+			for (int i = 0; i < numParticles; i++)
+			{
+				float angle = (time * 0.002f) + (i * DX_PI_F * 2.0f / numParticles);
+				float dist = 40.0f + sinf(time * 0.005f + i * 1.5f) * 15.0f;
+				int px = static_cast<int>(position_.x + cosf(angle) * dist);
+				int py = static_cast<int>(position_.y + sinf(angle) * dist);
+				DrawCircle(px, py, 6 + i % 3, auraColor, TRUE);
+			}
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		}
+	}
+}
+
+/// @brief DrawStunEffect Çé¿çsÇ∑ÇÈ
+void Player::DrawStunEffect()
+{
+	if (stun_timer_ > 0)
+	{
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 50, GetColor(0, 200, 255), TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
+}
+
+/// @brief DrawPlayerSprite Çé¿çsÇ∑ÇÈ
+void Player::DrawPlayerSprite()
+{
+	int playerGraphHandle = -1;
+	if (kSelectedCharacterType == 1)
+	{
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER1");
+	}
+	else if (kSelectedCharacterType == 2)
+	{
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER2");
+	}
+	else if (kSelectedCharacterType == 3)
+	{
+		playerGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_PLAYER3");
+	}
+
+	if (playerGraphHandle != -1)
+	{
+		DrawExtendGraph(
+			static_cast<int>(position_.x - 45.0f),
+			static_cast<int>(position_.y - 45.0f),
+			static_cast<int>(position_.x + 45.0f),
+			static_cast<int>(position_.y + 45.0f),
+			playerGraphHandle,
+			TRUE
+		);
+	}
+	else
+	{
+		DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 45, GetColor(0, 255, 0), TRUE);
+	}
+
+	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 5, GetColor(255, 255, 255), TRUE);
+	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 3, GetColor(255, 0, 0), TRUE);
+}

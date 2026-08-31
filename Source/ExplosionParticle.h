@@ -1,31 +1,34 @@
 #pragma once
 #include "Object2D.h"
 
-// 爆発エフェクトの破片（パーティクル）クラス
-// 敵の撃破時などに生成され、指定された方向に飛散したのち寿命(LifeTime)で消滅する
-class ExplosionParticle : public Object2D {
+/// @brief 敵撃破時などに表示する爆発パーティクル
+class ExplosionParticle : public Object2D
+{
 private:
-    float m_vx;         // X方向の移動速度ベクトル
-    float m_vy;         // Y方向の移動速度ベクトル
-    int m_lifeTime;     // パーティクルの現在の残り寿命（フレーム数）
-    int m_maxLife;      // パーティクルの最大寿命（初期値）
-    int m_color;        // パーティクルの色（DxLibのカラーコードなど）
-    float m_size;       // パーティクルの描画サイズ（半径など）
+	float vx_;       ///< X方向の速度
+	float vy_;       ///< Y方向の速度
+	int life_time_;  ///< 残り寿命フレーム数
+	int max_life_;   ///< 初期寿命フレーム数
+	int color_;      ///< 描画色
+	float size_;     ///< 描画サイズ
 
 public:
-    // [入力] x, y: 発生座標, speed: 飛散速度, angle: 飛散する角度(ラジアン等), color: 描画色, lifeTime: 消滅までのフレーム数, size: パーティクルの大きさ
-    // [出力] なし
-    // [副作用] 角度と速度からXYの移動ベクトル(m_vx, m_vy)を計算し、各種パラメータを初期化する
-    ExplosionParticle(float x, float y, float speed, float angle, int color, int lifeTime, float size);
-    virtual ~ExplosionParticle();
+	/// @brief 爆発パーティクルを生成する
+	/// @param x 初期X座標
+	/// @param y 初期Y座標
+	/// @param speed_ 速度
+	/// @param angle 飛散角度
+	/// @param color_ 描画色
+	/// @param life_time_ 寿命フレーム数
+	/// @param size_ 描画サイズ
+	ExplosionParticle(float x, float y, float speed_, float angle, int color_, int life_time_, float size_);
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 速度ベクトルに基づき座標を更新し、寿命(m_lifeTime)を減らす。寿命が尽きたら削除フラグを立てる
-    virtual void Update() override;
+	/// @brief 爆発パーティクルを破棄する
+	virtual ~ExplosionParticle();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 残り寿命に応じてサイズを縮小させる、または透明度を下げるなどの計算を行い、パーティクルを描画する
-    virtual void Draw() override;
+	/// @brief パーティクルの位置と寿命を更新する
+	virtual void Update() override;
+
+	/// @brief パーティクルを描画する
+	virtual void Draw() override;
 };

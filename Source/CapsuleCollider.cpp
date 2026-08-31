@@ -1,67 +1,74 @@
-ï»¿#include "CapsuleCollider.h"
+#include "CapsuleCollider.h"
+#include "ObjectManager.h"
 
+/// @brief CapsuleCollider ‚ğ¶¬‚·‚é
+/// @param parent parent ‚Ì’l
+/// @param pos1 pos1 ‚Ì’l
+/// @param pos2 pos2 ‚Ì’l
+/// @param radius radius ‚Ì’l
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
-	mvPosition = pos1;
-	mvPosition2 = pos2;
-	mfRadius = radius;
+	position_ = pos1;
+	position2_ = pos2;
+	this->radius_ = radius;
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 CapsuleCollider::~CapsuleCollider()
 {
-
 }
 
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @param check check ‚Ì’l
 void CapsuleCollider::Update(Collider* check)
 {
 	if (check != nullptr)
 	{
 		CapsuleCollider* capsule = dynamic_cast<CapsuleCollider*>(check);
-		
+
 		if (capsule != nullptr)
 		{
 			bool isHit = HitCheck_Capsule_Capsule(
-				this->mvPosition,
-				this->mvPosition2,
-				this->mfRadius,
-				capsule->mvPosition,
-				capsule->mvPosition2,
-				capsule->mfRadius
+				this->position_,
+				this->position2_,
+				this->radius_,
+				capsule->position_,
+				capsule->position2_,
+				capsule->radius_
 			);
 
 			HitCheck(check, isHit);
 		}
 	}
-
 }
 
+/// @brief •`‰æˆ—‚ğs‚¤
 void CapsuleCollider::Draw()
 {
 	DrawCircle(
-		static_cast<int>(mvPosition.x),
-		static_cast<int>(mvPosition.y),
-		static_cast<int>(mfRadius),
+		static_cast<int>(position_.x),
+		static_cast<int>(position_.y),
+		static_cast<int>(radius_),
 		GetColor(255, 255, 255),
 		FALSE
 	);
 
-	if (mvPosition.x != mvPosition2.x || mvPosition.y != mvPosition2.y) {
+	if (position_.x != position2_.x || position_.y != position2_.y)
+	{
 		DrawCircle(
-			static_cast<int>(mvPosition2.x),
-			static_cast<int>(mvPosition2.y),
-			static_cast<int>(mfRadius),
+			static_cast<int>(position2_.x),
+			static_cast<int>(position2_.y),
+			static_cast<int>(radius_),
 			GetColor(255, 255, 255),
 			FALSE
 		);
 		DrawLine(
-			static_cast<int>(mvPosition.x),
-			static_cast<int>(mvPosition.y),
-			static_cast<int>(mvPosition2.x),
-			static_cast<int>(mvPosition2.y),
+			static_cast<int>(position_.x),
+			static_cast<int>(position_.y),
+			static_cast<int>(position2_.x),
+			static_cast<int>(position2_.y),
 			GetColor(255, 255, 255)
 		);
 	}
 }
-
-

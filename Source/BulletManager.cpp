@@ -1,4 +1,5 @@
 #include "BulletManager.h"
+#include "ObjectManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -6,42 +7,58 @@
 #include "DxLib.h"
 #include <algorithm>
 
+/// @brief BulletManager ‚ð¶¬‚·‚é
 BulletManager::BulletManager()
 {
 }
 
-BulletManager::~BulletManager() {
-    for (auto bullet : m_bullets) {
-        delete bullet;
-    }
-    m_bullets.clear();
+/// @brief ”jŠüˆ—‚ðs‚¤
+BulletManager::~BulletManager()
+{
+    bullets.clear();
 }
 
-void BulletManager::Initialize() {
-    for (auto bullet : m_bullets) {
-        delete bullet;
-    }
-    m_bullets.clear();
+/// @brief ‰Šú‰»ˆ—‚ðs‚¤
+void BulletManager::Initialize()
+{
+    bullets.clear();
 }
 
-void BulletManager::Update() {
-    // Erase-Remove ã‚¤ãƒ‡ã‚£ã‚ªãƒ ã‚’ä½¿ç”¨ã—ã¦ã€ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã§ãªã„å¼¾ã‚’å®‰å…¨ã«ä¸€æ‹¬å‰Šé™¤
-    m_bullets.erase(
-        std::remove_if(m_bullets.begin(), m_bullets.end(),
-            [](Bullet* bullet) {
-                if (!bullet->IsActive()) {
-                    delete bullet;
-                    return true;
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+void BulletManager::Update()
+{
+    bullets.erase(
+        std::remove_if(bullets.begin(), bullets.end(),
+            [](const std::weak_ptr<Bullet>& w)
+            {
+                if (auto bullet = w.lock())
+                {
+                    if (!bullet->IsActive())
+                    {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+                return true; // if expired, remove it
             }),
-        m_bullets.end());
+        bullets.end());
 }
 
-void BulletManager::Draw() {
-   
+/// @brief •`‰æˆ—‚ðs‚¤
+void BulletManager::Draw()
+{
+
 }
 
-void BulletManager::SpawnBullet(float x, float y) {
-    m_bullets.push_back(new Bullet(x, y,1));
+/// @brief SpawnBullet ‚ðŽÀs‚·‚é
+/// @param x x ‚Ì’l
+/// @param y y ‚Ì’l
+void BulletManager::SpawnBullet(float x, float y)
+{
+    bullets.push_back(ObjectManager::Instantiate<Bullet>(x, y, 1));
 }
+
+
+
+
+

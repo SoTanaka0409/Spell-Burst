@@ -1,23 +1,47 @@
-ï»¿#pragma once
+#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-class MasterSpark : public Projectile {
+/// @brief ƒvƒŒƒCƒ„[‚ÌŠÑ’ÊƒŒ[ƒU[UŒ‚‚ğ•\‚·ƒNƒ‰ƒX
+class MasterSpark : public Projectile
+{
 private:
-    int m_lifeTimer;
-    int m_maxLife;
-    float m_radius;
-    int m_colorHue;
-    int m_AttackCount;
+	int life_timer_;   ///< c‚èõ–½ƒtƒŒ[ƒ€”
+	int max_life_;     ///< ‰Šúõ–½ƒtƒŒ[ƒ€”
+	float radius_;     ///< ƒŒ[ƒU[‚Ì“–‚½‚è”»’è”¼Œa
+	int color_hue_;    ///< •`‰æF‚ÌF‘Š
+	int attack_count_; ///< ƒqƒbƒgŠÔŠu‚ğ’²®‚·‚éƒJƒEƒ“ƒ^[
 
 public:
-    MasterSpark(float x, float y);
-    virtual ~MasterSpark() override;
+	/// @brief ƒŒ[ƒU[UŒ‚‚ğ¶¬‚·‚é
+	/// @param x ‰ŠúXÀ•W
+	/// @param y ‰ŠúYÀ•W
+	MasterSpark(float x, float y);
 
-    virtual void Update() override;
-    virtual void Draw() override;
-    virtual void Kill() override;
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
-    virtual void OnEnter(Collider* collider, Collider* check) override;
+	/// @brief ƒŒ[ƒU[UŒ‚‚ğ”jŠü‚·‚é
+	virtual ~MasterSpark() override;
+
+private:
+	/// @brief ƒŒ[ƒU[ü•Ó‚Ì—±q‰‰o‚ğ•`‰æ‚·‚é
+	void DrawParticles();
+
+	/// @brief ƒŒ[ƒU[‚Ìõ–½‚Æ”»’è‚ğXV‚·‚é
+	virtual void Update() override;
+
+	/// @brief ƒŒ[ƒU[‚ğ•`‰æ‚·‚é
+	virtual void Draw() override;
+
+	/// @brief ƒŒ[ƒU[‚ğíœ‘ÎÛ‚É‚·‚é
+	virtual void Kill() override;
+
+	/// @brief ÚG’†‚Ìƒ_ƒ[ƒWˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+	/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnEnter(Collider* collider, Collider* check) override;
 };

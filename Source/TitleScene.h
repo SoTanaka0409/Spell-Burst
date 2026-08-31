@@ -1,40 +1,44 @@
 #pragma once
 #include "Scene.h"
 #include <vector>
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include "DxLib.h"
 
-// タイトル画面を描画・管理するシーンクラス
-class TitleScene : public Scene {
+/// @brief タイトル画面とランキング表示を管理するシーン
+class TitleScene : public Scene
+{
 public:
+    /// @brief タイトルシーンを生成する
     TitleScene();
+
+    /// @brief タイトルシーンを破棄する
     ~TitleScene();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] タイトル背景画像やUIボタン画像をメモリに読み込む
+    /// @brief タイトルシーンを初期化する
     void Initialize() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] キー入力を監視し、ZキーでStageSelectSceneへ遷移させる。背景スクロール更新も行う
+    /// @brief タイトルシーンを更新する
     void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] タイトルロゴ、背景、UIボタン等を画面に描画する
+    /// @brief タイトルシーンを描画する
     void Draw() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 読み込んだ画像リソースを破棄する
+    /// @brief タイトルシーンを終了処理する
     void Finalize() override;
 
 private:
-    int m_bgGraph; // タイトル背景画像のハンドル
-    float m_bgScrollX; // 背景スクロール演出のためのX座標オフセット
-    int m_uiButtonGraph; // 選択ボタンUIの画像ハンドル
-    std::vector<int> m_rankings; // クリアタイムなどのランキングデータ保持
+    /// @brief ランキングを描画する
+    void DrawRankings();
+
+    /// @brief タイトルロゴを描画する
+    void DrawTitleLogo();
+
+    /// @brief メニュー用ボタンを描画する
+    /// @param mouseX マウスX座標
+    /// @param mouseY マウスY座標
+    void DrawButtons(int mouseX, int mouseY);
+
+private:
+    int bg_graph_;              ///< 背景画像ハンドル
+    float bg_scroll_x_;         ///< 背景スクロール位置
+    int ui_button_graph_;       ///< ボタン画像ハンドル
+    std::vector<int> rankings_; ///< 読み込んだランキング記録
 };

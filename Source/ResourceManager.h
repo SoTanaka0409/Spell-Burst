@@ -1,20 +1,47 @@
-ï»¿#pragma once
+#pragma once
 #include <map>
 #include <string>
 
+/// @brief ‰æ‘œAƒtƒHƒ“ƒgAƒAƒZƒbƒgƒpƒX‚ğ“Ç‚İ‚İEƒLƒƒƒbƒVƒ…‚·‚éƒNƒ‰ƒX
 class ResourceManager
 {
 private:
-    std::map<std::string, int> m_graphMap;
-    std::map<std::pair<int, int>, int> m_fontMap;
+    std::map<std::string, int> graph_map_;              ///< ‰æ‘œID‚ÆƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
+    std::map<std::pair<int, int>, int> font_map_;       ///< ƒtƒHƒ“ƒgƒTƒCƒYE‘¾‚³‚ÆƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
+    std::map<std::string, std::string> asset_paths_;    ///< ƒAƒZƒbƒgID‚ÆÀƒtƒ@ƒCƒ‹ƒpƒX‚Ì‘Î‰•\
 
 public:
+    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
     ResourceManager();
+
+    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
     ~ResourceManager();
+
+    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+    /// @return ResourceManager* ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
     static ResourceManager* GetInstance();
 
-    int GetGraph(const std::string& path);
+    /// @brief ƒAƒZƒbƒgCSV‚ğ“Ç‚İ‚Ş
+    /// @param csv_path CSVƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    /// @return bool “Ç‚İ‚İ‚É¬Œ÷‚µ‚½‚çtrue
+    bool LoadCSV(const std::string& csv_path);
+
+    /// @brief ƒAƒZƒbƒgID‚©‚çÀƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
+    /// @param id ƒAƒZƒbƒgID
+    /// @return std::string Àƒtƒ@ƒCƒ‹ƒpƒX
+    std::string GetAssetPath(const std::string& id);
+
+    /// @brief ‰æ‘œƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+    /// @param id ƒAƒZƒbƒgID‚Ü‚½‚Íƒtƒ@ƒCƒ‹ƒpƒX
+    /// @return int ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹
+    int GetGraph(const std::string& id);
+
+    /// @brief ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+    /// @param size ƒtƒHƒ“ƒgƒTƒCƒY
+    /// @param thickness ƒtƒHƒ“ƒg‚Ì‘¾‚³
+    /// @return int ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
     int GetFont(int size, int thickness);
 
+    /// @brief “Ç‚İ‚ñ‚¾‘SƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
     void ClearAll();
 };

@@ -2,52 +2,63 @@
 #include "Scene.h"
 #include <vector>
 
-// リザルト画面の演出（紙吹雪など）に使用されるパーティクルの構造体
-struct ResultParticle {
-    float x, y;         // パーティクルの現在座標
-    float vx, vy;       // X方向・Y方向の移動速度ベクトル
-    float size;         // パーティクルの描画サイズ
-    float angle;        // 現在の描画角度（回転状態）
-    float rotSpeed;     // 回転速度（毎フレーム加算される角度）
-    int color;          // パーティクルの色（DxLibのカラーコードなど）
-    int life;           // パーティクルの残り寿命（フレーム数）
+/// @brief リザルト画面の背景演出に使う粒子情報
+struct ResultParticle
+{
+    float x, y;       ///< 座標
+    float vx_;        ///< X方向の速度
+    float vy_;        ///< Y方向の速度
+    float size_;      ///< サイズ
+    float angle_;     ///< 回転角
+    float rot_speed_; ///< 回転速度
+    int color_;       ///< 描画色
+    int life_;        ///< 残り寿命フレーム数
 };
 
-// リザルト（ゲームクリア/ゲームオーバー）画面を描画・管理するシーンクラス
-class ResultScene : public Scene {
+/// @brief 勝利・敗北のリザルト画面を表示するシーン
+class ResultScene : public Scene
+{
 public:
-    // ゲームの勝敗結果を保持する静的フラグ（true: クリア/勝利, false: ゲームオーバー/敗北）
-    // Scene移行前にGameScene等から書き換えて結果を渡すために使用する
-    static bool s_isVictory;
+    static bool kIsVictory; ///< 勝利リザルトかどうかを示すフラグ
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 勝利時は紙吹雪パーティクルの初期化、背景や自機画像の読み込みを行う
+public:
+    /// @brief リザルトシーンを初期化する
     void Initialize() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] パーティクルの更新および、キー入力（Zキー）によるタイトルへの遷移処理を行う
+    /// @brief リザルトシーンを更新する
     void Update() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 勝敗に応じた背景色、テキスト、自機画像（敗北時は暗転等）、パーティクルを描画する
+    /// @brief リザルトシーンを描画する
     void Draw() override;
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 読み込んだ画像リソースを破棄する
+    /// @brief リザルトシーンを終了処理する
     void Finalize() override;
 
 private:
-    std::vector<ResultParticle> m_particles; // 紙吹雪などの演出用パーティクルを管理する配列
-    int m_stateTimer;                        // シーン開始からの経過時間を計るタイマー（文字のフェードインや入力受付の遅延に使用）
-    int m_bgGraph;                           // 背景画像のグラフィックハンドル（DxLib用）
-    int m_playerGraph;                       // 自機（プレイヤー）画像のグラフィックハンドル
+    /// @brief 勝利リザルトの更新を行う
+    void UpdateVictory();
 
-    // [入力] x, y: 描画座標, str: 文字列, color: 文字色, outlineColor: 縁色, fontHandle: フォント
-    // [出力] なし
-    // [副作用] 指定された座標に縁取り付きの文字列を描画する（視認性向上のためのヘルパー関数）
+    /// @brief 敗北リザルトの更新を行う
+    void UpdateGameOver();
+
+    /// @brief 勝利リザルトを描画する
+    void DrawVictory();
+
+    /// @brief 敗北リザルトを描画する
+    void DrawGameOver();
+
+private:
+    std::vector<ResultParticle> particles_; ///< 背景演出用パーティクル
+    int state_timer_;                       ///< リザルト画面の経過タイマー
+    int bg_graph_;                          ///< 背景画像ハンドル
+    int player_graph_;                      ///< プレイヤー画像ハンドル
+
+    /// @brief 縁取り付き文字列を描画する
+    /// @param x 描画X座標
+    /// @param y 描画Y座標
+    /// @param str 描画文字列
+    /// @param color 文字色
+    /// @param outlineColor 縁取り色
+    /// @param fontHandle フォントハンドル
     void DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle);
 };

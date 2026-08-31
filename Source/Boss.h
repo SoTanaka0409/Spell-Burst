@@ -1,47 +1,115 @@
-ï»¿#pragma once
+#pragma once
 #include "Character.h"
+#include "BossState.h"
+#include "Barrier.h"
+#include <memory>
 
 class CapsuleCollider;
 
-// ãƒœã‚¹ã‚¯ãƒ©ã‚¹ï¼ˆCharacterç¶™æ‰¿ï¼‰
-class Boss : public Character {
+/// @brief ƒ{ƒX–{‘Ì‚ÌˆÚ“®AHP’iŠKA–³“Gó‘ÔA’e–‹ƒpƒ^[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+class Boss : public Character
+{
 private:
-    int m_bossType; 
-    float m_targetX, m_targetY; 
-    
-    int m_attackTimer; 
-    int m_patternIndex; 
-
-    bool m_isDying; 
-    int m_deathTimer; 
-    
-    int m_lives; 
-    int m_invincibleTimer; 
-    int m_invincibleCycleTimer; 
+	int boss_type_;                       ///< ƒ{ƒX‚Ìí—ŞEs“®ƒpƒ^[ƒ“ID
+	float target_x_;                      ///< ˆÚ“®æ‚ÌXÀ•W
+	float target_y_;                      ///< ˆÚ“®æ‚ÌYÀ•W
+	int attack_timer_;                    ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
+	int pattern_index_;                   ///< Œ»İ‚Ì’e–‹ƒpƒ^[ƒ“”Ô†
+	bool is_dying_;                       ///< €–S‰‰o’†‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
+	int death_timer_;                     ///< €–S‰‰o‚Ìc‚èƒtƒŒ[ƒ€”
+	int lives_;                           ///< ƒ{ƒX‚Ìc‚èHP’iŠK”
+	int invincible_timer_;                ///< ”í’eŒã‚È‚Ç‚Ìˆê–³“Gƒ^ƒCƒ}[
+	int invincible_cycle_timer_;          ///< üŠú“I‚È–³“Gˆ——pƒ^ƒCƒ}[
+	std::unique_ptr<BossState> state_;    ///< ƒ{ƒX‚Ìó‘Ôˆ—
+	std::weak_ptr<Barrier> barrier_;      ///< ƒ{ƒX‚ªg—p‚·‚éƒoƒŠƒA
 
 public:
-    Boss(float x, float y, int bossType = 3);
-    virtual ~Boss() override;
+	/// @brief ƒ{ƒX‚ğ¶¬‚·‚é
+	/// @param x ‰ŠúXÀ•W
+	/// @param y ‰ŠúYÀ•W
+	/// @param bossType ƒ{ƒXí•Ê
+	Boss(float x, float y, int bossType = 3);
 
-    void Update() override;
-    void Draw() override;
+	/// @brief ƒ{ƒX‚ğ”jŠü‚·‚é
+	virtual ~Boss() override;
 
-    int GetLives() const { return m_lives; }
+	/// @brief ƒ{ƒX‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	virtual void Update() override;
 
-    virtual void TakeDamage(int damage) override;
-    virtual void Kill() override;
+	/// @brief ƒ{ƒX‚ğ•`‰æ‚·‚é
+	virtual void Draw() override;
 
-    float GetRadius() const { return 80.0f; }
+	/// @brief ƒ{ƒX‚Ìc‚èHP’iŠK”‚ğæ“¾‚·‚é
+	/// @return int c‚èHP’iŠK”
+	int GetLives() const { return lives_; }
 
-    virtual void OnTrigger(Collider* collider, Collider* check) override;
+	/// @brief ƒ{ƒX‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
+	/// @param damage ó‚¯‚éƒ_ƒ[ƒW—Ê
+	/// @details HP‚âc‹@‚ğŒ¸‚ç‚µA•K—v‚É‰‚¶‚Ä€–S‰‰o‚ÖˆÚs‚·‚éB
+	virtual void TakeDamage(int damage) override;
 
-private:
-    void ShootRadialBarrage();
-    void ShootFanBarrage();
-    void ShootTargetedBarrage();
-    void ShootSimpleBarrage();
-    void ShootBouncingBarrage();
-    void ShootSpellCardBarrage();
-    
-    void SelectNewTarget();
+	/// @brief ƒ{ƒX‚ğíœ‘ÎÛ‚É‚·‚é
+	virtual void Kill() override;
+
+	/// @brief ƒ{ƒX‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
+	/// @return float “–‚½‚è”»’è”¼Œa
+	float GetRadius() const { return 80.0f; }
+
+	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
+	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
+	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	virtual void OnTrigger(Collider* collider, Collider* check) override;
+
+	/// @brief ƒ{ƒX€–S‚Ìˆ—‚ğs‚¤
+	virtual void OnDeath() override;
+
+	/// @brief €–S‰‰o‚ğXV‚·‚é
+	void UpdateDeath();
+
+	/// @brief –³“Gó‘Ô‚Ì•\¦‚ğ•`‰æ‚·‚é
+	void DrawInvincibility();
+
+	/// @brief ƒ{ƒXHPƒo[‚ğ•`‰æ‚·‚é
+	void DrawHealthBar();
+
+	/// @brief ‘S•ûˆÊ’e–‹‚ğ”­Ë‚·‚é
+	void ShootRadialBarrage();
+
+	/// @brief îŒ`’e–‹‚ğ”­Ë‚·‚é
+	void ShootFanBarrage();
+
+	/// @brief ƒvƒŒƒCƒ„[‘_‚¢’e–‹‚ğ”­Ë‚·‚é
+	void ShootTargetedBarrage();
+
+	/// @brief ’¼ü’e–‹‚ğ”­Ë‚·‚é
+	void ShootSimpleBarrage();
+
+	/// @brief ”½Ë’e–‹‚ğ”­Ë‚·‚é
+	void ShootBouncingBarrage();
+
+	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e–‹‚ğ”­Ë‚·‚é
+	void ShootSpellCardBarrage();
+
+	/// @brief V‚µ‚¢ˆÚ“®–Ú•W‚ğ‘I‚Ô
+	void SelectNewTarget();
+
+	/// @brief ƒ{ƒXó‘Ô‚ğØ‚è‘Ö‚¦‚é
+	/// @param newState V‚µ‚¢ó‘ÔƒIƒuƒWƒFƒNƒg
+	void SetState(BossState* newState) { state_.reset(newState); }
+
+	/// @brief ƒ{ƒXí•Ê‚ğæ“¾‚·‚é
+	/// @return int ƒ{ƒXí•Ê
+	int GetBossType() const { return boss_type_; }
+
+	/// @brief €–S‰‰o’†‚©‚ğæ“¾‚·‚é
+	/// @return bool €–S‰‰o’†‚È‚çtrue
+	bool GetIsDying() const { return is_dying_; }
+
+	/// @brief –³“Gƒ^ƒCƒ}[‚ğæ“¾‚·‚é
+	/// @return int –³“Gc‚èƒtƒŒ[ƒ€”
+	int GetInvincibleTimer() const { return invincible_timer_; }
+
+	/// @brief –³“Gƒ^ƒCƒ}[‚ğİ’è‚·‚é
+	/// @param t –³“GƒtƒŒ[ƒ€”
+	void SetInvincibleTimer(int t) { invincible_timer_ = t; }
 };

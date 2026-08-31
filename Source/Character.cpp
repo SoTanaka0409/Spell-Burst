@@ -1,63 +1,99 @@
 #include "Character.h"
+#include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include <algorithm>
 
+/// @brief Character ‚ğ¶¬‚·‚é
+/// @param pos pos ‚Ì’l
+/// @param maxHp maxHp ‚Ì’l
+/// @param speed speed ‚Ì’l
 Character::Character(Vector2 pos, int maxHp, float speed)
     : Object2D(pos)
-    , m_hp(maxHp)
-    , m_maxHp(maxHp)
-    , m_speed(speed)
-    , m_isActive(true)
-    , m_stunTimer(0)
-    , mpCollider(nullptr)
+    , hp_(maxHp)
+    , max_hp_(maxHp)
+    , speed_(speed)
+    , is_active_(true)
+    , stun_timer_(0)
+    , collider_(nullptr)
 {
 }
 
-Character::~Character() {
-    if (mpCollider) {
-        delete mpCollider;
-        mpCollider = nullptr;
+/// @brief ”jŠüˆ—‚ğs‚¤
+Character::~Character()
+{
+    if (collider_)
+    {
+        delete collider_;
+        collider_ = nullptr;
     }
 }
 
-void Character::Update() {
-    // ã‚¹ã‚¿ãƒ³æ™‚é–“ã®æ¸›å°‘
-    if (m_stunTimer > 0) {
-        m_stunTimer--;
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+void Character::Update()
+{
+    // Decrease stun time.
+    if (stun_timer_ > 0)
+    {
+        stun_timer_--;
     }
 
-    // ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™è¿½å¾“
-    if (mpCollider) {
-        mpCollider->mvPosition = mvPosition;
-        mpCollider->mvPosition2 = mvPosition;
-    }
-}
-
-void Character::Draw() {
-    // åŸºåº•ã‚¯ãƒ©ã‚¹ã¯æç”»ã—ãªã„
-}
-
-void Character::OnTrigger(Collider* collider, Collider* check) {
-    // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå®Ÿè£…ï¼šæ´¾ç”Ÿå…ˆã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
-}
-
-void Character::Heal(int amount) {
-    // std::clampã‚’ä½¿ã£ã¦å›å¾©å¾Œã®HPãŒ0ã€œæœ€å¤§HPã®é–“ã«åã¾ã‚‹ã‚ˆã†ã«åˆ¶é™
-    m_hp = std::clamp(m_hp + amount, 0, m_maxHp);
-}
-
-void Character::TakeDamage(int damage) {
-    // std::clampã‚’ä½¿ã£ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸å¾Œã®HPãŒ0ã€œæœ€å¤§HPã®é–“ã«åã¾ã‚‹ã‚ˆã†ã«åˆ¶é™
-    m_hp = std::clamp(m_hp - damage, 0, m_maxHp);
-    if (m_hp == 0) {
-        Kill();
+    // Keep the collider aligned with the current position.
+    if (collider_)
+    {
+        collider_->position_ = position_;
+        collider_->position2_ = position_;
     }
 }
 
-void Character::Kill() {
-    m_isActive = false;
+/// @brief •`‰æˆ—‚ğs‚¤
+void Character::Draw()
+{
+    // Base class does not draw anything.
+}
+
+/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @param collider collider ‚Ì’l
+/// @param check check ‚Ì’l
+void Character::OnTrigger(Collider* collider, Collider* check)
+{
+    // Default implementation for derived classes to override.
+}
+
+/// @brief ‰ñ•œˆ—‚ğs‚¤
+/// @param amount amount ‚Ì’l
+void Character::Heal(int amount)
+{
+    // Clamp HP between 0 and max HP after healing.
+    hp_ = std::clamp(hp_ + amount, 0, max_hp_);
+}
+
+/// @brief ƒ_ƒ[ƒWˆ—‚ğs‚¤
+/// @param damage damage ‚Ì’l
+void Character::TakeDamage(int damage)
+{
+    if (!is_active_) return;
+
+    // Clamp HP between 0 and max HP after damage.
+    hp_ = std::clamp(hp_ - damage, 0, max_hp_);
+    if (hp_ == 0)
+    {
+        OnDeath();
+    }
+}
+
+/// @brief íœ‘ÎÛ‚É‚·‚é
+void Character::Kill()
+{
+    is_active_ = false;
     SetDeleteFlag(true);
-    if (mpCollider) {
-        mpCollider->SetDeleteFlag(true);
+    if (collider_)
+    {
+        collider_->SetDeleteFlag(true);
     }
+}
+
+/// @brief €–S‚Ìˆ—‚ğs‚¤
+void Character::OnDeath()
+{
+    Kill(); // Default behavior is to destroy itself.
 }

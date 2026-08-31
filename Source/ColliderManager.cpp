@@ -1,81 +1,131 @@
 #include "ColliderManager.h"
+#include <unordered_set>
+#include <vector>
+#include <cmath>
+#include "ObjectManager.h"
 #include "Collider.h"
 #include "DebugLog.h"
-#include"Master.h"
-#include <vector>
-ColliderManager* ColliderManager::Instance = nullptr;
+#include "Master.h"
 
+ColliderManager* ColliderManager::instance_ = nullptr;
 
+/// @brief ColliderManager ‚ğ¶¬‚·‚é
 ColliderManager::ColliderManager()
 {
-
 }
 
+/// @brief ”jŠüˆ—‚ğs‚¤
 ColliderManager::~ColliderManager()
 {
-
 }
+
+/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
 void ColliderManager::Update()
 {
-    // ç¯„å›²ãƒ™ãƒ¼ã‚¹forãƒ«ãƒ¼ãƒ—ã§ç°¡æ½”ãªå½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯ã®äºŒé‡ãƒ«ãƒ¼ãƒ—
-    for (auto* col1 : mColliderList)
-    {
-        if (col1 == nullptr || col1->IsDeleteFlag())
-        {
-            continue;
-        }
+	const int CELL_SIZE = 100;
+	const int GRID_COLS = 20;
+	const int GRID_ROWS = 12;
 
-        for (auto* col2 : mColliderList)
-        {
-            if (col1 == col2) // è‡ªåˆ†è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¯å¼¾ã
-            {
-                continue;
-            }
+	std::vector<Collider*> grid[GRID_ROWS][GRID_COLS];
 
-            if (col2 == nullptr || col2->IsDeleteFlag())
-            {
-                continue;
-            }
+	for (auto* col : collider_list_)
+	{
+		if (col == nullptr || col->IsDeleteFlag()) continue;
 
-            col1->Update(col2);
-        }
-    }
+		int min_col = std::max(0, std::min(GRID_COLS - 1, static_cast<int>((std::min(col->position_.x, col->position2_.x) - col->radius_) / CELL_SIZE)));
+		int max_col = std::max(0, std::min(GRID_COLS - 1, static_cast<int>((std::max(col->position_.x, col->position2_.x) + col->radius_) / CELL_SIZE)));
+		int min_row = std::max(0, std::min(GRID_ROWS - 1, static_cast<int>((std::min(col->position_.y, col->position2_.y) - col->radius_) / CELL_SIZE)));
+		int max_row = std::max(0, std::min(GRID_ROWS - 1, static_cast<int>((std::max(col->position_.y, col->position2_.y) + col->radius_) / CELL_SIZE)));
 
-    DeleteAllColliderIfNeeded();
+		for (int r = min_row; r <= max_row; ++r)
+		{
+			for (int c = min_col; c <= max_col; ++c)
+			{
+				grid[r][c].push_back(col);
+			}
+		}
+	}
+
+	std::unordered_set<Collider*> current_intersecting_pairs;
+
+	for (int r = 0; r < GRID_ROWS; ++r)
+	{
+		for (int c = 0; c < GRID_COLS; ++c)
+		{
+			const auto& cell_colliders = grid[r][c];
+			size_t col_count = cell_colliders.size();
+			if (col_count < 2) continue;
+
+			for (size_t i = 0; i < col_count; ++i)
+			{
+				Collider* col1 = cell_colliders[i];
+				if (col1 == nullptr || col1->IsDeleteFlag()) continue;
+
+				for (size_t j = i + 1; j < col_count; ++j)
+				{
+					Collider* col2 = cell_colliders[j];
+					if (col2 == nullptr || col2->IsDeleteFlag()) continue;
+
+					if (col1 == col2 || col1->GetParentObject() == col2->GetParentObject()) continue;
+
+					col1->Update(col2);
+					col2->Update(col1);
+				}
+			}
+		}
+	}
+
+	DeleteAllColliderIfNeeded();
 }
+
+/// @brief •`‰æˆ—‚ğs‚¤
 void ColliderManager::Draw()
 {
-    // ç¯„å›²ãƒ™ãƒ¼ã‚¹forãƒ«ãƒ¼ãƒ—ã§ç°¡æ½”ã«æç”»
-    for (auto* col : mColliderList)
-    {
-         if (DebugOn)
-        {
-            col->Draw();
-        }
-    }
-}
-void ColliderManager::AddCollider(Collider* Collider)
-{
-    mColliderList.push_back(Collider);
-}
-void ColliderManager::DeleteAllCollider()
-{
-    // ç¯„å›²ãƒ™ãƒ¼ã‚¹forãƒ«ãƒ¼ãƒ—ã§å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¦ä¸€æ‹¬æ¶ˆå»
-    for (auto* col : mColliderList)
-    {
-        if (col != nullptr) col->SetDeleteFlag(true);
-    }
-    mColliderList.clear(); // ã™ã¹ã¦ã®è¦ç´ ã‚’ã‚¯ãƒªã‚¢
-}
-void ColliderManager::DeleteAllColliderIfNeeded()
-{
-    // std::list ã® remove_if ã‚’ä½¿ç”¨ã—ã¦ã€å®‰å…¨ã‹ã¤é«˜é€Ÿã«å‰Šé™¤ãƒ•ãƒ©ã‚°ä»˜ãè¦ç´ ã‚’é™¤å»
-    mColliderList.remove_if([](Collider* col) {
-        return col == nullptr || col->IsDeleteFlag();
-    });
+	for (auto* col : collider_list_)
+	{
+		if (DebugOn)
+		{
+			col->Draw();
+		}
+	}
 }
 
+/// @brief AddCollider ‚ğÀs‚·‚é
+/// @param collider collider ‚Ì’l
+void ColliderManager::AddCollider(Collider* collider)
+{
+	collider_list_.push_back(collider);
+}
+
+/// @brief DeleteAllCollider ‚ğÀs‚·‚é
+void ColliderManager::DeleteAllCollider()
+{
+	for (auto* col : collider_list_)
+	{
+		if (col != nullptr) col->SetDeleteFlag(true);
+	}
+	collider_list_.clear();
+}
+
+/// @brief DeleteAllColliderIfNeeded ‚ğÀs‚·‚é
+void ColliderManager::DeleteAllColliderIfNeeded()
+{
+	collider_list_.remove_if([](Collider* col)
+		{
+			return col == nullptr || col->IsDeleteFlag();
+		});
+}
+
+/// @brief RemoveCollider ‚ğÀs‚·‚é
+/// @param collider collider ‚Ì’l
 void ColliderManager::RemoveCollider(Collider* collider)
 {
-    mColliderList.remove(collider);
+	collider_list_.remove(collider);
+}
+
+/// @brief GetColliderList ‚ğÀs‚·‚é
+/// @return std::list<Collider*>& –ß‚è’l
+std::list<Collider*>& ColliderManager::GetColliderList()
+{
+	return collider_list_;
 }

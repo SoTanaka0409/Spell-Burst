@@ -1,62 +1,85 @@
 #pragma once
 #include <list>
 #include <vector>
+#include <memory>
 #include "Object2D.h"
+#include "Master.h"
+#include "SceneManager.h"
+#include "Scene.h"
 
-// 2Dオブジェクト全体のライフサイクルを統括する管理クラス
-// 自機、敵、弾、エフェクトなどの全オブジェクトをリストで保持し、一括で更新・描画・削除を行う
+/// @brief 2Dオブジェクトの生成、更新、描画、削除をまとめて管理するクラス
 class ObjectManager
 {
 public:
-    // [入力] なし
-    // [出力] なし
-    // [副作用] リストの初期化を行う。デストラクタでは管理中の全オブジェクトのメモリを解放する
+    /// @brief オブジェクト管理クラスを生成する
     ObjectManager();
+
+    /// @brief オブジェクト管理クラスを破棄する
     ~ObjectManager();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] リストに登録されている全てのオブジェクトのDraw関数を呼び出し、画面に描画する
+    /// @brief 管理中の全オブジェクトを描画する
     void Draw();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] リストに登録されている全てのオブジェクトのUpdate関数を呼び出し、座標や状態を更新する
+    /// @brief 管理中の全オブジェクトを更新する
     void Update();
 
-    // [入力] object2D: 追加対象となるオブジェクトのポインタ
-    // [出力] なし
-    // [副作用] 生成されたオブジェクトを管理リスト(mObject2DList)に追加する
-    void AddObject(Object2D* object2D);
+    /// @brief 2Dオブジェクトを管理リストへ追加する
+    /// @param object2D 追加するオブジェクト
+    void AddObject(std::shared_ptr<Object2D> object2D);
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] リスト内の全てのオブジェクトを強制的に破棄（delete）し、リストを空にする（シーン終了時などに使用）
+    /// @brief 全ての2Dオブジェクトを削除する
     void DeleteAll2D();
 
-    // [入力] なし
-    // [出力] なし
-    // [副作用] 削除フラグ（死亡・消滅状態など）が立っているオブジェクトをリストから探し出し、安全にメモリから破棄してリストから除外する
+    /// @brief 削除フラグが立っているオブジェクトを取り除く
     void DeleteAll2DIfNeeded();
 
-    // [入力] tag: 検索したいオブジェクトのタグ（Player, Enemy, Bulletなど）
-    // [出力] Object2D*: 条件に一致した最初のオブジェクトのポインタ（見つからない場合はnullptr）
-    // [副作用] なし
-    Object2D* GetObject2DByTag(Object2D::Tag2D tag);
+    /// @brief 指定タグのオブジェクトを1つ取得する
+    /// @param tag 検索するタグ
+    /// @return std::shared_ptr<Object2D> 見つかったオブジェクト。なければnullptr
+    std::shared_ptr<Object2D> GetObject2DByTag(Object2D::Tag2D tag);
 
-    // [入力] tag: 検索したいオブジェクトのタグ
-    // [出力] std::vector<Object2D*>: 条件に一致した全てのオブジェクトのポインタを格納した配列
-    // [副作用] なし
-    std::vector<Object2D*> GetObject2DListByTag(Object2D::Tag2D tag);
+    /// @brief 指定タグのオブジェクトを全て取得する
+    /// @param tag 検索するタグ
+    /// @return std::vector<std::shared_ptr<Object2D>> 見つかったオブジェクトの配列
+    std::vector<std::shared_ptr<Object2D>> GetObject2DListByTag(Object2D::Tag2D tag);
 
-    // --- ゲッター群 ---
-    // 現在管理しているオブジェクトの総数を取得する
-    size_t GetObjectCount() const { return mObject2DList.size(); }
+    /// @brief 管理中のオブジェクト数を取得する
+    /// @return size_t オブジェクト数
+    size_t GetObjectCount() const { return object_2d_list_.size(); }
 
-    // オブジェクトのリスト全体への参照を取得する（衝突判定の総当たり処理などに使用）
-    const std::list<Object2D*>& GetObjectList() const { return mObject2DList; }
+    /// @brief 管理中のオブジェクトリストを取得する
+    /// @return const std::list<std::shared_ptr<Object2D>>& オブジェクトリスト
+    const std::list<std::shared_ptr<Object2D>>& GetObjectList() const { return object_2d_list_; }
 
 private:
-    std::list<Object2D*> mObject2DList;   // 稼働中の全2Dオブジェクトを保持するリスト（挿入・削除が高速なstd::listを使用）
-    Object2D* m_player2D = nullptr;       // プレイヤーオブジェクトへのポインタ（高速アクセス用のキャッシュとして保持）
+    std::list<std::shared_ptr<Object2D>> object_2d_list_; ///< 管理中の2Dオブジェクト
+    std::weak_ptr<Object2D> player_2d_;                  ///< プレイヤーへの弱参照
+
+public:
+    /// @brief 現在シーンのObjectManagerへオブジェクトを生成・登録する
+    /// @tparam T 生成するオブジェクト型
+    /// @tparam Args コンストラクタ引数の型
+    /// @param args コンストラクタへ渡す引数
+    /// @return std::weak_ptr<T> 生成したオブジェクトへの弱参照。登録できない場合は空
+    template<typename T, typename... Args>
+    static std::weak_ptr<T> Instantiate(Args&&... args);
 };
+
+template<typename T, typename... Args>
+std::weak_ptr<T> ObjectManager::Instantiate(Args&&... args)
+{
+    if (!Master::sceneManager)
+    {
+        return std::weak_ptr<T>();
+    }
+
+    Scene* scene = Master::sceneManager->GetCurrentScene();
+    if (scene == nullptr || scene->GetObjectManager() == nullptr)
+    {
+        return std::weak_ptr<T>();
+    }
+
+    auto obj = std::make_shared<T>(std::forward<Args>(args)...);
+    scene->GetObjectManager()->AddObject(obj);
+    return obj;
+}

@@ -1,51 +1,120 @@
-ï»¿#include "ResourceManager.h"
+#include "ResourceManager.h"
+#include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-ResourceManager::ResourceManager() {
+#include <fstream>
+#include <sstream>
+
+/// @brief ResourceManager ‚ğ¶¬‚·‚é
+ResourceManager::ResourceManager()
+{
 }
 
-ResourceManager::~ResourceManager() {
-    ClearAll();
+/// @brief ”jŠüˆ—‚ğs‚¤
+ResourceManager::~ResourceManager()
+{
+	ClearAll();
 }
 
-ResourceManager* ResourceManager::GetInstance() {
-    static ResourceManager instance;
-    return &instance;
+/// @brief ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+/// @return ResourceManager* –ß‚è’l
+ResourceManager* ResourceManager::GetInstance()
+{
+	static ResourceManager instance;
+	return &instance;
 }
 
-int ResourceManager::GetGraph(const std::string& path) {
-    auto it = m_graphMap.find(path);
-    if (it != m_graphMap.end()) {
-        return it->second;
-    }
+/// @brief CSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
+/// @param csv_path csv_path ‚Ì’l
+/// @return bool –ß‚è’l
+bool ResourceManager::LoadCSV(const std::string& csv_path)
+{
+	std::ifstream file(csv_path);
+	if (!file.is_open()) return false;
 
-    int handle = LoadGraph(path.c_str());
-    m_graphMap[path] = handle;
-    return handle;
+	std::string line;
+	// ƒwƒbƒ_[s‚ğ“Ç‚İ”ò‚Î‚·
+	std::getline(file, line); 
+
+	while (std::getline(file, line))
+	{
+		std::stringstream ss(line);
+		std::string id, path;
+		if (std::getline(ss, id, ',') && std::getline(ss, path, ','))
+		{
+			// WindowsŠÂ‹«‚Ås––‚Ì\r‚ª¬“ü‚µ‚½ê‡‚Éæ‚èœ‚­
+			if (!path.empty() && path.back() == '\r') path.pop_back();
+			asset_paths_[id] = path;
+		}
+	}
+	return true;
 }
 
-int ResourceManager::GetFont(int size, int thickness) {
-    auto key = std::make_pair(size, thickness);
-    auto it = m_fontMap.find(key);
-    if (it != m_fontMap.end()) {
-        return it->second;
-    }
-
-    int handle = CreateFontToHandle(NULL, size, thickness, DX_FONTTYPE_ANTIALIASING);
-    m_fontMap[key] = handle;
-    return handle;
+/// @brief ƒAƒZƒbƒgID‚É‘Î‰‚·‚éƒpƒX‚ğæ“¾‚·‚é
+/// @param id id ‚Ì’l
+/// @return std::string –ß‚è’l
+std::string ResourceManager::GetAssetPath(const std::string& id)
+{
+	auto it = asset_paths_.find(id);
+	if (it != asset_paths_.end())
+	{
+		return it->second;
+	}
+	// ID‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍAŒã•ûŒİŠ·‚Ì‚½‚ßID©‘Ì‚ğƒpƒX‚Æ‚µ‚Ä•Ô‚·
+	return id;
 }
 
-void ResourceManager::ClearAll() {
-    for (auto& pair : m_graphMap) {
-        DeleteGraph(pair.second);
-    }
-    m_graphMap.clear();
-    for (auto& pair : m_fontMap) {
-        DeleteFontToHandle(pair.second);
-    }
-    m_fontMap.clear();
+/// @brief ‰æ‘œƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+/// @param id id ‚Ì’l
+/// @return int –ß‚è’l
+int ResourceManager::GetGraph(const std::string& id)
+{
+	std::string path = GetAssetPath(id);
+
+	auto it = graph_map_.find(path);
+	if (it != graph_map_.end())
+	{
+		return it->second;
+	}
+
+	int handle = LoadGraph(path.c_str());
+	graph_map_[path] = handle;
+	return handle;
+}
+
+/// @brief ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
+/// @param size size ‚Ì’l
+/// @param thickness thickness ‚Ì’l
+/// @return int –ß‚è’l
+int ResourceManager::GetFont(int size, int thickness)
+{
+	auto key = std::make_pair(size, thickness);
+	auto it = font_map_.find(key);
+	if (it != font_map_.end())
+	{
+		return it->second;
+	}
+
+	int handle = CreateFontToHandle(NULL, size, thickness, DX_FONTTYPE_ANTIALIASING);
+	font_map_[key] = handle;
+	return handle;
+}
+
+/// @brief “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
+void ResourceManager::ClearAll()
+{
+	for (auto& pair : graph_map_)
+	{
+		DeleteGraph(pair.second);
+	}
+	graph_map_.clear();
+
+	for (auto& pair : font_map_)
+	{
+		DeleteFontToHandle(pair.second);
+	}
+	font_map_.clear();
 }
