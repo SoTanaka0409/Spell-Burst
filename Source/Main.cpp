@@ -48,7 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;
 	}
 
-	ResourceManager::GetInstance()->LoadCSV("Resource/assets.csv");
+	ResourceManager::GetInstance()->LoadCSV("Resource/Data/assets.csv");
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
