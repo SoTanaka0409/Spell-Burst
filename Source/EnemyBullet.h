@@ -1,40 +1,40 @@
-#pragma once
+ï»¿#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-/// @brief “G‚ª”­Ë‚·‚é’e‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief æ•µãŒç™ºå°„ã™ã‚‹å¼¾ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class EnemyBullet : public Projectile
 {
 private:
-    bool can_reflect_;       ///< ƒoƒŠƒA‚Å”½Ë‚Å‚«‚é’e‚©‚ğ¦‚·ƒtƒ‰ƒO
-    bool has_reflected_;     ///< Šù‚É”½ËÏ‚İ‚©‚ğ¦‚·ƒtƒ‰ƒO
-    bool is_stun_bullet_;    ///< ƒvƒŒƒCƒ„[‚ğƒXƒ^ƒ“‚³‚¹‚é’e‚©‚ğ¦‚·ƒtƒ‰ƒO
-    int homing_timer_;       ///< ’Ç”ö‚·‚éc‚èƒtƒŒ[ƒ€”
-    int homing_delay_timer_; ///< ’Ç”öŠJn‚Ü‚Å‚Ì’x‰„ƒtƒŒ[ƒ€”
+    bool can_reflect_;       ///< ãƒãƒªã‚¢ã§åå°„ã§ãã‚‹å¼¾ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    bool has_reflected_;     ///< æ—¢ã«åå°„æ¸ˆã¿ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    bool is_stun_bullet_;    ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚¹ã‚¿ãƒ³ã•ã›ã‚‹å¼¾ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    int homing_timer_;       ///< è¿½å°¾ã™ã‚‹æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+    int homing_delay_timer_; ///< è¿½å°¾é–‹å§‹ã¾ã§ã®é…å»¶ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 
 public:
-    /// @brief “G’e‚ğ¶¬‚·‚é
-    /// @param pos ‰ŠúÀ•W
-    /// @param dir is•ûŒü
-    /// @param speed ‘¬“x
-    /// @param canReflect ”½Ë‰Â”\‚©
-    /// @param isStunBullet ƒXƒ^ƒ“’e‚©
-    /// @param homingFrames ’Ç”öŠÔ
-    /// @param homingDelayFrames ’Ç”öŠJn’x‰„
+    /// @brief æ•µå¼¾ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param pos åˆæœŸåº§æ¨™
+    /// @param dir é€²è¡Œæ–¹å‘
+    /// @param speed é€Ÿåº¦
+    /// @param canReflect åå°„å¯èƒ½ã‹
+    /// @param isStunBullet ã‚¹ã‚¿ãƒ³å¼¾ã‹
+    /// @param homingFrames è¿½å°¾æ™‚é–“
+    /// @param homingDelayFrames è¿½å°¾é–‹å§‹é…å»¶
     EnemyBullet(Vector2 pos, Vector2 dir, float speed, bool canReflect = false, bool isStunBullet = false, int homingFrames = 0, int homingDelayFrames = 0);
 
-    /// @brief “G’e‚ğ”jŠü‚·‚é
+    /// @brief æ•µå¼¾ã‚’ç ´æ£„ã™ã‚‹
     virtual ~EnemyBullet() override;
 
-    /// @brief ’e‚ÌÀ•W‚â’Ç”öA”½ËEíœ”»’è‚ğXV‚·‚é
+    /// @brief å¼¾ã®åº§æ¨™ã‚„è¿½å°¾ã€åå°„ãƒ»å‰Šé™¤åˆ¤å®šã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ’e‚Ì‰æ‘œ‚âƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
+    /// @brief å¼¾ã®ç”»åƒã‚„ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒvƒŒƒCƒ„[‚âƒoƒŠƒA‚Æ‚ÌÕ“Ë‚Ìˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚„ãƒãƒªã‚¢ã¨ã®è¡çªæ™‚ã®å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

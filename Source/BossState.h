@@ -1,25 +1,25 @@
-#pragma once
+ï»¿#pragma once
 
 class Boss;
 
-/// @brief ƒ{ƒX‚Ìó‘Ôˆ—‚ğ•\‚·’ŠÛŠî’êƒNƒ‰ƒX
+/// @brief ãƒœã‚¹ã®çŠ¶æ…‹å‡¦ç†ã‚’è¡¨ã™æŠ½è±¡åŸºåº•ã‚¯ãƒ©ã‚¹
 class BossState
 {
 public:
-    /// @brief ƒ{ƒXó‘Ô‚ğ”jŠü‚·‚é
+    /// @brief ãƒœã‚¹çŠ¶æ…‹ã‚’ç ´æ£„ã™ã‚‹
     virtual ~BossState() = default;
 
-    /// @brief ó‘Ô‚ª—LŒø‚ÈŠÔA–ˆƒtƒŒ[ƒ€ˆ—‚ğs‚¤
-    /// @param boss XV‘ÎÛ‚Ìƒ{ƒX
+    /// @brief çŠ¶æ…‹ãŒæœ‰åŠ¹ãªé–“ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã‚’è¡Œã†
+    /// @param boss æ›´æ–°å¯¾è±¡ã®ãƒœã‚¹
     virtual void Update(Boss* boss) = 0;
 
-    /// @brief Ÿ‚Ìó‘Ô‚Ö‘JˆÚ‚·‚×‚«‚©‚ğ”»’è‚·‚é
-    /// @param boss ”»’è‘ÎÛ‚Ìƒ{ƒX
-    /// @return bool ‘JˆÚ‚·‚×‚«‚È‚çtrue
+    /// @brief æ¬¡ã®çŠ¶æ…‹ã¸é·ç§»ã™ã¹ãã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param boss åˆ¤å®šå¯¾è±¡ã®ãƒœã‚¹
+    /// @return bool é·ç§»ã™ã¹ããªã‚‰true
     virtual bool ShouldTransition(Boss* boss) const { return false; }
 
-    /// @brief Ÿ‚Ìó‘ÔƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
-    /// @param boss ‘JˆÚŒ³‚Ìƒ{ƒX
-    /// @return BossState* Ÿ‚Ìó‘ÔB‘JˆÚ‚µ‚È‚¢ê‡‚Ínullptr
+    /// @brief æ¬¡ã®çŠ¶æ…‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
+    /// @param boss é·ç§»å…ƒã®ãƒœã‚¹
+    /// @return BossState* æ¬¡ã®çŠ¶æ…‹ã€‚é·ç§»ã—ãªã„å ´åˆã¯nullptr
     virtual BossState* GetNextState(Boss* boss) const { return nullptr; }
 };

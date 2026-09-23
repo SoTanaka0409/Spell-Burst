@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 #ifndef NOMINMAX
-#define NOMINMAX // Windows.h‚Ìmin/maxƒ}ƒNƒÕ“Ë‚ğ”ğ‚¯‚é
+#define NOMINMAX // Windows.hã®min/maxãƒã‚¯ãƒ­è¡çªã‚’é¿ã‘ã‚‹
 #endif
 #include <memory>
 #include "DxLib.h"
@@ -8,37 +8,37 @@
 class ObjectManager;
 class ColliderManager;
 
-/// @brief ŠeƒQ[ƒ€‰æ–Ê‚Ì‹¤’ÊŠî’êƒNƒ‰ƒX
+/// @brief å„ã‚²ãƒ¼ãƒ ç”»é¢ã®å…±é€šåŸºåº•ã‚¯ãƒ©ã‚¹
 class Scene
 {
 public:
-    /// @brief ƒV[ƒ“‚ğ¶¬‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
     Scene();
 
-    /// @brief ƒV[ƒ“‚ğ”jŠü‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ã‚’ç ´æ£„ã™ã‚‹
     virtual ~Scene();
 
-    /// @brief ƒV[ƒ“ŠJn‚Ì‰Šú‰»‚ğs‚¤
+    /// @brief ã‚·ãƒ¼ãƒ³é–‹å§‹æ™‚ã®åˆæœŸåŒ–ã‚’è¡Œã†
     virtual void Initialize() = 0;
 
-    /// @brief ƒV[ƒ“‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
     virtual void Update();
 
-    /// @brief ƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     virtual void Draw();
 
-    /// @brief ƒV[ƒ“I—¹‚Ì‰ğ•úˆ—‚ğs‚¤
+    /// @brief ã‚·ãƒ¼ãƒ³çµ‚äº†æ™‚ã®è§£æ”¾å‡¦ç†ã‚’è¡Œã†
     virtual void Finalize() = 0;
 
-    /// @brief ƒV[ƒ““à‚ÌƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ğæ“¾‚·‚é
-    /// @return ObjectManager* ƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX
+    /// @brief ã‚·ãƒ¼ãƒ³å†…ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @return ObjectManager* ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹
     ObjectManager* GetObjectManager();
 
-    /// @brief ƒV[ƒ““à‚ÌƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ğæ“¾‚·‚é
-    /// @return ColliderManager* ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX
+    /// @brief ã‚·ãƒ¼ãƒ³å†…ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @return ColliderManager* ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹
     ColliderManager* GetCollisionManager();
 
 private:
-    std::unique_ptr<ObjectManager> object_manager_;     ///< ƒV[ƒ““àƒIƒuƒWƒFƒNƒg‚ÌŠÇ—
-    std::unique_ptr<ColliderManager> collider_manager_; ///< ƒV[ƒ““àƒRƒ‰ƒCƒ_[‚ÌŠÇ—
+    std::unique_ptr<ObjectManager> object_manager_;     ///< ã‚·ãƒ¼ãƒ³å†…ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç®¡ç†
+    std::unique_ptr<ColliderManager> collider_manager_; ///< ã‚·ãƒ¼ãƒ³å†…ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç®¡ç†
 };

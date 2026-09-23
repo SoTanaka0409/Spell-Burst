@@ -1,13 +1,13 @@
-#include "Projectile.h"
+ï»¿#include "Projectile.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
 
-/// @brief Projectile ‚ğ¶¬‚·‚é
-/// @param pos pos ‚Ì’l
-/// @param dir_ dir_ ‚Ì’l
-/// @param speed speed ‚Ì’l
-/// @param damage damage ‚Ì’l
+/// @brief Projectile ã‚’ç”Ÿæˆã™ã‚‹
+/// @param pos pos ã®å€¤
+/// @param dir_ dir_ ã®å€¤
+/// @param speed speed ã®å€¤
+/// @param damage damage ã®å€¤
 Projectile::Projectile(Vector2 pos, Vector2 dir_, float speed, int damage)
     : Object2D(pos)
     , dir_(dir_)
@@ -19,7 +19,7 @@ Projectile::Projectile(Vector2 pos, Vector2 dir_, float speed, int damage)
     position_ = pos;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Projectile::~Projectile()
 {
     if (collider_)
@@ -29,7 +29,7 @@ Projectile::~Projectile()
     }
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Projectile::Update()
 {
     if (collider_)
@@ -39,19 +39,19 @@ void Projectile::Update()
     }
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Projectile::Draw()
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Projectile::OnTrigger(Collider* collider, Collider* check)
 {
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void Projectile::Kill()
 {
     is_active_ = false;
@@ -62,9 +62,9 @@ void Projectile::Kill()
     }
 }
 
-/// @brief IsOutOfBounds ‚ğÀs‚·‚é
-/// @param margin margin ‚Ì’l
-/// @return bool –ß‚è’l
+/// @brief IsOutOfBounds ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param margin margin ã®å€¤
+/// @return bool æˆ»ã‚Šå€¤
 bool Projectile::IsOutOfBounds(float margin) const
 {
     if (position_.x < -margin || position_.x > Utility::kScreenWidth + margin ||

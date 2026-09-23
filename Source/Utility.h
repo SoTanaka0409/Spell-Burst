@@ -1,33 +1,33 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
-#define NOMINMAX // Windows.h‚Ìmin/maxƒ}ƒNƒÕ“Ë‚ğ”ğ‚¯‚é
+#define NOMINMAX // Windows.hã®min/maxãƒã‚¯ãƒ­è¡çªã‚’é¿ã‘ã‚‹
 #endif
 #include "DxLib.h"
 #include <vector>
 #include <fstream>
 #include <algorithm>
 
-/// @brief ‰æ–ÊƒTƒCƒYAƒ‰ƒ“ƒLƒ“ƒOAŠp“x•ÏŠ·‚È‚Ç‚Ì‹¤’Êƒ†[ƒeƒBƒŠƒeƒB
+/// @brief ç”»é¢ã‚µã‚¤ã‚ºã€ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã€è§’åº¦å¤‰æ›ãªã©ã®å…±é€šãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
 class Utility
 {
 public:
-    static const int kScreenWidth = 1600;  ///< ‰æ–Ê•
-    static const int kScreenHeight = 900;  ///< ‰æ–Ê‚‚³
+    static const int kScreenWidth = 1600;  ///< ç”»é¢å¹…
+    static const int kScreenHeight = 900;  ///< ç”»é¢é«˜ã•
 
-    static Vector2 stage_size_;            ///< ƒXƒe[ƒW‘S‘Ì‚ÌƒTƒCƒY
-    static float time_scale_;              ///< ƒQ[ƒ€‘S‘Ì‚ÌŠÔ”{—¦
+    static Vector2 stage_size_;            ///< ã‚¹ãƒ†ãƒ¼ã‚¸å…¨ä½“ã®ã‚µã‚¤ã‚º
+    static float time_scale_;              ///< ã‚²ãƒ¼ãƒ å…¨ä½“ã®æ™‚é–“å€ç‡
 
-    /// @brief “x”–@‚ÌŠp“x‚ğƒ‰ƒWƒAƒ“‚Ö•ÏŠ·‚·‚é
-    /// @param deg “x”–@‚ÌŠp“x
-    /// @return float ƒ‰ƒWƒAƒ“Šp
+    /// @brief åº¦æ•°æ³•ã®è§’åº¦ã‚’ãƒ©ã‚¸ã‚¢ãƒ³ã¸å¤‰æ›ã™ã‚‹
+    /// @param deg åº¦æ•°æ³•ã®è§’åº¦
+    /// @return float ãƒ©ã‚¸ã‚¢ãƒ³è§’
     static float DegToRad(float deg)
     {
         return deg * DX_PI_F / 180.0f;
     }
 
-    /// @brief ƒ^ƒCƒ€ƒ‰ƒ“ƒLƒ“ƒO‚ğ“Ç‚İ‚Ş
-    /// @param outTimes “Ç‚İ‚ñ‚¾ƒ^ƒCƒ€‚Ìo—Íæ
+    /// @brief ã‚¿ã‚¤ãƒ ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã‚’èª­ã¿è¾¼ã‚€
+    /// @param outTimes èª­ã¿è¾¼ã‚“ã ã‚¿ã‚¤ãƒ ã®å‡ºåŠ›å…ˆ
     static void LoadTimeRanking(std::vector<int>& outTimes)
     {
         outTimes.clear();
@@ -44,8 +44,8 @@ public:
         std::sort(outTimes.begin(), outTimes.end());
     }
 
-    /// @brief ƒ^ƒCƒ€ƒ‰ƒ“ƒLƒ“ƒO‚ğ•Û‘¶‚·‚é
-    /// @param timeMs •Û‘¶‚·‚éƒ^ƒCƒ€iƒ~ƒŠ•bj
+    /// @brief ã‚¿ã‚¤ãƒ ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã‚’ä¿å­˜ã™ã‚‹
+    /// @param timeMs ä¿å­˜ã™ã‚‹ã‚¿ã‚¤ãƒ ï¼ˆãƒŸãƒªç§’ï¼‰
     static void SaveTimeRanking(int timeMs)
     {
         std::vector<int> times;
@@ -53,6 +53,9 @@ public:
         times.push_back(timeMs);
         std::sort(times.begin(), times.end());
 
+        /// @brief sã®å‡¦ç†ã‚’è¡Œã†
+        /// @param trunc å¼•æ•°
+        /// @return æˆ»ã‚Šå€¤
         std::ofstream ofs("ranking.txt", std::ios::trunc);
         if (ofs.is_open())
         {
@@ -65,12 +68,12 @@ public:
         }
     }
 
-    /// @brief Œ»İ•ûŒü‚©‚ç–Ú•W•ûŒü‚Ö­‚µ‚¸‚Â‰ñ“]‚µ‚½’Ç”ö•ûŒü‚ğŒvZ‚·‚é
-    /// @param currentDir Œ»İ‚Ìis•ûŒü
-    /// @param currentPos Œ»İÀ•W
-    /// @param targetPos –Ú•WÀ•W
-    /// @param rotationSpeed ’Ç”ö‚Ì‰ñ“]‘¬“x
-    /// @return Vector2 V‚µ‚¢is•ûŒü
+    /// @brief ç¾åœ¨æ–¹å‘ã‹ã‚‰ç›®æ¨™æ–¹å‘ã¸å°‘ã—ãšã¤å›è»¢ã—ãŸè¿½å°¾æ–¹å‘ã‚’è¨ˆç®—ã™ã‚‹
+    /// @param currentDir ç¾åœ¨ã®é€²è¡Œæ–¹å‘
+    /// @param currentPos ç¾åœ¨åº§æ¨™
+    /// @param targetPos ç›®æ¨™åº§æ¨™
+    /// @param rotationSpeed è¿½å°¾ã®å›è»¢é€Ÿåº¦
+    /// @return Vector2 æ–°ã—ã„é€²è¡Œæ–¹å‘
     static Vector2 CalculateHomingDirection(Vector2 currentDir, Vector2 currentPos, Vector2 targetPos, float rotationSpeed)
     {
         Vector2 toTarget = (targetPos - currentPos).Normalized();

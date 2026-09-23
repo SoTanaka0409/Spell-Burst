@@ -1,4 +1,4 @@
-#include "Collider.h"
+ï»¿#include "Collider.h"
 #include "ObjectManager.h"
 #include "Object2D.h"
 #include "ColliderManager.h"
@@ -6,8 +6,8 @@
 #include <cassert>
 #include "Master.h"
 
-/// @brief Collider ‚ğ¶¬‚·‚é
-/// @param parent parent ‚Ì’l
+/// @brief Collider ã‚’ç”Ÿæˆã™ã‚‹
+/// @param parent parent ã®å€¤
 Collider::Collider(Object2D* parent)
 	: parent_object_(parent)
 	, position_(Vector2(0.0f, 0.0f))
@@ -20,7 +20,7 @@ Collider::Collider(Object2D* parent)
 	Master::sceneManager->GetCurrentScene()->GetCollisionManager()->AddCollider(this);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Collider::~Collider()
 {
 	if (Master::sceneManager && Master::sceneManager->GetCurrentScene())
@@ -40,9 +40,9 @@ Collider::~Collider()
 	}
 }
 
-/// @brief HitCheck ‚ğÀs‚·‚é
-/// @param check check ‚Ì’l
-/// @param isHit isHit ‚Ì’l
+/// @brief HitCheck ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param check check ã®å€¤
+/// @param isHit isHit ã®å€¤
 void Collider::HitCheck(Collider* check, bool isHit)
 {
 	if (isHit)
@@ -88,34 +88,34 @@ void Collider::HitCheck(Collider* check, bool isHit)
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param check check ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param check check ã®å€¤
 void Collider::Update(Collider* check)
 {
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Collider::Draw()
 {
 }
 
-/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void Collider::OnEnter()
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
 void Collider::OnTrigger()
 {
 }
 
-/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void Collider::OnExit()
 {
 }
 
-/// @brief RemoveCollision ‚ğÀs‚·‚é
-/// @param collider collider ‚Ì’l
+/// @brief RemoveCollision ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param collider collider ã®å€¤
 void Collider::RemoveCollision(Collider* collider)
 {
 	auto itr = std::find(collision_list_.begin(), collision_list_.end(), collider);

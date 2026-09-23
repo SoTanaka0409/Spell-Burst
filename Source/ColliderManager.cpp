@@ -1,4 +1,4 @@
-#include "ColliderManager.h"
+ï»¿#include "ColliderManager.h"
 #include <unordered_set>
 #include <vector>
 #include <cmath>
@@ -9,17 +9,17 @@
 
 ColliderManager* ColliderManager::instance_ = nullptr;
 
-/// @brief ColliderManager ‚ğ¶¬‚·‚é
+/// @brief ColliderManager ã‚’ç”Ÿæˆã™ã‚‹
 ColliderManager::ColliderManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 ColliderManager::~ColliderManager()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void ColliderManager::Update()
 {
 	const int CELL_SIZE = 100;
@@ -78,7 +78,7 @@ void ColliderManager::Update()
 	DeleteAllColliderIfNeeded();
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void ColliderManager::Draw()
 {
 	for (auto* col : collider_list_)
@@ -90,14 +90,14 @@ void ColliderManager::Draw()
 	}
 }
 
-/// @brief AddCollider ‚ğÀs‚·‚é
-/// @param collider collider ‚Ì’l
+/// @brief AddCollider ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param collider collider ã®å€¤
 void ColliderManager::AddCollider(Collider* collider)
 {
 	collider_list_.push_back(collider);
 }
 
-/// @brief DeleteAllCollider ‚ğÀs‚·‚é
+/// @brief DeleteAllCollider ã‚’å®Ÿè¡Œã™ã‚‹
 void ColliderManager::DeleteAllCollider()
 {
 	for (auto* col : collider_list_)
@@ -107,7 +107,7 @@ void ColliderManager::DeleteAllCollider()
 	collider_list_.clear();
 }
 
-/// @brief DeleteAllColliderIfNeeded ‚ğÀs‚·‚é
+/// @brief DeleteAllColliderIfNeeded ã‚’å®Ÿè¡Œã™ã‚‹
 void ColliderManager::DeleteAllColliderIfNeeded()
 {
 	collider_list_.remove_if([](Collider* col)
@@ -116,15 +116,15 @@ void ColliderManager::DeleteAllColliderIfNeeded()
 		});
 }
 
-/// @brief RemoveCollider ‚ğÀs‚·‚é
-/// @param collider collider ‚Ì’l
+/// @brief RemoveCollider ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param collider collider ã®å€¤
 void ColliderManager::RemoveCollider(Collider* collider)
 {
 	collider_list_.remove(collider);
 }
 
-/// @brief GetColliderList ‚ğÀs‚·‚é
-/// @return std::list<Collider*>& –ß‚è’l
+/// @brief GetColliderList ã‚’å®Ÿè¡Œã™ã‚‹
+/// @return std::list<Collider*>& æˆ»ã‚Šå€¤
 std::list<Collider*>& ColliderManager::GetColliderList()
 {
 	return collider_list_;

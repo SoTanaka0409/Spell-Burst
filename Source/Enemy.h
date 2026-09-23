@@ -1,68 +1,68 @@
-#pragma once
+ï»¿#pragma once
 #include "Character.h"
 
 class CapsuleCollider;
 
-/// @brief ’Êí“GE’†ƒ{ƒX“G‚ÌˆÚ“®AUŒ‚A€–Sˆ—‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief é€šå¸¸æ•µãƒ»ä¸­ãƒœã‚¹æ•µã®ç§»å‹•ã€æ”»æ’ƒã€æ­»äº¡å‡¦ç†ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Enemy : public Character
 {
 private:
-	int enemy_type_;  ///< “Gƒ^ƒCƒvBƒXƒe[ƒ^ƒX‚âUŒ‚ƒpƒ^[ƒ“‚ğØ‚è‘Ö‚¦‚é
-	int attack_timer_; ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
-	float target_x_;  ///< ˆÚ“®–Ú•W‚ÌXÀ•W
-	float target_y_;  ///< ˆÚ“®–Ú•W‚ÌYÀ•W
+	int enemy_type_;  ///< æ•µã‚¿ã‚¤ãƒ—ã€‚ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚„æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+	int attack_timer_; ///< æ”»æ’ƒé–“éš”ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
+	float target_x_;  ///< ç§»å‹•ç›®æ¨™ã®Xåº§æ¨™
+	float target_y_;  ///< ç§»å‹•ç›®æ¨™ã®Yåº§æ¨™
 
-	/// @brief V‚µ‚¢ˆÚ“®–Ú•W‚ğ‘I‚Ô
+	/// @brief æ–°ã—ã„ç§»å‹•ç›®æ¨™ã‚’é¸ã¶
 	void SelectNewTarget();
 
 public:
-	/// @brief “G‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
-	/// @param enemyType “Gƒ^ƒCƒv
+	/// @brief æ•µã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
+	/// @param enemyType æ•µã‚¿ã‚¤ãƒ—
 	Enemy(float x, float y, int enemyType = 1);
 
-	/// @brief “G‚ğ”jŠü‚·‚é
+	/// @brief æ•µã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Enemy() override;
 
-	/// @brief “G‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	/// @brief æ•µã®çŠ¶æ…‹ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
 	void Update() override;
 
-	/// @brief “G‚ğ•`‰æ‚·‚é
+	/// @brief æ•µã‚’æç”»ã™ã‚‹
 	void Draw() override;
 
-	/// @brief “Gƒ^ƒCƒv‚ğæ“¾‚·‚é
-	/// @return int “Gƒ^ƒCƒv
+	/// @brief æ•µã‚¿ã‚¤ãƒ—ã‚’å–å¾—ã™ã‚‹
+	/// @return int æ•µã‚¿ã‚¤ãƒ—
 	int GetEnemyType() const { return enemy_type_; }
 
-	/// @brief “G‚ğíœ‘ÎÛ‚É‚·‚é
+	/// @brief æ•µã‚’å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 	virtual void Kill() override;
 
-	/// @brief “G‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
-	/// @return float “–‚½‚è”»’è”¼Œa
+	/// @brief æ•µã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„ã‚’å–å¾—ã™ã‚‹
+	/// @return float å½“ãŸã‚Šåˆ¤å®šåŠå¾„
 	float GetRadius() const
 	{
-		// “Gƒ^ƒCƒv4‚Í’†ƒ{ƒXˆµ‚¢‚È‚Ì‚ÅA’Êí“G‚æ‚è‘å‚«‚¢“–‚½‚è”»’è‚É‚·‚éB
+		// æ•µã‚¿ã‚¤ãƒ—4ã¯ä¸­ãƒœã‚¹æ‰±ã„ãªã®ã§ã€é€šå¸¸æ•µã‚ˆã‚Šå¤§ãã„å½“ãŸã‚Šåˆ¤å®šã«ã™ã‚‹ã€‚
 		if (enemy_type_ == 4) return 45.0f;
 		return 15.0f;
 	}
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ä¸­å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief “G‚Ì€–Sˆ—‚ğs‚¤
-	/// @details íœƒtƒ‰ƒO‚ğ—§‚ÄAƒXƒRƒAEŒoŒ±’lE‰‰o‚ğ”­¶‚³‚¹‚éB
+	/// @brief æ•µã®æ­»äº¡å‡¦ç†ã‚’è¡Œã†
+	/// @details å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã€ã‚¹ã‚³ã‚¢ãƒ»çµŒé¨“å€¤ãƒ»æ¼”å‡ºã‚’ç™ºç”Ÿã•ã›ã‚‹ã€‚
 	virtual void OnDeath() override;
 
-	/// @brief “Gƒ^ƒCƒv‚É‰‚¶‚½UŒ‚ƒpƒ^[ƒ“‚ğXV‚·‚é
-	/// @details ƒ^ƒCƒ}[‚É‰‚¶‚Ä’e‚ğ¶¬‚·‚éB
+	/// @brief æ•µã‚¿ã‚¤ãƒ—ã«å¿œã˜ãŸæ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
+	/// @details ã‚¿ã‚¤ãƒãƒ¼ã«å¿œã˜ã¦å¼¾ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	void UpdateAttackPattern();
 
-	/// @brief “GƒXƒvƒ‰ƒCƒg‚ğ•`‰æ‚·‚é
+	/// @brief æ•µã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’æç”»ã™ã‚‹
 	void DrawEnemySprite();
 
-	/// @brief “GHPƒo[‚ğ•`‰æ‚·‚é
+	/// @brief æ•µHPãƒãƒ¼ã‚’æç”»ã™ã‚‹
 	void DrawHpBar();
 };

@@ -1,11 +1,11 @@
-#include "SphereCollider.h"
+ï»¿#include "SphereCollider.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 
-/// @brief SphereCollider ‚ğ¶¬‚·‚é
-/// @param parent parent ‚Ì’l
-/// @param center center ‚Ì’l
-/// @param radius radius ‚Ì’l
+/// @brief SphereCollider ã‚’ç”Ÿæˆã™ã‚‹
+/// @param parent parent ã®å€¤
+/// @param center center ã®å€¤
+/// @param radius radius ã®å€¤
 SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	: Collider(parent)
 {
@@ -14,13 +14,13 @@ SphereCollider::SphereCollider(Object2D* parent, Vector2 center, float radius)
 	this->radius_ = radius;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 SphereCollider::~SphereCollider()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param check check ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param check check ã®å€¤
 void SphereCollider::Update(Collider* check)
 {
 	if (check != nullptr)
@@ -52,7 +52,7 @@ void SphereCollider::Update(Collider* check)
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void SphereCollider::Draw()
 {
 	DrawCircle(
@@ -64,17 +64,17 @@ void SphereCollider::Draw()
 	);
 }
 
-/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void SphereCollider::OnEnter()
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
 void SphereCollider::OnTrigger()
 {
 }
 
-/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+/// @brief æ¥è§¦çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void SphereCollider::OnExit()
 {
 }

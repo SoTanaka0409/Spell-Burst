@@ -1,26 +1,26 @@
-#pragma once
+ï»¿#pragma once
 
-/// @brief ƒQ[ƒ€ƒoƒ‰ƒ“ƒX’²®—p‚Ìİ’è’l
+/// @brief ã‚²ãƒ¼ãƒ ãƒãƒ©ãƒ³ã‚¹èª¿æ•´ç”¨ã®è¨­å®šå€¤
 namespace Config
 {
-    constexpr int kPlayerMaxHp = 15;             ///< ƒvƒŒƒCƒ„[Å‘åHP
-    constexpr float kPlayerSpeed = 5.0f;         ///< ƒvƒŒƒCƒ„[ˆÚ“®‘¬“x
-    constexpr int kPlayerAttackInterval = 20;    ///< ƒvƒŒƒCƒ„[’ÊíUŒ‚ŠÔŠu
-    constexpr int kPlayerSpecialInterval = 60;   ///< ƒvƒŒƒCƒ„[“ÁêUŒ‚ŠÔŠu
-    constexpr int kPlayerXpNeeded = 5;           ///< ‰ŠúƒŒƒxƒ‹ƒAƒbƒv•K—vŒoŒ±’l
+    constexpr int kPlayerMaxHp = 15;             ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æœ€å¤§HP
+    constexpr float kPlayerSpeed = 5.0f;         ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç§»å‹•é€Ÿåº¦
+    constexpr int kPlayerAttackInterval = 20;    ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é€šå¸¸æ”»æ’ƒé–“éš”
+    constexpr int kPlayerSpecialInterval = 60;   ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç‰¹æ®Šæ”»æ’ƒé–“éš”
+    constexpr int kPlayerXpNeeded = 5;           ///< åˆæœŸãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—å¿…è¦çµŒé¨“å€¤
 
-    constexpr int kBoss1MaxHp = 60;              ///< ƒ{ƒX1Å‘åHP
-    constexpr float kBoss1Speed = 1.5f;          ///< ƒ{ƒX1ˆÚ“®‘¬“x
+    constexpr int kBoss1MaxHp = 60;              ///< ãƒœã‚¹1æœ€å¤§HP
+    constexpr float kBoss1Speed = 1.5f;          ///< ãƒœã‚¹1ç§»å‹•é€Ÿåº¦
 
-    constexpr int kBoss2MaxHp = 80;              ///< ƒ{ƒX2Å‘åHP
-    constexpr float kBoss2Speed = 2.0f;          ///< ƒ{ƒX2ˆÚ“®‘¬“x
+    constexpr int kBoss2MaxHp = 80;              ///< ãƒœã‚¹2æœ€å¤§HP
+    constexpr float kBoss2Speed = 2.0f;          ///< ãƒœã‚¹2ç§»å‹•é€Ÿåº¦
 
-    constexpr int kBoss3MaxHp = 150;             ///< ƒ{ƒX3Å‘åHP
-    constexpr float kBoss3Speed = 2.5f;          ///< ƒ{ƒX3ˆÚ“®‘¬“x
-    constexpr int kBoss3Lives = 3;               ///< ƒ{ƒX3‚ÌHP’iŠK”
+    constexpr int kBoss3MaxHp = 150;             ///< ãƒœã‚¹3æœ€å¤§HP
+    constexpr float kBoss3Speed = 2.5f;          ///< ãƒœã‚¹3ç§»å‹•é€Ÿåº¦
+    constexpr int kBoss3Lives = 3;               ///< ãƒœã‚¹3ã®HPæ®µéšæ•°
 
-    constexpr int kEnemyMaxHp = 5;               ///< ’Êí“GÅ‘åHP
-    constexpr float kEnemySpeed = 2.0f;          ///< ’Êí“GˆÚ“®‘¬“x
+    constexpr int kEnemyMaxHp = 5;               ///< é€šå¸¸æ•µæœ€å¤§HP
+    constexpr float kEnemySpeed = 2.0f;          ///< é€šå¸¸æ•µç§»å‹•é€Ÿåº¦
 
-    constexpr int kGridCellSize = 100;           ///< Õ“Ë”»’èƒOƒŠƒbƒh‚ÌƒZƒ‹ƒTƒCƒY
+    constexpr int kGridCellSize = 100;           ///< è¡çªåˆ¤å®šã‚°ãƒªãƒƒãƒ‰ã®ã‚»ãƒ«ã‚µã‚¤ã‚º
 }

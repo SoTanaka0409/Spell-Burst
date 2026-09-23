@@ -1,37 +1,37 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <memory>
 
 class Bullet;
 
-/// @brief ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é’Êí’e‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸å¼¾ã‚’ã¾ã¨ã‚ã¦ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class BulletManager
 {
 private:
-	std::vector<std::weak_ptr<Bullet>> bullets; ///< ObjectManager‚ªŠ—L‚·‚é’e‚ğ’ÇÕ‚·‚éãQÆƒŠƒXƒg
+	std::vector<std::weak_ptr<Bullet>> bullets; ///< ObjectManagerãŒæ‰€æœ‰ã™ã‚‹å¼¾ã‚’è¿½è·¡ã™ã‚‹å¼±å‚ç…§ãƒªã‚¹ãƒˆ
 
 public:
-	/// @brief ’eŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+	/// @brief å¼¾ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	BulletManager();
 
-	/// @brief ’eŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+	/// @brief å¼¾ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
 	~BulletManager();
 
-	/// @brief ’eƒŠƒXƒg‚ğ‰Šú‰»‚·‚é
+	/// @brief å¼¾ãƒªã‚¹ãƒˆã‚’åˆæœŸåŒ–ã™ã‚‹
 	void Initialize();
 
-	/// @brief ŠÇ—’†‚Ì’e‚ğXV‚µA–³Œø‚É‚È‚Á‚½’e‚ğƒŠƒXƒg‚©‚çæ‚èœ‚­
+	/// @brief ç®¡ç†ä¸­ã®å¼¾ã‚’æ›´æ–°ã—ã€ç„¡åŠ¹ã«ãªã£ãŸå¼¾ã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å–ã‚Šé™¤ã
 	void Update();
 
-	/// @brief ŠÇ—’†‚Ì’e‚ğ•`‰æ‚·‚é
+	/// @brief ç®¡ç†ä¸­ã®å¼¾ã‚’æç”»ã™ã‚‹
 	void Draw();
 
-	/// @brief w’èÀ•W‚ÉƒvƒŒƒCƒ„[’e‚ğ¶¬‚·‚é
-	/// @param x ¶¬XÀ•W
-	/// @param y ¶¬YÀ•W
+	/// @brief æŒ‡å®šåº§æ¨™ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x ç”ŸæˆXåº§æ¨™
+	/// @param y ç”ŸæˆYåº§æ¨™
 	void SpawnBullet(float x, float y);
 
-	/// @brief ŠÇ—’†‚Ì’eƒŠƒXƒg‚ğæ“¾‚·‚é
-	/// @return const std::vector<std::weak_ptr<Bullet>>& ’e‚ÌãQÆƒŠƒXƒg
+	/// @brief ç®¡ç†ä¸­ã®å¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+	/// @return const std::vector<std::weak_ptr<Bullet>>& å¼¾ã®å¼±å‚ç…§ãƒªã‚¹ãƒˆ
 	const std::vector<std::weak_ptr<Bullet>>& GetBullets() const { return bullets; }
 };

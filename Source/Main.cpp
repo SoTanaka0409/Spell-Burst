@@ -1,4 +1,4 @@
-#ifndef NOMINMAX
+﻿#ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
@@ -12,12 +12,12 @@
 
 float Utility::time_scale_ = 1.0f;
 
-/// @brief アプリケーションのエントリーポイントを実行する
-/// @param hInstance hInstance の値
-/// @param hPrevInstance hPrevInstance の値
-/// @param lpCmdLine lpCmdLine の値
-/// @param nCmdShow nCmdShow の値
-/// @return int WINAPI 戻り値
+/// @brief 繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ繧ｨ繝ｳ繝医Μ繝ｼ繝昴う繝ｳ繝医ｒ螳溯｡後☆繧・
+/// @param hInstance hInstance 縺ｮ蛟､
+/// @param hPrevInstance hPrevInstance 縺ｮ蛟､
+/// @param lpCmdLine lpCmdLine 縺ｮ蛟､
+/// @param nCmdShow nCmdShow 縺ｮ蛟､
+/// @return int WINAPI 謌ｻ繧雁､
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	if (GetFileAttributesA("Resource") == INVALID_FILE_ATTRIBUTES)

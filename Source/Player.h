@@ -1,152 +1,152 @@
-#pragma once
+ï»¿#pragma once
 #include "Character.h"
 #include <memory>
 #include "Barrier.h"
 
 class SpecialBullet;
 
-/// @brief ƒvƒŒƒCƒ„[‚ÌˆÚ“®AUŒ‚A¬’·AƒoƒŠƒA‚ğŠÇ—‚·‚éƒLƒƒƒ‰ƒNƒ^[ƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ã€æ”»æ’ƒã€æˆé•·ã€ãƒãƒªã‚¢ã‚’ç®¡ç†ã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚¯ãƒ©ã‚¹
 class Player : public Character
 {
 public:
-	static int kSelectedCharacterType;  ///< ƒ^ƒCƒgƒ‹E‘I‘ğ‰æ–Ê‚Å‘I‚Î‚ê‚½ƒLƒƒƒ‰ƒNƒ^[í•Ê
+	static int kSelectedCharacterType;  ///< ã‚¿ã‚¤ãƒˆãƒ«ãƒ»é¸æŠç”»é¢ã§é¸ã°ã‚ŒãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ç¨®åˆ¥
 
-	/// @brief ƒvƒŒƒCƒ„[‚ÌUŒ‚ƒ‚[ƒh
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰
 	enum AttackMode
 	{
-		kAttackModeMelee,   ///< ‹ßÚUŒ‚ƒ‚[ƒh
-		kAttackModeSpecial  ///< “ÁêUŒ‚ƒ‚[ƒh
+		kAttackModeMelee,   ///< è¿‘æ¥æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰
+		kAttackModeSpecial  ///< ç‰¹æ®Šæ”»æ’ƒãƒ¢ãƒ¼ãƒ‰
 	};
 
 private:
-	float attack_power_;             ///< UŒ‚—Í
-	float attack_timer_{};           ///< ’ÊíUŒ‚‚ÌŒo‰ßƒ^ƒCƒ}[
-	float attack_interval_{};        ///< ’ÊíUŒ‚‚ÌŠÔŠu
-	float attack_timer2_{};          ///< ‹ßÚE“ÁêUŒ‚‚ÌŒo‰ßƒ^ƒCƒ}[
-	float attack_interval2_{};       ///< ‹ßÚE“ÁêUŒ‚‚ÌŠÔŠu
-	float barrier_count_{};          ///< ƒoƒŠƒAg—pŠÔŠu‚ÌŠÇ—ƒJƒEƒ“ƒ^[
-	AttackMode attack_mode_;         ///< Œ»İ‚ÌUŒ‚ƒ‚[ƒh
-	int special_cooldown_;           ///< “ÁêUŒ‚‚ÌƒN[ƒ‹ƒ_ƒEƒ“
-	std::weak_ptr<Barrier> barrier_; ///< ƒvƒŒƒCƒ„[‚ªg—p‚·‚éƒoƒŠƒA
-	int level_;                      ///< Œ»İƒŒƒxƒ‹
-	int xp_;                         ///< Œ»İŒoŒ±’l
-	int xp_needed_;                  ///< ŸƒŒƒxƒ‹‚É•K—v‚ÈŒoŒ±’l
-	int level_up_timer_;             ///< ƒŒƒxƒ‹ƒAƒbƒv•\¦—pƒ^ƒCƒ}[
-	int spell_gauge_;                ///< ƒXƒyƒ‹ƒJ[ƒhƒQ[ƒW
-	int max_spell_gauge_;            ///< ƒXƒyƒ‹ƒJ[ƒhƒQ[ƒWÅ‘å’l
+	float attack_power_;             ///< æ”»æ’ƒåŠ›
+	float attack_timer_{};           ///< é€šå¸¸æ”»æ’ƒã®çµŒéã‚¿ã‚¤ãƒãƒ¼
+	float attack_interval_{};        ///< é€šå¸¸æ”»æ’ƒã®é–“éš”
+	float attack_timer2_{};          ///< è¿‘æ¥ãƒ»ç‰¹æ®Šæ”»æ’ƒã®çµŒéã‚¿ã‚¤ãƒãƒ¼
+	float attack_interval2_{};       ///< è¿‘æ¥ãƒ»ç‰¹æ®Šæ”»æ’ƒã®é–“éš”
+	float barrier_count_{};          ///< ãƒãƒªã‚¢ä½¿ç”¨é–“éš”ã®ç®¡ç†ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	AttackMode attack_mode_;         ///< ç¾åœ¨ã®æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰
+	int special_cooldown_;           ///< ç‰¹æ®Šæ”»æ’ƒã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³
+	std::weak_ptr<Barrier> barrier_; ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä½¿ç”¨ã™ã‚‹ãƒãƒªã‚¢
+	int level_;                      ///< ç¾åœ¨ãƒ¬ãƒ™ãƒ«
+	int xp_;                         ///< ç¾åœ¨çµŒé¨“å€¤
+	int xp_needed_;                  ///< æ¬¡ãƒ¬ãƒ™ãƒ«ã«å¿…è¦ãªçµŒé¨“å€¤
+	int level_up_timer_;             ///< ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—è¡¨ç¤ºç”¨ã‚¿ã‚¤ãƒãƒ¼
+	int spell_gauge_;                ///< ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ã‚²ãƒ¼ã‚¸
+	int max_spell_gauge_;            ///< ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ã‚²ãƒ¼ã‚¸æœ€å¤§å€¤
 
 public:
-	/// @brief ƒvƒŒƒCƒ„[‚ğ¶¬‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
 	Player();
 
-	/// @brief ƒvƒŒƒCƒ„[‚ğ”jŠü‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Player() override;
 
-	/// @brief ƒoƒŠƒA‚ğæ“¾‚·‚é
-	/// @return std::shared_ptr<Barrier> ƒoƒŠƒA‚Ì‹¤—Lƒ|ƒCƒ“ƒ^
+	/// @brief ãƒãƒªã‚¢ã‚’å–å¾—ã™ã‚‹
+	/// @return std::shared_ptr<Barrier> ãƒãƒªã‚¢ã®å…±æœ‰ãƒã‚¤ãƒ³ã‚¿
 	std::shared_ptr<Barrier> GetBarrier() const { return barrier_.lock(); }
 
-	/// @brief ƒvƒŒƒCƒ„[‚ğ‰Šú‰»‚·‚é
-	/// @details ƒXƒe[ƒ^ƒXAUŒ‚ŠÔŠuAƒoƒŠƒAAŒoŒ±’l‚È‚Ç‚ğ‰Šúó‘Ô‚É‚·‚éB
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
+	/// @details ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã€æ”»æ’ƒé–“éš”ã€ãƒãƒªã‚¢ã€çµŒé¨“å€¤ãªã©ã‚’åˆæœŸçŠ¶æ…‹ã«ã™ã‚‹ã€‚
 	void Initialize();
 
-	/// @brief “ü—ÍAˆÚ“®AUŒ‚AƒN[ƒ‹ƒ_ƒEƒ“‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	/// @brief å…¥åŠ›ã€ç§»å‹•ã€æ”»æ’ƒã€ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
 	void Update() override;
 
-	/// @brief ƒvƒŒƒCƒ„[–{‘Ì‚Æ‰‰o‚ğ•`‰æ‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æœ¬ä½“ã¨æ¼”å‡ºã‚’æç”»ã™ã‚‹
 	void Draw() override;
 
-	/// @brief Œ»İ‚ÌUŒ‚ƒ‚[ƒh‚É‰‚¶‚ÄUŒ‚‚·‚é
+	/// @brief ç¾åœ¨ã®æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã¦æ”»æ’ƒã™ã‚‹
 	void Attack();
 
-	/// @brief ƒoƒŠƒAUŒ‚‚ğÀs‚·‚é
+	/// @brief ãƒãƒªã‚¢æ”»æ’ƒã‚’å®Ÿè¡Œã™ã‚‹
 	void RunBarrierAttack();
 
-	/// @brief Œ»İ‚ÌUŒ‚ƒ‚[ƒh‚ğæ“¾‚·‚é
-	/// @return AttackMode Œ»İ‚ÌUŒ‚ƒ‚[ƒh
+	/// @brief ç¾åœ¨ã®æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+	/// @return AttackMode ç¾åœ¨ã®æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰
 	AttackMode GetAttackMode() const { return attack_mode_; }
 
-	/// @brief “ÁêUŒ‚‚ÌƒN[ƒ‹ƒ_ƒEƒ“‚ğæ“¾‚·‚é
-	/// @return int ƒN[ƒ‹ƒ_ƒEƒ“c‚èƒtƒŒ[ƒ€”
+	/// @brief ç‰¹æ®Šæ”»æ’ƒã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³ã‚’å–å¾—ã™ã‚‹
+	/// @return int ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	int GetSpecialCooldown() const { return special_cooldown_; }
 
-	/// @brief Œ»İƒŒƒxƒ‹‚ğæ“¾‚·‚é
-	/// @return int Œ»İƒŒƒxƒ‹
+	/// @brief ç¾åœ¨ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹
+	/// @return int ç¾åœ¨ãƒ¬ãƒ™ãƒ«
 	int GetLevel() const { return level_; }
 
-	/// @brief Œ»İŒoŒ±’l‚ğæ“¾‚·‚é
-	/// @return int Œ»İŒoŒ±’l
+	/// @brief ç¾åœ¨çµŒé¨“å€¤ã‚’å–å¾—ã™ã‚‹
+	/// @return int ç¾åœ¨çµŒé¨“å€¤
 	int GetXp() const { return xp_; }
 
-	/// @brief ŸƒŒƒxƒ‹‚É•K—v‚ÈŒoŒ±’l‚ğæ“¾‚·‚é
-	/// @return int •K—vŒoŒ±’l
+	/// @brief æ¬¡ãƒ¬ãƒ™ãƒ«ã«å¿…è¦ãªçµŒé¨“å€¤ã‚’å–å¾—ã™ã‚‹
+	/// @return int å¿…è¦çµŒé¨“å€¤
 	int GetXpNeeded() const { return xp_needed_; }
 
-	/// @brief ƒŒƒxƒ‹ƒAƒbƒv•\¦ƒ^ƒCƒ}[‚ğæ“¾‚·‚é
-	/// @return int c‚è•\¦ƒtƒŒ[ƒ€”
+	/// @brief ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—è¡¨ç¤ºã‚¿ã‚¤ãƒãƒ¼ã‚’å–å¾—ã™ã‚‹
+	/// @return int æ®‹ã‚Šè¡¨ç¤ºãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	int GetLevelUpTimer() const { return level_up_timer_; }
 
-	/// @brief ƒXƒyƒ‹ƒQ[ƒW‚ğæ“¾‚·‚é
-	/// @return int Œ»İ‚ÌƒXƒyƒ‹ƒQ[ƒW
+	/// @brief ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
+	/// @return int ç¾åœ¨ã®ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸
 	int GetSpellGauge() const { return spell_gauge_; }
 
-	/// @brief ƒXƒyƒ‹ƒQ[ƒWÅ‘å’l‚ğæ“¾‚·‚é
-	/// @return int ƒXƒyƒ‹ƒQ[ƒWÅ‘å’l
+	/// @brief ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸æœ€å¤§å€¤ã‚’å–å¾—ã™ã‚‹
+	/// @return int ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸æœ€å¤§å€¤
 	int GetMaxSpellGauge() const { return max_spell_gauge_; }
 
-	/// @brief ŒoŒ±’l‚ğ‰ÁZ‚µA•K—v—Ê‚É’B‚µ‚½‚çƒŒƒxƒ‹ƒAƒbƒv‚·‚é
-	/// @param amount ‰ÁZ‚·‚éŒoŒ±’l
+	/// @brief çµŒé¨“å€¤ã‚’åŠ ç®—ã—ã€å¿…è¦é‡ã«é”ã—ãŸã‚‰ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã™ã‚‹
+	/// @param amount åŠ ç®—ã™ã‚‹çµŒé¨“å€¤
 	void AddXp(int amount);
 
-	/// @brief ƒvƒŒƒCƒ„[‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-	/// @param damage ó‚¯‚éƒ_ƒ[ƒW—Ê
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
+	/// @param damage å—ã‘ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
 	virtual void TakeDamage(int damage) override;
 
-	/// @brief ƒvƒŒƒCƒ„[€–S‚Ìˆ—‚ğs‚¤
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ­»äº¡æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 	virtual void OnDeath() override;
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚ÉÚG‚µ‚½uŠÔ‚Ìˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«æ¥è§¦ã—ãŸç¬é–“ã®å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnEnter(Collider* collider, Collider* check) override;
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ä¸­å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚©‚ç—£‚ê‚½uŠÔ‚Ìˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‹ã‚‰é›¢ã‚ŒãŸç¬é–“ã®å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnExit(Collider* collider, Collider* check) override;
 
 private:
-	/// @brief ˆÚ“®“ü—Í‚ğˆ—‚·‚é
+	/// @brief ç§»å‹•å…¥åŠ›ã‚’å‡¦ç†ã™ã‚‹
 	void HandleMovement();
 
-	/// @brief ’Êí’e‚ğ”­Ë‚·‚é
+	/// @brief é€šå¸¸å¼¾ã‚’ç™ºå°„ã™ã‚‹
 	void ShootNormalBullets();
 
-	/// @brief ƒfƒoƒbƒO—pUŒ‚“ü—Í‚ğˆ—‚·‚é
-	/// @param mouseInput ƒ}ƒEƒX“ü—Íó‘Ô
+	/// @brief ãƒ‡ãƒãƒƒã‚°ç”¨æ”»æ’ƒå…¥åŠ›ã‚’å‡¦ç†ã™ã‚‹
+	/// @param mouseInput ãƒã‚¦ã‚¹å…¥åŠ›çŠ¶æ…‹
 	void HandleDebugAttacks(int mouseInput);
 
-	/// @brief ƒXƒyƒ‹ƒJ[ƒh‚ğg—p‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹
 	void UseSpellCard();
 
-	/// @brief UŒ‚‚â“Áês“®‚ÌƒN[ƒ‹ƒ_ƒEƒ“‚ğXV‚·‚é
+	/// @brief æ”»æ’ƒã‚„ç‰¹æ®Šè¡Œå‹•ã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³ã‚’æ›´æ–°ã™ã‚‹
 	void UpdateCooldowns();
 
-	/// @brief ‹ßÚUŒ‚‚Æ“ÁêUŒ‚‚ğˆ—‚·‚é
-	/// @param mouseInput ƒ}ƒEƒX“ü—Íó‘Ô
+	/// @brief è¿‘æ¥æ”»æ’ƒã¨ç‰¹æ®Šæ”»æ’ƒã‚’å‡¦ç†ã™ã‚‹
+	/// @param mouseInput ãƒã‚¦ã‚¹å…¥åŠ›çŠ¶æ…‹
 	void HandleMeleeAndSpecialAttacks(int mouseInput);
 
-	/// @brief ƒoƒŠƒA‚ÌƒI[ƒ‰‰‰o‚ğ•`‰æ‚·‚é
+	/// @brief ãƒãƒªã‚¢ã®ã‚ªãƒ¼ãƒ©æ¼”å‡ºã‚’æç”»ã™ã‚‹
 	void DrawBarrierAura();
 
-	/// @brief ƒXƒ^ƒ“’†‚Ì‰‰o‚ğ•`‰æ‚·‚é
+	/// @brief ã‚¹ã‚¿ãƒ³ä¸­ã®æ¼”å‡ºã‚’æç”»ã™ã‚‹
 	void DrawStunEffect();
 
-	/// @brief ƒvƒŒƒCƒ„[ƒXƒvƒ‰ƒCƒg‚ğ•`‰æ‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’æç”»ã™ã‚‹
 	void DrawPlayerSprite();
 };

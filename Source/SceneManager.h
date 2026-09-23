@@ -2,85 +2,86 @@
 #pragma once
 #include "Scene.h"
 
-/// @brief Œ»İ‚ÌƒV[ƒ“‚ÆŸ‚É‘JˆÚ‚·‚éƒV[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã¨æ¬¡ã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class SceneManager
 {
 public:
-    /// @brief ƒV[ƒ“í•Ê
+    /// @brief ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
     enum SceneType
     {
-        kSceneNone = 0,          ///< ƒV[ƒ“‚È‚µ
-        kSceneReset,             ///< ƒŠƒZƒbƒgƒV[ƒ“
-        kSceneName,              ///< –¼‘O“ü—ÍƒV[ƒ“
-        kSceneTitle,             ///< ƒ^ƒCƒgƒ‹ƒV[ƒ“
-        kSceneOperation,         ///< ‘€ìà–¾ƒV[ƒ“
-        kSceneRule,              ///< ƒ‹[ƒ‹à–¾ƒV[ƒ“
-        kSceneTutorial,          ///< ƒ`ƒ…[ƒgƒŠƒAƒ‹ƒV[ƒ“
-        kSceneLevel,             ///< ƒŒƒxƒ‹‘I‘ğƒV[ƒ“
-        kSceneGame,              ///< ƒQ[ƒ€–{•ÒƒV[ƒ“
-        kScene3dHard,            ///< 3Dƒn[ƒhƒV[ƒ“
-        kSceneResult,            ///< ƒŠƒUƒ‹ƒgƒV[ƒ“
-        kSceneResultWin,         ///< Ÿ—˜ƒŠƒUƒ‹ƒgƒV[ƒ“
-        kSceneNormalResultScene, ///< ’ÊíƒŠƒUƒ‹ƒgƒV[ƒ“
-        kScene3d,                ///< 3DƒV[ƒ“
-        kSceneFade               ///< ƒV[ƒ“‘JˆÚ—pƒtƒF[ƒhƒV[ƒ“
+        kSceneNone = 0,          ///< ã‚·ãƒ¼ãƒ³ãªã—
+        kSceneReset,             ///< ãƒªã‚»ãƒƒãƒˆã‚·ãƒ¼ãƒ³
+        kSceneName,              ///< åå‰å…¥åŠ›ã‚·ãƒ¼ãƒ³
+        kSceneTitle,             ///< ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³
+        kSceneOperation,         ///< æ“ä½œèª¬æ˜ã‚·ãƒ¼ãƒ³
+        kSceneRule,              ///< ãƒ«ãƒ¼ãƒ«èª¬æ˜ã‚·ãƒ¼ãƒ³
+        kSceneTutorial,          ///< ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«ã‚·ãƒ¼ãƒ³
+        kSceneLevel,             ///< ãƒ¬ãƒ™ãƒ«é¸æŠã‚·ãƒ¼ãƒ³
+        kSceneGame,              ///< ã‚²ãƒ¼ãƒ æœ¬ç·¨ã‚·ãƒ¼ãƒ³
+        kScene3dHard,            ///< 3Dãƒãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³
+        kSceneResult,            ///< ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³
+        kSceneResultWin,         ///< å‹åˆ©ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³
+        kSceneNormalResultScene, ///< é€šå¸¸ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³
+        kScene3d,                ///< 3Dã‚·ãƒ¼ãƒ³
+        kSceneConfig,            ///< è¨­å®šã‚·ãƒ¼ãƒ³
+        kSceneFade               ///< ã‚·ãƒ¼ãƒ³é·ç§»ç”¨ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³
     };
 
 public:
-    /// @brief ƒV[ƒ“ŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     SceneManager();
 
-    /// @brief ƒV[ƒ“ŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+    /// @brief ã‚·ãƒ¼ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
     ~SceneManager();
 
-    /// @brief ‰ŠúƒV[ƒ“‚ğ€”õ‚·‚é
+    /// @brief åˆæœŸã‚·ãƒ¼ãƒ³ã‚’æº–å‚™ã™ã‚‹
     void Initialize();
 
-    /// @brief Œ»İƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ç¾åœ¨ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw();
 
-    /// @brief Œ»İƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ç¾åœ¨ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update();
 
-    /// @brief Œ»İƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ç¾åœ¨ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize();
 
-    /// @brief —\–ñ‚³‚ê‚Ä‚¢‚éŸƒV[ƒ“‚Ö•K—v‚É‰‚¶‚ÄØ‚è‘Ö‚¦‚é
+    /// @brief äºˆç´„ã•ã‚Œã¦ã„ã‚‹æ¬¡ã‚·ãƒ¼ãƒ³ã¸å¿…è¦ã«å¿œã˜ã¦åˆ‡ã‚Šæ›¿ãˆã‚‹
     void ChangeSceneIfNeeded();
 
-    /// @brief Ÿ‚É‘JˆÚ‚·‚éƒV[ƒ“‚ğİ’è‚·‚é
-    /// @param next ŸƒV[ƒ“í•Ê
+    /// @brief æ¬¡ã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹
+    /// @param next æ¬¡ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
     void SetNextScene(SceneType next);
 
-    /// @brief ƒtƒF[ƒh‚ğ‹²‚Ü‚¸‚ÉŸ‚É‘JˆÚ‚·‚éƒV[ƒ“‚ğİ’è‚·‚é
-    /// @param next ŸƒV[ƒ“í•Ê
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚’æŒŸã¾ãšã«æ¬¡ã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹
+    /// @param next æ¬¡ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
     void SetNextSceneImmediately(SceneType next) { next_scene_type_ = next; }
 
-    /// @brief HARD‘I‘ğó‘Ô‚ğİ’è‚·‚é
-    /// @param isHard HARD‚È‚çtrue
+    /// @brief HARDé¸æŠçŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹
+    /// @param isHard HARDãªã‚‰true
     void SetSceneHard(bool isHard) { is_scene_hard_ = isHard; }
 
-    /// @brief HARD‘I‘ğó‘Ô‚ğæ“¾‚·‚é
-    /// @return bool HARD‚È‚çtrue
+    /// @brief HARDé¸æŠçŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+    /// @return bool HARDãªã‚‰true
     bool GetSceneHard() { return is_scene_hard_; }
 
-    /// @brief NORMAL‘I‘ğó‘Ô‚ğİ’è‚·‚é
-    /// @param isNormal NORMAL‚È‚çtrue
+    /// @brief NORMALé¸æŠçŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹
+    /// @param isNormal NORMALãªã‚‰true
     void SetSceneNormal(bool isNormal) { is_scene_normal_ = isNormal; }
 
-    /// @brief NORMAL‘I‘ğó‘Ô‚ğæ“¾‚·‚é
-    /// @return bool NORMAL‚È‚çtrue
+    /// @brief NORMALé¸æŠçŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+    /// @return bool NORMALãªã‚‰true
     bool GetSceneNormal() { return is_scene_normal_; }
 
-    /// @brief Œ»İ‚ÌƒV[ƒ“‚ğæ“¾‚·‚é
-    /// @return Scene* Œ»İƒV[ƒ“
+    /// @brief ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã‚’å–å¾—ã™ã‚‹
+    /// @return Scene* ç¾åœ¨ã‚·ãƒ¼ãƒ³
     Scene* GetCurrentScene() { return current_scene_.get(); }
 
 private:
-    SceneType scene_type_;                  ///< Œ»İÀs’†‚ÌƒV[ƒ“
-    SceneType next_scene_type_;             ///< Ÿ‚É‘JˆÚ‚·‚éƒV[ƒ“
-    SceneType fade_target_scene_type_;      ///< ƒtƒF[ƒhŠ®—¹Œã‚É‘JˆÚ‚·‚éƒV[ƒ“
-    std::unique_ptr<Scene> current_scene_;  ///< Œ»İ‚ÌƒV[ƒ“‚ÌŠ—Lƒ|ƒCƒ“ƒ^
-    bool is_scene_hard_;                    ///< HARD‘I‘ğó‘Ô‚ğ•Û‚·‚éƒtƒ‰ƒO
-    bool is_scene_normal_;                  ///< NORMAL‘I‘ğó‘Ô‚ğ•Û‚·‚éƒtƒ‰ƒO
+    SceneType scene_type_;                  ///< ç¾åœ¨å®Ÿè¡Œä¸­ã®ã‚·ãƒ¼ãƒ³
+    SceneType next_scene_type_;             ///< æ¬¡ã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³
+    SceneType fade_target_scene_type_;      ///< ãƒ•ã‚§ãƒ¼ãƒ‰å®Œäº†å¾Œã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³
+    std::unique_ptr<Scene> current_scene_;  ///< ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®æ‰€æœ‰ãƒã‚¤ãƒ³ã‚¿
+    bool is_scene_hard_;                    ///< HARDé¸æŠçŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ãƒ•ãƒ©ã‚°
+    bool is_scene_normal_;                  ///< NORMALé¸æŠçŠ¶æ…‹ã‚’ä¿æŒã™ã‚‹ãƒ•ãƒ©ã‚°
 };

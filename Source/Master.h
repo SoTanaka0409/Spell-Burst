@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneManager.h"
 #include <memory>
 
-/// @brief ƒQ[ƒ€‘S‘Ì‚Å‹¤—L‚·‚éå—vŠÇ—ƒIƒuƒWƒFƒNƒg‚ğ•Û‚·‚éƒNƒ‰ƒX
+/// @brief ã‚²ãƒ¼ãƒ å…¨ä½“ã§å…±æœ‰ã™ã‚‹ä¸»è¦ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Master
 {
 public:
-	static std::unique_ptr<SceneManager> sceneManager; ///< ƒV[ƒ“ŠÇ—ƒNƒ‰ƒX‚Ì‹¤—LƒCƒ“ƒXƒ^ƒ“ƒX
+	static std::unique_ptr<SceneManager> sceneManager; ///< ã‚·ãƒ¼ãƒ³ç®¡ç†ã‚¯ãƒ©ã‚¹ã®å…±æœ‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 };

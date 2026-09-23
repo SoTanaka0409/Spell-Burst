@@ -1,44 +1,44 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 #include <vector>
 
-/// @brief ƒ^ƒCƒgƒ‹‰æ–Ê‚Æƒ‰ƒ“ƒLƒ“ƒO•\¦‚ğŠÇ—‚·‚éƒV[ƒ“
+/// @brief ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã¨ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ç¤ºã‚’ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³
 class TitleScene : public Scene
 {
 public:
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğ¶¬‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
     TitleScene();
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğ”jŠü‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’ç ´æ£„ã™ã‚‹
     ~TitleScene();
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
     void Initialize() override;
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize() override;
 
 private:
-    /// @brief ƒ‰ƒ“ƒLƒ“ƒO‚ğ•`‰æ‚·‚é
+    /// @brief ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã‚’æç”»ã™ã‚‹
     void DrawRankings();
 
-    /// @brief ƒ^ƒCƒgƒ‹ƒƒS‚ğ•`‰æ‚·‚é
+    /// @brief ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´ã‚’æç”»ã™ã‚‹
     void DrawTitleLogo();
 
-    /// @brief ƒƒjƒ…[—pƒ{ƒ^ƒ“‚ğ•`‰æ‚·‚é
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
+    /// @brief ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç”¨ãƒœã‚¿ãƒ³ã‚’æç”»ã™ã‚‹
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
     void DrawButtons(int mouseX, int mouseY);
 
 private:
-    int bg_graph_;              ///< ”wŒi‰æ‘œƒnƒ“ƒhƒ‹
-    float bg_scroll_x_;         ///< ”wŒiƒXƒNƒ[ƒ‹ˆÊ’u
-    int ui_button_graph_;       ///< ƒ{ƒ^ƒ“‰æ‘œƒnƒ“ƒhƒ‹
-    std::vector<int> rankings_; ///< “Ç‚İ‚ñ‚¾ƒ‰ƒ“ƒLƒ“ƒO‹L˜^
+    int bg_graph_;              ///< èƒŒæ™¯ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+    float bg_scroll_x_;         ///< èƒŒæ™¯ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ä½ç½®
+    int ui_button_graph_;       ///< ãƒœã‚¿ãƒ³ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+    std::vector<int> rankings_; ///< èª­ã¿è¾¼ã‚“ã ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¨˜éŒ²
 };

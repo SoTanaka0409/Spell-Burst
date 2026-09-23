@@ -1,4 +1,4 @@
-#include "EffectManager.h"
+ï»¿#include "EffectManager.h"
 #include "ObjectManager.h"
 #include "ExplosionParticle.h"
 #ifndef NOMINMAX
@@ -7,28 +7,28 @@
 #include "DxLib.h"
 #include <cstdlib>
 
-// “ü—ÍFposition=”š”­‚Ì’†SÀ•W, count=¶¬‚·‚éƒp[ƒeƒBƒNƒ‹‘”, color=•`‰æF, size=Šî€ƒTƒCƒY, speed=Šî€‰‘¬
-// o—ÍF‚È‚µ
-// •›ì—pFObjectManager‚ğ‰î‚µ‚½Aƒ‰ƒ“ƒ_ƒ€‚ÈƒxƒNƒgƒ‹‚Æõ–½‚ğ‚Â”š”­ƒp[ƒeƒBƒNƒ‹iExplosionParticlej‚Ì“®“IˆêŠ‡¶¬
-/// @brief SpawnExplosion ‚ğÀs‚·‚é
-/// @param position position ‚Ì’l
-/// @param count count ‚Ì’l
-/// @param color color ‚Ì’l
-/// @param size size ‚Ì’l
-/// @param speed speed ‚Ì’l
+// å…¥åŠ›ï¼šposition=çˆ†ç™ºã®ä¸­å¿ƒåº§æ¨™, count=ç”Ÿæˆã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç·æ•°, color=æç”»è‰², size=åŸºæº–ã‚µã‚¤ã‚º, speed=åŸºæº–åˆé€Ÿ
+// å‡ºåŠ›ï¼šãªã—
+// å‰¯ä½œç”¨ï¼šObjectManagerã‚’ä»‹ã—ãŸã€ãƒ©ãƒ³ãƒ€ãƒ ãªãƒ™ã‚¯ãƒˆãƒ«ã¨å¯¿å‘½ã‚’æŒã¤çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ï¼ˆExplosionParticleï¼‰ã®å‹•çš„ä¸€æ‹¬ç”Ÿæˆ
+/// @brief SpawnExplosion ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param position position ã®å€¤
+/// @param count count ã®å€¤
+/// @param color color ã®å€¤
+/// @param size size ã®å€¤
+/// @param speed speed ã®å€¤
 void EffectManager::SpawnExplosion(Vector2 position, int count, int color, float size, float speed)
 {
 	for (int i = 0; i < count; i++)
 	{
 		float angle = static_cast<float>(rand() % 360) * DX_PI_F / 180.0f;
 
-		// ‰‰od—lF‚·‚×‚Ä‚Ì—±q‚ªˆêÄ‚É“¯‚¶‘¬“x‚ÅL‚ª‚é‚Æ•s©‘R‚Èu^‰~‚Ì—Öv‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚½‚ßA‰‘¬‚É‚ä‚ç‚¬‚ğ—^‚¦‚Ä“DL‚¢”š”­‚Ì¿Š´‚ğ•\Œ»
+		// æ¼”å‡ºä»•æ§˜ï¼šã™ã¹ã¦ã®ç²’å­ãŒä¸€æ–‰ã«åŒã˜é€Ÿåº¦ã§åºƒãŒã‚‹ã¨ä¸è‡ªç„¶ãªã€ŒçœŸå††ã®è¼ªã€ã«ãªã£ã¦ã—ã¾ã†ãŸã‚ã€åˆé€Ÿã«ã‚†ã‚‰ãã‚’ä¸ãˆã¦æ³¥è‡­ã„çˆ†ç™ºã®è³ªæ„Ÿã‚’è¡¨ç¾
 		float currentSpeed = speed * (0.5f + (rand() % 50) / 100.0f);
 
-		// ƒpƒtƒH[ƒ}ƒ“ƒX——RFŒ‚”jƒ‰ƒbƒVƒ…‚É”çŒÂ‚Ì—±q‚ª‰æ–Ê“à‚É‘Ø—¯‚µ‚Äˆ——‚¿i•`‰æƒhƒ[ƒR[ƒ‹”š”­j‚ğ‹N‚±‚³‚È‚¢‚æ‚¤A–ñ0.5•bi20‚©‚ç40ƒtƒŒ[ƒ€j‚Ì’Z–½‚Éİ’è
+		// ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ç†ç”±ï¼šæ’ƒç ´ãƒ©ãƒƒã‚·ãƒ¥æ™‚ã«æ•°åƒå€‹ã®ç²’å­ãŒç”»é¢å†…ã«æ»ç•™ã—ã¦å‡¦ç†è½ã¡ï¼ˆæç”»ãƒ‰ãƒ­ãƒ¼ã‚³ãƒ¼ãƒ«çˆ†ç™ºï¼‰ã‚’èµ·ã“ã•ãªã„ã‚ˆã†ã€ç´„0.5ç§’ï¼ˆ20ã‹ã‚‰40ãƒ•ãƒ¬ãƒ¼ãƒ ï¼‰ã®çŸ­å‘½ã«è¨­å®š
 		int life = 20 + rand() % 20;
 
-		// ‰‰od—lF”j•Ğ‚Ì‘å¬‚ÉŒÂ‘Ì·‚ğİ‚¯‚é‚±‚Æ‚ÅA‘å—±‚Ì‰Î‰Ô‚©‚ç‰Î‚Ì•²‚Ü‚Å‚ª¬‚´‚è‡‚Á‚½‹Šo“I‚È–§“xŠ´‚Æ—§‘ÌŠ´‚ğƒVƒ~ƒ…ƒŒ[ƒg
+		// æ¼”å‡ºä»•æ§˜ï¼šç ´ç‰‡ã®å¤§å°ã«å€‹ä½“å·®ã‚’è¨­ã‘ã‚‹ã“ã¨ã§ã€å¤§ç²’ã®ç«èŠ±ã‹ã‚‰ç«ã®ç²‰ã¾ã§ãŒæ··ã–ã‚Šåˆã£ãŸè¦–è¦šçš„ãªå¯†åº¦æ„Ÿã¨ç«‹ä½“æ„Ÿã‚’ã‚·ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆ
 		float currentSize = size * (0.5f + (rand() % 50) / 100.0f);
 
 		ObjectManager::Instantiate<ExplosionParticle>(position.x, position.y, currentSpeed, angle, color, life, currentSize);

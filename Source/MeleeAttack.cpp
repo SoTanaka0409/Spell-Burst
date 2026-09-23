@@ -1,4 +1,4 @@
-#include "MeleeAttack.h"
+ï»¿#include "MeleeAttack.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -9,9 +9,9 @@
 #include <algorithm>
 #include <cmath>
 
-/// @brief MeleeAttack ‚ð¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief MeleeAttack ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 MeleeAttack::MeleeAttack(float x, float y)
 	: Object2D(Vector2(x, y))
 	, collider_(nullptr)
@@ -26,7 +26,7 @@ MeleeAttack::MeleeAttack(float x, float y)
 	collider_ = new CapsuleCollider(this, position_, position_, 80.0f);
 }
 
-/// @brief ”jŠüˆ—‚ðs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 MeleeAttack::~MeleeAttack()
 {
 	if (collider_)
@@ -36,7 +36,7 @@ MeleeAttack::~MeleeAttack()
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+/// @brief æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void MeleeAttack::Update()
 {
 	life_time_--;
@@ -50,7 +50,7 @@ void MeleeAttack::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ðs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void MeleeAttack::Draw()
 {
 	unsigned int slashColor = GetColor(100, 255, 255);
@@ -68,14 +68,14 @@ void MeleeAttack::Draw()
 	}
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void MeleeAttack::Kill()
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ðs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æŽ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void MeleeAttack::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

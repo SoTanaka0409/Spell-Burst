@@ -1,32 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 #include "SceneManager.h"
 #include <memory>
 
-/// @brief ƒV[ƒ“‘JˆÚ‚ÌƒtƒF[ƒhƒAƒEƒg‚ğŠÇ—‚·‚éƒV[ƒ“
+/// @brief ã‚·ãƒ¼ãƒ³é·ç§»æ™‚ã®ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã‚’ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³
 class FadeScene : public Scene
 {
 public:
-    /// @brief ƒtƒF[ƒhƒV[ƒ“‚ğ¶¬‚·‚é
-    /// @param target_scene ƒtƒF[ƒhŠ®—¹Œã‚É‘JˆÚ‚·‚éƒV[ƒ“í•Ê
-    /// @param previous_scene ƒtƒF[ƒh’†‚É”wŒi‚Æ‚µ‚Ä•`‰æ‚·‚é‘JˆÚ‘OƒV[ƒ“
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param target_scene ãƒ•ã‚§ãƒ¼ãƒ‰å®Œäº†å¾Œã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
+    /// @param previous_scene ãƒ•ã‚§ãƒ¼ãƒ‰ä¸­ã«èƒŒæ™¯ã¨ã—ã¦æç”»ã™ã‚‹é·ç§»å‰ã‚·ãƒ¼ãƒ³
     FadeScene(SceneManager::SceneType target_scene, std::unique_ptr<Scene> previous_scene);
 
-    /// @brief ƒtƒF[ƒhƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
     void Initialize() override;
 
-    /// @brief ƒtƒF[ƒhƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ƒtƒF[ƒhƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒtƒF[ƒhƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ãƒ•ã‚§ãƒ¼ãƒ‰ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize() override;
 
 private:
-    SceneManager::SceneType target_scene_; ///< ƒtƒF[ƒhŠ®—¹Œã‚É‘JˆÚ‚·‚éƒV[ƒ“í•Ê
-    std::unique_ptr<Scene> previous_scene_; ///< ƒtƒF[ƒh’†‚É”wŒi‚Æ‚µ‚Ä•`‰æ‚·‚é‘JˆÚ‘OƒV[ƒ“
-    int fade_timer_;                       ///< ƒtƒF[ƒhŒo‰ßƒtƒŒ[ƒ€
-    int fade_duration_;                    ///< ƒtƒF[ƒh‚É‚©‚¯‚é‘ƒtƒŒ[ƒ€”
+    SceneManager::SceneType target_scene_; ///< ãƒ•ã‚§ãƒ¼ãƒ‰å®Œäº†å¾Œã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
+    std::unique_ptr<Scene> previous_scene_; ///< ãƒ•ã‚§ãƒ¼ãƒ‰ä¸­ã«èƒŒæ™¯ã¨ã—ã¦æç”»ã™ã‚‹é·ç§»å‰ã‚·ãƒ¼ãƒ³
+    int fade_timer_;                       ///< ãƒ•ã‚§ãƒ¼ãƒ‰çµŒéãƒ•ãƒ¬ãƒ¼ãƒ 
+    int fade_duration_;                    ///< ãƒ•ã‚§ãƒ¼ãƒ‰ã«ã‹ã‘ã‚‹ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 };

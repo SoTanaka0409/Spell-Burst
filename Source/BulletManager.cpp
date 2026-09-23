@@ -1,4 +1,4 @@
-#include "BulletManager.h"
+ï»¿#include "BulletManager.h"
 #include "ObjectManager.h"
 #include "Bullet.h"
 #ifndef NOMINMAX
@@ -7,24 +7,24 @@
 #include "DxLib.h"
 #include <algorithm>
 
-/// @brief BulletManager ‚ğ¶¬‚·‚é
+/// @brief BulletManager ã‚’ç”Ÿæˆã™ã‚‹
 BulletManager::BulletManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 BulletManager::~BulletManager()
 {
     bullets.clear();
 }
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void BulletManager::Initialize()
 {
     bullets.clear();
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void BulletManager::Update()
 {
     bullets.erase(
@@ -44,15 +44,15 @@ void BulletManager::Update()
         bullets.end());
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void BulletManager::Draw()
 {
 
 }
 
-/// @brief SpawnBullet ‚ğÀs‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief SpawnBullet ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 void BulletManager::SpawnBullet(float x, float y)
 {
     bullets.push_back(ObjectManager::Instantiate<Bullet>(x, y, 1));

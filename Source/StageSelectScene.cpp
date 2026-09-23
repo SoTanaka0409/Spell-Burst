@@ -1,4 +1,4 @@
-#include "StageSelectScene.h"
+ï»¿#include "StageSelectScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -13,7 +13,7 @@
 #include "DxLib.h"
 #include <cstring>
 
-/// @brief ‰Šú‰»ˆ—‚ðs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void StageSelectScene::Initialize()
 {
 	phase_ = 0;
@@ -22,7 +22,7 @@ void StageSelectScene::Initialize()
 	SoundManager::GetInstance()->PlayBGM("BGM_169");
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+/// @brief æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void StageSelectScene::Update()
 {
 	wait_count_++;
@@ -68,12 +68,12 @@ void StageSelectScene::Update()
 	}
 }
 
-/// @brief UpdateCharacterSelect ‚ðŽÀs‚·‚é
-/// @param mouseX mouseX ‚Ì’l
-/// @param mouseY mouseY ‚Ì’l
-/// @param isLeftClicked isLeftClicked ‚Ì’l
-/// @param cx cx ‚Ì’l
-/// @param cy cy ‚Ì’l
+/// @brief UpdateCharacterSelect ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param mouseX mouseX ã®å€¤
+/// @param mouseY mouseY ã®å€¤
+/// @param isLeftClicked isLeftClicked ã®å€¤
+/// @param cx cx ã®å€¤
+/// @param cy cy ã®å€¤
 void StageSelectScene::UpdateCharacterSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy)
 {
 	int gap = 200;
@@ -107,12 +107,12 @@ void StageSelectScene::UpdateCharacterSelect(int mouseX, int mouseY, bool isLeft
 	}
 }
 
-/// @brief UpdateStageSelect ‚ðŽÀs‚·‚é
-/// @param mouseX mouseX ‚Ì’l
-/// @param mouseY mouseY ‚Ì’l
-/// @param isLeftClicked isLeftClicked ‚Ì’l
-/// @param cx cx ‚Ì’l
-/// @param cy cy ‚Ì’l
+/// @brief UpdateStageSelect ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param mouseX mouseX ã®å€¤
+/// @param mouseY mouseY ã®å€¤
+/// @param isLeftClicked isLeftClicked ã®å€¤
+/// @param cx cx ã®å€¤
+/// @param cy cy ã®å€¤
 void StageSelectScene::UpdateStageSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy)
 {
 	int btnW = 300;
@@ -148,15 +148,15 @@ void StageSelectScene::UpdateStageSelect(int mouseX, int mouseY, bool isLeftClic
 }
 
 
-/// @brief DrawButton ‚ðŽÀs‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
-/// @param w w ‚Ì’l
-/// @param h h ‚Ì’l
-/// @param text text ‚Ì’l
-/// @param hover hover ‚Ì’l
-/// @param color color ‚Ì’l
-/// @param font24 font24 ‚Ì’l
+/// @brief DrawButton ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
+/// @param w w ã®å€¤
+/// @param h h ã®å€¤
+/// @param text text ã®å€¤
+/// @param hover hover ã®å€¤
+/// @param color color ã®å€¤
+/// @param font24 font24 ã®å€¤
 void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, bool hover, int color, int font24)
 {
 	if (ui_button_graph_ != -1)
@@ -190,7 +190,7 @@ void StageSelectScene::DrawButton(int x, int y, int w, int h, const char* text, 
 	}
 }
 
-/// @brief •`‰æˆ—‚ðs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void StageSelectScene::Draw()
 {
 	DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(20, 25, 40), TRUE);
@@ -204,7 +204,7 @@ void StageSelectScene::Draw()
 	GetMousePoint(&mouseX, &mouseY);
 
 	bool hoverBack = (mouseX >= 20 && mouseX <= 120 && mouseY >= 20 && mouseY <= 60);
-	DrawButton(20, 20, 100, 40, "–ß‚é", hoverBack, GetColor(150, 150, 150), font24);
+	DrawButton(20, 20, 100, 40, "æˆ»ã‚‹", hoverBack, GetColor(150, 150, 150), font24);
 
 	int cx = Utility::kScreenWidth / 2;
 	int cy = Utility::kScreenHeight / 2;
@@ -220,16 +220,16 @@ void StageSelectScene::Draw()
 
 }
 
-/// @brief DrawCharacterSelect ‚ðŽÀs‚·‚é
-/// @param cx cx ‚Ì’l
-/// @param cy cy ‚Ì’l
-/// @param mouseX mouseX ‚Ì’l
-/// @param mouseY mouseY ‚Ì’l
-/// @param font24 font24 ‚Ì’l
-/// @param subFont subFont ‚Ì’l
+/// @brief DrawCharacterSelect ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param cx cx ã®å€¤
+/// @param cy cy ã®å€¤
+/// @param mouseX mouseX ã®å€¤
+/// @param mouseY mouseY ã®å€¤
+/// @param font24 font24 ã®å€¤
+/// @param subFont subFont ã®å€¤
 void StageSelectScene::DrawCharacterSelect(int cx, int cy, int mouseX, int mouseY, int font24, int subFont)
 {
-	const char* titleTxt = "ƒLƒƒƒ‰ƒNƒ^[‚ð‘I‚ñ‚Å‚­‚¾‚³‚¢";
+	const char* titleTxt = "ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’é¸ã‚“ã§ãã ã•ã„";
 	int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), subFont);
 	DrawStringToHandle((Utility::kScreenWidth - tw) / 2, cy - 150, titleTxt, GetColor(200, 200, 200), subFont);
 
@@ -249,39 +249,39 @@ void StageSelectScene::DrawCharacterSelect(int cx, int cy, int mouseX, int mouse
 	DrawButton(char1X, charY, charW, charH, nullptr, hover1, GetColor(100, 100, 255), font24);
 	int s1 = hover1 ? 55 : 45;
 	DrawExtendGraph(char1X + charW / 2 - s1, charY + charH / 2 - s1, char1X + charW / 2 + s1, charY + charH / 2 + s1, tex1, TRUE);
-	const char* charName1 = "•W€ƒ^ƒCƒv";
+	const char* charName1 = "æ¨™æº–ã‚¿ã‚¤ãƒ—";
 	int cw1 = GetDrawStringWidthToHandle(charName1, (int)strlen(charName1), font24);
 	DrawStringToHandle(char1X + (charW - cw1) / 2, charY + charH + 10, charName1, GetColor(200, 200, 255), font24);
-	if (hover1) DrawStringToHandle(char1X - 45, charY + charH + 40, "•KŽE‹ZF‹É‘¾ƒŒ[ƒU[", GetColor(255, 255, 0), font24);
+	if (hover1) DrawStringToHandle(char1X - 45, charY + charH + 40, "å¿…æ®ºæŠ€ï¼šæ¥µå¤ªãƒ¬ãƒ¼ã‚¶ãƒ¼", GetColor(255, 255, 0), font24);
 
 	bool hover2 = (mouseX >= char2X && mouseX <= char2X + charW && mouseY >= charY && mouseY <= charY + charH);
 	DrawButton(char2X, charY, charW, charH, nullptr, hover2, GetColor(255, 100, 100), font24);
 	int s2 = hover2 ? 55 : 45;
 	DrawExtendGraph(char2X + charW / 2 - s2, charY + charH / 2 - s2, char2X + charW / 2 + s2, charY + charH / 2 + s2, tex2, TRUE);
-	const char* charName2 = "ŠgŽUƒ^ƒCƒv";
+	const char* charName2 = "æ‹¡æ•£ã‚¿ã‚¤ãƒ—";
 	int cw2 = GetDrawStringWidthToHandle(charName2, (int)strlen(charName2), font24);
 	DrawStringToHandle(char2X + (charW - cw2) / 2, charY + charH + 10, charName2, GetColor(255, 200, 200), font24);
-	if (hover2) DrawStringToHandle(char2X - 45, charY + charH + 40, "•KŽE‹ZF“øFƒEƒF[ƒu", GetColor(255, 255, 0), font24);
+	if (hover2) DrawStringToHandle(char2X - 45, charY + charH + 40, "å¿…æ®ºæŠ€ï¼šè™¹è‰²ã‚¦ã‚§ãƒ¼ãƒ–", GetColor(255, 255, 0), font24);
 
 	bool hover3 = (mouseX >= char3X && mouseX <= char3X + charW && mouseY >= charY && mouseY <= charY + charH);
 	DrawButton(char3X, charY, charW, charH, nullptr, hover3, GetColor(100, 255, 100), font24);
 	int s3 = hover3 ? 55 : 45;
 	DrawExtendGraph(char3X + charW / 2 - s3, charY + charH / 2 - s3, char3X + charW / 2 + s3, charY + charH / 2 + s3, tex3, TRUE);
-	const char* charName3 = "’Ç”öƒ^ƒCƒv";
+	const char* charName3 = "è¿½å°¾ã‚¿ã‚¤ãƒ—";
 	int cw3 = GetDrawStringWidthToHandle(charName3, (int)strlen(charName3), font24);
 	DrawStringToHandle(char3X + (charW - cw3) / 2, charY + charH + 10, charName3, GetColor(200, 255, 200), font24);
-	if (hover3) DrawStringToHandle(char3X - 35, charY + charH + 40, "•KŽE‹ZF÷á", GetColor(255, 255, 0), font24);
+	if (hover3) DrawStringToHandle(char3X - 35, charY + charH + 40, "å¿…æ®ºæŠ€ï¼šæ¡œå¹é›ª", GetColor(255, 255, 0), font24);
 }
-/// @brief DrawStageSelect ‚ðŽÀs‚·‚é
-/// @param cx cx ‚Ì’l
-/// @param cy cy ‚Ì’l
-/// @param mouseX mouseX ‚Ì’l
-/// @param mouseY mouseY ‚Ì’l
-/// @param font24 font24 ‚Ì’l
-/// @param titleFont titleFont ‚Ì’l
+/// @brief DrawStageSelect ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param cx cx ã®å€¤
+/// @param cy cy ã®å€¤
+/// @param mouseX mouseX ã®å€¤
+/// @param mouseY mouseY ã®å€¤
+/// @param font24 font24 ã®å€¤
+/// @param titleFont titleFont ã®å€¤
 void StageSelectScene::DrawStageSelect(int cx, int cy, int mouseX, int mouseY, int font24, int titleFont)
 {
-	const char* titleTxt = "“ïˆÕ“x‚ð‘I‚ñ‚Å‚­‚¾‚³‚¢";
+	const char* titleTxt = "é›£æ˜“åº¦ã‚’é¸ã‚“ã§ãã ã•ã„";
 	int tw = GetDrawStringWidthToHandle(titleTxt, (int)strlen(titleTxt), titleFont);
 	DrawStringToHandle((Utility::kScreenWidth - tw) / 2, cy - 200, titleTxt, GetColor(255, 255, 255), titleFont);
 
@@ -293,16 +293,16 @@ void StageSelectScene::DrawStageSelect(int cx, int cy, int mouseX, int mouseY, i
 	int btnY3 = btnY2 + 100;
 
 	bool hover1 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH);
-	DrawButton(btnX, btnY1, btnW, btnH, "ƒXƒe[ƒW1F‚Ó‚Â‚¤", hover1, GetColor(150, 255, 150), font24);
+	DrawButton(btnX, btnY1, btnW, btnH, "ã‚¹ãƒ†ãƒ¼ã‚¸1ï¼šãµã¤ã†", hover1, GetColor(150, 255, 150), font24);
 
 	bool hover2 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH);
-	DrawButton(btnX, btnY2, btnW, btnH, "ƒXƒe[ƒW2F‚Þ‚¸‚©‚µ‚¢", hover2, GetColor(255, 200, 100), font24);
+	DrawButton(btnX, btnY2, btnW, btnH, "ã‚¹ãƒ†ãƒ¼ã‚¸2ï¼šã‚€ãšã‹ã—ã„", hover2, GetColor(255, 200, 100), font24);
 
 	bool hover3 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH);
-	DrawButton(btnX, btnY3, btnW, btnH, "ƒXƒe[ƒW3F‚Æ‚Ä‚à‚Þ‚¸‚©‚µ‚¢", hover3, GetColor(255, 100, 100), font24);
+	DrawButton(btnX, btnY3, btnW, btnH, "ã‚¹ãƒ†ãƒ¼ã‚¸3ï¼šã¨ã¦ã‚‚ã‚€ãšã‹ã—ã„", hover3, GetColor(255, 100, 100), font24);
 }
 
-/// @brief I—¹ˆ—‚ðs‚¤
+/// @brief çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 void StageSelectScene::Finalize()
 {
 }

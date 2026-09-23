@@ -2,47 +2,65 @@
 #include <string>
 #include <unordered_map>
 
-/// @brief BGM‚ÆŒø‰Ê‰¹‚ğ“Ç‚İ‚İAƒLƒƒƒbƒVƒ…‚µ‚ÄÄ¶‚·‚éƒNƒ‰ƒX
+/// @brief BGMã¨åŠ¹æœéŸ³ã‚’èª­ã¿è¾¼ã¿ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¦å†ç”Ÿã™ã‚‹ã‚¯ãƒ©ã‚¹
 class SoundManager
 {
 private:
-    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+    /// @brief ã‚µã‚¦ãƒ³ãƒ‰ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     SoundManager();
 
-    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+    /// @brief ã‚µã‚¦ãƒ³ãƒ‰ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
     ~SoundManager();
 
 public:
     SoundManager(const SoundManager&) = delete;
     SoundManager& operator=(const SoundManager&) = delete;
 
-    /// @brief ƒTƒEƒ“ƒhŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
-    /// @return SoundManager* ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+    /// @brief ã‚µã‚¦ãƒ³ãƒ‰ç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @return SoundManager* ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
     static SoundManager* GetInstance();
 
-    /// @brief ƒTƒEƒ“ƒh‚ğæ“¾‚·‚éB–¢“Ç‚İ‚İ‚È‚çƒ[ƒh‚·‚é
-    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
-    /// @return int ƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹
+    /// @brief ã‚µã‚¦ãƒ³ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚æœªèª­ã¿è¾¼ã¿ãªã‚‰ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+    /// @param path éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+    /// @return int ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒ³ãƒ‰ãƒ«
     int GetSound(const std::string& path);
 
-    /// @brief BGM‚ğƒ‹[ƒvÄ¶‚·‚é
-    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    /// @brief BGMã‚’ãƒ«ãƒ¼ãƒ—å†ç”Ÿã™ã‚‹
+    /// @param path éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
     void PlayBGM(const std::string& path);
 
-    /// @brief Œø‰Ê‰¹‚ğˆê“x‚¾‚¯Ä¶‚·‚é
-    /// @param path ‰¹ºƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    /// @brief åŠ¹æœéŸ³ã‚’ä¸€åº¦ã ã‘å†ç”Ÿã™ã‚‹
+    /// @param path éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
     void PlaySE(const std::string& path);
 
-    /// @brief Ä¶’†‚ÌBGM‚ğ’â~‚·‚é
+    /// @brief å†ç”Ÿä¸­ã®BGMã‚’åœæ­¢ã™ã‚‹
     void StopBGM();
 
-    /// @brief Ä¶’†‚Ì‘SƒTƒEƒ“ƒh‚ğ’â~‚·‚é
+    /// @brief å†ç”Ÿä¸­ã®å…¨ã‚µã‚¦ãƒ³ãƒ‰ã‚’åœæ­¢ã™ã‚‹
     void StopAll();
 
-    /// @brief “Ç‚İ‚ñ‚¾‘SƒTƒEƒ“ƒh‚ğ‰ğ•ú‚·‚é
+    /// @brief èª­ã¿è¾¼ã‚“ã å…¨ã‚µã‚¦ãƒ³ãƒ‰ã‚’è§£æ”¾ã™ã‚‹
     void ClearAll();
 
+    /// @brief BGMã®éŸ³é‡ã‚’è¨­å®šã™ã‚‹(0ã€œ100)
+    /// @param volume éŸ³é‡(0ã€œ100)
+    void SetBGMVolume(int volume);
+
+    /// @brief SEã®éŸ³é‡ã‚’è¨­å®šã™ã‚‹(0ã€œ100)
+    /// @param volume éŸ³é‡(0ã€œ100)
+    void SetSEVolume(int volume);
+
+    /// @brief BGMã®éŸ³é‡ã‚’å–å¾—ã™ã‚‹
+    /// @return int éŸ³é‡(0ã€œ100)
+    int GetBGMVolume() const { return bgm_volume_; }
+
+    /// @brief SEã®éŸ³é‡ã‚’å–å¾—ã™ã‚‹
+    /// @return int éŸ³é‡(0ã€œ100)
+    int GetSEVolume() const { return se_volume_; }
+
 private:
-    std::unordered_map<std::string, int> sound_map_; ///< ‰¹ºƒpƒX‚ÆƒTƒEƒ“ƒhƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
-    int current_bgm_handle_;                         ///< Œ»İÄ¶’†‚ÌBGMƒnƒ“ƒhƒ‹
+    std::unordered_map<std::string, int> sound_map_; ///< éŸ³å£°ãƒ‘ã‚¹ã¨ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒ³ãƒ‰ãƒ«ã®å¯¾å¿œè¡¨
+    int current_bgm_handle_;                         ///< ç¾åœ¨å†ç”Ÿä¸­ã®BGMãƒãƒ³ãƒ‰ãƒ«
+    int bgm_volume_;                                 ///< BGMã®éŸ³é‡(0ã€œ100)
+    int se_volume_;                                  ///< SEã®éŸ³é‡(0ã€œ100)
 };

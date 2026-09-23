@@ -1,4 +1,4 @@
-#include "RainbowBullet.h"
+ï»¿#include "RainbowBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -9,9 +9,9 @@
 #include "Utility.h"
 #include <cmath>
 
-/// @brief RainbowBullet ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief RainbowBullet ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 RainbowBullet::RainbowBullet(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 12.0f, 1)
 {
@@ -20,12 +20,12 @@ RainbowBullet::RainbowBullet(float x, float y)
 	collider_ = new CapsuleCollider(this, position_, position_, 12.0f);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 RainbowBullet::~RainbowBullet()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void RainbowBullet::Update()
 {
 	position_ += dir_ * (speed_ * Utility::time_scale_);
@@ -41,7 +41,7 @@ void RainbowBullet::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void RainbowBullet::Draw()
 {
 	if (!is_active_) return;
@@ -57,9 +57,9 @@ void RainbowBullet::Draw()
 	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(255, 255, 255), TRUE);
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void RainbowBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <list>
 #include <vector>
 #include <memory>
@@ -7,65 +7,68 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-/// @brief 2DƒIƒuƒWƒFƒNƒg‚Ì¶¬AXVA•`‰æAíœ‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief 2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆã€æ›´æ–°ã€æç”»ã€å‰Šé™¤ã‚’ã¾ã¨ã‚ã¦ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class ObjectManager
 {
 public:
-    /// @brief ƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+    /// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     ObjectManager();
 
-    /// @brief ƒIƒuƒWƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+    /// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
     ~ObjectManager();
 
-    /// @brief ŠÇ—’†‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é
+    /// @brief ç®¡ç†ä¸­ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹
     void Draw();
 
-    /// @brief ŠÇ—’†‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğXV‚·‚é
+    /// @brief ç®¡ç†ä¸­ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ›´æ–°ã™ã‚‹
     void Update();
 
-    /// @brief 2DƒIƒuƒWƒFƒNƒg‚ğŠÇ—ƒŠƒXƒg‚Ö’Ç‰Á‚·‚é
-    /// @param object2D ’Ç‰Á‚·‚éƒIƒuƒWƒFƒNƒg
+    /// @brief 2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç®¡ç†ãƒªã‚¹ãƒˆã¸è¿½åŠ ã™ã‚‹
+    /// @param object2D è¿½åŠ ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     void AddObject(std::shared_ptr<Object2D> object2D);
 
-    /// @brief ‘S‚Ä‚Ì2DƒIƒuƒWƒFƒNƒg‚ğíœ‚·‚é
+    /// @brief å…¨ã¦ã®2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹
     void DeleteAll2D();
 
-    /// @brief íœƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ğæ‚èœ‚­
+    /// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–ã‚Šé™¤ã
     void DeleteAll2DIfNeeded();
 
-    /// @brief w’èƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚ğ1‚Âæ“¾‚·‚é
-    /// @param tag ŒŸõ‚·‚éƒ^ƒO
-    /// @return std::shared_ptr<Object2D> Œ©‚Â‚©‚Á‚½ƒIƒuƒWƒFƒNƒgB‚È‚¯‚ê‚Înullptr
+    /// @brief æŒ‡å®šã‚¿ã‚°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’1ã¤å–å¾—ã™ã‚‹
+    /// @param tag æ¤œç´¢ã™ã‚‹ã‚¿ã‚°
+    /// @return std::shared_ptr<Object2D> è¦‹ã¤ã‹ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ãªã‘ã‚Œã°nullptr
     std::shared_ptr<Object2D> GetObject2DByTag(Object2D::Tag2D tag);
 
-    /// @brief w’èƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚ğ‘S‚Äæ“¾‚·‚é
-    /// @param tag ŒŸõ‚·‚éƒ^ƒO
-    /// @return std::vector<std::shared_ptr<Object2D>> Œ©‚Â‚©‚Á‚½ƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
+    /// @brief æŒ‡å®šã‚¿ã‚°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¨ã¦å–å¾—ã™ã‚‹
+    /// @param tag æ¤œç´¢ã™ã‚‹ã‚¿ã‚°
+    /// @return std::vector<std::shared_ptr<Object2D>> è¦‹ã¤ã‹ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
     std::vector<std::shared_ptr<Object2D>> GetObject2DListByTag(Object2D::Tag2D tag);
 
-    /// @brief ŠÇ—’†‚ÌƒIƒuƒWƒFƒNƒg”‚ğæ“¾‚·‚é
-    /// @return size_t ƒIƒuƒWƒFƒNƒg”
+    /// @brief ç®¡ç†ä¸­ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°ã‚’å–å¾—ã™ã‚‹
+    /// @return size_t ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ•°
     size_t GetObjectCount() const { return object_2d_list_.size(); }
 
-    /// @brief ŠÇ—’†‚ÌƒIƒuƒWƒFƒNƒgƒŠƒXƒg‚ğæ“¾‚·‚é
-    /// @return const std::list<std::shared_ptr<Object2D>>& ƒIƒuƒWƒFƒNƒgƒŠƒXƒg
+    /// @brief ç®¡ç†ä¸­ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+    /// @return const std::list<std::shared_ptr<Object2D>>& ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒªã‚¹ãƒˆ
     const std::list<std::shared_ptr<Object2D>>& GetObjectList() const { return object_2d_list_; }
 
 private:
-    std::list<std::shared_ptr<Object2D>> object_2d_list_; ///< ŠÇ—’†‚Ì2DƒIƒuƒWƒFƒNƒg
-    std::weak_ptr<Object2D> player_2d_;                  ///< ƒvƒŒƒCƒ„[‚Ö‚ÌãQÆ
+    std::list<std::shared_ptr<Object2D>> object_2d_list_; ///< ç®¡ç†ä¸­ã®2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    std::weak_ptr<Object2D> player_2d_;                  ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®å¼±å‚ç…§
 
 public:
-    /// @brief Œ»İƒV[ƒ“‚ÌObjectManager‚ÖƒIƒuƒWƒFƒNƒg‚ğ¶¬E“o˜^‚·‚é
-    /// @tparam T ¶¬‚·‚éƒIƒuƒWƒFƒNƒgŒ^
-    /// @tparam Args ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚ÌŒ^
-    /// @param args ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ö“n‚·ˆø”
-    /// @return std::weak_ptr<T> ¶¬‚µ‚½ƒIƒuƒWƒFƒNƒg‚Ö‚ÌãQÆB“o˜^‚Å‚«‚È‚¢ê‡‚Í‹ó
+    /// @brief ç¾åœ¨ã‚·ãƒ¼ãƒ³ã®ObjectManagerã¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆãƒ»ç™»éŒ²ã™ã‚‹
+    /// @tparam T ç”Ÿæˆã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹
+    /// @tparam Args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã®å‹
+    /// @param args ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¸æ¸¡ã™å¼•æ•°
+    /// @return std::weak_ptr<T> ç”Ÿæˆã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®å¼±å‚ç…§ã€‚ç™»éŒ²ã§ããªã„å ´åˆã¯ç©º
     template<typename T, typename... Args>
     static std::weak_ptr<T> Instantiate(Args&&... args);
 };
 
 template<typename T, typename... Args>
+/// @brief eã®å‡¦ç†ã‚’è¡Œã†
+/// @param args å¼•æ•°
+/// @return æˆ»ã‚Šå€¤
 std::weak_ptr<T> ObjectManager::Instantiate(Args&&... args)
 {
     if (!Master::sceneManager)

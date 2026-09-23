@@ -1,31 +1,31 @@
-#pragma once
+ï»¿#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-/// @brief “øF‚É•Ï‰»‚µ‚È‚ª‚çi‚ŞƒvƒŒƒCƒ„[’eƒNƒ‰ƒX
+/// @brief è™¹è‰²ã«å¤‰åŒ–ã—ãªãŒã‚‰é€²ã‚€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾ã‚¯ãƒ©ã‚¹
 class RainbowBullet : public Projectile
 {
 private:
-    int color_hue_; ///< •`‰æF‚ÌF‘Š
+    int color_hue_; ///< æç”»è‰²ã®è‰²ç›¸
 
 public:
-    /// @brief “øF’e‚ğ¶¬‚·‚é
-    /// @param x ‰ŠúXÀ•W
-    /// @param y ‰ŠúYÀ•W
+    /// @brief è™¹è‰²å¼¾ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param x åˆæœŸXåº§æ¨™
+    /// @param y åˆæœŸYåº§æ¨™
     RainbowBullet(float x, float y);
 
-    /// @brief “øF’e‚ğ”jŠü‚·‚é
+    /// @brief è™¹è‰²å¼¾ã‚’ç ´æ£„ã™ã‚‹
     virtual ~RainbowBullet() override;
 
-    /// @brief ’e‚ÌˆÚ“®‚ÆF‘Š‚ğXV‚·‚é
+    /// @brief å¼¾ã®ç§»å‹•ã¨è‰²ç›¸ã‚’æ›´æ–°ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief “øF’e‚ğ•`‰æ‚·‚é
+    /// @brief è™¹è‰²å¼¾ã‚’æç”»ã™ã‚‹
     virtual void Draw() override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

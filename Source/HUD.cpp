@@ -1,4 +1,4 @@
-#include "HUD.h"
+ï»¿#include "HUD.h"
 #include "ObjectManager.h"
 #include "Player.h"
 #include "Boss.h"
@@ -15,7 +15,7 @@ float HUD::display_spell_ratio_ = 0.0f;
 float HUD::display_barrier_ratio_ = 0.0f;
 float HUD::boss_hp_ratio_ = 1.0f;
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void HUD::Initialize()
 {
 	display_hp_ratio_ = 1.0f;
@@ -25,10 +25,10 @@ void HUD::Initialize()
 	boss_hp_ratio_ = 1.0f;
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param player player ‚Ì’l
-/// @param enemyManager enemyManager ‚Ì’l
-/// @param boss boss ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param player player ã®å€¤
+/// @param enemyManager enemyManager ã®å€¤
+/// @param boss boss ã®å€¤
 void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
 {
 	float lerpSpeed = 0.1f * Utility::time_scale_;
@@ -56,12 +56,12 @@ void HUD::Update(Player* player, EnemyManager* enemyManager, Boss* boss)
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
-/// @param player player ‚Ì’l
-/// @param enemyManager enemyManager ‚Ì’l
-/// @param boss boss ‚Ì’l
-/// @param cutinTimer cutinTimer ‚Ì’l
-/// @param cutinImageHandle cutinImageHandle ‚Ì’l
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
+/// @param player player ã®å€¤
+/// @param enemyManager enemyManager ã®å€¤
+/// @param boss boss ã®å€¤
+/// @param cutinTimer cutinTimer ã®å€¤
+/// @param cutinImageHandle cutinImageHandle ã®å€¤
 void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle)
 {
 	if (player != nullptr)
@@ -85,8 +85,8 @@ void HUD::Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutin
 	}
 }
 
-/// @brief DrawPlayerStatus ‚ğÀs‚·‚é
-/// @param player player ‚Ì’l
+/// @brief DrawPlayerStatus ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param player player ã®å€¤
 void HUD::DrawPlayerStatus(Player* player)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -94,7 +94,7 @@ void HUD::DrawPlayerStatus(Player* player)
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	DrawBox(10, 10, 350, 135, GetColor(0, 128, 255), FALSE);
 
-	DrawFormatString(20, 20, GetColor(100, 255, 100), "‘Ì—ÍF%d / %d", player->GetHp(), player->GetMaxHp());
+	DrawFormatString(20, 20, GetColor(100, 255, 100), "ä½“åŠ›ï¼š%d / %d", player->GetHp(), player->GetMaxHp());
 
 	int hpBarX = 200;
 	int hpBarY = 22;
@@ -107,7 +107,7 @@ void HUD::DrawPlayerStatus(Player* player)
 	}
 	DrawBox(hpBarX, hpBarY, hpBarX + hpBarWidth, hpBarY + 10, GetColor(200, 255, 200), FALSE);
 
-	DrawFormatString(20, 50, GetColor(255, 215, 0), "ƒŒƒxƒ‹F%d", player->GetLevel());
+	DrawFormatString(20, 50, GetColor(255, 215, 0), "ãƒ¬ãƒ™ãƒ«ï¼š%d", player->GetLevel());
 
 	int xpBarWidth = 260;
 	int xpBarX = 35;
@@ -119,9 +119,9 @@ void HUD::DrawPlayerStatus(Player* player)
 		DrawBox(xpBarX, xpBarY, xpBarX + xpFill, xpBarY + 14, GetColor(80, 200, 255), TRUE);
 	}
 	DrawBox(xpBarX, xpBarY, xpBarX + xpBarWidth, xpBarY + 14, GetColor(0, 180, 255), FALSE);
-	DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "ŒoŒ±’lF%d / %d", player->GetXp(), player->GetXpNeeded());
+	DrawFormatString(xpBarX + 3, xpBarY, GetColor(255, 255, 255), "çµŒé¨“å€¤ï¼š%d / %d", player->GetXp(), player->GetXpNeeded());
 
-	DrawFormatString(20, 90, GetColor(255, 100, 200), "ƒXƒyƒ‹");
+	DrawFormatString(20, 90, GetColor(255, 100, 200), "ã‚¹ãƒšãƒ«");
 	int spellBarY = 105;
 	int spellFill = static_cast<int>(xpBarWidth * display_spell_ratio_);
 
@@ -136,16 +136,16 @@ void HUD::DrawPlayerStatus(Player* player)
 	{
 		if ((GetNowCount() / 150) % 2 == 0)
 		{
-			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "”­“®‰Â”\I•KE‹ZƒL[");
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "ç™ºå‹•å¯èƒ½ï¼å¿…æ®ºæŠ€ã‚­ãƒ¼");
 		}
 		else
 		{
-			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "”­“®‰Â”\I•KE‹ZƒL[");
+			DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 0), "ç™ºå‹•å¯èƒ½ï¼å¿…æ®ºæŠ€ã‚­ãƒ¼");
 		}
 	}
 	else
 	{
-		DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "ƒ`ƒƒ[ƒWF%d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
+		DrawFormatString(xpBarX + 3, spellBarY, GetColor(255, 255, 255), "ãƒãƒ£ãƒ¼ã‚¸ï¼š%d / %d", player->GetSpellGauge(), player->GetMaxSpellGauge());
 	}
 
 	int lvTimer = player->GetLevelUpTimer();
@@ -155,16 +155,16 @@ void HUD::DrawPlayerStatus(Player* player)
 		{
 			int px = static_cast<int>(player->GetX());
 			int py = static_cast<int>(player->GetY()) - 60;
-			DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "ƒŒƒxƒ‹ƒAƒbƒvI");
-			DrawFormatString(px - 60, py, GetColor(255, 215, 0), "ƒŒƒxƒ‹ƒAƒbƒvI");
+			DrawFormatString(px - 58, py + 2, GetColor(0, 0, 0), "ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ï¼");
+			DrawFormatString(px - 60, py, GetColor(255, 215, 0), "ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ï¼");
 			DrawFormatString(px - 60, py + 18, GetColor(255, 255, 100),
-				"ƒŒƒxƒ‹%d ¨ ƒŒƒxƒ‹%d", player->GetLevel() - 1, player->GetLevel());
+				"ãƒ¬ãƒ™ãƒ«%d â†’ ãƒ¬ãƒ™ãƒ«%d", player->GetLevel() - 1, player->GetLevel());
 		}
 	}
 }
 
-/// @brief DrawEnemyProgress ‚ğÀs‚·‚é
-/// @param enemyManager enemyManager ‚Ì’l
+/// @brief DrawEnemyProgress ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param enemyManager enemyManager ã®å€¤
 void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
 {
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 180);
@@ -174,12 +174,12 @@ void HUD::DrawEnemyProgress(EnemyManager* enemyManager)
 
 	if (enemyManager->GetDefeatedCount() < 10)
 	{
-		DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "Œ‚”j”F%d / 10", enemyManager->GetDefeatedCount());
+		DrawFormatString(Utility::kScreenWidth - 220, 20, GetColor(255, 255, 255), "æ’ƒç ´æ•°ï¼š%d / 10", enemyManager->GetDefeatedCount());
 	}
 }
 
-/// @brief DrawBossStatus ‚ğÀs‚·‚é
-/// @param boss boss ‚Ì’l
+/// @brief DrawBossStatus ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param boss boss ã®å€¤
 void HUD::DrawBossStatus(Boss* boss)
 {
 	int barWidth = 400;
@@ -199,13 +199,13 @@ void HUD::DrawBossStatus(Boss* boss)
 	}
 	DrawBox(barX, barY, barX + barWidth, barY + barHeight, GetColor(255, 255, 255), FALSE);
 
-	DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "ƒ{ƒXF”¼‹›l‰¤i‘æ%d’iŠKj", 4 - boss->GetLives());
+	DrawFormatString(barX, barY - 20, GetColor(255, 215, 0), "ãƒœã‚¹ï¼šåŠé­šäººç‹ï¼ˆç¬¬%dæ®µéšï¼‰", 4 - boss->GetLives());
 	DrawFormatString(barX + barWidth - 80, barY - 20, GetColor(255, 255, 255), "%d / %d", boss->GetHp(), boss->GetMaxHp());
 }
 
-/// @brief DrawCutin ‚ğÀs‚·‚é
-/// @param cutinTimer cutinTimer ‚Ì’l
-/// @param cutinImageHandle cutinImageHandle ‚Ì’l
+/// @brief DrawCutin ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param cutinTimer cutinTimer ã®å€¤
+/// @param cutinImageHandle cutinImageHandle ã®å€¤
 void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
 {
 	int maxTimer = 90;
@@ -240,9 +240,9 @@ void HUD::DrawCutin(int cutinTimer, int cutinImageHandle)
 
 	if (progress > 10)
 	{
-		const char* spellName = "ƒXƒyƒ‹ƒJ[ƒhF‹É‘¾ƒŒ[ƒU[II";
-		if (Player::kSelectedCharacterType == 2) spellName = "ƒXƒyƒ‹ƒJ[ƒhF“øFƒEƒF[ƒuII";
-		else if (Player::kSelectedCharacterType == 3) spellName = "ƒXƒyƒ‹ƒJ[ƒhF÷áII";
+		const char* spellName = "ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ï¼šæ¥µå¤ªãƒ¬ãƒ¼ã‚¶ãƒ¼ï¼ï¼";
+		if (Player::kSelectedCharacterType == 2) spellName = "ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ï¼šè™¹è‰²ã‚¦ã‚§ãƒ¼ãƒ–ï¼ï¼";
+		else if (Player::kSelectedCharacterType == 3) spellName = "ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰ï¼šæ¡œå¹é›ªï¼ï¼";
 		DrawFormatString(static_cast<int>(xOffset) + 100, 500, GetColor(0, 255, 255), "%s", spellName);
 	}
 }

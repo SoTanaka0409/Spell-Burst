@@ -1,11 +1,11 @@
-#include "CapsuleCollider.h"
+ï»¿#include "CapsuleCollider.h"
 #include "ObjectManager.h"
 
-/// @brief CapsuleCollider ‚ğ¶¬‚·‚é
-/// @param parent parent ‚Ì’l
-/// @param pos1 pos1 ‚Ì’l
-/// @param pos2 pos2 ‚Ì’l
-/// @param radius radius ‚Ì’l
+/// @brief CapsuleCollider ã‚’ç”Ÿæˆã™ã‚‹
+/// @param parent parent ã®å€¤
+/// @param pos1 pos1 ã®å€¤
+/// @param pos2 pos2 ã®å€¤
+/// @param radius radius ã®å€¤
 CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius)
 	: Collider(parent)
 {
@@ -14,13 +14,13 @@ CapsuleCollider::CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, f
 	this->radius_ = radius;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 CapsuleCollider::~CapsuleCollider()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param check check ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param check check ã®å€¤
 void CapsuleCollider::Update(Collider* check)
 {
 	if (check != nullptr)
@@ -43,7 +43,7 @@ void CapsuleCollider::Update(Collider* check)
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void CapsuleCollider::Draw()
 {
 	DrawCircle(

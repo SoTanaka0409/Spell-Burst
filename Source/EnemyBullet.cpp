@@ -1,4 +1,4 @@
-#include "EnemyBullet.h"
+ï»¿#include "EnemyBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -12,14 +12,14 @@
 #include <cmath>
 #include "utility.h"
 
-/// @brief EnemyBullet ‚ð¶¬‚·‚é
-/// @param pos pos ‚Ì’l
-/// @param dir_ dir_ ‚Ì’l
-/// @param speed_ speed_ ‚Ì’l
-/// @param can_reflect_ can_reflect_ ‚Ì’l
-/// @param is_stun_bullet_ is_stun_bullet_ ‚Ì’l
-/// @param homingFrames homingFrames ‚Ì’l
-/// @param homingDelayFrames homingDelayFrames ‚Ì’l
+/// @brief EnemyBullet ã‚’ç”Ÿæˆã™ã‚‹
+/// @param pos pos ã®å€¤
+/// @param dir_ dir_ ã®å€¤
+/// @param speed_ speed_ ã®å€¤
+/// @param can_reflect_ can_reflect_ ã®å€¤
+/// @param is_stun_bullet_ is_stun_bullet_ ã®å€¤
+/// @param homingFrames homingFrames ã®å€¤
+/// @param homingDelayFrames homingDelayFrames ã®å€¤
 EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_reflect_, bool is_stun_bullet_, int homingFrames, int homingDelayFrames)
 	: Projectile(pos, dir_.Normalized(), speed_, 1)
 {
@@ -38,12 +38,12 @@ EnemyBullet::EnemyBullet(Vector2 pos, Vector2 dir_, float speed_, bool can_refle
 	collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
 }
 
-/// @brief ”jŠüˆ—‚ðs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 EnemyBullet::~EnemyBullet()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+/// @brief æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void EnemyBullet::Update()
 {
 	if (homing_delay_timer_ > 0)
@@ -82,7 +82,7 @@ void EnemyBullet::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ðs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void EnemyBullet::Draw()
 {
 	if (!is_active_) return;
@@ -105,9 +105,9 @@ void EnemyBullet::Draw()
 	}
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ðs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æŽ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void EnemyBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

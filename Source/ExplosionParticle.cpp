@@ -1,4 +1,4 @@
-#include "ExplosionParticle.h"
+ï»¿#include "ExplosionParticle.h"
 #include "ObjectManager.h"
 #include "Utility.h"
 #ifndef NOMINMAX
@@ -7,14 +7,14 @@
 #include "DxLib.h"
 #include <cmath>
 
-/// @brief ExplosionParticle ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
-/// @param speed_ speed_ ‚Ì’l
-/// @param angle angle ‚Ì’l
-/// @param color_ color_ ‚Ì’l
-/// @param life_time_ life_time_ ‚Ì’l
-/// @param size_ size_ ‚Ì’l
+/// @brief ExplosionParticle ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
+/// @param speed_ speed_ ã®å€¤
+/// @param angle angle ã®å€¤
+/// @param color_ color_ ã®å€¤
+/// @param life_time_ life_time_ ã®å€¤
+/// @param size_ size_ ã®å€¤
 ExplosionParticle::ExplosionParticle(float x, float y, float speed_, float angle, int color_, int life_time_, float size_)
 	: Object2D(Vector2(x, y))
 {
@@ -26,12 +26,12 @@ ExplosionParticle::ExplosionParticle(float x, float y, float speed_, float angle
 	this->size_ = size_;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 ExplosionParticle::~ExplosionParticle()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void ExplosionParticle::Update()
 {
 	position_.x += vx_ * Utility::time_scale_;
@@ -47,7 +47,7 @@ void ExplosionParticle::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void ExplosionParticle::Draw()
 {
 	int alpha = static_cast<int>(255.0f * (static_cast<float>(life_time_) / max_life_));

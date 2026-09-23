@@ -1,4 +1,4 @@
-#include "Barrier.h"
+ï»¿#include "Barrier.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -10,11 +10,11 @@
 #include "SoundManager.h"
 #include <cmath>
 
-/// @brief Barrier ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
-/// @param radius radius ‚Ì’l
-/// @param obj obj ‚Ì’l
+/// @brief Barrier ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
+/// @param radius radius ã®å€¤
+/// @param obj obj ã®å€¤
 Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
 	: Object2D(Vector2(x, y))
 	, collider_(nullptr)
@@ -28,7 +28,7 @@ Barrier::Barrier(float x, float y, float radius, Object2D::Tag2D obj)
 	hit_count_ = 0;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Barrier::~Barrier()
 {
 	if (collider_)
@@ -38,7 +38,7 @@ Barrier::~Barrier()
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Barrier::Update()
 {
 	timer_ += 1.0f * Utility::time_scale_;
@@ -81,7 +81,7 @@ void Barrier::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Barrier::Draw()
 {
 	if (is_deployed_)
@@ -113,9 +113,9 @@ void Barrier::Draw()
 	}
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Barrier::OnTrigger(Collider* collider, Collider* check)
 {
 	if (!is_deployed_) return;

@@ -1,4 +1,4 @@
-#include "SpellCardBullet.h"
+ï»¿#include "SpellCardBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Player.h"
@@ -13,9 +13,9 @@
 #include "Utility.h"
 #include "PlayerSpellParticle.h"
 
-/// @brief SpellCardBullet ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief SpellCardBullet ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 SpellCardBullet::SpellCardBullet(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 6.0f, 1)
 {
@@ -28,12 +28,12 @@ SpellCardBullet::SpellCardBullet(float x, float y)
 	burst_timer_ = 0;
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 SpellCardBullet::~SpellCardBullet()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void SpellCardBullet::Update()
 {
 	if (!is_active_) return;
@@ -77,7 +77,7 @@ void SpellCardBullet::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void SpellCardBullet::Draw()
 {
 	if (!is_active_) return;
@@ -89,9 +89,9 @@ void SpellCardBullet::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void SpellCardBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -121,7 +121,7 @@ void SpellCardBullet::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
-/// @brief Explode ‚ğÀs‚·‚é
+/// @brief Explode ã‚’å®Ÿè¡Œã™ã‚‹
 void SpellCardBullet::Explode()
 {
 	for (int i = 0; i < 16; i++)

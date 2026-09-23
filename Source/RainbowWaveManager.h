@@ -1,31 +1,31 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
-/// @brief “øF‚Ì”gó’e‚ğˆê’èŠÔ¶¬‚·‚éŠÇ—ƒIƒuƒWƒFƒNƒg
+/// @brief è™¹è‰²ã®æ³¢çŠ¶å¼¾ã‚’ä¸€å®šæ™‚é–“ç”Ÿæˆã™ã‚‹ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 class RainbowWaveManager : public Object2D
 {
 private:
-    int life_timer_;     ///< c‚èõ–½ƒtƒŒ[ƒ€”
-    int spawn_interval_; ///< ’e‚ğ¶¬‚·‚éŠÔŠu
-    int spawn_timer_;    ///< Ÿ‚Ì¶¬‚Ü‚Å‚Ìƒ^ƒCƒ}[
+    int life_timer_;     ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+    int spawn_interval_; ///< å¼¾ã‚’ç”Ÿæˆã™ã‚‹é–“éš”
+    int spawn_timer_;    ///< æ¬¡ã®ç”Ÿæˆã¾ã§ã®ã‚¿ã‚¤ãƒãƒ¼
 
 public:
-    /// @brief “øF’e¶¬ƒ}ƒl[ƒWƒƒ‚ğ¶¬‚·‚é
-    /// @param x ‰ŠúXÀ•W
-    /// @param y ‰ŠúYÀ•W
+    /// @brief è™¹è‰²å¼¾ç”Ÿæˆãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param x åˆæœŸXåº§æ¨™
+    /// @param y åˆæœŸYåº§æ¨™
     RainbowWaveManager(float x, float y);
 
-    /// @brief “øF’e¶¬ƒ}ƒl[ƒWƒƒ‚ğ”jŠü‚·‚é
+    /// @brief è™¹è‰²å¼¾ç”Ÿæˆãƒãƒãƒ¼ã‚¸ãƒ£ã‚’ç ´æ£„ã™ã‚‹
     virtual ~RainbowWaveManager() override;
 
-    /// @brief õ–½‚Æ’e¶¬‚ğXV‚·‚é
+    /// @brief å¯¿å‘½ã¨å¼¾ç”Ÿæˆã‚’æ›´æ–°ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief ŠÇ—ƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ğs‚¤
+    /// @brief ç®¡ç†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¡Œã†
     virtual void Draw() override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

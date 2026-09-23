@@ -1,21 +1,21 @@
-#pragma once
+ï»¿#pragma once
 
-/// @brief ‰æ–Ê‚âUI‚È‚Ç‚ÌŒÅ’è’l
+/// @brief ç”»é¢ã‚„UIãªã©ã®å›ºå®šå€¤
 namespace Constants
 {
-    constexpr int kScreenWidth = 1600;       ///< ‰æ–Ê•
-    constexpr int kScreenHeight = 900;       ///< ‰æ–Ê‚‚³
+    constexpr int kScreenWidth = 1600;       ///< ç”»é¢å¹…
+    constexpr int kScreenHeight = 900;       ///< ç”»é¢é«˜ã•
 
-    constexpr float PLAYER_START_X = 800.0f; ///< ƒvƒŒƒCƒ„[‰ŠúXÀ•W
-    constexpr float PLAYER_START_Y = 800.0f; ///< ƒvƒŒƒCƒ„[‰ŠúYÀ•W
-    constexpr float PLAYER_SPEED = 5.0f;     ///< ƒvƒŒƒCƒ„[ˆÚ“®‘¬“x
-    constexpr int PLAYER_MAX_HP = 10;        ///< ƒvƒŒƒCƒ„[Å‘åHP
-    constexpr float PLAYER_RADIUS = 5.0f;    ///< ƒvƒŒƒCƒ„[“–‚½‚è”»’è”¼Œa
+    constexpr float PLAYER_START_X = 800.0f; ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆæœŸXåº§æ¨™
+    constexpr float PLAYER_START_Y = 800.0f; ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆæœŸYåº§æ¨™
+    constexpr float PLAYER_SPEED = 5.0f;     ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç§»å‹•é€Ÿåº¦
+    constexpr int PLAYER_MAX_HP = 10;        ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æœ€å¤§HP
+    constexpr float PLAYER_RADIUS = 5.0f;    ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å½“ãŸã‚Šåˆ¤å®šåŠå¾„
 
-    constexpr int ENEMY_SCORE = 100;         ///< “GŒ‚”j‚ÌƒXƒRƒA
+    constexpr int ENEMY_SCORE = 100;         ///< æ•µæ’ƒç ´æ™‚ã®ã‚¹ã‚³ã‚¢
 
-    constexpr int HP_BAR_X = 160;            ///< HPƒo[XÀ•W
-    constexpr int HP_BAR_Y = 22;             ///< HPƒo[YÀ•W
-    constexpr int HP_BAR_WIDTH = 140;        ///< HPƒo[•
-    constexpr int HP_BAR_HEIGHT = 10;        ///< HPƒo[‚‚³
+    constexpr int HP_BAR_X = 160;            ///< HPãƒãƒ¼Xåº§æ¨™
+    constexpr int HP_BAR_Y = 22;             ///< HPãƒãƒ¼Yåº§æ¨™
+    constexpr int HP_BAR_WIDTH = 140;        ///< HPãƒãƒ¼å¹…
+    constexpr int HP_BAR_HEIGHT = 10;        ///< HPãƒãƒ¼é«˜ã•
 }

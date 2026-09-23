@@ -1,4 +1,4 @@
-#include "PlayerSpellParticle.h"
+ï»¿#include "PlayerSpellParticle.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -9,10 +9,10 @@
 #include "Character.h"
 #include "CapsuleCollider.h"
 
-/// @brief PlayerSpellParticle ‚ð¶¬‚·‚é
-/// @param pos pos ‚Ì’l
-/// @param dir dir ‚Ì’l
-/// @param speed_ speed_ ‚Ì’l
+/// @brief PlayerSpellParticle ã‚’ç”Ÿæˆã™ã‚‹
+/// @param pos pos ã®å€¤
+/// @param dir dir ã®å€¤
+/// @param speed_ speed_ ã®å€¤
 PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_)
 	: Object2D(pos)
 {
@@ -26,7 +26,7 @@ PlayerSpellParticle::PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_)
 	this->collider_ = new CapsuleCollider(this, this->position_, this->position_, 15.0f);
 }
 
-/// @brief ”jŠüˆ—‚ðs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 PlayerSpellParticle::~PlayerSpellParticle()
 {
 	if (collider_)
@@ -36,14 +36,14 @@ PlayerSpellParticle::~PlayerSpellParticle()
 	}
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void PlayerSpellParticle::Kill()
 {
 	is_active_ = false;
 	SetDeleteFlag(true);
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+/// @brief æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void PlayerSpellParticle::Update()
 {
 	if (!is_active_) return;
@@ -72,7 +72,7 @@ void PlayerSpellParticle::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ðs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void PlayerSpellParticle::Draw()
 {
 	if (!is_active_) return;
@@ -87,9 +87,9 @@ void PlayerSpellParticle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ðs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æŽ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void PlayerSpellParticle::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

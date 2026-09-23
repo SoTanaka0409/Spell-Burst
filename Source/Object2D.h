@@ -1,4 +1,4 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #pragma once
 #include <string>
 #include "vector"
@@ -8,97 +8,97 @@
 #include "DxLib.h"
 #include "Collider.h"
 
-/// @brief 2DƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ì‹¤’ÊŠî’êƒNƒ‰ƒX
+/// @brief 2Dã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å…±é€šåŸºåº•ã‚¯ãƒ©ã‚¹
 class Object2D
 {
 public:
-	/// @brief 2DƒIƒuƒWƒFƒNƒg‚Ìí•Êƒ^ƒO
+	/// @brief 2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç¨®åˆ¥ã‚¿ã‚°
 	enum Tag2D
 	{
-		kNone2d = 0,           ///< ƒ^ƒO‚È‚µ
-		kTag2dPlayer = 1,     ///< ƒvƒŒƒCƒ„[
-		kTag2dEnemy = 2,      ///< “G
-		kTag2dPlayerBullet = 3, ///< ƒvƒŒƒCƒ„[’e
-		kTag2dEnemyBullet = 4,  ///< “G’e
-		kTag2dBarrierEnemy = 5, ///< “GƒoƒŠƒA
-		kTag2dBarrierPlayer = 6 ///< ƒvƒŒƒCƒ„[ƒoƒŠƒA
+		kNone2d = 0,           ///< ã‚¿ã‚°ãªã—
+		kTag2dPlayer = 1,     ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+		kTag2dEnemy = 2,      ///< æ•µ
+		kTag2dPlayerBullet = 3, ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾
+		kTag2dEnemyBullet = 4,  ///< æ•µå¼¾
+		kTag2dBarrierEnemy = 5, ///< æ•µãƒãƒªã‚¢
+		kTag2dBarrierPlayer = 6 ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒãƒªã‚¢
 	};
 
 public:
-    /// @brief 2DƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
-    /// @param initPos ‰ŠúÀ•W
+    /// @brief 2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹
+    /// @param initPos åˆæœŸåº§æ¨™
     Object2D(Vector2 initPos);
 
-	/// @brief 2DƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚é
+	/// @brief 2Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Object2D();
 
-    /// @brief ƒIƒuƒWƒFƒNƒg‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+    /// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®çŠ¶æ…‹ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
     virtual void Update();
 
-    /// @brief ƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é
+    /// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹
     virtual void Draw();
 
-	/// @brief À•W‚ğİ’è‚·‚é
-	/// @param pos İ’è‚·‚éÀ•W
+	/// @brief åº§æ¨™ã‚’è¨­å®šã™ã‚‹
+	/// @param pos è¨­å®šã™ã‚‹åº§æ¨™
 	void SetPosition(Vector2 pos) { position_ = pos; }
 
-	/// @brief À•W‚ğæ“¾‚·‚é
-	/// @return Vector2 Œ»İÀ•W
+	/// @brief åº§æ¨™ã‚’å–å¾—ã™ã‚‹
+	/// @return Vector2 ç¾åœ¨åº§æ¨™
 	Vector2 GetPosition() { return position_; }
 
-	/// @brief ‰ñ“]’l‚ğİ’è‚·‚é
-	/// @param rot İ’è‚·‚é‰ñ“]’l
+	/// @brief å›è»¢å€¤ã‚’è¨­å®šã™ã‚‹
+	/// @param rot è¨­å®šã™ã‚‹å›è»¢å€¤
 	void SetRotation(Vector2 rot) { rotation_ = rot; }
 
-	/// @brief ‰ñ“]’l‚ğæ“¾‚·‚é
-	/// @return Vector2 Œ»İ‚Ì‰ñ“]’l
+	/// @brief å›è»¢å€¤ã‚’å–å¾—ã™ã‚‹
+	/// @return Vector2 ç¾åœ¨ã®å›è»¢å€¤
 	Vector2 GetRotation() { return rotation_; }
 
-	/// @brief íœƒtƒ‰ƒO‚ğİ’è‚·‚é
-	/// @param flag íœ‘ÎÛ‚È‚çtrue
+	/// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã™ã‚‹
+	/// @param flag å‰Šé™¤å¯¾è±¡ãªã‚‰true
 	void SetDeleteFlag(bool flag) { delete_flag_ = flag; }
 
-	/// @brief íœƒtƒ‰ƒO‚ğæ“¾‚·‚é
-	/// @return bool íœ‘ÎÛ‚È‚çtrue
+	/// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹
+	/// @return bool å‰Šé™¤å¯¾è±¡ãªã‚‰true
 	bool IsDeleteFlag() { return delete_flag_; }
 
-	/// @brief •`‰æƒtƒ‰ƒO‚ğİ’è‚·‚é
-	/// @param flag •`‰æ‚·‚é‚È‚çtrue
+	/// @brief æç”»ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã™ã‚‹
+	/// @param flag æç”»ã™ã‚‹ãªã‚‰true
 	void SetDrawFlag(bool flag) { draw_flag_ = flag; }
 
-	/// @brief •`‰æƒtƒ‰ƒO‚ğæ“¾‚·‚é
-	/// @return bool •`‰æ‚·‚é‚È‚çtrue
+	/// @brief æç”»ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹
+	/// @return bool æç”»ã™ã‚‹ãªã‚‰true
 	bool IsDrawFlag() { return draw_flag_; }
 
-	/// @brief ƒIƒuƒWƒFƒNƒgƒ^ƒO‚ğİ’è‚·‚é
-	/// @param tag İ’è‚·‚éƒ^ƒO
+	/// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¿ã‚°ã‚’è¨­å®šã™ã‚‹
+	/// @param tag è¨­å®šã™ã‚‹ã‚¿ã‚°
 	void SetTag(Tag2D tag) { tag_ = tag; }
 
-	/// @brief ƒIƒuƒWƒFƒNƒgƒ^ƒO‚ğæ“¾‚·‚é
-	/// @return Tag2D Œ»İ‚Ìƒ^ƒO
+	/// @brief ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¿ã‚°ã‚’å–å¾—ã™ã‚‹
+	/// @return Tag2D ç¾åœ¨ã®ã‚¿ã‚°
 	Tag2D GetTag() { return tag_; }
 
-    /// @brief ƒRƒ‰ƒCƒ_[ÚGŠJn‚Ìˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnEnter(Collider* collider, Collider* check);
 
-    /// @brief ƒRƒ‰ƒCƒ_[ÚG’†‚Ìˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check);
 
-    /// @brief ƒRƒ‰ƒCƒ_[ÚGI—¹‚Ìˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼æ¥è§¦çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnExit(Collider* collider, Collider* check);
 
 protected:
-	Vector2 position_; ///< ƒIƒuƒWƒFƒNƒg‚ÌÀ•W
-	Vector2 rotation_; ///< ƒIƒuƒWƒFƒNƒg‚Ì‰ñ“]’l
+	Vector2 position_; ///< ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åº§æ¨™
+	Vector2 rotation_; ///< ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å›è»¢å€¤
 
 private:
-	bool delete_flag_; ///< íœ‘ÎÛ‚©‚ğ¦‚·ƒtƒ‰ƒO
-	Tag2D tag_;        ///< ƒIƒuƒWƒFƒNƒgí•Êƒ^ƒO
-	bool draw_flag_;   ///< •`‰æ‚·‚é‚©‚ğ¦‚·ƒtƒ‰ƒO
+	bool delete_flag_; ///< å‰Šé™¤å¯¾è±¡ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	Tag2D tag_;        ///< ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç¨®åˆ¥ã‚¿ã‚°
+	bool draw_flag_;   ///< æç”»ã™ã‚‹ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 };

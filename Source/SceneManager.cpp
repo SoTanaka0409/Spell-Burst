@@ -6,6 +6,7 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 #include "RuleScene.h"
+#include "ConfigScene.h"
 #include "FadeScene.h"
 #include "DebugLog.h"
 #include "Master.h"
@@ -13,7 +14,7 @@
 
 std::unique_ptr<SceneManager> Master::sceneManager = nullptr;
 
-/// @brief SceneManager ‚ğ¶¬‚·‚é
+/// @brief SceneManager ã‚’ç”Ÿæˆã™ã‚‹
 SceneManager::SceneManager()
 	: scene_type_(SceneType::kSceneNone)
 	, next_scene_type_(SceneType::kSceneNone)
@@ -23,7 +24,7 @@ SceneManager::SceneManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 SceneManager::~SceneManager()
 {
 	if (current_scene_ != nullptr)
@@ -32,15 +33,15 @@ SceneManager::~SceneManager()
 	}
 }
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void SceneManager::Initialize()
 {
 	next_scene_type_ = SceneType::kSceneTitle;
 	ChangeSceneIfNeeded();
 }
 
-/// @brief Ÿ‚É‘JˆÚ‚·‚éƒV[ƒ“‚ğİ’è‚·‚é
-/// @param next ŸƒV[ƒ“í•Ê
+/// @brief æ¬¡ã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’è¨­å®šã™ã‚‹
+/// @param next æ¬¡ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
 void SceneManager::SetNextScene(SceneType next)
 {
 	if (scene_type_ == SceneType::kSceneNone || scene_type_ == SceneType::kSceneFade)
@@ -58,7 +59,7 @@ void SceneManager::SetNextScene(SceneType next)
 	next_scene_type_ = SceneType::kSceneFade;
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void SceneManager::Update()
 {
 	ChangeSceneIfNeeded();
@@ -68,7 +69,7 @@ void SceneManager::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void SceneManager::Draw()
 {
 	DebugLog("SceneManager::Draw() called! CurrentScene: %p\n", (void*)current_scene_.get());
@@ -78,7 +79,7 @@ void SceneManager::Draw()
 	}
 }
 
-/// @brief I—¹ˆ—‚ğs‚¤
+/// @brief çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 void SceneManager::Finalize()
 {
 	if (current_scene_ != nullptr)
@@ -88,7 +89,7 @@ void SceneManager::Finalize()
 	}
 }
 
-/// @brief ChangeSceneIfNeeded ‚ğÀs‚·‚é
+/// @brief ChangeSceneIfNeeded ã‚’å®Ÿè¡Œã™ã‚‹
 void SceneManager::ChangeSceneIfNeeded()
 {
 	if (scene_type_ == next_scene_type_)
@@ -133,6 +134,9 @@ void SceneManager::ChangeSceneIfNeeded()
 		break;
 	case SceneType::kSceneRule:
 		current_scene_ = std::make_unique<RuleScene>();
+		break;
+	case SceneType::kSceneConfig:
+		current_scene_ = std::make_unique<ConfigScene>();
 		break;
 	case SceneType::kSceneFade:
 		current_scene_ = std::make_unique<FadeScene>(fade_target_scene_type_, nullptr);

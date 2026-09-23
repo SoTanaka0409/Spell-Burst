@@ -1,12 +1,12 @@
-#include "Character.h"
+ï»¿#include "Character.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include <algorithm>
 
-/// @brief Character ‚ğ¶¬‚·‚é
-/// @param pos pos ‚Ì’l
-/// @param maxHp maxHp ‚Ì’l
-/// @param speed speed ‚Ì’l
+/// @brief Character ã‚’ç”Ÿæˆã™ã‚‹
+/// @param pos pos ã®å€¤
+/// @param maxHp maxHp ã®å€¤
+/// @param speed speed ã®å€¤
 Character::Character(Vector2 pos, int maxHp, float speed)
     : Object2D(pos)
     , hp_(maxHp)
@@ -18,7 +18,7 @@ Character::Character(Vector2 pos, int maxHp, float speed)
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Character::~Character()
 {
     if (collider_)
@@ -28,7 +28,7 @@ Character::~Character()
     }
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Character::Update()
 {
     // Decrease stun time.
@@ -45,30 +45,30 @@ void Character::Update()
     }
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Character::Draw()
 {
     // Base class does not draw anything.
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Character::OnTrigger(Collider* collider, Collider* check)
 {
     // Default implementation for derived classes to override.
 }
 
-/// @brief ‰ñ•œˆ—‚ğs‚¤
-/// @param amount amount ‚Ì’l
+/// @brief å›å¾©å‡¦ç†ã‚’è¡Œã†
+/// @param amount amount ã®å€¤
 void Character::Heal(int amount)
 {
     // Clamp HP between 0 and max HP after healing.
     hp_ = std::clamp(hp_ + amount, 0, max_hp_);
 }
 
-/// @brief ƒ_ƒ[ƒWˆ—‚ğs‚¤
-/// @param damage damage ‚Ì’l
+/// @brief ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†ã‚’è¡Œã†
+/// @param damage damage ã®å€¤
 void Character::TakeDamage(int damage)
 {
     if (!is_active_) return;
@@ -81,7 +81,7 @@ void Character::TakeDamage(int damage)
     }
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void Character::Kill()
 {
     is_active_ = false;
@@ -92,7 +92,7 @@ void Character::Kill()
     }
 }
 
-/// @brief €–S‚Ìˆ—‚ğs‚¤
+/// @brief æ­»äº¡æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void Character::OnDeath()
 {
     Kill(); // Default behavior is to destroy itself.

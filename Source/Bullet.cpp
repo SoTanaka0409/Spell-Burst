@@ -1,4 +1,4 @@
-#include "Bullet.h"
+ï»¿#include "Bullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Character.h"
@@ -8,10 +8,10 @@
 #include "DxLib.h"
 #include "Utility.h"
 
-/// @brief Bullet ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
-/// @param damage damage ‚Ì’l
+/// @brief Bullet ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
+/// @param damage damage ã®å€¤
 Bullet::Bullet(float x, float y, int damage)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 20.0f, damage)
 {
@@ -23,12 +23,12 @@ Bullet::Bullet(float x, float y, int damage)
 	collider_ = new CapsuleCollider(this, position_, position_, 10.0f);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Bullet::~Bullet()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Bullet::Update()
 {
 	position_ += dir_ * (speed_ * Utility::time_scale_);
@@ -41,9 +41,9 @@ void Bullet::Update()
 	}
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Bullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -68,7 +68,7 @@ void Bullet::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Bullet::Draw()
 {
 	if (!is_active_) return;

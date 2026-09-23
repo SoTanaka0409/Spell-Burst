@@ -1,46 +1,46 @@
-#pragma once
+ï»¿#pragma once
 #include "Projectile.h"
 
-/// @brief ƒvƒŒƒCƒ„[‚ª”­Ë‚·‚é’Êí’eƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç™ºå°„ã™ã‚‹é€šå¸¸å¼¾ã‚¯ãƒ©ã‚¹
 class Bullet : public Projectile
 {
 public:
-	/// @brief ƒvƒŒƒCƒ„[’e‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
-	/// @param damage ƒ_ƒ[ƒW—Ê
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
+	/// @param damage ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
 	Bullet(float x, float y, int damage);
 
-	/// @brief ƒvƒŒƒCƒ„[’e‚ğ”jŠü‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Bullet() override;
 
-	/// @brief ’e‚ğ•`‰æ‚·‚é
+	/// @brief å¼¾ã‚’æç”»ã™ã‚‹
 	void Draw() override;
 
-	/// @brief ’e‚ÌˆÚ“®‚Æó‘Ô‚ğXV‚·‚é
+	/// @brief å¼¾ã®ç§»å‹•ã¨çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹
 	void Update() override;
 
-	/// @brief XÀ•W‚ğæ“¾‚·‚é
-	/// @return float XÀ•W
+	/// @brief Xåº§æ¨™ã‚’å–å¾—ã™ã‚‹
+	/// @return float Xåº§æ¨™
 	float GetX() { return position_.x; }
 
-	/// @brief YÀ•W‚ğæ“¾‚·‚é
-	/// @return float YÀ•W
+	/// @brief Yåº§æ¨™ã‚’å–å¾—ã™ã‚‹
+	/// @return float Yåº§æ¨™
 	float GetY() { return position_.y; }
 
-	/// @brief ’e‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
-	/// @return float “–‚½‚è”»’è”¼Œa
+	/// @brief å¼¾ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„ã‚’å–å¾—ã™ã‚‹
+	/// @return float å½“ãŸã‚Šåˆ¤å®šåŠå¾„
 	float GetRadius() const { return 10.0f; }
 
-	/// @brief ‚±‚ÌƒtƒŒ[ƒ€‚Åó‚¯‚½ƒqƒbƒg”‚ğ‰ÁZ‚·‚é
+	/// @brief ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§å—ã‘ãŸãƒ’ãƒƒãƒˆæ•°ã‚’åŠ ç®—ã™ã‚‹
 	void AddReceivedDamage() { received_damage_++; }
 
-	/// @brief “G‚âáŠQ•¨‚Æ‚ÌÚGˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief æ•µã‚„éšœå®³ç‰©ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
 private:
-	int received_damage_;      ///< “¯ˆêƒtƒŒ[ƒ€“à‚Ì‘½dƒqƒbƒg‚ğ—}‚¦‚é‚½‚ß‚ÌƒJƒEƒ“ƒ^[
-	int max_received_damage_;  ///< ŠÑ’Ê’e‚ªˆê“x‚Éˆ—‚Å‚«‚éÅ‘åƒqƒbƒg”
+	int received_damage_;      ///< åŒä¸€ãƒ•ãƒ¬ãƒ¼ãƒ å†…ã®å¤šé‡ãƒ’ãƒƒãƒˆã‚’æŠ‘ãˆã‚‹ãŸã‚ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
+	int max_received_damage_;  ///< è²«é€šå¼¾ãŒä¸€åº¦ã«å‡¦ç†ã§ãã‚‹æœ€å¤§ãƒ’ãƒƒãƒˆæ•°
 };

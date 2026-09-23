@@ -1,4 +1,4 @@
-#include "Enemy.h"
+ï»¿#include "Enemy.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #ifndef NOMINMAX
@@ -20,17 +20,17 @@
 #include <cmath>
 #include <cstdlib>
 
-/// @brief SelectNewTarget ‚ğÀs‚·‚é
+/// @brief SelectNewTarget ã‚’å®Ÿè¡Œã™ã‚‹
 void Enemy::SelectNewTarget()
 {
 	target_x_ = 100.0f + static_cast<float>(rand() % 1080);
 	target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
-/// @brief Enemy ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
-/// @param enemyType enemyType ‚Ì’l
+/// @brief Enemy ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
+/// @param enemyType enemyType ã®å€¤
 Enemy::Enemy(float x, float y, int enemyType)
 	: Character(Vector2(x, y), 3, 3.0f)
 {
@@ -66,12 +66,12 @@ Enemy::Enemy(float x, float y, int enemyType)
 	collider_ = new CapsuleCollider(this, position_, position_, colRadius);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Enemy::~Enemy()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Enemy::Update()
 {
 	Character::Update();
@@ -80,6 +80,10 @@ void Enemy::Update()
 
 	if (enemy_type_ == 4)
 	{
+		/// @brief tã®å‡¦ç†ã‚’è¡Œã†
+		/// @param target_x_ å¼•æ•°
+		/// @param target_y_ å¼•æ•°
+		/// @return æˆ»ã‚Šå€¤
 		Vector2 target(target_x_, target_y_);
 		float dist = position_.DistanceTo(target);
 
@@ -105,13 +109,13 @@ void Enemy::Update()
 	}
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void Enemy::Kill()
 {
 	Character::Kill();
 }
 
-/// @brief €–S‚Ìˆ—‚ğs‚¤
+/// @brief æ­»äº¡æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 void Enemy::OnDeath()
 {
 	Character::OnDeath();
@@ -131,14 +135,14 @@ void Enemy::OnDeath()
 	}
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Enemy::OnTrigger(Collider* collider, Collider* check)
 {
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Enemy::Draw()
 {
 	if (!is_active_) return;
@@ -154,7 +158,7 @@ void Enemy::Draw()
 	DrawHpBar();
 }
 
-/// @brief UpdateAttackPattern ‚ğÀs‚·‚é
+/// @brief UpdateAttackPattern ã‚’å®Ÿè¡Œã™ã‚‹
 void Enemy::UpdateAttackPattern()
 {
 	if (enemy_type_ == 2 || enemy_type_ == 3 || enemy_type_ == 4)
@@ -165,6 +169,10 @@ void Enemy::UpdateAttackPattern()
 		{
 			attack_timer_ = 0;
 			Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
+			/// @brief sã®å‡¦ç†ã‚’è¡Œã†
+			/// @param x å¼•æ•°
+			/// @param f å¼•æ•°
+			/// @return æˆ»ã‚Šå€¤
 			Vector2 targetPos(position_.x, position_.y + 100.0f);
 			if (player != nullptr)
 			{
@@ -204,7 +212,7 @@ void Enemy::UpdateAttackPattern()
 	}
 }
 
-/// @brief DrawEnemySprite ‚ğÀs‚·‚é
+/// @brief DrawEnemySprite ã‚’å®Ÿè¡Œã™ã‚‹
 void Enemy::DrawEnemySprite()
 {
 	int enemyGraphHandle = ResourceManager::GetInstance()->GetGraph("IMG_CHARA_ENEMY");
@@ -240,9 +248,9 @@ void Enemy::DrawEnemySprite()
 	}
 }
 
-/// @brief DrawHpBar ‚ğÀs‚·‚é
+/// @brief DrawHpBar ã‚’å®Ÿè¡Œã™ã‚‹
 void Enemy::DrawHpBar()
 {
 	int hpOffset = (enemy_type_ == 4) ? 65 : 55;
-	DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "‘Ì—Í:%d", hp_);
+	DrawFormatString(static_cast<int>(position_.x) - 15, static_cast<int>(position_.y) - hpOffset, GetColor(255, 255, 255), "ä½“åŠ›:%d", hp_);
 }

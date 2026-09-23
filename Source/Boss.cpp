@@ -113,12 +113,14 @@ Boss::~Boss()
 {
 }
 
+/// @brief tの処理を行う
 void Boss::SelectNewTarget()
 {
     target_x_ = 100.0f + static_cast<float>(rand() % 1080);
     target_y_ = 80.0f + static_cast<float>(rand() % 180);
 }
 
+/// @brief eの処理を行う
 void Boss::Update()
 {
     Character::Update();
@@ -136,6 +138,10 @@ void Boss::Update()
         return;
     }
 
+    /// @brief tの処理を行う
+    /// @param target_x_ 引数
+    /// @param target_y_ 引数
+    /// @return 戻り値
     Vector2 target(target_x_, target_y_);
     float dist = position_.DistanceTo(target);
     if (dist < 15.0f)
@@ -161,6 +167,7 @@ void Boss::Update()
     }
 }
 
+/// @brief eの処理を行う
 void Boss::ShootRadialBarrage()
 {
     const float PI = 3.14159265f;
@@ -172,6 +179,7 @@ void Boss::ShootRadialBarrage()
     BulletFactory::SpawnCircleBullets(position_, spiralAngle, bulletCount, 2.5f, reflect);
 }
 
+/// @brief eの処理を行う
 void Boss::ShootFanBarrage()
 {
     const float PI = 3.14159265f;
@@ -185,6 +193,7 @@ void Boss::ShootFanBarrage()
     }
 }
 
+/// @brief eの処理を行う
 void Boss::ShootTargetedBarrage()
 {
     const float PI = 3.14159265f;
@@ -201,6 +210,7 @@ void Boss::ShootTargetedBarrage()
     BulletFactory::SpawnNWayBullets(position_, baseAngle, 3, 24.0f * DX_PI_F / 180.0f, 2.5f);
 }
 
+/// @brief eの処理を行う
 void Boss::ShootSimpleBarrage()
 {
     const float PI = 3.14159265f;
@@ -208,12 +218,14 @@ void Boss::ShootSimpleBarrage()
     BulletFactory::SpawnCircleBullets(position_, baseAngle, 5, 3.5f, false, false, 120, 60);
 }
 
+/// @brief eの処理を行う
 void Boss::ShootBouncingBarrage()
 {
     const float PI = 3.14159265f;
     BulletFactory::SpawnCircleBullets(position_, 0.0f, 6, 4.5f, true);
 }
 
+/// @brief eの処理を行う
 void Boss::ShootSpellCardBarrage()
 {
     const float PI = 3.14159265f;
@@ -221,6 +233,8 @@ void Boss::ShootSpellCardBarrage()
     BulletFactory::SpawnCircleBullets(position_, 0.5f, 12, 5.0f, false);
 }
 
+/// @brief eの処理を行う
+/// @param damage 引数
 void Boss::TakeDamage(int damage)
 {
     if (is_dying_ || invincible_timer_ > 0) return;
@@ -241,6 +255,7 @@ void Boss::TakeDamage(int damage)
     }
 }
 
+/// @brief hの処理を行う
 void Boss::OnDeath()
 {
     lives_--;
@@ -296,6 +311,7 @@ void Boss::OnDeath()
     }
 }
 
+/// @brief hの処理を行う
 void Boss::UpdateDeath()
 {
     death_timer_--;
@@ -306,6 +322,7 @@ void Boss::UpdateDeath()
     }
 }
 
+/// @brief lの処理を行う
 void Boss::Kill()
 {
     Character::Kill();
@@ -323,11 +340,15 @@ void Boss::Kill()
     }
 }
 
+/// @brief rの処理を行う
+/// @param collider 引数
+/// @param check 引数
 void Boss::OnTrigger(Collider* collider, Collider* check)
 {
     if (is_dying_) return;
 }
 
+/// @brief yの処理を行う
 void Boss::DrawInvincibility()
 {
     if (invincible_timer_ > 0)
@@ -341,6 +362,7 @@ void Boss::DrawInvincibility()
     }
 }
 
+/// @brief rの処理を行う
 void Boss::DrawHealthBar()
 {
 }

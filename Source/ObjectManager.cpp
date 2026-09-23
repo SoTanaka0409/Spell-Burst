@@ -1,19 +1,19 @@
-#include "Master.h"
+ï»¿#include "Master.h"
 #include "ObjectManager.h"
 #include "ColliderManager.h"
 #include <algorithm>
 
-/// @brief ObjectManager ‚ğ¶¬‚·‚é
+/// @brief ObjectManager ã‚’ç”Ÿæˆã™ã‚‹
 ObjectManager::ObjectManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 ObjectManager::~ObjectManager()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void ObjectManager::Update()
 {
 	for (auto& obj : object_2d_list_)
@@ -23,7 +23,7 @@ void ObjectManager::Update()
 	DeleteAll2DIfNeeded();
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void ObjectManager::Draw()
 {
 	for (auto& obj : object_2d_list_)
@@ -35,8 +35,8 @@ void ObjectManager::Draw()
 	}
 }
 
-/// @brief AddObject ‚ğÀs‚·‚é
-/// @param object2D object2D ‚Ì’l
+/// @brief AddObject ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param object2D object2D ã®å€¤
 void ObjectManager::AddObject(std::shared_ptr<Object2D> object2D)
 {
 	if (!object2D)
@@ -52,14 +52,14 @@ void ObjectManager::AddObject(std::shared_ptr<Object2D> object2D)
 	}
 }
 
-/// @brief DeleteAll2D ‚ğÀs‚·‚é
+/// @brief DeleteAll2D ã‚’å®Ÿè¡Œã™ã‚‹
 void ObjectManager::DeleteAll2D()
 {
 	player_2d_.reset();
 	object_2d_list_.clear();
 }
 
-/// @brief DeleteAll2DIfNeeded ‚ğÀs‚·‚é
+/// @brief DeleteAll2DIfNeeded ã‚’å®Ÿè¡Œã™ã‚‹
 void ObjectManager::DeleteAll2DIfNeeded()
 {
 	object_2d_list_.remove_if([this](std::shared_ptr<Object2D>& obj)
@@ -73,9 +73,9 @@ void ObjectManager::DeleteAll2DIfNeeded()
 		});
 }
 
-/// @brief GetObject2DByTag ‚ğÀs‚·‚é
-/// @param tag tag ‚Ì’l
-/// @return std::shared_ptr<Object2D> –ß‚è’l
+/// @brief GetObject2DByTag ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param tag tag ã®å€¤
+/// @return std::shared_ptr<Object2D> æˆ»ã‚Šå€¤
 std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 {
 	if (tag == Object2D::kTag2dPlayer)
@@ -99,9 +99,9 @@ std::shared_ptr<Object2D> ObjectManager::GetObject2DByTag(Object2D::Tag2D tag)
 	return nullptr;
 }
 
-/// @brief GetObject2DListByTag ‚ğÀs‚·‚é
-/// @param tag tag ‚Ì’l
-/// @return std::vector<std::shared_ptr<Object2D>> –ß‚è’l
+/// @brief GetObject2DListByTag ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param tag tag ã®å€¤
+/// @return std::vector<std::shared_ptr<Object2D>> æˆ»ã‚Šå€¤
 std::vector<std::shared_ptr<Object2D>> ObjectManager::GetObject2DListByTag(Object2D::Tag2D tag)
 {
 	std::vector<std::shared_ptr<Object2D>> ret;

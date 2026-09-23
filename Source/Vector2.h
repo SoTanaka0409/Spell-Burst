@@ -1,123 +1,123 @@
-#pragma once
+ï»¿#pragma once
 #include <cmath>
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
 
-/// @brief 2DÀ•W‚â‘¬“x‚ğˆµ‚¤‚½‚ß‚ÌƒxƒNƒgƒ‹\‘¢‘Ì
+/// @brief 2Dåº§æ¨™ã‚„é€Ÿåº¦ã‚’æ‰±ã†ãŸã‚ã®ãƒ™ã‚¯ãƒˆãƒ«æ§‹é€ ä½“
 struct Vector2
 {
-	float x; ///< XÀ•W‚Ü‚½‚ÍX•ûŒü¬•ª
-	float y; ///< YÀ•W‚Ü‚½‚ÍY•ûŒü¬•ª
+	float x; ///< Xåº§æ¨™ã¾ãŸã¯Xæ–¹å‘æˆåˆ†
+	float y; ///< Yåº§æ¨™ã¾ãŸã¯Yæ–¹å‘æˆåˆ†
 
-	/// @brief ƒ[ƒƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
+	/// @brief ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 	Vector2();
 
-	/// @brief w’è¬•ª‚ÅƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
-	/// @param x X¬•ª
-	/// @param y Y¬•ª
+	/// @brief æŒ‡å®šæˆåˆ†ã§ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x Xæˆåˆ†
+	/// @param y Yæˆåˆ†
 	Vector2(float x, float y);
 
-	/// @brief ƒxƒNƒgƒ‹“¯m‚ğ‰ÁZ‚·‚é
-	/// @param other ‰ÁZ‚·‚éƒxƒNƒgƒ‹
-	/// @return Vector2 ‰ÁZŒ‹‰Ê
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«åŒå£«ã‚’åŠ ç®—ã™ã‚‹
+	/// @param other åŠ ç®—ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return Vector2 åŠ ç®—çµæœ
 	Vector2 operator+(const Vector2& other) const;
 
-	/// @brief ƒxƒNƒgƒ‹“¯m‚ğŒ¸Z‚·‚é
-	/// @param other Œ¸Z‚·‚éƒxƒNƒgƒ‹
-	/// @return Vector2 Œ¸ZŒ‹‰Ê
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«åŒå£«ã‚’æ¸›ç®—ã™ã‚‹
+	/// @param other æ¸›ç®—ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return Vector2 æ¸›ç®—çµæœ
 	Vector2 operator-(const Vector2& other) const;
 
-	/// @brief ƒxƒNƒgƒ‹‚ÉƒXƒJƒ‰[‚ğæZ‚·‚é
-	/// @param scalar æZ‚·‚é’l
-	/// @return Vector2 æZŒ‹‰Ê
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã«ã‚¹ã‚«ãƒ©ãƒ¼ã‚’ä¹—ç®—ã™ã‚‹
+	/// @param scalar ä¹—ç®—ã™ã‚‹å€¤
+	/// @return Vector2 ä¹—ç®—çµæœ
 	Vector2 operator*(float scalar) const;
 
-	/// @brief ƒxƒNƒgƒ‹‚ğƒXƒJƒ‰[‚ÅœZ‚·‚é
-	/// @param scalar œZ‚·‚é’l
-	/// @return Vector2 œZŒ‹‰Ê
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã‚’ã‚¹ã‚«ãƒ©ãƒ¼ã§é™¤ç®—ã™ã‚‹
+	/// @param scalar é™¤ç®—ã™ã‚‹å€¤
+	/// @return Vector2 é™¤ç®—çµæœ
 	Vector2 operator/(float scalar) const;
 
-	/// @brief ƒxƒNƒgƒ‹‚ğ‰ÁZ‘ã“ü‚·‚é
-	/// @param other ‰ÁZ‚·‚éƒxƒNƒgƒ‹
-	/// @return Vector2& ©g‚ÌQÆ
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—ä»£å…¥ã™ã‚‹
+	/// @param other åŠ ç®—ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return Vector2& è‡ªèº«ã®å‚ç…§
 	Vector2& operator+=(const Vector2& other);
 
-	/// @brief ƒxƒNƒgƒ‹‚ğŒ¸Z‘ã“ü‚·‚é
-	/// @param other Œ¸Z‚·‚éƒxƒNƒgƒ‹
-	/// @return Vector2& ©g‚ÌQÆ
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ¸›ç®—ä»£å…¥ã™ã‚‹
+	/// @param other æ¸›ç®—ã™ã‚‹ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return Vector2& è‡ªèº«ã®å‚ç…§
 	Vector2& operator-=(const Vector2& other);
 
-	/// @brief ƒXƒJƒ‰[‚ğæZ‘ã“ü‚·‚é
-	/// @param scalar æZ‚·‚é’l
-	/// @return Vector2& ©g‚ÌQÆ
+	/// @brief ã‚¹ã‚«ãƒ©ãƒ¼ã‚’ä¹—ç®—ä»£å…¥ã™ã‚‹
+	/// @param scalar ä¹—ç®—ã™ã‚‹å€¤
+	/// @return Vector2& è‡ªèº«ã®å‚ç…§
 	Vector2& operator*=(float scalar);
 
-	/// @brief ƒXƒJƒ‰[‚ğœZ‘ã“ü‚·‚é
-	/// @param scalar œZ‚·‚é’l
-	/// @return Vector2& ©g‚ÌQÆ
+	/// @brief ã‚¹ã‚«ãƒ©ãƒ¼ã‚’é™¤ç®—ä»£å…¥ã™ã‚‹
+	/// @param scalar é™¤ç®—ã™ã‚‹å€¤
+	/// @return Vector2& è‡ªèº«ã®å‚ç…§
 	Vector2& operator/=(float scalar);
 
-	/// @brief ƒxƒNƒgƒ‹‚Ì’·‚³‚ğæ“¾‚·‚é
-	/// @return float ’·‚³
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’å–å¾—ã™ã‚‹
+	/// @return float é•·ã•
 	float Magnitude() const;
 
-	/// @brief ƒxƒNƒgƒ‹‚Ì’·‚³‚Ì“ñæ‚ğæ“¾‚·‚é
-	/// @return float ’·‚³‚Ì“ñæ
+	/// @brief ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹
+	/// @return float é•·ã•ã®äºŒä¹—
 	float MagnitudeSq() const;
 
-	/// @brief ³‹K‰»‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
-	/// @return Vector2 ³‹K‰»Œã‚ÌƒxƒNƒgƒ‹
+	/// @brief æ­£è¦åŒ–ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
+	/// @return Vector2 æ­£è¦åŒ–å¾Œã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector2 Normalized() const;
 
-	/// @brief ©g‚ğ³‹K‰»‚·‚é
+	/// @brief è‡ªèº«ã‚’æ­£è¦åŒ–ã™ã‚‹
 	void Normalize();
 
-	/// @brief ‘¼ƒxƒNƒgƒ‹‚Æ‚Ì‹——£‚ğæ“¾‚·‚é
-	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
-	/// @return float ‹——£
+	/// @brief ä»–ãƒ™ã‚¯ãƒˆãƒ«ã¨ã®è·é›¢ã‚’å–å¾—ã™ã‚‹
+	/// @param other æ¯”è¼ƒå¯¾è±¡ã®ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return float è·é›¢
 	float DistanceTo(const Vector2& other) const;
 
-	/// @brief ‘¼ƒxƒNƒgƒ‹‚Æ‚Ì‹——£‚Ì“ñæ‚ğæ“¾‚·‚é
-	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
-	/// @return float ‹——£‚Ì“ñæ
+	/// @brief ä»–ãƒ™ã‚¯ãƒˆãƒ«ã¨ã®è·é›¢ã®äºŒä¹—ã‚’å–å¾—ã™ã‚‹
+	/// @param other æ¯”è¼ƒå¯¾è±¡ã®ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return float è·é›¢ã®äºŒä¹—
 	float DistanceSqTo(const Vector2& other) const;
 
-	/// @brief ‘¼ƒxƒNƒgƒ‹‚Ö‚ÌŠp“x‚ğæ“¾‚·‚é
-	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
-	/// @return float Šp“xiƒ‰ƒWƒAƒ“j
+	/// @brief ä»–ãƒ™ã‚¯ãƒˆãƒ«ã¸ã®è§’åº¦ã‚’å–å¾—ã™ã‚‹
+	/// @param other æ¯”è¼ƒå¯¾è±¡ã®ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return float è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
 	float AngleTo(const Vector2& other) const;
 
-	/// @brief “àÏ‚ğæ“¾‚·‚é
-	/// @param other ”äŠr‘ÎÛ‚ÌƒxƒNƒgƒ‹
-	/// @return float “àÏ
+	/// @brief å†…ç©ã‚’å–å¾—ã™ã‚‹
+	/// @param other æ¯”è¼ƒå¯¾è±¡ã®ãƒ™ã‚¯ãƒˆãƒ«
+	/// @return float å†…ç©
 	float Dot(const Vector2& other) const;
 
-	/// @brief Šp“x‚Æ’·‚³‚©‚çƒxƒNƒgƒ‹‚ğ¶¬‚·‚é
-	/// @param radians Šp“xiƒ‰ƒWƒAƒ“j
-	/// @param length ’·‚³
-	/// @return Vector2 ¶¬‚³‚ê‚½ƒxƒNƒgƒ‹
+	/// @brief è§’åº¦ã¨é•·ã•ã‹ã‚‰ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param radians è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
+	/// @param length é•·ã•
+	/// @return Vector2 ç”Ÿæˆã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«
 	static Vector2 FromAngle(float radians, float length = 1.0f);
 
-	/// @brief 2“_ŠÔ‚Ì‹——£‚ğæ“¾‚·‚é
-	/// @param a “_A
-	/// @param b “_B
-	/// @return float ‹——£
+	/// @brief 2ç‚¹é–“ã®è·é›¢ã‚’å–å¾—ã™ã‚‹
+	/// @param a ç‚¹A
+	/// @param b ç‚¹B
+	/// @return float è·é›¢
 	static float Distance(const Vector2& a, const Vector2& b);
 
-	/// @brief DxLib‚ÌVECTOR‚Ö•ÏŠ·‚·‚é
-	/// @return VECTOR DxLib—pƒxƒNƒgƒ‹
+	/// @brief DxLibã®VECTORã¸å¤‰æ›ã™ã‚‹
+	/// @return VECTOR DxLibç”¨ãƒ™ã‚¯ãƒˆãƒ«
 	operator VECTOR() const
 	{
 		return VGet(x, y, 0.0f);
 	}
 };
 
-/// @brief ƒXƒJƒ‰[‚ÆƒxƒNƒgƒ‹‚ğæZ‚·‚é
-/// @param scalar æZ‚·‚é’l
-/// @param v ‘ÎÛƒxƒNƒgƒ‹
-/// @return Vector2 æZŒ‹‰Ê
+/// @brief ã‚¹ã‚«ãƒ©ãƒ¼ã¨ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä¹—ç®—ã™ã‚‹
+/// @param scalar ä¹—ç®—ã™ã‚‹å€¤
+/// @param v å¯¾è±¡ãƒ™ã‚¯ãƒˆãƒ«
+/// @return Vector2 ä¹—ç®—çµæœ
 inline Vector2 operator*(float scalar, const Vector2& v)
 {
 	return v * scalar;

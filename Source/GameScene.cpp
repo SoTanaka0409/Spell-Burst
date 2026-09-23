@@ -22,7 +22,7 @@ int GameScene::current_stage_ = 1;
 int GameScene::play_frame_count_ = 0;
 bool GameScene::is_time_attack_active_ = false;
 
-/// @brief GameScene ‚ğ¶¬‚·‚é
+/// @brief GameScene ã‚’ç”Ÿæˆã™ã‚‹
 GameScene::GameScene()
 	: enemy_manager_(nullptr)
 	, cutin_timer_(0)
@@ -36,7 +36,7 @@ GameScene::GameScene()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 GameScene::~GameScene()
 {
 	if (enemy_manager_ != nullptr)
@@ -51,7 +51,7 @@ GameScene::~GameScene()
 	}
 }
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void GameScene::Initialize()
 {
 	play_frame_count_ = 0;
@@ -92,7 +92,7 @@ void GameScene::Initialize()
 	SoundManager::GetInstance()->PlayBGM("BGM_170");
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void GameScene::Update()
 {
 	if (is_time_attack_active_) play_frame_count_++;
@@ -145,7 +145,7 @@ void GameScene::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void GameScene::Draw()
 {
 	if (screen_handle_ != -1)
@@ -174,7 +174,7 @@ void GameScene::Draw()
 	DrawEffects();
 }
 
-/// @brief DrawBackground ‚ğÀs‚·‚é
+/// @brief DrawBackground ã‚’å®Ÿè¡Œã™ã‚‹
 void GameScene::DrawBackground()
 {
 	std::string bgPath = "IMG_BG_TITLE";
@@ -198,7 +198,7 @@ void GameScene::DrawBackground()
 	}
 }
 
-/// @brief DrawTimeAttackTimer ‚ğÀs‚·‚é
+/// @brief DrawTimeAttackTimer ã‚’å®Ÿè¡Œã™ã‚‹
 void GameScene::DrawTimeAttackTimer()
 {
 	int totalMs = (play_frame_count_ * 1000) / 60;
@@ -207,11 +207,11 @@ void GameScene::DrawTimeAttackTimer()
 	int sec = totalSec % 60;
 	int min = totalSec / 60;
 	char timeStr[64];
-	sprintf_s(timeStr, "Œo‰ß %02d:%02d.%03d", min, sec, ms);
-	DrawStringToHandle(Utility::kScreenWidth - 300, 20, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
+	sprintf_s(timeStr, "çµŒé %02d:%02d.%03d", min, sec, ms);
+	DrawStringToHandle(Utility::kScreenWidth - 320, 70, timeStr, GetColor(255, 255, 255), ResourceManager::GetInstance()->GetFont(32, 2));
 }
 
-/// @brief DrawEffects ‚ğÀs‚·‚é
+/// @brief DrawEffects ã‚’å®Ÿè¡Œã™ã‚‹
 void GameScene::DrawEffects()
 {
 	if (screen_handle_ != -1)
@@ -240,38 +240,38 @@ void GameScene::DrawEffects()
 	}
 }
 
-/// @brief AddScreenShake ‚ğÀs‚·‚é
-/// @param duration duration ‚Ì’l
-/// @param magnitude magnitude ‚Ì’l
+/// @brief AddScreenShake ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param duration duration ã®å€¤
+/// @param magnitude magnitude ã®å€¤
 void GameScene::AddScreenShake(int duration, float magnitude)
 {
 	shake_timer_ = std::max(0, duration);
 	shake_magnitude_ = std::max(0.0f, magnitude);
 }
 
-/// @brief AddHitStop ‚ğÀs‚·‚é
-/// @param duration duration ‚Ì’l
+/// @brief AddHitStop ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param duration duration ã®å€¤
 void GameScene::AddHitStop(int duration)
 {
 	hit_stop_timer_ = duration;
 }
 
-/// @brief AddDamageFlash ‚ğÀs‚·‚é
-/// @param duration duration ‚Ì’l
-/// @param color color ‚Ì’l
+/// @brief AddDamageFlash ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param duration duration ã®å€¤
+/// @param color color ã®å€¤
 void GameScene::AddDamageFlash(int duration, unsigned int color)
 {
 	damage_flash_timer_ = duration;
 	damage_flash_color_ = color;
 }
 
-/// @brief TriggerCutin ‚ğÀs‚·‚é
+/// @brief TriggerCutin ã‚’å®Ÿè¡Œã™ã‚‹
 void GameScene::TriggerCutin()
 {
 	cutin_timer_ = 90;
 }
 
-/// @brief I—¹ˆ—‚ğs‚¤
+/// @brief çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 void GameScene::Finalize()
 {
 	DebugLog("GameScene::Finalize() called!\n");

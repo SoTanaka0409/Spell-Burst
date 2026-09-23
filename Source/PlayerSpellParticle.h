@@ -1,40 +1,40 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-/// @brief ƒvƒŒƒCƒ„[‚ÌƒXƒyƒ‹ƒJ[ƒh‰‰o‚Åg‚¤UŒ‚ƒp[ƒeƒBƒNƒ‹
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰æ¼”å‡ºã§ä½¿ã†æ”»æ’ƒãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 class PlayerSpellParticle : public Object2D
 {
 private:
-	Vector2 dir;                 ///< is•ûŒü
-	float speed_;                ///< ‘¬“x
-	int damage_;                 ///< ƒ_ƒ[ƒW—Ê
-	bool is_active_;             ///< —LŒøó‘Ô‚ğ¦‚·ƒtƒ‰ƒO
-	int life_timer_;             ///< c‚èõ–½ƒtƒŒ[ƒ€”
-	CapsuleCollider* collider_;  ///< “–‚½‚è”»’è
+	Vector2 dir;                 ///< é€²è¡Œæ–¹å‘
+	float speed_;                ///< é€Ÿåº¦
+	int damage_;                 ///< ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+	bool is_active_;             ///< æœ‰åŠ¹çŠ¶æ…‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	int life_timer_;             ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	CapsuleCollider* collider_;  ///< å½“ãŸã‚Šåˆ¤å®š
 
 public:
-	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ¶¬‚·‚é
-	/// @param pos ‰ŠúÀ•W
-	/// @param dir is•ûŒü
-	/// @param speed_ ‘¬“x
+	/// @brief ã‚¹ãƒšãƒ«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param pos åˆæœŸåº§æ¨™
+	/// @param dir é€²è¡Œæ–¹å‘
+	/// @param speed_ é€Ÿåº¦
 	PlayerSpellParticle(Vector2 pos, Vector2 dir, float speed_);
 
-	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ”jŠü‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~PlayerSpellParticle() override;
 
-	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğXV‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğ•`‰æ‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief ƒXƒyƒ‹ƒp[ƒeƒBƒNƒ‹‚ğíœ‘ÎÛ‚É‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 	void Kill();
 };

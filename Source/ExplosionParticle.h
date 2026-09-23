@@ -1,34 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
-/// @brief “GŒ‚”j‚È‚Ç‚É•\¦‚·‚é”š”­ƒp[ƒeƒBƒNƒ‹
+/// @brief æ•µæ’ƒç ´æ™‚ãªã©ã«è¡¨ç¤ºã™ã‚‹çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 class ExplosionParticle : public Object2D
 {
 private:
-	float vx_;       ///< X•ûŒü‚Ì‘¬“x
-	float vy_;       ///< Y•ûŒü‚Ì‘¬“x
-	int life_time_;  ///< c‚èõ–½ƒtƒŒ[ƒ€”
-	int max_life_;   ///< ‰Šúõ–½ƒtƒŒ[ƒ€”
-	int color_;      ///< •`‰æF
-	float size_;     ///< •`‰æƒTƒCƒY
+	float vx_;       ///< Xæ–¹å‘ã®é€Ÿåº¦
+	float vy_;       ///< Yæ–¹å‘ã®é€Ÿåº¦
+	int life_time_;  ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int max_life_;   ///< åˆæœŸå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int color_;      ///< æç”»è‰²
+	float size_;     ///< æç”»ã‚µã‚¤ã‚º
 
 public:
-	/// @brief ”š”­ƒp[ƒeƒBƒNƒ‹‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
-	/// @param speed_ ‘¬“x
-	/// @param angle ”òUŠp“x
-	/// @param color_ •`‰æF
-	/// @param life_time_ õ–½ƒtƒŒ[ƒ€”
-	/// @param size_ •`‰æƒTƒCƒY
+	/// @brief çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
+	/// @param speed_ é€Ÿåº¦
+	/// @param angle é£›æ•£è§’åº¦
+	/// @param color_ æç”»è‰²
+	/// @param life_time_ å¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	/// @param size_ æç”»ã‚µã‚¤ã‚º
 	ExplosionParticle(float x, float y, float speed_, float angle, int color_, int life_time_, float size_);
 
-	/// @brief ”š”­ƒp[ƒeƒBƒNƒ‹‚ğ”jŠü‚·‚é
+	/// @brief çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~ExplosionParticle();
 
-	/// @brief ƒp[ƒeƒBƒNƒ‹‚ÌˆÊ’u‚Æõ–½‚ğXV‚·‚é
+	/// @brief ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ä½ç½®ã¨å¯¿å‘½ã‚’æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief ƒp[ƒeƒBƒNƒ‹‚ğ•`‰æ‚·‚é
+	/// @brief ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 };

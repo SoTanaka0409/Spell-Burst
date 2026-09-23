@@ -1,47 +1,47 @@
-#pragma once
+ï»¿#pragma once
 #include <map>
 #include <string>
 
-/// @brief ‰æ‘œAƒtƒHƒ“ƒgAƒAƒZƒbƒgƒpƒX‚ğ“Ç‚İ‚İEƒLƒƒƒbƒVƒ…‚·‚éƒNƒ‰ƒX
+/// @brief ç”»åƒã€ãƒ•ã‚©ãƒ³ãƒˆã€ã‚¢ã‚»ãƒƒãƒˆãƒ‘ã‚¹ã‚’èª­ã¿è¾¼ã¿ãƒ»ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class ResourceManager
 {
 private:
-    std::map<std::string, int> graph_map_;              ///< ‰æ‘œID‚ÆƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
-    std::map<std::pair<int, int>, int> font_map_;       ///< ƒtƒHƒ“ƒgƒTƒCƒYE‘¾‚³‚ÆƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚Ì‘Î‰•\
-    std::map<std::string, std::string> asset_paths_;    ///< ƒAƒZƒbƒgID‚ÆÀƒtƒ@ƒCƒ‹ƒpƒX‚Ì‘Î‰•\
+    std::map<std::string, int> graph_map_;              ///< ç”»åƒIDã¨ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ³ãƒ‰ãƒ«ã®å¯¾å¿œè¡¨
+    std::map<std::pair<int, int>, int> font_map_;       ///< ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºãƒ»å¤ªã•ã¨ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«ã®å¯¾å¿œè¡¨
+    std::map<std::string, std::string> asset_paths_;    ///< ã‚¢ã‚»ãƒƒãƒˆIDã¨å®Ÿãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®å¯¾å¿œè¡¨
 
 public:
-    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+    /// @brief ãƒªã‚½ãƒ¼ã‚¹ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     ResourceManager();
 
-    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+    /// @brief ãƒªã‚½ãƒ¼ã‚¹ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
     ~ResourceManager();
 
-    /// @brief ƒŠƒ\[ƒXŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
-    /// @return ResourceManager* ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+    /// @brief ãƒªã‚½ãƒ¼ã‚¹ç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @return ResourceManager* ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
     static ResourceManager* GetInstance();
 
-    /// @brief ƒAƒZƒbƒgCSV‚ğ“Ç‚İ‚Ş
-    /// @param csv_path CSVƒtƒ@ƒCƒ‹‚ÌƒpƒX
-    /// @return bool “Ç‚İ‚İ‚É¬Œ÷‚µ‚½‚çtrue
+    /// @brief ã‚¢ã‚»ãƒƒãƒˆCSVã‚’èª­ã¿è¾¼ã‚€
+    /// @param csv_path CSVãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+    /// @return bool èª­ã¿è¾¼ã¿ã«æˆåŠŸã—ãŸã‚‰true
     bool LoadCSV(const std::string& csv_path);
 
-    /// @brief ƒAƒZƒbƒgID‚©‚çÀƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚·‚é
-    /// @param id ƒAƒZƒbƒgID
-    /// @return std::string Àƒtƒ@ƒCƒ‹ƒpƒX
+    /// @brief ã‚¢ã‚»ãƒƒãƒˆIDã‹ã‚‰å®Ÿãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @param id ã‚¢ã‚»ãƒƒãƒˆID
+    /// @return std::string å®Ÿãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
     std::string GetAssetPath(const std::string& id);
 
-    /// @brief ‰æ‘œƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
-    /// @param id ƒAƒZƒbƒgID‚Ü‚½‚Íƒtƒ@ƒCƒ‹ƒpƒX
-    /// @return int ƒOƒ‰ƒtƒBƒbƒNƒnƒ“ƒhƒ‹
+    /// @brief ç”»åƒãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
+    /// @param id ã‚¢ã‚»ãƒƒãƒˆIDã¾ãŸã¯ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+    /// @return int ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ³ãƒ‰ãƒ«
     int GetGraph(const std::string& id);
 
-    /// @brief ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
-    /// @param size ƒtƒHƒ“ƒgƒTƒCƒY
-    /// @param thickness ƒtƒHƒ“ƒg‚Ì‘¾‚³
-    /// @return int ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
+    /// @param size ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
+    /// @param thickness ãƒ•ã‚©ãƒ³ãƒˆã®å¤ªã•
+    /// @return int ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     int GetFont(int size, int thickness);
 
-    /// @brief “Ç‚İ‚ñ‚¾‘SƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
+    /// @brief èª­ã¿è¾¼ã‚“ã å…¨ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã™ã‚‹
     void ClearAll();
 };

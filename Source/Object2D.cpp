@@ -1,11 +1,11 @@
-#include "Object2D.h"
+ï»¿#include "Object2D.h"
 #include "ObjectManager.h"
 #include "Master.h"
 #include "Collider.h"
 #include "Scene.h"
 
-/// @brief Object2D ‚ğ¶¬‚·‚é
-/// @param initPos initPos ‚Ì’l
+/// @brief Object2D ã‚’ç”Ÿæˆã™ã‚‹
+/// @param initPos initPos ã®å€¤
 Object2D::Object2D(Vector2 initPos)
 	: position_(initPos)
 	, rotation_(Vector2(0.0f, 0.0f))
@@ -15,38 +15,38 @@ Object2D::Object2D(Vector2 initPos)
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Object2D::~Object2D()
 {
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Object2D::Draw()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Object2D::Update()
 {
 }
 
-/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Object2D::OnEnter(Collider* collider, Collider* check)
 {
 }
 
-/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Object2D::OnExit(Collider* collider, Collider* check)
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Object2D::OnTrigger(Collider* collider, Collider* check)
 {
 }

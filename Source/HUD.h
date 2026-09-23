@@ -1,51 +1,51 @@
-#pragma once
+ï»¿#pragma once
 
 class Player;
 class Boss;
 class EnemyManager;
 
-/// @brief ƒvƒŒƒCƒ„[‚âƒ{ƒX‚Ìó‘Ô‚ğ‰æ–Ê‚É•\¦‚·‚éHUDƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚„ãƒœã‚¹ã®çŠ¶æ…‹ã‚’ç”»é¢ã«è¡¨ç¤ºã™ã‚‹HUDã‚¯ãƒ©ã‚¹
 class HUD
 {
 public:
-	/// @brief HUD•\¦—p‚Ì’l‚ğ‰Šú‰»‚·‚é
+	/// @brief HUDè¡¨ç¤ºç”¨ã®å€¤ã‚’åˆæœŸåŒ–ã™ã‚‹
 	static void Initialize();
 
-	/// @brief HUD•\¦—p‚Ì•âŠÔ’l‚ğXV‚·‚é
-	/// @param player ƒvƒŒƒCƒ„[
-	/// @param enemyManager “GŠÇ—ƒNƒ‰ƒX
-	/// @param boss ƒ{ƒX
+	/// @brief HUDè¡¨ç¤ºç”¨ã®è£œé–“å€¤ã‚’æ›´æ–°ã™ã‚‹
+	/// @param player ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+	/// @param enemyManager æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
+	/// @param boss ãƒœã‚¹
 	static void Update(Player* player, EnemyManager* enemyManager, Boss* boss);
 
-	/// @brief HUD‘S‘Ì‚ğ•`‰æ‚·‚é
-	/// @param player ƒvƒŒƒCƒ„[
-	/// @param enemyManager “GŠÇ—ƒNƒ‰ƒX
-	/// @param boss ƒ{ƒX
-	/// @param cutinTimer ƒJƒbƒgƒCƒ“c‚èŠÔ
-	/// @param cutinImageHandle ƒJƒbƒgƒCƒ“‰æ‘œƒnƒ“ƒhƒ‹
+	/// @brief HUDå…¨ä½“ã‚’æç”»ã™ã‚‹
+	/// @param player ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+	/// @param enemyManager æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
+	/// @param boss ãƒœã‚¹
+	/// @param cutinTimer ã‚«ãƒƒãƒˆã‚¤ãƒ³æ®‹ã‚Šæ™‚é–“
+	/// @param cutinImageHandle ã‚«ãƒƒãƒˆã‚¤ãƒ³ç”»åƒãƒãƒ³ãƒ‰ãƒ«
 	static void Draw(Player* player, EnemyManager* enemyManager, Boss* boss, int cutinTimer, int cutinImageHandle);
 
 private:
-	static float display_hp_ratio_;      ///< •\¦—pHP”ä—¦
-	static float display_xp_ratio_;      ///< •\¦—pŒoŒ±’l”ä—¦
-	static float display_spell_ratio_;   ///< •\¦—pƒXƒyƒ‹ƒQ[ƒW”ä—¦
-	static float display_barrier_ratio_; ///< •\¦—pƒoƒŠƒA”ä—¦
-	static float boss_hp_ratio_;         ///< •\¦—pƒ{ƒXHP”ä—¦
+	static float display_hp_ratio_;      ///< è¡¨ç¤ºç”¨HPæ¯”ç‡
+	static float display_xp_ratio_;      ///< è¡¨ç¤ºç”¨çµŒé¨“å€¤æ¯”ç‡
+	static float display_spell_ratio_;   ///< è¡¨ç¤ºç”¨ã‚¹ãƒšãƒ«ã‚²ãƒ¼ã‚¸æ¯”ç‡
+	static float display_barrier_ratio_; ///< è¡¨ç¤ºç”¨ãƒãƒªã‚¢æ¯”ç‡
+	static float boss_hp_ratio_;         ///< è¡¨ç¤ºç”¨ãƒœã‚¹HPæ¯”ç‡
 
-	/// @brief ƒvƒŒƒCƒ„[ó‘Ô‚ğ•`‰æ‚·‚é
-	/// @param player ƒvƒŒƒCƒ„[
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼çŠ¶æ…‹ã‚’æç”»ã™ã‚‹
+	/// @param player ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	static void DrawPlayerStatus(Player* player);
 
-	/// @brief ƒ{ƒXó‘Ô‚ğ•`‰æ‚·‚é
-	/// @param boss ƒ{ƒX
+	/// @brief ãƒœã‚¹çŠ¶æ…‹ã‚’æç”»ã™ã‚‹
+	/// @param boss ãƒœã‚¹
 	static void DrawBossStatus(Boss* boss);
 
-	/// @brief “GŒ‚”jis“x‚ğ•`‰æ‚·‚é
-	/// @param enemyManager “GŠÇ—ƒNƒ‰ƒX
+	/// @brief æ•µæ’ƒç ´é€²è¡Œåº¦ã‚’æç”»ã™ã‚‹
+	/// @param enemyManager æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
 	static void DrawEnemyProgress(EnemyManager* enemyManager);
 
-	/// @brief ƒJƒbƒgƒCƒ“‚ğ•`‰æ‚·‚é
-	/// @param cutinTimer ƒJƒbƒgƒCƒ“c‚èŠÔ
-	/// @param cutinImageHandle ƒJƒbƒgƒCƒ“‰æ‘œƒnƒ“ƒhƒ‹
+	/// @brief ã‚«ãƒƒãƒˆã‚¤ãƒ³ã‚’æç”»ã™ã‚‹
+	/// @param cutinTimer ã‚«ãƒƒãƒˆã‚¤ãƒ³æ®‹ã‚Šæ™‚é–“
+	/// @param cutinImageHandle ã‚«ãƒƒãƒˆã‚¤ãƒ³ç”»åƒãƒãƒ³ãƒ‰ãƒ«
 	static void DrawCutin(int cutinTimer, int cutinImageHandle);
 };

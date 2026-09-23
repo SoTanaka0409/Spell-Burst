@@ -1,4 +1,4 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -8,75 +8,75 @@
 
 class Object2D;
 
-/// @brief “–‚½‚è”»’èiƒRƒ‰ƒCƒ_[j‚ÌŠî’êƒNƒ‰ƒX
-/// @details ŠeƒIƒuƒWƒFƒNƒg‚Éæ‚è•t‚¯‚ç‚êA‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGó‘Ô‚ÆƒCƒxƒ“ƒg‚ğŠÇ—‚·‚éB
+/// @brief å½“ãŸã‚Šåˆ¤å®šï¼ˆã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ï¼‰ã®åŸºåº•ã‚¯ãƒ©ã‚¹
+/// @details å„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å–ã‚Šä»˜ã‘ã‚‰ã‚Œã€ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦çŠ¶æ…‹ã¨ã‚¤ãƒ™ãƒ³ãƒˆã‚’ç®¡ç†ã™ã‚‹ã€‚
 class Collider
 {
 public:
-    /// @brief ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»‚·‚é
-    /// @param parent ‚±‚ÌƒRƒ‰ƒCƒ_[‚ğŠ—L‚·‚éeƒIƒuƒWƒFƒNƒg
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
+    /// @param parent ã“ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æ‰€æœ‰ã™ã‚‹è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     Collider(Object2D* parent);
 
-    /// @brief ƒRƒ‰ƒCƒ_[‚ğ”jŠü‚·‚é
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç ´æ£„ã™ã‚‹
     virtual ~Collider();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚Ì‹ï‘Ì“I‚ÈÕ“ËŒvZ‚ğs‚¤
-    /// @param check ”»’è‘ÎÛ‚Æ‚È‚é‘¼‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®å…·ä½“çš„ãªè¡çªè¨ˆç®—ã‚’è¡Œã†
+    /// @param check åˆ¤å®šå¯¾è±¡ã¨ãªã‚‹ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void Update(Collider* check);
 
-    /// @brief ƒRƒ‰ƒCƒ_[‚ÌŒ`ó‚ğƒfƒoƒbƒO—p‚É•`‰æ‚·‚é
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å½¢çŠ¶ã‚’ãƒ‡ãƒãƒƒã‚°ç”¨ã«æç”»ã™ã‚‹
     virtual void Draw();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚ÆÚG‚µ‚½Å‰‚ÌƒtƒŒ[ƒ€‚ÉŒÄ‚Î‚ê‚é
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨æ¥è§¦ã—ãŸæœ€åˆã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«å‘¼ã°ã‚Œã‚‹
     virtual void OnEnter();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚ÆÚG‚µ‚Ä‚¢‚éŠÔA–ˆƒtƒŒ[ƒ€ŒÄ‚Î‚ê‚é
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨æ¥è§¦ã—ã¦ã„ã‚‹é–“ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹
     virtual void OnTrigger();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG‚ª—£‚ê‚½ƒtƒŒ[ƒ€‚ÉŒÄ‚Î‚ê‚é
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ãŒé›¢ã‚ŒãŸãƒ•ãƒ¬ãƒ¼ãƒ ã«å‘¼ã°ã‚Œã‚‹
     virtual void OnExit();
 
-    /// @brief Õ“Ëó‘Ô‚É‰‚¶‚ÄÕ“ËƒŠƒXƒg‚ğXV‚µAŠeíƒCƒxƒ“ƒg‚ğŒÄ‚Ño‚·
-    /// @param check ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
-    /// @param isHit Œ»İÕ“Ë‚µ‚Ä‚¢‚é‚©
+    /// @brief è¡çªçŠ¶æ…‹ã«å¿œã˜ã¦è¡çªãƒªã‚¹ãƒˆã‚’æ›´æ–°ã—ã€å„ç¨®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‘¼ã³å‡ºã™
+    /// @param check åˆ¤å®šå¯¾è±¡ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param isHit ç¾åœ¨è¡çªã—ã¦ã„ã‚‹ã‹
     void HitCheck(Collider* check, bool isHit);
 
-    /// @brief íœƒtƒ‰ƒO‚ğİ’è‚·‚é
-    /// @param flag íœ‘ÎÛ‚È‚çtrue
+    /// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’è¨­å®šã™ã‚‹
+    /// @param flag å‰Šé™¤å¯¾è±¡ãªã‚‰true
     void SetDeleteFlag(bool flag) { delete_flag_ = flag; }
 
-    /// @brief íœƒtƒ‰ƒO‚ğæ“¾‚·‚é
-    /// @return bool íœ‘ÎÛ‚È‚çtrue
+    /// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹
+    /// @return bool å‰Šé™¤å¯¾è±¡ãªã‚‰true
     bool IsDeleteFlag() { return delete_flag_; }
 
-    /// @brief eƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é
-    /// @return Object2D* eƒIƒuƒWƒFƒNƒg
+    /// @brief è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
+    /// @return Object2D* è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     Object2D* GetParentObject()
     {
         return parent_object_;
     }
 
-    /// @brief eƒIƒuƒWƒFƒNƒgQÆ‚ğ–³Œø‰»‚·‚é
+    /// @brief è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‚ç…§ã‚’ç„¡åŠ¹åŒ–ã™ã‚‹
     void InvalidateParent()
     {
         parent_object_ = nullptr;
     }
 
-    /// @brief Õ“ËƒŠƒXƒg‚©‚çw’è‚³‚ê‚½ƒRƒ‰ƒCƒ_[‚ğæ‚èœ‚­
-    /// @param collider íœ‚·‚éƒRƒ‰ƒCƒ_[
+    /// @brief è¡çªãƒªã‚¹ãƒˆã‹ã‚‰æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–ã‚Šé™¤ã
+    /// @param collider å‰Šé™¤ã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     void RemoveCollision(Collider* collider);
 
-    /// @brief Œ»İÚG‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[ƒŠƒXƒg‚ğæ“¾‚·‚é
-    /// @return const std::vector<Collider*>& ÚG’†ƒRƒ‰ƒCƒ_[ƒŠƒXƒg
+    /// @brief ç¾åœ¨æ¥è§¦ã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+    /// @return const std::vector<Collider*>& æ¥è§¦ä¸­ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒªã‚¹ãƒˆ
     const std::vector<Collider*>& GetCollisionList() const { return collision_list_; }
 
 public:
-    Object2D* parent_object_; ///< eƒIƒuƒWƒFƒNƒg
-    Vector2 position_;        ///< ƒRƒ‰ƒCƒ_[‚Ì’†SÀ•W‚È‚Ç
-    Vector2 position2_;       ///< ƒJƒvƒZƒ‹‚È‚Ç‚Åg‚¤2“_–Ú‚ÌÀ•W
-    float radius_;            ///< ‰~EƒJƒvƒZƒ‹‚È‚Ç‚Ì”¼Œa
-    bool delete_flag_;        ///< ŠÇ—ƒNƒ‰ƒX‚©‚çíœ‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+    Object2D* parent_object_; ///< è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    Vector2 position_;        ///< ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸­å¿ƒåº§æ¨™ãªã©
+    Vector2 position2_;       ///< ã‚«ãƒ—ã‚»ãƒ«ãªã©ã§ä½¿ã†2ç‚¹ç›®ã®åº§æ¨™
+    float radius_;            ///< å††ãƒ»ã‚«ãƒ—ã‚»ãƒ«ãªã©ã®åŠå¾„
+    bool delete_flag_;        ///< ç®¡ç†ã‚¯ãƒ©ã‚¹ã‹ã‚‰å‰Šé™¤ã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
 
 protected:
-    std::vector<Collider*> collision_list_; ///< Œ»İÚG‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ÌƒŠƒXƒg
+    std::vector<Collider*> collision_list_; ///< ç¾åœ¨æ¥è§¦ã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒªã‚¹ãƒˆ
 };

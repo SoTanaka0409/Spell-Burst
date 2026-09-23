@@ -1,32 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "Collider.h"
 
-/// @brief ’†SÀ•W‚Æ”¼Œa‚Å•\‚·‰~Œ`ƒRƒ‰ƒCƒ_[
+/// @brief ä¸­å¿ƒåº§æ¨™ã¨åŠå¾„ã§è¡¨ã™å††å½¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 class SphereCollider : public Collider
 {
 public:
-    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»‚·‚é
-    /// @param parent eƒIƒuƒWƒFƒNƒg
-    /// @param center ’†SÀ•W
-    /// @param radius ”¼Œa
+    /// @brief å††å½¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
+    /// @param parent è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    /// @param center ä¸­å¿ƒåº§æ¨™
+    /// @param radius åŠå¾„
     SphereCollider(Object2D* parent, Vector2 center, float radius);
 
-    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğ”jŠü‚·‚é
+    /// @brief å††å½¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~SphereCollider();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚Ì‰~Œ`Õ“Ë”»’è‚ğs‚¤
-    /// @param check ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®å††å½¢è¡çªåˆ¤å®šã‚’è¡Œã†
+    /// @param check åˆ¤å®šå¯¾è±¡ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     void Update(Collider* check) override;
 
-    /// @brief ‰~Œ`ƒRƒ‰ƒCƒ_[‚ğƒfƒoƒbƒO•`‰æ‚·‚é
+    /// @brief å††å½¢ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒ‡ãƒãƒƒã‚°æç”»ã™ã‚‹
     void Draw() override;
 
-	/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
+	/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 	void OnEnter() override;
 
-	/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
+	/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
 	void OnTrigger() override;
 
-	/// @brief ÚGI—¹‚Ìˆ—‚ğs‚¤
+	/// @brief æ¥è§¦çµ‚äº†æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 	void OnExit() override;
 };

@@ -1,104 +1,104 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 #include "Vector2.h"
 
 class CapsuleCollider;
 class Collider;
 
-/// @brief ‘S‚Ä‚ÌƒLƒƒƒ‰ƒNƒ^[iƒvƒŒƒCƒ„[A“GAƒ{ƒXj‚ÌŠî’êƒNƒ‰ƒX
+/// @brief å…¨ã¦ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ï¼ˆãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€æ•µã€ãƒœã‚¹ï¼‰ã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class Character : public Object2D
 {
 protected:
-	int hp_;                     ///< Œ»İ‚ÌHP
-	int max_hp_;                 ///< Å‘åHP
-	float speed_;                ///< ˆÚ“®‘¬“x
-	bool is_active_;             ///< XVE•`‰æ‘ÎÛ‚Æ‚µ‚Ä¶‘¶‚µ‚Ä‚¢‚é‚©‚ğ¦‚·ƒtƒ‰ƒO
-	int stun_timer_;             ///< s“®•s”\‚Ìc‚èƒtƒŒ[ƒ€”
-	CapsuleCollider* collider_;  ///< ƒLƒƒƒ‰ƒNƒ^[‹¤’Ê‚Ì“–‚½‚è”»’è
+	int hp_;                     ///< ç¾åœ¨ã®HP
+	int max_hp_;                 ///< æœ€å¤§HP
+	float speed_;                ///< ç§»å‹•é€Ÿåº¦
+	bool is_active_;             ///< æ›´æ–°ãƒ»æç”»å¯¾è±¡ã¨ã—ã¦ç”Ÿå­˜ã—ã¦ã„ã‚‹ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	int stun_timer_;             ///< è¡Œå‹•ä¸èƒ½ã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	CapsuleCollider* collider_;  ///< ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼å…±é€šã®å½“ãŸã‚Šåˆ¤å®š
 
 public:
-	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ‰Šú‰»‚·‚é
-	/// @param pos ‰ŠúÀ•W
-	/// @param maxHp Å‘åHP
-	/// @param speed ˆÚ“®‘¬“x
+	/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
+	/// @param pos åˆæœŸåº§æ¨™
+	/// @param maxHp æœ€å¤§HP
+	/// @param speed ç§»å‹•é€Ÿåº¦
 	Character(Vector2 pos, int maxHp, float speed);
 
-	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ”jŠü‚·‚é
+	/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Character() override;
 
-	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®çŠ¶æ…‹ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ•`‰æ‚·‚é
+	/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ä¸­å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief Œ»İHP‚ğæ“¾‚·‚é
-	/// @return int Œ»İHP
+	/// @brief ç¾åœ¨HPã‚’å–å¾—ã™ã‚‹
+	/// @return int ç¾åœ¨HP
 	int GetHp() const { return hp_; }
 
-	/// @brief Å‘åHP‚ğæ“¾‚·‚é
-	/// @return int Å‘åHP
+	/// @brief æœ€å¤§HPã‚’å–å¾—ã™ã‚‹
+	/// @return int æœ€å¤§HP
 	int GetMaxHp() const { return max_hp_; }
 
-	/// @brief ˆÚ“®‘¬“x‚ğæ“¾‚·‚é
-	/// @return float ˆÚ“®‘¬“x
+	/// @brief ç§»å‹•é€Ÿåº¦ã‚’å–å¾—ã™ã‚‹
+	/// @return float ç§»å‹•é€Ÿåº¦
 	float GetSpeed() const { return speed_; }
 
-	/// @brief ¶‘¶ó‘Ô‚ğæ“¾‚·‚é
-	/// @return bool —LŒø‚ÈƒLƒƒƒ‰ƒNƒ^[‚È‚çtrue
+	/// @brief ç”Ÿå­˜çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+	/// @return bool æœ‰åŠ¹ãªã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ãªã‚‰true
 	bool IsActive() const { return is_active_; }
 
-	/// @brief ƒXƒ^ƒ“ó‘Ô‚©‚ğæ“¾‚·‚é
-	/// @return bool ƒXƒ^ƒ“’†‚È‚çtrue
+	/// @brief ã‚¹ã‚¿ãƒ³çŠ¶æ…‹ã‹ã‚’å–å¾—ã™ã‚‹
+	/// @return bool ã‚¹ã‚¿ãƒ³ä¸­ãªã‚‰true
 	bool IsStunned() const { return stun_timer_ > 0; }
 
-	/// @brief ƒXƒ^ƒ“c‚èŠÔ‚ğæ“¾‚·‚é
-	/// @return int ƒXƒ^ƒ“c‚èƒtƒŒ[ƒ€”
+	/// @brief ã‚¹ã‚¿ãƒ³æ®‹ã‚Šæ™‚é–“ã‚’å–å¾—ã™ã‚‹
+	/// @return int ã‚¹ã‚¿ãƒ³æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	int GetStunTimer() const { return stun_timer_; }
 
-	/// @brief XÀ•W‚ğæ“¾‚·‚é
-	/// @return float XÀ•W
+	/// @brief Xåº§æ¨™ã‚’å–å¾—ã™ã‚‹
+	/// @return float Xåº§æ¨™
 	float GetX() const { return position_.x; }
 
-	/// @brief YÀ•W‚ğæ“¾‚·‚é
-	/// @return float YÀ•W
+	/// @brief Yåº§æ¨™ã‚’å–å¾—ã™ã‚‹
+	/// @return float Yåº§æ¨™
 	float GetY() const { return position_.y; }
 
-	/// @brief Œ»İHP‚ğİ’è‚·‚é
-	/// @param hp İ’è‚·‚éHP
+	/// @brief ç¾åœ¨HPã‚’è¨­å®šã™ã‚‹
+	/// @param hp è¨­å®šã™ã‚‹HP
 	void SetHp(int hp) { hp_ = hp; }
 
-	/// @brief Å‘åHP‚ğİ’è‚·‚é
-	/// @param maxHp İ’è‚·‚éÅ‘åHP
+	/// @brief æœ€å¤§HPã‚’è¨­å®šã™ã‚‹
+	/// @param maxHp è¨­å®šã™ã‚‹æœ€å¤§HP
 	void SetMaxHp(int maxHp) { max_hp_ = maxHp; }
 
-	/// @brief ˆÚ“®‘¬“x‚ğİ’è‚·‚é
-	/// @param speed İ’è‚·‚éˆÚ“®‘¬“x
+	/// @brief ç§»å‹•é€Ÿåº¦ã‚’è¨­å®šã™ã‚‹
+	/// @param speed è¨­å®šã™ã‚‹ç§»å‹•é€Ÿåº¦
 	void SetSpeed(float speed) { speed_ = speed; }
 
-	/// @brief w’èƒtƒŒ[ƒ€”‚¾‚¯ƒXƒ^ƒ“‚³‚¹‚é
-	/// @param frames ƒXƒ^ƒ“‚³‚¹‚éƒtƒŒ[ƒ€”
+	/// @brief æŒ‡å®šãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã ã‘ã‚¹ã‚¿ãƒ³ã•ã›ã‚‹
+	/// @param frames ã‚¹ã‚¿ãƒ³ã•ã›ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	void Stun(int frames) { stun_timer_ = frames; }
 
-	/// @brief HP‚ğ‰ñ•œ‚·‚é
-	/// @param amount ‰ñ•œ—Ê
-	/// @details HP‚ÍÅ‘åHP‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀ‚³‚ê‚éB
+	/// @brief HPã‚’å›å¾©ã™ã‚‹
+	/// @param amount å›å¾©é‡
+	/// @details HPã¯æœ€å¤§HPã‚’è¶…ãˆãªã„ã‚ˆã†ã«åˆ¶é™ã•ã‚Œã‚‹ã€‚
 	virtual void Heal(int amount);
 
-	/// @brief ƒ_ƒ[ƒW‚ğó‚¯‚é
-	/// @param damage ó‚¯‚éƒ_ƒ[ƒW—Ê
-	/// @details HP‚ª0ˆÈ‰º‚É‚È‚Á‚½ê‡‚Í€–Sˆ—‚ğŒÄ‚Ño‚·B
+	/// @brief ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‹
+	/// @param damage å—ã‘ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+	/// @details HPãŒ0ä»¥ä¸‹ã«ãªã£ãŸå ´åˆã¯æ­»äº¡å‡¦ç†ã‚’å‘¼ã³å‡ºã™ã€‚
 	virtual void TakeDamage(int damage);
 
-	/// @brief ƒLƒƒƒ‰ƒNƒ^[‚ğ€–Só‘Ô‚É‚·‚é
-	/// @details íœƒtƒ‰ƒO‚ğ—§‚ÄAˆÈŒã‚ÌXVE•`‰æ‘ÎÛ‚©‚çŠO‚·B
+	/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’æ­»äº¡çŠ¶æ…‹ã«ã™ã‚‹
+	/// @details å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã€ä»¥å¾Œã®æ›´æ–°ãƒ»æç”»å¯¾è±¡ã‹ã‚‰å¤–ã™ã€‚
 	virtual void Kill();
 
-	/// @brief €–S‚Ì’Ç‰Áˆ—‚ğs‚¤
+	/// @brief æ­»äº¡æ™‚ã®è¿½åŠ å‡¦ç†ã‚’è¡Œã†
 	virtual void OnDeath();
 };

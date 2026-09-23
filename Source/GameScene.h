@@ -1,73 +1,73 @@
-#include <memory>
+ï»¿#include <memory>
 #pragma once
 #include "Scene.h"
 
 class EnemyManager;
 
-/// @brief ƒƒCƒ“ƒQ[ƒ€’†‚ÌXVA•`‰æA‰‰o‚ğŠÇ—‚·‚éƒV[ƒ“
+/// @brief ãƒ¡ã‚¤ãƒ³ã‚²ãƒ¼ãƒ ä¸­ã®æ›´æ–°ã€æç”»ã€æ¼”å‡ºã‚’ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³
 class GameScene : public Scene
 {
 private:
-	/// @brief ”wŒi‚ğ•`‰æ‚·‚é
+	/// @brief èƒŒæ™¯ã‚’æç”»ã™ã‚‹
 	void DrawBackground();
 
-	/// @brief ƒ^ƒCƒ€ƒAƒ^ƒbƒN—pƒ^ƒCƒ}[‚ğ•`‰æ‚·‚é
+	/// @brief ã‚¿ã‚¤ãƒ ã‚¢ã‚¿ãƒƒã‚¯ç”¨ã‚¿ã‚¤ãƒãƒ¼ã‚’æç”»ã™ã‚‹
 	void DrawTimeAttackTimer();
 
-	/// @brief ‰æ–ÊŒø‰Ê‚ğ•`‰æ‚·‚é
+	/// @brief ç”»é¢åŠ¹æœã‚’æç”»ã™ã‚‹
 	void DrawEffects();
 
-	std::unique_ptr<EnemyManager> enemy_manager_; ///< “G‚ÆƒEƒF[ƒuis‚ÌŠÇ—ƒNƒ‰ƒX
-	int cutin_timer_;                             ///< ƒJƒbƒgƒCƒ“•\¦‚Ìc‚èƒtƒŒ[ƒ€”
-	int cutin_image_handle_;                      ///< ƒJƒbƒgƒCƒ“‰æ‘œƒnƒ“ƒhƒ‹
-	int screen_handle_;                           ///< —h‚ê‰‰o—p‚Ì•`‰ææƒXƒNƒŠ[ƒ“ƒnƒ“ƒhƒ‹
-	int shake_timer_;                             ///< ‰æ–Ê—h‚ê‚Ìc‚èƒtƒŒ[ƒ€”
-	float shake_magnitude_;                       ///< ‰æ–Ê—h‚ê‚Ì‹­‚³
-	int hit_stop_timer_;                          ///< ƒqƒbƒgƒXƒgƒbƒv‚Ìc‚èƒtƒŒ[ƒ€”
-	int damage_flash_timer_;                      ///< ƒ_ƒ[ƒWƒtƒ‰ƒbƒVƒ…‚Ìc‚èƒtƒŒ[ƒ€”
-	unsigned int damage_flash_color_;             ///< ƒ_ƒ[ƒWƒtƒ‰ƒbƒVƒ…F
+	std::unique_ptr<EnemyManager> enemy_manager_; ///< æ•µã¨ã‚¦ã‚§ãƒ¼ãƒ–é€²è¡Œã®ç®¡ç†ã‚¯ãƒ©ã‚¹
+	int cutin_timer_;                             ///< ã‚«ãƒƒãƒˆã‚¤ãƒ³è¡¨ç¤ºã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int cutin_image_handle_;                      ///< ã‚«ãƒƒãƒˆã‚¤ãƒ³ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+	int screen_handle_;                           ///< æºã‚Œæ¼”å‡ºç”¨ã®æç”»å…ˆã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒãƒ³ãƒ‰ãƒ«
+	int shake_timer_;                             ///< ç”»é¢æºã‚Œã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	float shake_magnitude_;                       ///< ç”»é¢æºã‚Œã®å¼·ã•
+	int hit_stop_timer_;                          ///< ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—ã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int damage_flash_timer_;                      ///< ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	unsigned int damage_flash_color_;             ///< ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ•ãƒ©ãƒƒã‚·ãƒ¥è‰²
 
 public:
-	static int current_stage_;          ///< Œ»İ‚ÌƒXƒe[ƒW”Ô†
-	static int play_frame_count_;       ///< ƒvƒŒƒCŠJn‚©‚ç‚ÌŒo‰ßƒtƒŒ[ƒ€”
-	static bool is_time_attack_active_; ///< ƒ^ƒCƒ€ƒAƒ^ƒbƒN’†‚©‚ğ¦‚·ƒtƒ‰ƒO
+	static int current_stage_;          ///< ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
+	static int play_frame_count_;       ///< ãƒ—ãƒ¬ã‚¤é–‹å§‹ã‹ã‚‰ã®çµŒéãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	static bool is_time_attack_active_; ///< ã‚¿ã‚¤ãƒ ã‚¢ã‚¿ãƒƒã‚¯ä¸­ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğ¶¬‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	GameScene();
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğ”jŠü‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~GameScene() override;
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
 	void Initialize() override;
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğXV‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
 	void Update() override;
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğ•`‰æ‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
 	void Draw() override;
 
-	/// @brief ƒQ[ƒ€ƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+	/// @brief ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
 	void Finalize() override;
 
-	/// @brief ƒJƒbƒgƒCƒ“‰‰o‚ğŠJn‚·‚é
+	/// @brief ã‚«ãƒƒãƒˆã‚¤ãƒ³æ¼”å‡ºã‚’é–‹å§‹ã™ã‚‹
 	void TriggerCutin();
 
-	/// @brief “GŠÇ—ƒNƒ‰ƒX‚ğæ“¾‚·‚é
-	/// @return EnemyManager* “GŠÇ—ƒNƒ‰ƒX
+	/// @brief æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
+	/// @return EnemyManager* æ•µç®¡ç†ã‚¯ãƒ©ã‚¹
 	EnemyManager* GetEnemyManager() const { return enemy_manager_.get(); }
 
-	/// @brief ‰æ–Ê—h‚ê‚ğ’Ç‰Á‚·‚é
-	/// @param duration —h‚êŠÔ
-	/// @param magnitude —h‚ê‚Ì‹­‚³
+	/// @brief ç”»é¢æºã‚Œã‚’è¿½åŠ ã™ã‚‹
+	/// @param duration æºã‚Œæ™‚é–“
+	/// @param magnitude æºã‚Œã®å¼·ã•
 	void AddScreenShake(int duration, float magnitude);
 
-	/// @brief ƒqƒbƒgƒXƒgƒbƒv‚ğ’Ç‰Á‚·‚é
-	/// @param duration ’â~ŠÔ
+	/// @brief ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—ã‚’è¿½åŠ ã™ã‚‹
+	/// @param duration åœæ­¢æ™‚é–“
 	void AddHitStop(int duration);
 
-	/// @brief ƒ_ƒ[ƒWƒtƒ‰ƒbƒVƒ…‚ğ’Ç‰Á‚·‚é
-	/// @param duration •\¦ŠÔ
-	/// @param color •\¦F
+	/// @brief ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã‚’è¿½åŠ ã™ã‚‹
+	/// @param duration è¡¨ç¤ºæ™‚é–“
+	/// @param color è¡¨ç¤ºè‰²
 	void AddDamageFlash(int duration, unsigned int color);
 };

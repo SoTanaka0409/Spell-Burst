@@ -1,26 +1,26 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #pragma once
 #include "Collider.h"
 #include "Object2D.h"
 
-/// @brief 2“_ŠÔ‚Ìü•ª‚Æ”¼Œa‚Å•\‚·ƒJƒvƒZƒ‹Œ^ƒRƒ‰ƒCƒ_[
+/// @brief 2ç‚¹é–“ã®ç·šåˆ†ã¨åŠå¾„ã§è¡¨ã™ã‚«ãƒ—ã‚»ãƒ«å‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 class CapsuleCollider : public Collider
 {
 public:
-    /// @brief ƒJƒvƒZƒ‹ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»‚·‚é
-    /// @param parent eƒIƒuƒWƒFƒNƒg
-    /// @param pos1 n“_
-    /// @param pos2 I“_
-    /// @param radius ”¼Œa
+    /// @brief ã‚«ãƒ—ã‚»ãƒ«ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
+    /// @param parent è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    /// @param pos1 å§‹ç‚¹
+    /// @param pos2 çµ‚ç‚¹
+    /// @param radius åŠå¾„
     CapsuleCollider(Object2D* parent, Vector2 pos1, Vector2 pos2, float radius);
 
-    /// @brief ƒJƒvƒZƒ‹ƒRƒ‰ƒCƒ_[‚ğ”jŠü‚·‚é
+    /// @brief ã‚«ãƒ—ã‚»ãƒ«ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~CapsuleCollider();
 
-    /// @brief ‘¼‚ÌƒRƒ‰ƒCƒ_[‚Æ‚ÌƒJƒvƒZƒ‹Õ“Ë”»’è‚ğs‚¤
-    /// @param check ”»’è‘ÎÛ‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®ã‚«ãƒ—ã‚»ãƒ«è¡çªåˆ¤å®šã‚’è¡Œã†
+    /// @param check åˆ¤å®šå¯¾è±¡ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     void Update(Collider* check) override;
 
-    /// @brief ƒJƒvƒZƒ‹Œ`ó‚ğƒfƒoƒbƒO•`‰æ‚·‚é
+    /// @brief ã‚«ãƒ—ã‚»ãƒ«å½¢çŠ¶ã‚’ãƒ‡ãƒãƒƒã‚°æç”»ã™ã‚‹
     void Draw() override;
 };

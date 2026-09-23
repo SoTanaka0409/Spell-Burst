@@ -1,40 +1,40 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-/// @brief ƒvƒŒƒCƒ„[‚Ì‹ßÚUŒ‚”»’è‚Æ‰‰o‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è¿‘æ¥æ”»æ’ƒåˆ¤å®šã¨æ¼”å‡ºã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class MeleeAttack : public Object2D
 {
 private:
-    int life_time_;             ///< c‚èõ–½ƒtƒŒ[ƒ€”
-    int damage_;                ///< ƒ_ƒ[ƒW—Ê
-    CapsuleCollider* collider_; ///< UŒ‚”ÍˆÍ‚Ì“–‚½‚è”»’è
+    int life_time_;             ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+    int damage_;                ///< ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+    CapsuleCollider* collider_; ///< æ”»æ’ƒç¯„å›²ã®å½“ãŸã‚Šåˆ¤å®š
 
 public:
-    /// @brief ‹ßÚUŒ‚‚ğ¶¬‚·‚é
-    /// @param x ‰ŠúXÀ•W
-    /// @param y ‰ŠúYÀ•W
+    /// @brief è¿‘æ¥æ”»æ’ƒã‚’ç”Ÿæˆã™ã‚‹
+    /// @param x åˆæœŸXåº§æ¨™
+    /// @param y åˆæœŸYåº§æ¨™
     MeleeAttack(float x, float y);
 
-    /// @brief ‹ßÚUŒ‚‚ğ”jŠü‚·‚é
+    /// @brief è¿‘æ¥æ”»æ’ƒã‚’ç ´æ£„ã™ã‚‹
     virtual ~MeleeAttack() override;
 
-    /// @brief õ–½‚ğXV‚µAŠÔØ‚ê‚É‚È‚Á‚½‚çíœ‚·‚é
+    /// @brief å¯¿å‘½ã‚’æ›´æ–°ã—ã€æ™‚é–“åˆ‡ã‚Œã«ãªã£ãŸã‚‰å‰Šé™¤ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief ‹ßÚUŒ‚‚ÌƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
+    /// @brief è¿‘æ¥æ”»æ’ƒã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹
     virtual void Draw() override;
 
-    /// @brief ƒ_ƒ[ƒW—Ê‚ğæ“¾‚·‚é
-    /// @return int ƒ_ƒ[ƒW—Ê
+    /// @brief ãƒ€ãƒ¡ãƒ¼ã‚¸é‡ã‚’å–å¾—ã™ã‚‹
+    /// @return int ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
     int GetDamage() const { return damage_; }
 
-    /// @brief ‹ßÚUŒ‚‚ğíœ‘ÎÛ‚É‚·‚é
+    /// @brief è¿‘æ¥æ”»æ’ƒã‚’å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
     void Kill();
 
-    /// @brief UŒ‚”»’è‚ª“G‚ÆÚG‚µ‚½‚Æ‚«‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief æ”»æ’ƒåˆ¤å®šãŒæ•µã¨æ¥è§¦ã—ãŸã¨ãã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

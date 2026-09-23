@@ -1,63 +1,63 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 #include "Vector2.h"
 
 class CapsuleCollider;
 class Collider;
 
-/// @brief ’eEƒŒ[ƒU[‚È‚ÇAˆÚ“®‚µ‚Äƒ_ƒ[ƒW‚ğ—^‚¦‚éƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
+/// @brief å¼¾ãƒ»ãƒ¬ãƒ¼ã‚¶ãƒ¼ãªã©ã€ç§»å‹•ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
 class Projectile : public Object2D
 {
 protected:
-    Vector2 dir_;               ///< is•ûŒü
-    float speed_;               ///< ‘¬“x
-    int damage_;                ///< ƒ_ƒ[ƒW
-    bool is_active_;            ///< —LŒøó‘Ô‚ğ¦‚·ƒtƒ‰ƒO
-    CapsuleCollider* collider_; ///< “–‚½‚è”»’è
+    Vector2 dir_;               ///< é€²è¡Œæ–¹å‘
+    float speed_;               ///< é€Ÿåº¦
+    int damage_;                ///< ãƒ€ãƒ¡ãƒ¼ã‚¸
+    bool is_active_;            ///< æœ‰åŠ¹çŠ¶æ…‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+    CapsuleCollider* collider_; ///< å½“ãŸã‚Šåˆ¤å®š
 
 public:
-    /// @brief ’e‚ğ‰Šú‰»‚·‚é
-    /// @param pos ‰ŠúÀ•W
-    /// @param dir is•ûŒü
-    /// @param speed ‘¬“x
-    /// @param damage ƒ_ƒ[ƒW
+    /// @brief å¼¾ã‚’åˆæœŸåŒ–ã™ã‚‹
+    /// @param pos åˆæœŸåº§æ¨™
+    /// @param dir é€²è¡Œæ–¹å‘
+    /// @param speed é€Ÿåº¦
+    /// @param damage ãƒ€ãƒ¡ãƒ¼ã‚¸
     Projectile(Vector2 pos, Vector2 dir, float speed, int damage);
 
-    /// @brief ’e‚ğ”jŠü‚·‚é
+    /// @brief å¼¾ã‚’ç ´æ£„ã™ã‚‹
     virtual ~Projectile() override;
 
-    /// @brief ’e‚ÌÀ•W‚ÆƒRƒ‰ƒCƒ_[ˆÊ’u‚ğXV‚·‚é
+    /// @brief å¼¾ã®åº§æ¨™ã¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ä½ç½®ã‚’æ›´æ–°ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief ’e‚ğ•`‰æ‚·‚é
+    /// @brief å¼¾ã‚’æç”»ã™ã‚‹
     virtual void Draw() override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    /// @brief —LŒøó‘Ô‚ğæ“¾‚·‚é
-    /// @return bool —LŒø‚È‚çtrue
+    /// @brief æœ‰åŠ¹çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
+    /// @return bool æœ‰åŠ¹ãªã‚‰true
     bool IsActive() const { return is_active_; }
 
-    /// @brief ƒ_ƒ[ƒW—Ê‚ğæ“¾‚·‚é
-    /// @return int ƒ_ƒ[ƒW—Ê
+    /// @brief ãƒ€ãƒ¡ãƒ¼ã‚¸é‡ã‚’å–å¾—ã™ã‚‹
+    /// @return int ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
     int GetDamage() const { return damage_; }
 
-    /// @brief is•ûŒü‚ğæ“¾‚·‚é
-    /// @return Vector2 is•ûŒü
+    /// @brief é€²è¡Œæ–¹å‘ã‚’å–å¾—ã™ã‚‹
+    /// @return Vector2 é€²è¡Œæ–¹å‘
     Vector2 GetDir() const { return dir_; }
 
-    /// @brief is•ûŒü‚ğİ’è‚·‚é
-    /// @param dir V‚µ‚¢is•ûŒü
+    /// @brief é€²è¡Œæ–¹å‘ã‚’è¨­å®šã™ã‚‹
+    /// @param dir æ–°ã—ã„é€²è¡Œæ–¹å‘
     void SetDir(Vector2 dir) { dir_ = dir; }
 
-    /// @brief ’e‚ğ–³Œø‰»‚µAíœ‘ÎÛ‚É‚·‚é
+    /// @brief å¼¾ã‚’ç„¡åŠ¹åŒ–ã—ã€å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
     virtual void Kill();
 
-    /// @brief ’e‚ª‰æ–ÊŠO‚Éo‚½‚©‚ğ”»’è‚·‚é
-    /// @param margin ”»’è‚Ì—]”’
-    /// @return bool ‰æ–ÊŠO‚È‚çtrue
+    /// @brief å¼¾ãŒç”»é¢å¤–ã«å‡ºãŸã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param margin åˆ¤å®šã®ä½™ç™½
+    /// @return bool ç”»é¢å¤–ãªã‚‰true
     bool IsOutOfBounds(float margin = 50.0f) const;
 };

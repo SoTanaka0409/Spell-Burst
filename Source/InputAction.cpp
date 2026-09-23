@@ -1,4 +1,4 @@
-// InputAction.cpp
+ï»¿// InputAction.cpp
 #include "InputAction.h"
 #pragma once
 #ifndef NOMINMAX
@@ -8,7 +8,7 @@
 
 std::unordered_map<int, int> InputBinding::bindings_;
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void InputBinding::Initialize()
 {
     bindings_[static_cast<int>(InputAction::kMoveUp)]     = KEY_INPUT_W;
@@ -23,9 +23,9 @@ void InputBinding::Initialize()
     bindings_[static_cast<int>(InputAction::kCancel)]     = KEY_INPUT_X;
 }
 
-/// @brief GetKey ‚ğÀs‚·‚é
-/// @param action action ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief GetKey ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param action action ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputBinding::GetKey(InputAction action)
 {
     auto it = bindings_.find(static_cast<int>(action));
@@ -36,9 +36,9 @@ int InputBinding::GetKey(InputAction action)
     return -1;
 }
 
-/// @brief Rebind ‚ğÀs‚·‚é
-/// @param action action ‚Ì’l
-/// @param keyCode keyCode ‚Ì’l
+/// @brief Rebind ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param action action ã®å€¤
+/// @param keyCode keyCode ã®å€¤
 void InputBinding::Rebind(InputAction action, int keyCode)
 {
     bindings_[static_cast<int>(action)] = keyCode;

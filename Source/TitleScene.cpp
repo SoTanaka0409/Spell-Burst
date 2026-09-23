@@ -12,17 +12,17 @@
 #include "DxLib.h"
 #include <cmath>
 
-/// @brief TitleScene Çê∂ê¨Ç∑ÇÈ
+/// @brief TitleScene „ÇíÁîüÊàê„Åô„Çã
 TitleScene::TitleScene() : bg_graph_(-1), bg_scroll_x_(0.0f), ui_button_graph_(-1)
 {
 }
 
-/// @brief îjä¸èàóùÇçsÇ§
+/// @brief Á†¥Ê£ÑÂá¶ÁêÜ„ÇíË°å„ÅÜ
 TitleScene::~TitleScene()
 {
 }
 
-/// @brief èâä˙âªèàóùÇçsÇ§
+/// @brief ÂàùÊúüÂåñÂá¶ÁêÜ„ÇíË°å„ÅÜ
 void TitleScene::Initialize()
 {
 	bg_graph_ = ResourceManager::GetInstance()->GetGraph("IMG_BG_TITLE");
@@ -32,7 +32,7 @@ void TitleScene::Initialize()
 	Utility::LoadTimeRanking(rankings_);
 }
 
-/// @brief ñàÉtÉåÅ[ÉÄÇÃçXêVèàóùÇçsÇ§
+/// @brief ÊØé„Éï„É¨„Éº„É†„ÅÆÊõ¥Êñ∞Âá¶ÁêÜ„ÇíË°å„ÅÜ
 void TitleScene::Update()
 {
 	static int prevMouseInput = 0;
@@ -44,11 +44,12 @@ void TitleScene::Update()
 	GetMousePoint(&mouseX, &mouseY);
 
 	int btnW = 300;
-	int btnH = 80;
+	int btnH = 70;
 	int btnX = (Utility::kScreenWidth - btnW) / 2;
-	int btnY1 = Utility::kScreenHeight / 2 - 50;
-	int btnY2 = btnY1 + 100;
-	int btnY3 = btnY2 + 100;
+	int btnY1 = Utility::kScreenHeight / 2 - 100;
+	int btnY2 = btnY1 + 90;
+	int btnY3 = btnY2 + 90;
+	int btnY4 = btnY3 + 90;
 
 	if (isLeftClicked)
 	{
@@ -65,6 +66,11 @@ void TitleScene::Update()
 		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH)
 		{
 			SoundManager::GetInstance()->PlaySE("SE_BTN1");
+			Master::sceneManager->SetNextScene(SceneManager::kSceneConfig);
+		}
+		else if (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY4 && mouseY <= btnY4 + btnH)
+		{
+			SoundManager::GetInstance()->PlaySE("SE_BTN1");
 			Master::sceneManager->SetNextScene(SceneManager::kSceneNone);
 		}
 	}
@@ -78,11 +84,11 @@ void TitleScene::Update()
 	Scene::Update();
 }
 
-/// @brief DrawRankings Çé¿çsÇ∑ÇÈ
+/// @brief DrawRankings „ÇíÂÆüË°å„Åô„Çã
 void TitleScene::DrawRankings()
 {
 	int rankFont = ResourceManager::GetInstance()->GetFont(32, 2);
-	DrawStringToHandle(Utility::kScreenWidth - 320, 50, "É^ÉCÉÄÉAÉ^ÉbÉN è„à 3ãLò^", GetColor(200, 200, 255), rankFont);
+	DrawStringToHandle(Utility::kScreenWidth - 320, 50, "„Çø„Ç§„É†„Ç¢„Çø„ÉÉ„ÇØ ‰∏ä‰Ωç3Ë®òÈå≤", GetColor(200, 200, 255), rankFont);
 
 	for (size_t i = 0; i < rankings_.size() && i < 3; ++i)
 	{
@@ -97,7 +103,7 @@ void TitleScene::DrawRankings()
 	}
 }
 
-/// @brief DrawTitleLogo Çé¿çsÇ∑ÇÈ
+/// @brief DrawTitleLogo „ÇíÂÆüË°å„Åô„Çã
 void TitleScene::DrawTitleLogo()
 {
 	int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
@@ -107,17 +113,18 @@ void TitleScene::DrawTitleLogo()
 	DrawStringToHandle((Utility::kScreenWidth - titleW) / 2, Utility::kScreenHeight / 4 - 30, titleText, GetColor(255, 215, 0), titleFont);
 }
 
-/// @brief DrawButtons Çé¿çsÇ∑ÇÈ
-/// @param mouseX mouseX ÇÃíl
-/// @param mouseY mouseY ÇÃíl
+/// @brief DrawButtons „ÇíÂÆüË°å„Åô„Çã
+/// @param mouseX mouseX „ÅÆÂÄ§
+/// @param mouseY mouseY „ÅÆÂÄ§
 void TitleScene::DrawButtons(int mouseX, int mouseY)
 {
 	int btnW = 300;
-	int btnH = 80;
+	int btnH = 70;
 	int btnX = (Utility::kScreenWidth - btnW) / 2;
-	int btnY1 = Utility::kScreenHeight / 2 - 50;
-	int btnY2 = btnY1 + 100;
-	int btnY3 = btnY2 + 100;
+	int btnY1 = Utility::kScreenHeight / 2 - 100;
+	int btnY2 = btnY1 + 90;
+	int btnY3 = btnY2 + 90;
+	int btnY4 = btnY3 + 90;
 	int subFont = ResourceManager::GetInstance()->GetFont(32, 4);
 
 	auto drawBtn = [&](int x, int y, const char* text, bool hover)
@@ -151,16 +158,19 @@ void TitleScene::DrawButtons(int mouseX, int mouseY)
 		};
 
 	bool hover1 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY1 && mouseY <= btnY1 + btnH);
-	drawBtn(btnX, btnY1, "ÉQÅ[ÉÄäJén", hover1);
+	drawBtn(btnX, btnY1, "„Ç≤„Éº„É†ÈñãÂßã", hover1);
 
 	bool hover2 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY2 && mouseY <= btnY2 + btnH);
-	drawBtn(btnX, btnY2, "ÉãÅ[Éã", hover2);
+	drawBtn(btnX, btnY2, "„É´„Éº„É´", hover2);
 
 	bool hover3 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY3 && mouseY <= btnY3 + btnH);
-	drawBtn(btnX, btnY3, "èIóπ", hover3);
+	drawBtn(btnX, btnY3, "Ë®≠ÂÆö", hover3);
+
+	bool hover4 = (mouseX >= btnX && mouseX <= btnX + btnW && mouseY >= btnY4 && mouseY <= btnY4 + btnH);
+	drawBtn(btnX, btnY4, "ÁµÇ‰∫Ü", hover4);
 }
 
-/// @brief ï`âÊèàóùÇçsÇ§
+/// @brief ÊèèÁîªÂá¶ÁêÜ„ÇíË°å„ÅÜ
 void TitleScene::Draw()
 {
 	if (bg_graph_ != -1)
@@ -185,7 +195,7 @@ void TitleScene::Draw()
 	DrawButtons(mouseX, mouseY);
 }
 
-/// @brief èIóπèàóùÇçsÇ§
+/// @brief ÁµÇ‰∫ÜÂá¶ÁêÜ„ÇíË°å„ÅÜ
 void TitleScene::Finalize()
 {
 }

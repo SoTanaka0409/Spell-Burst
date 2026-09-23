@@ -1,26 +1,26 @@
-#pragma once
+ï»¿#pragma once
 #include <list>
 
 class Collider;
 
-/// @brief ¶¬‚³‚ê‚½‘SƒRƒ‰ƒCƒ_[‚ğŠÇ—‚µAÕ“Ë”»’è‚Æíœ‚ğs‚¤ƒNƒ‰ƒX
+/// @brief ç”Ÿæˆã•ã‚ŒãŸå…¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç®¡ç†ã—ã€è¡çªåˆ¤å®šã¨å‰Šé™¤ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
 class ColliderManager
 {
 public:
-    /// @brief ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
     ColliderManager();
 
-    /// @brief ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
     ~ColliderManager();
 
-    /// @brief ŠÇ—‚µ‚Ä‚¢‚é‘SƒRƒ‰ƒCƒ_[‚ÌÕ“Ë”»’è‚ğs‚¤
+    /// @brief ç®¡ç†ã—ã¦ã„ã‚‹å…¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®è¡çªåˆ¤å®šã‚’è¡Œã†
     void Update();
 
-    /// @brief ŠÇ—‚µ‚Ä‚¢‚é‘SƒRƒ‰ƒCƒ_[‚ğƒfƒoƒbƒO•`‰æ‚·‚é
+    /// @brief ç®¡ç†ã—ã¦ã„ã‚‹å…¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒ‡ãƒãƒƒã‚°æç”»ã™ã‚‹
     void Draw();
 
-    /// @brief ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
-    /// @return ColliderManager* ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+    /// @return ColliderManager* ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
     static ColliderManager* Getinstance_()
     {
         if (instance_ == nullptr)
@@ -31,7 +31,7 @@ public:
         return instance_;
     }
 
-    /// @brief ƒRƒ‰ƒCƒ_[ŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰ğ•ú‚·‚é
+    /// @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è§£æ”¾ã™ã‚‹
     static void Finalize()
     {
         if (instance_ != nullptr)
@@ -42,25 +42,25 @@ public:
     }
 
 public:
-    /// @brief V‚µ‚¢ƒRƒ‰ƒCƒ_[‚ğŠÇ—ƒŠƒXƒg‚É’Ç‰Á‚·‚é
-    /// @param collider ’Ç‰Á‚·‚éƒRƒ‰ƒCƒ_[
+    /// @brief æ–°ã—ã„ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç®¡ç†ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹
+    /// @param collider è¿½åŠ ã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     void AddCollider(Collider* collider);
 
-    /// @brief ‘S‚Ä‚ÌƒRƒ‰ƒCƒ_[‚ğƒŠƒXƒg‚©‚çíœ‚µAƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
+    /// @brief å…¨ã¦ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã—ã€ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
     void DeleteAllCollider();
 
-    /// @brief íœƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ğƒŠƒXƒg‚©‚çœŠO‚µA”jŠü‚·‚é
+    /// @brief å‰Šé™¤ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ãƒªã‚¹ãƒˆã‹ã‚‰é™¤å¤–ã—ã€ç ´æ£„ã™ã‚‹
     void DeleteAllColliderIfNeeded();
 
-    /// @brief w’è‚³‚ê‚½ƒRƒ‰ƒCƒ_[‚ğŠÇ—ƒŠƒXƒg‚©‚çœŠO‚·‚é
-    /// @param collider œŠO‚·‚éƒRƒ‰ƒCƒ_[
+    /// @brief æŒ‡å®šã•ã‚ŒãŸã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç®¡ç†ãƒªã‚¹ãƒˆã‹ã‚‰é™¤å¤–ã™ã‚‹
+    /// @param collider é™¤å¤–ã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     void RemoveCollider(Collider* collider);
 
-    /// @brief ŠÇ—’†‚ÌƒRƒ‰ƒCƒ_[ƒŠƒXƒg‚ğæ“¾‚·‚é
-    /// @return std::list<Collider*>& ƒRƒ‰ƒCƒ_[ƒŠƒXƒg
+    /// @brief ç®¡ç†ä¸­ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
+    /// @return std::list<Collider*>& ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒªã‚¹ãƒˆ
     std::list<Collider*>& GetColliderList();
 
 private:
-    std::list<Collider*> collider_list_; ///< ŠÇ—’†‚ÌƒRƒ‰ƒCƒ_[ƒŠƒXƒg
-    static ColliderManager* instance_;   ///< ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+    std::list<Collider*> collider_list_; ///< ç®¡ç†ä¸­ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒªã‚¹ãƒˆ
+    static ColliderManager* instance_;   ///< ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 };

@@ -1,4 +1,4 @@
-#include "PlayerHomingBullet.h"
+ï»¿#include "PlayerHomingBullet.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -13,10 +13,10 @@
 #include <cmath>
 #include "utility.h"
 
-/// @brief PlayerHomingBullet ‚ğ¶¬‚·‚é
-/// @param pos pos ‚Ì’l
-/// @param dir_ dir_ ‚Ì’l
-/// @param speed_ speed_ ‚Ì’l
+/// @brief PlayerHomingBullet ã‚’ç”Ÿæˆã™ã‚‹
+/// @param pos pos ã®å€¤
+/// @param dir_ dir_ ã®å€¤
+/// @param speed_ speed_ ã®å€¤
 PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir_, float speed_)
 	: Projectile(pos, dir_.Normalized(), speed_, 5)
 {
@@ -27,12 +27,12 @@ PlayerHomingBullet::PlayerHomingBullet(Vector2 pos, Vector2 dir_, float speed_)
 	collider_ = new CapsuleCollider(this, position_, position_, 15.0f);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 PlayerHomingBullet::~PlayerHomingBullet()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void PlayerHomingBullet::Update()
 {
 	life_timer_--;
@@ -88,7 +88,7 @@ void PlayerHomingBullet::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void PlayerHomingBullet::Draw()
 {
 	if (!is_active_) return;
@@ -99,9 +99,9 @@ void PlayerHomingBullet::Draw()
 	DrawCircle(static_cast<int>(position_.x), static_cast<int>(position_.y), 8, GetColor(100, 255, 200), TRUE);
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void PlayerHomingBullet::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <stdio.h>
 #include <stdarg.h>
 
-/// @brief debug.log‚ÖprintfŒ`®‚ÌƒƒO‚ğ‘‚«‚Ş
-/// @param format printfŒ`®‚Ì‘®•¶š—ñ
-/// @param ... ‘®‚É‘Î‰‚·‚é‰Â•Ïˆø”
+/// @brief debug.logã¸printfå½¢å¼ã®ãƒ­ã‚°ã‚’æ›¸ãè¾¼ã‚€
+/// @param format printfå½¢å¼ã®æ›¸å¼æ–‡å­—åˆ—
+/// @param ... æ›¸å¼ã«å¯¾å¿œã™ã‚‹å¯å¤‰å¼•æ•°
 inline void DebugLog(const char* format, ...)
 {
 	FILE* fp = nullptr;
@@ -19,4 +19,4 @@ inline void DebugLog(const char* format, ...)
 	}
 }
 
-inline bool DebugOn = false; ///< true‚Ì‚Æ‚«‚¾‚¯ƒfƒoƒbƒO•\¦‚ğs‚¤
+inline bool DebugOn = false; ///< trueã®ã¨ãã ã‘ãƒ‡ãƒãƒƒã‚°è¡¨ç¤ºã‚’è¡Œã†

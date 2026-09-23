@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Character.h"
 #include "BossState.h"
 #include "Barrier.h"
@@ -6,110 +6,110 @@
 
 class CapsuleCollider;
 
-/// @brief ƒ{ƒX–{‘Ì‚ÌˆÚ“®AHP’iŠKA–³“Gó‘ÔA’e–‹ƒpƒ^[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief ãƒœã‚¹æœ¬ä½“ã®ç§»å‹•ã€HPæ®µéšã€ç„¡æ•µçŠ¶æ…‹ã€å¼¾å¹•ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class Boss : public Character
 {
 private:
-	int boss_type_;                       ///< ƒ{ƒX‚Ìí—ŞEs“®ƒpƒ^[ƒ“ID
-	float target_x_;                      ///< ˆÚ“®æ‚ÌXÀ•W
-	float target_y_;                      ///< ˆÚ“®æ‚ÌYÀ•W
-	int attack_timer_;                    ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
-	int pattern_index_;                   ///< Œ»İ‚Ì’e–‹ƒpƒ^[ƒ“”Ô†
-	bool is_dying_;                       ///< €–S‰‰o’†‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
-	int death_timer_;                     ///< €–S‰‰o‚Ìc‚èƒtƒŒ[ƒ€”
-	int lives_;                           ///< ƒ{ƒX‚Ìc‚èHP’iŠK”
-	int invincible_timer_;                ///< ”í’eŒã‚È‚Ç‚Ìˆê–³“Gƒ^ƒCƒ}[
-	int invincible_cycle_timer_;          ///< üŠú“I‚È–³“Gˆ——pƒ^ƒCƒ}[
-	std::unique_ptr<BossState> state_;    ///< ƒ{ƒX‚Ìó‘Ôˆ—
-	std::weak_ptr<Barrier> barrier_;      ///< ƒ{ƒX‚ªg—p‚·‚éƒoƒŠƒA
+	int boss_type_;                       ///< ãƒœã‚¹ã®ç¨®é¡ãƒ»è¡Œå‹•ãƒ‘ã‚¿ãƒ¼ãƒ³ID
+	float target_x_;                      ///< ç§»å‹•å…ˆã®Xåº§æ¨™
+	float target_y_;                      ///< ç§»å‹•å…ˆã®Yåº§æ¨™
+	int attack_timer_;                    ///< æ”»æ’ƒé–“éš”ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
+	int pattern_index_;                   ///< ç¾åœ¨ã®å¼¾å¹•ãƒ‘ã‚¿ãƒ¼ãƒ³ç•ªå·
+	bool is_dying_;                       ///< æ­»äº¡æ¼”å‡ºä¸­ã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	int death_timer_;                     ///< æ­»äº¡æ¼”å‡ºã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int lives_;                           ///< ãƒœã‚¹ã®æ®‹ã‚ŠHPæ®µéšæ•°
+	int invincible_timer_;                ///< è¢«å¼¾å¾Œãªã©ã®ä¸€æ™‚ç„¡æ•µã‚¿ã‚¤ãƒãƒ¼
+	int invincible_cycle_timer_;          ///< å‘¨æœŸçš„ãªç„¡æ•µå‡¦ç†ç”¨ã‚¿ã‚¤ãƒãƒ¼
+	std::unique_ptr<BossState> state_;    ///< ãƒœã‚¹ã®çŠ¶æ…‹å‡¦ç†
+	std::weak_ptr<Barrier> barrier_;      ///< ãƒœã‚¹ãŒä½¿ç”¨ã™ã‚‹ãƒãƒªã‚¢
 
 public:
-	/// @brief ƒ{ƒX‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
-	/// @param bossType ƒ{ƒXí•Ê
+	/// @brief ãƒœã‚¹ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
+	/// @param bossType ãƒœã‚¹ç¨®åˆ¥
 	Boss(float x, float y, int bossType = 3);
 
-	/// @brief ƒ{ƒX‚ğ”jŠü‚·‚é
+	/// @brief ãƒœã‚¹ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Boss() override;
 
-	/// @brief ƒ{ƒX‚Ìó‘Ô‚ğ–ˆƒtƒŒ[ƒ€XV‚·‚é
+	/// @brief ãƒœã‚¹ã®çŠ¶æ…‹ã‚’æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief ƒ{ƒX‚ğ•`‰æ‚·‚é
+	/// @brief ãƒœã‚¹ã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 
-	/// @brief ƒ{ƒX‚Ìc‚èHP’iŠK”‚ğæ“¾‚·‚é
-	/// @return int c‚èHP’iŠK”
+	/// @brief ãƒœã‚¹ã®æ®‹ã‚ŠHPæ®µéšæ•°ã‚’å–å¾—ã™ã‚‹
+	/// @return int æ®‹ã‚ŠHPæ®µéšæ•°
 	int GetLives() const { return lives_; }
 
-	/// @brief ƒ{ƒX‚Éƒ_ƒ[ƒW‚ğ—^‚¦‚é
-	/// @param damage ó‚¯‚éƒ_ƒ[ƒW—Ê
-	/// @details HP‚âc‹@‚ğŒ¸‚ç‚µA•K—v‚É‰‚¶‚Ä€–S‰‰o‚ÖˆÚs‚·‚éB
+	/// @brief ãƒœã‚¹ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‹
+	/// @param damage å—ã‘ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+	/// @details HPã‚„æ®‹æ©Ÿã‚’æ¸›ã‚‰ã—ã€å¿…è¦ã«å¿œã˜ã¦æ­»äº¡æ¼”å‡ºã¸ç§»è¡Œã™ã‚‹ã€‚
 	virtual void TakeDamage(int damage) override;
 
-	/// @brief ƒ{ƒX‚ğíœ‘ÎÛ‚É‚·‚é
+	/// @brief ãƒœã‚¹ã‚’å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 	virtual void Kill() override;
 
-	/// @brief ƒ{ƒX‚Ì“–‚½‚è”»’è”¼Œa‚ğæ“¾‚·‚é
-	/// @return float “–‚½‚è”»’è”¼Œa
+	/// @brief ãƒœã‚¹ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„ã‚’å–å¾—ã™ã‚‹
+	/// @return float å½“ãŸã‚Šåˆ¤å®šåŠå¾„
 	float GetRadius() const { return 80.0f; }
 
-	/// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ä¸­å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief ƒ{ƒX€–S‚Ìˆ—‚ğs‚¤
+	/// @brief ãƒœã‚¹æ­»äº¡æ™‚ã®å‡¦ç†ã‚’è¡Œã†
 	virtual void OnDeath() override;
 
-	/// @brief €–S‰‰o‚ğXV‚·‚é
+	/// @brief æ­»äº¡æ¼”å‡ºã‚’æ›´æ–°ã™ã‚‹
 	void UpdateDeath();
 
-	/// @brief –³“Gó‘Ô‚Ì•\¦‚ğ•`‰æ‚·‚é
+	/// @brief ç„¡æ•µçŠ¶æ…‹ã®è¡¨ç¤ºã‚’æç”»ã™ã‚‹
 	void DrawInvincibility();
 
-	/// @brief ƒ{ƒXHPƒo[‚ğ•`‰æ‚·‚é
+	/// @brief ãƒœã‚¹HPãƒãƒ¼ã‚’æç”»ã™ã‚‹
 	void DrawHealthBar();
 
-	/// @brief ‘S•ûˆÊ’e–‹‚ğ”­Ë‚·‚é
+	/// @brief å…¨æ–¹ä½å¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootRadialBarrage();
 
-	/// @brief îŒ`’e–‹‚ğ”­Ë‚·‚é
+	/// @brief æ‰‡å½¢å¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootFanBarrage();
 
-	/// @brief ƒvƒŒƒCƒ„[‘_‚¢’e–‹‚ğ”­Ë‚·‚é
+	/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç‹™ã„å¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootTargetedBarrage();
 
-	/// @brief ’¼ü’e–‹‚ğ”­Ë‚·‚é
+	/// @brief ç›´ç·šå¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootSimpleBarrage();
 
-	/// @brief ”½Ë’e–‹‚ğ”­Ë‚·‚é
+	/// @brief åå°„å¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootBouncingBarrage();
 
-	/// @brief ƒXƒyƒ‹ƒJ[ƒh’e–‹‚ğ”­Ë‚·‚é
+	/// @brief ã‚¹ãƒšãƒ«ã‚«ãƒ¼ãƒ‰å¼¾å¹•ã‚’ç™ºå°„ã™ã‚‹
 	void ShootSpellCardBarrage();
 
-	/// @brief V‚µ‚¢ˆÚ“®–Ú•W‚ğ‘I‚Ô
+	/// @brief æ–°ã—ã„ç§»å‹•ç›®æ¨™ã‚’é¸ã¶
 	void SelectNewTarget();
 
-	/// @brief ƒ{ƒXó‘Ô‚ğØ‚è‘Ö‚¦‚é
-	/// @param newState V‚µ‚¢ó‘ÔƒIƒuƒWƒFƒNƒg
+	/// @brief ãƒœã‚¹çŠ¶æ…‹ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+	/// @param newState æ–°ã—ã„çŠ¶æ…‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	void SetState(BossState* newState) { state_.reset(newState); }
 
-	/// @brief ƒ{ƒXí•Ê‚ğæ“¾‚·‚é
-	/// @return int ƒ{ƒXí•Ê
+	/// @brief ãƒœã‚¹ç¨®åˆ¥ã‚’å–å¾—ã™ã‚‹
+	/// @return int ãƒœã‚¹ç¨®åˆ¥
 	int GetBossType() const { return boss_type_; }
 
-	/// @brief €–S‰‰o’†‚©‚ğæ“¾‚·‚é
-	/// @return bool €–S‰‰o’†‚È‚çtrue
+	/// @brief æ­»äº¡æ¼”å‡ºä¸­ã‹ã‚’å–å¾—ã™ã‚‹
+	/// @return bool æ­»äº¡æ¼”å‡ºä¸­ãªã‚‰true
 	bool GetIsDying() const { return is_dying_; }
 
-	/// @brief –³“Gƒ^ƒCƒ}[‚ğæ“¾‚·‚é
-	/// @return int –³“Gc‚èƒtƒŒ[ƒ€”
+	/// @brief ç„¡æ•µã‚¿ã‚¤ãƒãƒ¼ã‚’å–å¾—ã™ã‚‹
+	/// @return int ç„¡æ•µæ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	int GetInvincibleTimer() const { return invincible_timer_; }
 
-	/// @brief –³“Gƒ^ƒCƒ}[‚ğİ’è‚·‚é
-	/// @param t –³“GƒtƒŒ[ƒ€”
+	/// @brief ç„¡æ•µã‚¿ã‚¤ãƒãƒ¼ã‚’è¨­å®šã™ã‚‹
+	/// @param t ç„¡æ•µãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	void SetInvincibleTimer(int t) { invincible_timer_ = t; }
 };

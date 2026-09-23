@@ -1,47 +1,47 @@
-#pragma once
+ï»¿#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-/// @brief ƒvƒŒƒCƒ„[‚ÌŠÑ’ÊƒŒ[ƒU[UŒ‚‚ğ•\‚·ƒNƒ‰ƒX
+/// @brief ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è²«é€šãƒ¬ãƒ¼ã‚¶ãƒ¼æ”»æ’ƒã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
 class MasterSpark : public Projectile
 {
 private:
-	int life_timer_;   ///< c‚èõ–½ƒtƒŒ[ƒ€”
-	int max_life_;     ///< ‰Šúõ–½ƒtƒŒ[ƒ€”
-	float radius_;     ///< ƒŒ[ƒU[‚Ì“–‚½‚è”»’è”¼Œa
-	int color_hue_;    ///< •`‰æF‚ÌF‘Š
-	int attack_count_; ///< ƒqƒbƒgŠÔŠu‚ğ’²®‚·‚éƒJƒEƒ“ƒ^[
+	int life_timer_;   ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	int max_life_;     ///< åˆæœŸå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+	float radius_;     ///< ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„
+	int color_hue_;    ///< æç”»è‰²ã®è‰²ç›¸
+	int attack_count_; ///< ãƒ’ãƒƒãƒˆé–“éš”ã‚’èª¿æ•´ã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
 
 public:
-	/// @brief ƒŒ[ƒU[UŒ‚‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼æ”»æ’ƒã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
 	MasterSpark(float x, float y);
 
-	/// @brief ƒŒ[ƒU[UŒ‚‚ğ”jŠü‚·‚é
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼æ”»æ’ƒã‚’ç ´æ£„ã™ã‚‹
 	virtual ~MasterSpark() override;
 
 private:
-	/// @brief ƒŒ[ƒU[ü•Ó‚Ì—±q‰‰o‚ğ•`‰æ‚·‚é
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼å‘¨è¾ºã®ç²’å­æ¼”å‡ºã‚’æç”»ã™ã‚‹
 	void DrawParticles();
 
-	/// @brief ƒŒ[ƒU[‚Ìõ–½‚Æ”»’è‚ğXV‚·‚é
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®å¯¿å‘½ã¨åˆ¤å®šã‚’æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief ƒŒ[ƒU[‚ğ•`‰æ‚·‚é
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼ã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 
-	/// @brief ƒŒ[ƒU[‚ğíœ‘ÎÛ‚É‚·‚é
+	/// @brief ãƒ¬ãƒ¼ã‚¶ãƒ¼ã‚’å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 	virtual void Kill() override;
 
-	/// @brief ÚG’†‚Ìƒ_ƒ[ƒWˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief æ¥è§¦ä¸­ã®ãƒ€ãƒ¡ãƒ¼ã‚¸å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnEnter(Collider* collider, Collider* check) override;
 };

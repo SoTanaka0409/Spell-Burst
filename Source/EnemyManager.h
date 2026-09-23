@@ -1,84 +1,84 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <memory>
 
 class Enemy;
 class Boss;
 
-/// @brief “G‚ÌoŒ»AƒEƒF[ƒuisAƒ{ƒX‚Ö‚ÌˆÚs‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief æ•µã®å‡ºç¾ã€ã‚¦ã‚§ãƒ¼ãƒ–é€²è¡Œã€ãƒœã‚¹ã¸ã®ç§»è¡Œã‚’ã¾ã¨ã‚ã¦ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class EnemyManager
 {
 private:
-	int spawn_timer_;                  ///< Ÿ‚Ì“G‚ğoŒ»‚³‚¹‚é‚Ü‚Å‚Ìƒ^ƒCƒ}[
-	int defeated_count_;               ///< Œ»İƒtƒF[ƒY‚Å“|‚µ‚½“G‚Ì”
-	bool boss_spawned_;                ///< Œ»İƒtƒF[ƒY‚Åƒ{ƒX‚ªoŒ»Ï‚İ‚©‚ğ¦‚·ƒtƒ‰ƒO
-	int current_phase_;                ///< Œ»İ‚ÌƒEƒF[ƒuEƒtƒF[ƒY”Ô†
-	int required_kills_;               ///< ŸƒtƒF[ƒY‚âƒ{ƒXoŒ»‚É•K—v‚ÈŒ‚”j”
-	std::weak_ptr<Boss> current_boss_; ///< Œ»İoŒ»‚µ‚Ä‚¢‚éƒ{ƒX‚Ö‚ÌãQÆ
+	int spawn_timer_;                  ///< æ¬¡ã®æ•µã‚’å‡ºç¾ã•ã›ã‚‹ã¾ã§ã®ã‚¿ã‚¤ãƒãƒ¼
+	int defeated_count_;               ///< ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚ºã§å€’ã—ãŸæ•µã®æ•°
+	bool boss_spawned_;                ///< ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚ºã§ãƒœã‚¹ãŒå‡ºç¾æ¸ˆã¿ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	int current_phase_;                ///< ç¾åœ¨ã®ã‚¦ã‚§ãƒ¼ãƒ–ãƒ»ãƒ•ã‚§ãƒ¼ã‚ºç•ªå·
+	int required_kills_;               ///< æ¬¡ãƒ•ã‚§ãƒ¼ã‚ºã‚„ãƒœã‚¹å‡ºç¾ã«å¿…è¦ãªæ’ƒç ´æ•°
+	std::weak_ptr<Boss> current_boss_; ///< ç¾åœ¨å‡ºç¾ã—ã¦ã„ã‚‹ãƒœã‚¹ã¸ã®å¼±å‚ç…§
 
 public:
-	/// @brief “GŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+	/// @brief æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	EnemyManager();
 
-	/// @brief “GŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+	/// @brief æ•µç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
 	~EnemyManager();
 
-	/// @brief “GŠÇ—‚Ìó‘Ô‚ğ‰Šú‰»‚·‚é
-	/// @details ƒEƒF[ƒuis“xA“¢”°”Aƒ{ƒXoŒ»ó‘Ô‚ğƒŠƒZƒbƒg‚·‚éB
+	/// @brief æ•µç®¡ç†ã®çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹
+	/// @details ã‚¦ã‚§ãƒ¼ãƒ–é€²è¡Œåº¦ã€è¨ä¼æ•°ã€ãƒœã‚¹å‡ºç¾çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹ã€‚
 	void Initialize();
 
-	/// @brief “G‚ÌƒXƒ|[ƒ“‚ÆƒEƒF[ƒuis‚ğXV‚·‚é
-	/// @details “G¶¬Aƒ{ƒXˆÚsAƒtƒF[ƒYXV‚ğs‚¤B
+	/// @brief æ•µã®ã‚¹ãƒãƒ¼ãƒ³ã¨ã‚¦ã‚§ãƒ¼ãƒ–é€²è¡Œã‚’æ›´æ–°ã™ã‚‹
+	/// @details æ•µç”Ÿæˆã€ãƒœã‚¹ç§»è¡Œã€ãƒ•ã‚§ãƒ¼ã‚ºæ›´æ–°ã‚’è¡Œã†ã€‚
 	void Update();
 
-	/// @brief “GŠÇ—‚ÉŠÖ‚·‚é•\¦‚ğs‚¤
+	/// @brief æ•µç®¡ç†ã«é–¢ã™ã‚‹è¡¨ç¤ºã‚’è¡Œã†
 	void Draw();
 
-	/// @brief ‰æ–Êã‚Ì’Êí“G‚ğíœ‚·‚é
+	/// @brief ç”»é¢ä¸Šã®é€šå¸¸æ•µã‚’å‰Šé™¤ã™ã‚‹
 	void DeleteEnemy();
 
 private:
-	/// @brief Œ»İƒtƒF[ƒY‚É‰‚¶‚½“G‚ğ¶¬‚·‚é
+	/// @brief ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚ºã«å¿œã˜ãŸæ•µã‚’ç”Ÿæˆã™ã‚‹
 	void SpawnPhaseEnemies();
 
-	/// @brief ƒ{ƒXoŒ»‚âŒ‚”jŒã‚ÌƒtƒF[ƒYˆÚs‚ğˆ—‚·‚é
+	/// @brief ãƒœã‚¹å‡ºç¾ã‚„æ’ƒç ´å¾Œã®ãƒ•ã‚§ãƒ¼ã‚ºç§»è¡Œã‚’å‡¦ç†ã™ã‚‹
 	void HandleBossTransition();
 
-	/// @brief ’†ƒ{ƒX‚ÌoŒ»‚ğˆ—‚·‚é
+	/// @brief ä¸­ãƒœã‚¹ã®å‡ºç¾ã‚’å‡¦ç†ã™ã‚‹
 	void HandleMidBossSpawn();
 
 public:
-	/// @brief ƒtƒF[ƒY‚É‰‚¶‚½“G‚ğw’èÀ•W‚Ö¶¬‚·‚é
-	/// @param x ƒXƒ|[ƒ“XÀ•W
-	/// @param y ƒXƒ|[ƒ“YÀ•W
+	/// @brief ãƒ•ã‚§ãƒ¼ã‚ºã«å¿œã˜ãŸæ•µã‚’æŒ‡å®šåº§æ¨™ã¸ç”Ÿæˆã™ã‚‹
+	/// @param x ã‚¹ãƒãƒ¼ãƒ³Xåº§æ¨™
+	/// @param y ã‚¹ãƒãƒ¼ãƒ³Yåº§æ¨™
 	void SpawnEnemy(float x, float y);
 
-	/// @brief w’èƒ^ƒCƒv‚Ì“G‚ğw’èÀ•W‚Ö¶¬‚·‚é
-	/// @param x ƒXƒ|[ƒ“XÀ•W
-	/// @param y ƒXƒ|[ƒ“YÀ•W
-	/// @param spawnnum “Gƒ^ƒCƒv
+	/// @brief æŒ‡å®šã‚¿ã‚¤ãƒ—ã®æ•µã‚’æŒ‡å®šåº§æ¨™ã¸ç”Ÿæˆã™ã‚‹
+	/// @param x ã‚¹ãƒãƒ¼ãƒ³Xåº§æ¨™
+	/// @param y ã‚¹ãƒãƒ¼ãƒ³Yåº§æ¨™
+	/// @param spawnnum æ•µã‚¿ã‚¤ãƒ—
 	void SpawnEnemy_Target(float x, float y, int spawnnum);
 
-	/// @brief Œ»İoŒ»‚µ‚Ä‚¢‚é’†ƒ{ƒX‚Ì”‚ğæ“¾‚·‚é
-	/// @return int ’†ƒ{ƒX‚Ì”
+	/// @brief ç¾åœ¨å‡ºç¾ã—ã¦ã„ã‚‹ä¸­ãƒœã‚¹ã®æ•°ã‚’å–å¾—ã™ã‚‹
+	/// @return int ä¸­ãƒœã‚¹ã®æ•°
 	int GetMidBossCount() const;
 
-	/// @brief Œ‚”j”‚ğ1‰ÁZ‚·‚é
+	/// @brief æ’ƒç ´æ•°ã‚’1åŠ ç®—ã™ã‚‹
 	void AddDefeatedCount() { defeated_count_++; }
 
-	/// @brief Œ»İƒtƒF[ƒY‚ÌŒ‚”j”‚ğæ“¾‚·‚é
-	/// @return int Œ‚”j”
+	/// @brief ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚ºã®æ’ƒç ´æ•°ã‚’å–å¾—ã™ã‚‹
+	/// @return int æ’ƒç ´æ•°
 	int GetDefeatedCount() const { return defeated_count_; }
 
-	/// @brief ŸƒtƒF[ƒY‚É•K—v‚ÈŒ‚”j”‚ğæ“¾‚·‚é
-	/// @return int •K—vŒ‚”j”
+	/// @brief æ¬¡ãƒ•ã‚§ãƒ¼ã‚ºã«å¿…è¦ãªæ’ƒç ´æ•°ã‚’å–å¾—ã™ã‚‹
+	/// @return int å¿…è¦æ’ƒç ´æ•°
 	int GetRequiredKills() const { return required_kills_; }
 
-	/// @brief ƒ{ƒX‚ªoŒ»Ï‚İ‚©‚ğæ“¾‚·‚é
-	/// @return bool oŒ»Ï‚İ‚È‚çtrue
+	/// @brief ãƒœã‚¹ãŒå‡ºç¾æ¸ˆã¿ã‹ã‚’å–å¾—ã™ã‚‹
+	/// @return bool å‡ºç¾æ¸ˆã¿ãªã‚‰true
 	bool IsBossSpawned() const { return boss_spawned_; }
 
-	/// @brief Œ»İƒtƒF[ƒY‚ğæ“¾‚·‚é
-	/// @return int Œ»İƒtƒF[ƒY
+	/// @brief ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚ºã‚’å–å¾—ã™ã‚‹
+	/// @return int ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚º
 	int GetCurrentPhase() const { return current_phase_; }
 };

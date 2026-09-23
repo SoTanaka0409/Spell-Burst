@@ -1,68 +1,68 @@
-#pragma once
+ï»¿#pragma once
 #include "InputAction.h"
 
-/// @brief ƒL[ƒ{[ƒh‚Æƒ}ƒEƒX“ü—Í‚ğˆµ‚¢‚â‚·‚¢Œ`‚É‚Ü‚Æ‚ß‚éƒNƒ‰ƒX
+/// @brief ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã¨ãƒã‚¦ã‚¹å…¥åŠ›ã‚’æ‰±ã„ã‚„ã™ã„å½¢ã«ã¾ã¨ã‚ã‚‹ã‚¯ãƒ©ã‚¹
 class InputManager
 {
 public:
-	/// @brief “ü—ÍŠÇ—ƒNƒ‰ƒX‚ğ¶¬‚·‚é
+	/// @brief å…¥åŠ›ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	InputManager();
 
-	/// @brief “ü—ÍŠÇ—ƒNƒ‰ƒX‚ğ”jŠü‚·‚é
+	/// @brief å…¥åŠ›ç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’ç ´æ£„ã™ã‚‹
 	~InputManager();
 
-    /// @brief ƒL[‚ª‰Ÿ‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param keyCode Šm”F‚·‚éƒL[ƒR[ƒh
-    /// @return int ‰Ÿ‚³‚ê‚½uŠÔ‚È‚ç1A‚»‚êˆÈŠO‚Í0
+    /// @brief ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param keyCode ç¢ºèªã™ã‚‹ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
+    /// @return int æŠ¼ã•ã‚ŒãŸç¬é–“ãªã‚‰1ã€ãã‚Œä»¥å¤–ã¯0
     static int CheckDownKey(int keyCode);
 
-    /// @brief ƒL[‚ª—£‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param keyCode Šm”F‚·‚éƒL[ƒR[ƒh
-    /// @return int —£‚³‚ê‚½uŠÔ‚È‚ç1A‚»‚êˆÈŠO‚Í0
+    /// @brief ã‚­ãƒ¼ãŒé›¢ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param keyCode ç¢ºèªã™ã‚‹ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
+    /// @return int é›¢ã•ã‚ŒãŸç¬é–“ãªã‚‰1ã€ãã‚Œä»¥å¤–ã¯0
     static int CheckUpKey(int keyCode);
 
-    /// @brief ƒL[‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é
-    /// @param keyCode Šm”F‚·‚éƒL[ƒR[ƒh
-    /// @return int ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ‚Í1A‚»‚êˆÈŠO‚Í0
+    /// @brief ã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param keyCode ç¢ºèªã™ã‚‹ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
+    /// @return int æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã¯1ã€ãã‚Œä»¥å¤–ã¯0
     static int CheckPressKey(int keyCode);
 
-    /// @brief ƒAƒNƒVƒ‡ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param action Šm”F‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
-    /// @return int ‰Ÿ‚³‚ê‚½uŠÔ‚È‚ç1
+    /// @brief ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param action ç¢ºèªã™ã‚‹å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    /// @return int æŠ¼ã•ã‚ŒãŸç¬é–“ãªã‚‰1
     static int ActionDown(InputAction action);
 
-    /// @brief ƒAƒNƒVƒ‡ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é
-    /// @param action Šm”F‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
-    /// @return int ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ‚Í1
+    /// @brief ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param action ç¢ºèªã™ã‚‹å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    /// @return int æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã¯1
     static int ActionPress(InputAction action);
 
-    /// @brief ƒAƒNƒVƒ‡ƒ“‚ª—£‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param action Šm”F‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
-    /// @return int —£‚³‚ê‚½uŠÔ‚È‚ç1
+    /// @brief ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒé›¢ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param action ç¢ºèªã™ã‚‹å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    /// @return int é›¢ã•ã‚ŒãŸç¬é–“ãªã‚‰1
     static int ActionUp(InputAction action);
 
-    /// @brief ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param button Šm”F‚·‚éƒ}ƒEƒXƒ{ƒ^ƒ“
-    /// @return int ‰Ÿ‚³‚ê‚½uŠÔ‚È‚ç1
+    /// @brief ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param button ç¢ºèªã™ã‚‹ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³
+    /// @return int æŠ¼ã•ã‚ŒãŸç¬é–“ãªã‚‰1
     static int CheckMouseDown(int button);
 
-    /// @brief ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‘±‚¯‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é
-    /// @param button Šm”F‚·‚éƒ}ƒEƒXƒ{ƒ^ƒ“
-    /// @return int ‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ‚Í1
+    /// @brief ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œç¶šã‘ã¦ã„ã‚‹ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param button ç¢ºèªã™ã‚‹ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³
+    /// @return int æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“ã¯1
     static int CheckMousePress(int button);
 
-    /// @brief ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½uŠÔ‚©‚ğ”»’è‚·‚é
-    /// @param button Šm”F‚·‚éƒ}ƒEƒXƒ{ƒ^ƒ“
-    /// @return int —£‚³‚ê‚½uŠÔ‚È‚ç1
+    /// @brief ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸç¬é–“ã‹ã‚’åˆ¤å®šã™ã‚‹
+    /// @param button ç¢ºèªã™ã‚‹ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³
+    /// @return int é›¢ã•ã‚ŒãŸç¬é–“ãªã‚‰1
     static int CheckMouseUp(int button);
 
-    /// @brief ƒ}ƒEƒXÀ•W‚ğæ“¾‚·‚é
-    /// @param x XÀ•W‚Ìo—Íæ
-    /// @param y YÀ•W‚Ìo—Íæ
+    /// @brief ãƒã‚¦ã‚¹åº§æ¨™ã‚’å–å¾—ã™ã‚‹
+    /// @param x Xåº§æ¨™ã®å‡ºåŠ›å…ˆ
+    /// @param y Yåº§æ¨™ã®å‡ºåŠ›å…ˆ
     static void GetMousePosition(int* x, int* y);
 
 private:
-    static int mouse_down_buffer_; ///< ƒ}ƒEƒX‰Ÿ‰ºó‘Ô‚Ì‘OƒtƒŒ[ƒ€ƒoƒbƒtƒ@
-	static int down_buffer_[256];   ///< ƒL[‰Ÿ‰ºó‘Ô‚Ì‘OƒtƒŒ[ƒ€ƒoƒbƒtƒ@
-	static int up_buffer_[256];     ///< ƒL[‰ğ•úó‘Ô‚Ì‘OƒtƒŒ[ƒ€ƒoƒbƒtƒ@
+    static int mouse_down_buffer_; ///< ãƒã‚¦ã‚¹æŠ¼ä¸‹çŠ¶æ…‹ã®å‰ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡
+	static int down_buffer_[256];   ///< ã‚­ãƒ¼æŠ¼ä¸‹çŠ¶æ…‹ã®å‰ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡
+	static int up_buffer_[256];     ///< ã‚­ãƒ¼è§£æ”¾çŠ¶æ…‹ã®å‰ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡
 };

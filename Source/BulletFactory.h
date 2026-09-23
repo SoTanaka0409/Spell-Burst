@@ -1,30 +1,30 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector2.h"
 
-/// @brief “G’e‚Ì¶¬ƒpƒ^[ƒ“‚ğ‚Ü‚Æ‚ß‚½ƒtƒ@ƒNƒgƒŠƒNƒ‰ƒX
+/// @brief æ•µå¼¾ã®ç”Ÿæˆãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’ã¾ã¨ã‚ãŸãƒ•ã‚¡ã‚¯ãƒˆãƒªã‚¯ãƒ©ã‚¹
 class BulletFactory
 {
 public:
-    /// @brief w’è‚µ‚½ˆÊ’u‚©‚ç‘S•ûˆÊ‚É‰~Œ`‚É’e‚ğ”­Ë‚·‚é
-    /// @param position ”­ËˆÊ’u
-    /// @param baseAngle Šî€Šp“x
-    /// @param count ”­Ë”
-    /// @param speed ’e‚Ì‘¬“x
-    /// @param canReflect ”½Ë‰Â”\‚©
-    /// @param isStun ƒXƒ^ƒ“’e‚©
-    /// @param homingFrames ’Ç”öƒtƒŒ[ƒ€”
-    /// @param homingDelay ’Ç”öŠJn’x‰„
+    /// @brief æŒ‡å®šã—ãŸä½ç½®ã‹ã‚‰å…¨æ–¹ä½ã«å††å½¢ã«å¼¾ã‚’ç™ºå°„ã™ã‚‹
+    /// @param position ç™ºå°„ä½ç½®
+    /// @param baseAngle åŸºæº–è§’åº¦
+    /// @param count ç™ºå°„æ•°
+    /// @param speed å¼¾ã®é€Ÿåº¦
+    /// @param canReflect åå°„å¯èƒ½ã‹
+    /// @param isStun ã‚¹ã‚¿ãƒ³å¼¾ã‹
+    /// @param homingFrames è¿½å°¾ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+    /// @param homingDelay è¿½å°¾é–‹å§‹é…å»¶
     static void SpawnCircleBullets(Vector2 position, float baseAngle, int count, float speed, bool canReflect = false, bool isStun = false, int homingFrames = 0, int homingDelay = 0);
 
-    /// @brief w’è‚µ‚½ˆÊ’u‚©‚çîó‚É’e‚ğ”­Ë‚·‚é
-    /// @param position ”­ËˆÊ’u
-    /// @param baseAngle Šî€Šp“x
-    /// @param count ”­Ë”
-    /// @param spreadAngle —¼’[‚ÌL‚ª‚èŠp“x
-    /// @param speed ’e‚Ì‘¬“x
-    /// @param canReflect ”½Ë‰Â”\‚©
-    /// @param isStun ƒXƒ^ƒ“’e‚©
-    /// @param homingFrames ’Ç”öƒtƒŒ[ƒ€”
-    /// @param homingDelay ’Ç”öŠJn’x‰„
+    /// @brief æŒ‡å®šã—ãŸä½ç½®ã‹ã‚‰æ‰‡çŠ¶ã«å¼¾ã‚’ç™ºå°„ã™ã‚‹
+    /// @param position ç™ºå°„ä½ç½®
+    /// @param baseAngle åŸºæº–è§’åº¦
+    /// @param count ç™ºå°„æ•°
+    /// @param spreadAngle ä¸¡ç«¯ã®åºƒãŒã‚Šè§’åº¦
+    /// @param speed å¼¾ã®é€Ÿåº¦
+    /// @param canReflect åå°„å¯èƒ½ã‹
+    /// @param isStun ã‚¹ã‚¿ãƒ³å¼¾ã‹
+    /// @param homingFrames è¿½å°¾ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
+    /// @param homingDelay è¿½å°¾é–‹å§‹é…å»¶
     static void SpawnNWayBullets(Vector2 position, float baseAngle, int count, float spreadAngle, float speed, bool canReflect = false, bool isStun = false, int homingFrames = 0, int homingDelay = 0);
 };

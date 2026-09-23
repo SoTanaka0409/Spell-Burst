@@ -1,59 +1,59 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class Collider;
 
-/// @brief ˆê’èüŠú‚Å“WŠJ‚³‚êA“G’e‚ğ–h‚®ƒoƒŠƒAƒNƒ‰ƒX
+/// @brief ä¸€å®šå‘¨æœŸã§å±•é–‹ã•ã‚Œã€æ•µå¼¾ã‚’é˜²ããƒãƒªã‚¢ã‚¯ãƒ©ã‚¹
 class Barrier : public Object2D
 {
 public:
-	/// @brief ƒoƒŠƒA‚ğ¶¬‚·‚é
-	/// @param x ‰ŠúXÀ•W
-	/// @param y ‰ŠúYÀ•W
-	/// @param radius ƒoƒŠƒA”¼Œa
-	/// @param obj Š—LÒ‚ğ•\‚·ƒ^ƒO
+	/// @brief ãƒãƒªã‚¢ã‚’ç”Ÿæˆã™ã‚‹
+	/// @param x åˆæœŸXåº§æ¨™
+	/// @param y åˆæœŸYåº§æ¨™
+	/// @param radius ãƒãƒªã‚¢åŠå¾„
+	/// @param obj æ‰€æœ‰è€…ã‚’è¡¨ã™ã‚¿ã‚°
 	Barrier(float x, float y, float radius, Object2D::Tag2D obj);
 
-	/// @brief ƒoƒŠƒA‚ğ”jŠü‚·‚é
+	/// @brief ãƒãƒªã‚¢ã‚’ç ´æ£„ã™ã‚‹
 	virtual ~Barrier();
 
-	/// @brief “WŠJƒ^ƒCƒ}[‚ÆƒRƒ‰ƒCƒ_[ó‘Ô‚ğXV‚·‚é
+	/// @brief å±•é–‹ã‚¿ã‚¤ãƒãƒ¼ã¨ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹
 	virtual void Update() override;
 
-	/// @brief “WŠJ’†‚ÌƒoƒŠƒAƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚é
+	/// @brief å±•é–‹ä¸­ã®ãƒãƒªã‚¢ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹
 	virtual void Draw() override;
 
-	/// @brief ’e‚Æ‚ÌÚGˆ—‚ğs‚¤
-	/// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-	/// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+	/// @brief å¼¾ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+	/// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	/// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-	/// @brief ”í’e‰ñ”‚ğæ“¾‚·‚é
-	/// @return int ”í’e‰ñ”
+	/// @brief è¢«å¼¾å›æ•°ã‚’å–å¾—ã™ã‚‹
+	/// @return int è¢«å¼¾å›æ•°
 	int GetHitCount() const { return hit_count_; }
 
-	/// @brief ƒoƒŠƒA‚ª“WŠJ’†‚©‚ğæ“¾‚·‚é
-	/// @return bool “WŠJ’†‚È‚çtrue
+	/// @brief ãƒãƒªã‚¢ãŒå±•é–‹ä¸­ã‹ã‚’å–å¾—ã™ã‚‹
+	/// @return bool å±•é–‹ä¸­ãªã‚‰true
 	bool IsDeployed() const { return is_deployed_; }
 
-	/// @brief Ä“WŠJ‚Ü‚Å‚ÌŠÔŠu‚ğİ’è‚·‚é
-	/// @param v “WŠJŠÔŠu
+	/// @brief å†å±•é–‹ã¾ã§ã®é–“éš”ã‚’è¨­å®šã™ã‚‹
+	/// @param v å±•é–‹é–“éš”
 	void SetDeployInterval(float v) { deploy_interval_ = v; }
 
-	/// @brief “WŠJ‚µ‚Ä‚¢‚éŠÔ‚ğİ’è‚·‚é
-	/// @param v “WŠJŠÔ
+	/// @brief å±•é–‹ã—ã¦ã„ã‚‹æ™‚é–“ã‚’è¨­å®šã™ã‚‹
+	/// @param v å±•é–‹æ™‚é–“
 	void SetActiveDuration(float v) { active_duration_ = v; }
 
-	/// @brief ƒoƒŠƒA‚ÌÀ•W‚ğİ’è‚·‚é
-	/// @param pos İ’è‚·‚éÀ•W
+	/// @brief ãƒãƒªã‚¢ã®åº§æ¨™ã‚’è¨­å®šã™ã‚‹
+	/// @param pos è¨­å®šã™ã‚‹åº§æ¨™
 	void SetPosition(Vector2 pos) { position_ = pos; }
 
 private:
-	float deploy_interval_;  ///< Ä“WŠJ‚Ü‚Å‚Ì‘Ò‹@ŠÔ
-	float active_duration_;  ///< “WŠJ‚ğˆÛ‚·‚éŠÔ
-	float timer_;            ///< “WŠJüŠú‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
-	float radius_;           ///< ƒoƒŠƒA‚Ì”¼Œa
-	bool is_deployed_;       ///< Œ»İƒoƒŠƒA‚ª“WŠJ’†‚©‚ğ¦‚·ƒtƒ‰ƒO
-	Collider* collider_;     ///< ƒoƒŠƒA‚Ì“–‚½‚è”»’è
-	int hit_count_;          ///< ƒoƒŠƒA‚ª’e‚ğó‚¯‚½‰ñ”
+	float deploy_interval_;  ///< å†å±•é–‹ã¾ã§ã®å¾…æ©Ÿæ™‚é–“
+	float active_duration_;  ///< å±•é–‹ã‚’ç¶­æŒã™ã‚‹æ™‚é–“
+	float timer_;            ///< å±•é–‹å‘¨æœŸã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
+	float radius_;           ///< ãƒãƒªã‚¢ã®åŠå¾„
+	bool is_deployed_;       ///< ç¾åœ¨ãƒãƒªã‚¢ãŒå±•é–‹ä¸­ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	Collider* collider_;     ///< ãƒãƒªã‚¢ã®å½“ãŸã‚Šåˆ¤å®š
+	int hit_count_;          ///< ãƒãƒªã‚¢ãŒå¼¾ã‚’å—ã‘ãŸå›æ•°
 };

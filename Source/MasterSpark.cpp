@@ -1,4 +1,4 @@
-#include "MasterSpark.h"
+ï»¿#include "MasterSpark.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Enemy.h"
@@ -14,9 +14,9 @@
 #include <cmath>
 #include <cstdlib>
 
-/// @brief MasterSpark ‚ğ¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief MasterSpark ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 MasterSpark::MasterSpark(float x, float y)
 	: Projectile(Vector2(x, y), Vector2(0, -1), 0.0f, 1)
 {
@@ -30,12 +30,12 @@ MasterSpark::MasterSpark(float x, float y)
 	collider_ = new CapsuleCollider(this, Vector2(position_.x, position_.y), Vector2(position_.x, position_.y - 1200.0f), radius_);
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 MasterSpark::~MasterSpark()
 {
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void MasterSpark::Update()
 {
 	life_timer_--;
@@ -81,14 +81,14 @@ void MasterSpark::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void MasterSpark::Draw()
 {
 	if (!is_active_) return;
 	DrawParticles();
 }
 
-/// @brief DrawParticles ‚ğÀs‚·‚é
+/// @brief DrawParticles ã‚’å®Ÿè¡Œã™ã‚‹
 void MasterSpark::DrawParticles()
 {
 	SetDrawBlendMode(DX_BLENDMODE_ADD, 180);
@@ -121,14 +121,14 @@ void MasterSpark::DrawParticles()
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-/// @brief íœ‘ÎÛ‚É‚·‚é
+/// @brief å‰Šé™¤å¯¾è±¡ã«ã™ã‚‹
 void MasterSpark::Kill()
 {
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void MasterSpark::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -150,9 +150,9 @@ void MasterSpark::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
-/// @brief ÚGŠJn‚Ìˆ—‚ğs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void MasterSpark::OnEnter(Collider* collider, Collider* check)
 {
 }

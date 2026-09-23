@@ -1,4 +1,4 @@
-#include "RuleScene.h"
+ï»¿#include "RuleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -11,20 +11,20 @@
 #include "DxLib.h"
 #include <algorithm>
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void RuleScene::Initialize()
 {
     rule_graphs_[0] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_01");
     rule_graphs_[1] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_02");
     rule_graphs_[2] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_03");
     rule_graphs_[3] = ResourceManager::GetInstance()->GetGraph("IMG_RULE_04");
-    rule_graphs_[4] = -1; // ‰æ‘œ‚ª‚È‚¢ƒy[ƒW‚ÍƒeƒLƒXƒgà–¾‚Ì‚İ‚Å•\¦‚·‚é
+    rule_graphs_[4] = -1; // ç”»åƒãŒãªã„ãƒšãƒ¼ã‚¸ã¯ãƒ†ã‚­ã‚¹ãƒˆèª¬æ˜ã®ã¿ã§è¡¨ç¤ºã™ã‚‹
     rule_graphs_[5] = -1;
     current_slide_ = 0;
     SoundManager::GetInstance()->PlayBGM("BGM_146");
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void RuleScene::Update()
 {
     static int prevMouseInput = 0;
@@ -37,7 +37,7 @@ void RuleScene::Update()
 
     if (isLeftClicked)
     {
-        // ƒ^ƒCƒgƒ‹‚Ö–ß‚é
+        // ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹
         if (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -45,7 +45,7 @@ void RuleScene::Update()
             return;
         }
 
-        // Ÿ‚Ìƒy[ƒW‚Öi‚ŞBÅIƒy[ƒW‚Å‚Íƒ^ƒCƒgƒ‹‚Ö–ß‚é
+        // æ¬¡ã®ãƒšãƒ¼ã‚¸ã¸é€²ã‚€ã€‚æœ€çµ‚ãƒšãƒ¼ã‚¸ã§ã¯ã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹
         if (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -59,7 +59,7 @@ void RuleScene::Update()
             }
         }
 
-        // ‘O‚Ìƒy[ƒW‚Ö–ß‚éBÅ‰‚Ìƒy[ƒW‚Å‚Í‰½‚à‚µ‚È‚¢
+        // å‰ã®ãƒšãƒ¼ã‚¸ã¸æˆ»ã‚‹ã€‚æœ€åˆã®ãƒšãƒ¼ã‚¸ã§ã¯ä½•ã‚‚ã—ãªã„
         if (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890)
         {
             SoundManager::GetInstance()->PlaySE("SE_UI_CLICK");
@@ -71,7 +71,7 @@ void RuleScene::Update()
     }
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void RuleScene::Draw()
 {
     DrawBox(0, 0, Utility::kScreenWidth, Utility::kScreenHeight, GetColor(0, 0, 0), TRUE);
@@ -85,7 +85,7 @@ void RuleScene::Draw()
         if (imgW > 0 && imgH > 0)
         {
             float maxWidth = 1400.0f;
-            float maxHeight = 650.0f; // ‰æ‘œ‚ªà–¾—“‚Éd‚È‚ç‚È‚¢‚æ‚¤‚‚³‚ğ§ŒÀ‚·‚é
+            float maxHeight = 650.0f; // ç”»åƒãŒèª¬æ˜æ¬„ã«é‡ãªã‚‰ãªã„ã‚ˆã†é«˜ã•ã‚’åˆ¶é™ã™ã‚‹
             float scaleX = maxWidth / imgW;
             float scaleY = maxHeight / imgH;
             float scale = ((scaleX < scaleY) ? scaleX : scaleY) * 0.95f;
@@ -105,30 +105,30 @@ void RuleScene::Draw()
 
     const char* titles[] =
     {
-        "1. ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ",
-        "2. “ïˆÕ“x‘I‘ğ",
-        "3. “G‚ğ“|‚µ‚Ä¬’·‚µ‚æ‚¤",
-        "4. ‰æ–Ê•\¦‚ÌŒ©•û",
-        "5. ƒoƒŠƒA‚Ìg‚¢•û",
-        "6. ƒ{ƒXí‚Ì—¬‚ê"
+        "1. ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼é¸æŠ",
+        "2. é›£æ˜“åº¦é¸æŠ",
+        "3. æ•µã‚’å€’ã—ã¦æˆé•·ã—ã‚ˆã†",
+        "4. ç”»é¢è¡¨ç¤ºã®è¦‹æ–¹",
+        "5. ãƒãƒªã‚¢ã®ä½¿ã„æ–¹",
+        "6. ãƒœã‚¹æˆ¦ã®æµã‚Œ"
     };
     const char* descs1[] =
     {
-        "ƒQ[ƒ€ŠJnŒãA3l‚Ì’†‚©‚ç‘€ìƒLƒƒƒ‰ƒNƒ^[‚ğ‘I‚Ñ‚Ü‚·B",
-        "‚Ó‚Â‚¤A‚Ş‚¸‚©‚µ‚¢A‚Æ‚Ä‚à‚Ş‚¸‚©‚µ‚¢‚©‚ç“ïˆÕ“x‚ğ‘I‚Ñ‚Ü‚·B",
-        "“G‚ğ“|‚·‚ÆŒoŒ±’l‚ª“ü‚èAˆê’è”‚ğ“|‚·‚Æƒ{ƒX‚ªoŒ»‚µ‚Ü‚·B",
-        "¶ã‚ÉƒvƒŒƒCƒ„[‚Ì‘Ì—ÍAƒŒƒxƒ‹Aƒ`ƒƒ[ƒW—Ê‚ª•\¦‚³‚ê‚Ü‚·B",
-        "ƒoƒŠƒA‚ğo‚·‚ÆA“G‚Ì’e‚ğ–h‚¢‚¾‚è’µ‚Ë•Ô‚µ‚½‚è‚Å‚«‚Ü‚·B",
-        "ƒ{ƒX‚Ì‘Ì—Í‚Í•¡”’iŠK‚ ‚èAí‚èØ‚é‚½‚Ñ‚ÉŸ‚Ì’iŠK‚Öi‚İ‚Ü‚·B"
+        "ã‚²ãƒ¼ãƒ é–‹å§‹å¾Œã€3äººã®ä¸­ã‹ã‚‰æ“ä½œã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’é¸ã³ã¾ã™ã€‚",
+        "ãµã¤ã†ã€ã‚€ãšã‹ã—ã„ã€ã¨ã¦ã‚‚ã‚€ãšã‹ã—ã„ã‹ã‚‰é›£æ˜“åº¦ã‚’é¸ã³ã¾ã™ã€‚",
+        "æ•µã‚’å€’ã™ã¨çµŒé¨“å€¤ãŒå…¥ã‚Šã€ä¸€å®šæ•°ã‚’å€’ã™ã¨ãƒœã‚¹ãŒå‡ºç¾ã—ã¾ã™ã€‚",
+        "å·¦ä¸Šã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½“åŠ›ã€ãƒ¬ãƒ™ãƒ«ã€ãƒãƒ£ãƒ¼ã‚¸é‡ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚",
+        "ãƒãƒªã‚¢ã‚’å‡ºã™ã¨ã€æ•µã®å¼¾ã‚’é˜²ã„ã ã‚Šè·³ã­è¿”ã—ãŸã‚Šã§ãã¾ã™ã€‚",
+        "ãƒœã‚¹ã®ä½“åŠ›ã¯è¤‡æ•°æ®µéšã‚ã‚Šã€å‰Šã‚Šåˆ‡ã‚‹ãŸã³ã«æ¬¡ã®æ®µéšã¸é€²ã¿ã¾ã™ã€‚"
     };
     const char* descs2[] =
     {
-        "‘I‘ğ’†‚ÌƒLƒƒƒ‰ƒNƒ^[‚Í­‚µˆÃ‚­•\¦‚³‚ê‚Ü‚·B",
-        "“ï‚µ‚¢‚Ù‚Ç“G‚ÌoŒ»‚âUŒ‚‚ªŒƒ‚µ‚­‚È‚è‚Ü‚·B",
-        "ƒŒƒxƒ‹‚ªã‚ª‚é‚ÆUŒ‚‚ª‹­‰»‚³‚êAí‚¢‚â‚·‚­‚È‚è‚Ü‚·B",
-        "‰E‰º‚É‚Íƒ{ƒX‚Ì‘Ì—ÍƒQ[ƒW‚ª•\¦‚³‚ê‚Ü‚·B",
-        "Šë‚È‚¢ê–Ê‚Ù‚ÇAƒ^ƒCƒ~ƒ“ƒO‚æ‚­g‚¤‚±‚Æ‚ª‘åØ‚Å‚·B",
-        "ÅŒã‚Ì’iŠK‚ğ“|‚·‚Ü‚Å–û’f‚¹‚¸‚Éí‚¢‚Ü‚µ‚å‚¤B"
+        "é¸æŠä¸­ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã¯å°‘ã—æš—ãè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚",
+        "é›£ã—ã„ã»ã©æ•µã®å‡ºç¾ã‚„æ”»æ’ƒãŒæ¿€ã—ããªã‚Šã¾ã™ã€‚",
+        "ãƒ¬ãƒ™ãƒ«ãŒä¸ŠãŒã‚‹ã¨æ”»æ’ƒãŒå¼·åŒ–ã•ã‚Œã€æˆ¦ã„ã‚„ã™ããªã‚Šã¾ã™ã€‚",
+        "å³ä¸‹ã«ã¯ãƒœã‚¹ã®ä½“åŠ›ã‚²ãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚",
+        "å±ãªã„å ´é¢ã»ã©ã€ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‚ˆãä½¿ã†ã“ã¨ãŒå¤§åˆ‡ã§ã™ã€‚",
+        "æœ€å¾Œã®æ®µéšã‚’å€’ã™ã¾ã§æ²¹æ–­ã›ãšã«æˆ¦ã„ã¾ã—ã‚‡ã†ã€‚"
     };
     const char* descs3[] =
     {
@@ -159,23 +159,23 @@ void RuleScene::Draw()
     Scene::Draw();
 }
 
-/// @brief DrawNavigationButtons ‚ğÀs‚·‚é
-/// @param mouseX mouseX ‚Ì’l
-/// @param mouseY mouseY ‚Ì’l
-/// @param font24 font24 ‚Ì’l
+/// @brief DrawNavigationButtons ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param mouseX mouseX ã®å€¤
+/// @param mouseY mouseY ã®å€¤
+/// @param font24 font24 ã®å€¤
 void RuleScene::DrawNavigationButtons(int mouseX, int mouseY, int font24)
 {
     bool hoverBack = (mouseX >= 600 && mouseX <= 700 && mouseY >= 840 && mouseY <= 890);
     DrawBox(600, 840, 700, 890, hoverBack ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
     DrawBox(600, 840, 700, 890, GetColor(255, 255, 255), FALSE);
-    DrawStringToHandle(620, 855, "–ß‚é", GetColor(255, 255, 255), font24);
+    DrawStringToHandle(620, 855, "æˆ»ã‚‹", GetColor(255, 255, 255), font24);
 
     if (current_slide_ > 0)
     {
         bool hoverPrev = (mouseX >= 750 && mouseX <= 850 && mouseY >= 840 && mouseY <= 890);
         DrawBox(750, 840, 850, 890, hoverPrev ? GetColor(100, 100, 100) : GetColor(50, 50, 50), TRUE);
         DrawBox(750, 840, 850, 890, GetColor(255, 255, 255), FALSE);
-        DrawStringToHandle(775, 855, "‘O‚Ö", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(775, 855, "å‰ã¸", GetColor(255, 255, 255), font24);
     }
 
     bool hoverNext = (mouseX >= 900 && mouseX <= 1000 && mouseY >= 840 && mouseY <= 890);
@@ -183,14 +183,14 @@ void RuleScene::DrawNavigationButtons(int mouseX, int mouseY, int font24)
     DrawBox(900, 840, 1000, 890, GetColor(255, 255, 255), FALSE);
     if (current_slide_ < 5)
     {
-        DrawStringToHandle(925, 855, "Ÿ‚Ö", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(925, 855, "æ¬¡ã¸", GetColor(255, 255, 255), font24);
     } else
     {
-        DrawStringToHandle(925, 855, "Š®—¹", GetColor(255, 255, 255), font24);
+        DrawStringToHandle(925, 855, "å®Œäº†", GetColor(255, 255, 255), font24);
     }
 }
 
-/// @brief I—¹ˆ—‚ğs‚¤
+/// @brief çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 void RuleScene::Finalize()
 {
 }

@@ -1,37 +1,37 @@
-#pragma once
+ï»¿#pragma once
 #include "Object2D.h"
 
 class CapsuleCollider;
 
-/// @brief ‰æ–Êã•”‚©‚ç—‰º‚·‚éáŠQ•¨ƒNƒ‰ƒX
+/// @brief ç”»é¢ä¸Šéƒ¨ã‹ã‚‰è½ä¸‹ã™ã‚‹éšœå®³ç‰©ã‚¯ãƒ©ã‚¹
 class Obstacle : public Object2D
 {
 private:
-    CapsuleCollider* collider_; ///< áŠQ•¨‚Ì“–‚½‚è”»’è
-    float fall_speed_;          ///< —‰º‘¬“x
+    CapsuleCollider* collider_; ///< éšœå®³ç‰©ã®å½“ãŸã‚Šåˆ¤å®š
+    float fall_speed_;          ///< è½ä¸‹é€Ÿåº¦
 
 public:
-    /// @brief áŠQ•¨‚ğ¶¬‚·‚é
-    /// @param x ‰ŠúXÀ•W
-    /// @param y ‰ŠúYÀ•W
+    /// @brief éšœå®³ç‰©ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param x åˆæœŸXåº§æ¨™
+    /// @param y åˆæœŸYåº§æ¨™
     Obstacle(float x, float y);
 
-    /// @brief áŠQ•¨‚ğ”jŠü‚·‚é
+    /// @brief éšœå®³ç‰©ã‚’ç ´æ£„ã™ã‚‹
     virtual ~Obstacle() override;
 
-    /// @brief áŠQ•¨‚Ì—‰º‚Æíœ”»’è‚ğXV‚·‚é
+    /// @brief éšœå®³ç‰©ã®è½ä¸‹ã¨å‰Šé™¤åˆ¤å®šã‚’æ›´æ–°ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief áŠQ•¨‚ğ•`‰æ‚·‚é
+    /// @brief éšœå®³ç‰©ã‚’æç”»ã™ã‚‹
     virtual void Draw() override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚG’†ˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦ä¸­å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGŠJnˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦é–‹å§‹å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnEnter(Collider* collider, Collider* check) override;
 };

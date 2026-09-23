@@ -1,34 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 
-/// @brief ƒQ[ƒ€‚Ìƒ‹[ƒ‹‚â‘€ì•û–@‚ğƒXƒ‰ƒCƒhŒ`®‚Åà–¾‚·‚éƒV[ƒ“
+/// @brief ã‚²ãƒ¼ãƒ ã®ãƒ«ãƒ¼ãƒ«ã‚„æ“ä½œæ–¹æ³•ã‚’ã‚¹ãƒ©ã‚¤ãƒ‰å½¢å¼ã§èª¬æ˜ã™ã‚‹ã‚·ãƒ¼ãƒ³
 class RuleScene : public Scene
 {
 public:
-    /// @brief ƒ‹[ƒ‹ƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+    /// @brief ãƒ«ãƒ¼ãƒ«ã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
     void Initialize() override;
 
-    /// @brief ƒ‹[ƒ‹ƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ãƒ«ãƒ¼ãƒ«ã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ƒ‹[ƒ‹ƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ãƒ«ãƒ¼ãƒ«ã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒ‹[ƒ‹ƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ãƒ«ãƒ¼ãƒ«ã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize() override;
 
 private:
-    /// @brief ƒ‹[ƒ‹à–¾ƒeƒLƒXƒg‚ğ•`‰æ‚·‚é
-    /// @param titleFont ƒ^ƒCƒgƒ‹—pƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
-    /// @param font24 –{•¶—pƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ãƒ«ãƒ¼ãƒ«èª¬æ˜ãƒ†ã‚­ã‚¹ãƒˆã‚’æç”»ã™ã‚‹
+    /// @param titleFont ã‚¿ã‚¤ãƒˆãƒ«ç”¨ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
+    /// @param font24 æœ¬æ–‡ç”¨ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawRuleText(int titleFont, int font24);
 
-    /// @brief ƒy[ƒWˆÚ“®ƒ{ƒ^ƒ“‚ğ•`‰æ‚·‚é
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
-    /// @param font24 ƒ{ƒ^ƒ“—pƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ãƒšãƒ¼ã‚¸ç§»å‹•ãƒœã‚¿ãƒ³ã‚’æç”»ã™ã‚‹
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
+    /// @param font24 ãƒœã‚¿ãƒ³ç”¨ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawNavigationButtons(int mouseX, int mouseY, int font24);
 
-    int rule_graphs_[6]; ///< Šeƒy[ƒW‚Ìƒ‹[ƒ‹‰æ‘œƒnƒ“ƒhƒ‹
-    int current_slide_;  ///< Œ»İ•\¦’†‚Ìƒy[ƒW”Ô†
+    int rule_graphs_[6]; ///< å„ãƒšãƒ¼ã‚¸ã®ãƒ«ãƒ¼ãƒ«ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+    int current_slide_;  ///< ç¾åœ¨è¡¨ç¤ºä¸­ã®ãƒšãƒ¼ã‚¸ç•ªå·
 };

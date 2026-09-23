@@ -1,64 +1,64 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 #include <vector>
 
-/// @brief ƒŠƒUƒ‹ƒg‰æ–Ê‚Ì”wŒi‰‰o‚Ég‚¤—±qî•ñ
+/// @brief ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã®èƒŒæ™¯æ¼”å‡ºã«ä½¿ã†ç²’å­æƒ…å ±
 struct ResultParticle
 {
-    float x, y;       ///< À•W
-    float vx_;        ///< X•ûŒü‚Ì‘¬“x
-    float vy_;        ///< Y•ûŒü‚Ì‘¬“x
-    float size_;      ///< ƒTƒCƒY
-    float angle_;     ///< ‰ñ“]Šp
-    float rot_speed_; ///< ‰ñ“]‘¬“x
-    int color_;       ///< •`‰æF
-    int life_;        ///< c‚èõ–½ƒtƒŒ[ƒ€”
+    float x, y;       ///< åº§æ¨™
+    float vx_;        ///< Xæ–¹å‘ã®é€Ÿåº¦
+    float vy_;        ///< Yæ–¹å‘ã®é€Ÿåº¦
+    float size_;      ///< ã‚µã‚¤ã‚º
+    float angle_;     ///< å›è»¢è§’
+    float rot_speed_; ///< å›è»¢é€Ÿåº¦
+    int color_;       ///< æç”»è‰²
+    int life_;        ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 };
 
-/// @brief Ÿ—˜E”s–k‚ÌƒŠƒUƒ‹ƒg‰æ–Ê‚ğ•\¦‚·‚éƒV[ƒ“
+/// @brief å‹åˆ©ãƒ»æ•—åŒ—ã®ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹ã‚·ãƒ¼ãƒ³
 class ResultScene : public Scene
 {
 public:
-    static bool kIsVictory; ///< Ÿ—˜ƒŠƒUƒ‹ƒg‚©‚Ç‚¤‚©‚ğ¦‚·ƒtƒ‰ƒO
+    static bool kIsVictory; ///< å‹åˆ©ãƒªã‚¶ãƒ«ãƒˆã‹ã©ã†ã‹ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
 
 public:
-    /// @brief ƒŠƒUƒ‹ƒgƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+    /// @brief ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
     void Initialize() override;
 
-    /// @brief ƒŠƒUƒ‹ƒgƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ƒŠƒUƒ‹ƒgƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒŠƒUƒ‹ƒgƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize() override;
 
 private:
-    /// @brief Ÿ—˜ƒŠƒUƒ‹ƒg‚ÌXV‚ğs‚¤
+    /// @brief å‹åˆ©ãƒªã‚¶ãƒ«ãƒˆã®æ›´æ–°ã‚’è¡Œã†
     void UpdateVictory();
 
-    /// @brief ”s–kƒŠƒUƒ‹ƒg‚ÌXV‚ğs‚¤
+    /// @brief æ•—åŒ—ãƒªã‚¶ãƒ«ãƒˆã®æ›´æ–°ã‚’è¡Œã†
     void UpdateGameOver();
 
-    /// @brief Ÿ—˜ƒŠƒUƒ‹ƒg‚ğ•`‰æ‚·‚é
+    /// @brief å‹åˆ©ãƒªã‚¶ãƒ«ãƒˆã‚’æç”»ã™ã‚‹
     void DrawVictory();
 
-    /// @brief ”s–kƒŠƒUƒ‹ƒg‚ğ•`‰æ‚·‚é
+    /// @brief æ•—åŒ—ãƒªã‚¶ãƒ«ãƒˆã‚’æç”»ã™ã‚‹
     void DrawGameOver();
 
 private:
-    std::vector<ResultParticle> particles_; ///< ”wŒi‰‰o—pƒp[ƒeƒBƒNƒ‹
-    int state_timer_;                       ///< ƒŠƒUƒ‹ƒg‰æ–Ê‚ÌŒo‰ßƒ^ƒCƒ}[
-    int bg_graph_;                          ///< ”wŒi‰æ‘œƒnƒ“ƒhƒ‹
-    int player_graph_;                      ///< ƒvƒŒƒCƒ„[‰æ‘œƒnƒ“ƒhƒ‹
+    std::vector<ResultParticle> particles_; ///< èƒŒæ™¯æ¼”å‡ºç”¨ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
+    int state_timer_;                       ///< ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã®çµŒéã‚¿ã‚¤ãƒãƒ¼
+    int bg_graph_;                          ///< èƒŒæ™¯ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+    int player_graph_;                      ///< ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”»åƒãƒãƒ³ãƒ‰ãƒ«
 
-    /// @brief ‰æ‚è•t‚«•¶š—ñ‚ğ•`‰æ‚·‚é
-    /// @param x •`‰æXÀ•W
-    /// @param y •`‰æYÀ•W
-    /// @param str •`‰æ•¶š—ñ
-    /// @param color •¶šF
-    /// @param outlineColor ‰æ‚èF
-    /// @param fontHandle ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ç¸å–ã‚Šä»˜ãæ–‡å­—åˆ—ã‚’æç”»ã™ã‚‹
+    /// @param x æç”»Xåº§æ¨™
+    /// @param y æç”»Yåº§æ¨™
+    /// @param str æç”»æ–‡å­—åˆ—
+    /// @param color æ–‡å­—è‰²
+    /// @param outlineColor ç¸å–ã‚Šè‰²
+    /// @param fontHandle ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawOutlinedString(int x, int y, const char* str, unsigned int color, unsigned int outlineColor, int fontHandle);
 };

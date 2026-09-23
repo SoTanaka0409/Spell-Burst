@@ -1,70 +1,70 @@
-#pragma once
+ï»¿#pragma once
 #include "Scene.h"
 
-/// @brief ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ‚ÆƒXƒe[ƒW‘I‘ğ‚ğŠÇ—‚·‚éƒV[ƒ“
+/// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼é¸æŠã¨ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚’ç®¡ç†ã™ã‚‹ã‚·ãƒ¼ãƒ³
 class StageSelectScene : public Scene
 {
 public:
-    /// @brief ƒXƒe[ƒW‘I‘ğƒV[ƒ“‚ğ‰Šú‰»‚·‚é
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚·ãƒ¼ãƒ³ã‚’åˆæœŸåŒ–ã™ã‚‹
     void Initialize() override;
 
-    /// @brief ƒXƒe[ƒW‘I‘ğƒV[ƒ“‚ğXV‚·‚é
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚·ãƒ¼ãƒ³ã‚’æ›´æ–°ã™ã‚‹
     void Update() override;
 
-    /// @brief ƒXƒe[ƒW‘I‘ğƒV[ƒ“‚ğ•`‰æ‚·‚é
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚·ãƒ¼ãƒ³ã‚’æç”»ã™ã‚‹
     void Draw() override;
 
-    /// @brief ƒXƒe[ƒW‘I‘ğƒV[ƒ“‚ğI—¹ˆ—‚·‚é
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã‚·ãƒ¼ãƒ³ã‚’çµ‚äº†å‡¦ç†ã™ã‚‹
     void Finalize() override;
 
 private:
-    /// @brief ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ“ü—Í‚ğXV‚·‚é
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
-    /// @param isLeftClicked ¶ƒNƒŠƒbƒN‚³‚ê‚½‚©
-    /// @param cx ‰æ–Ê’†SXÀ•W
-    /// @param cy ‰æ–Ê’†SYÀ•W
+    /// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼é¸æŠå…¥åŠ›ã‚’æ›´æ–°ã™ã‚‹
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
+    /// @param isLeftClicked å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‹
+    /// @param cx ç”»é¢ä¸­å¿ƒXåº§æ¨™
+    /// @param cy ç”»é¢ä¸­å¿ƒYåº§æ¨™
     void UpdateCharacterSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy);
 
-    /// @brief ƒXƒe[ƒW‘I‘ğ“ü—Í‚ğXV‚·‚é
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
-    /// @param isLeftClicked ¶ƒNƒŠƒbƒN‚³‚ê‚½‚©
-    /// @param cx ‰æ–Ê’†SXÀ•W
-    /// @param cy ‰æ–Ê’†SYÀ•W
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠå…¥åŠ›ã‚’æ›´æ–°ã™ã‚‹
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
+    /// @param isLeftClicked å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‹
+    /// @param cx ç”»é¢ä¸­å¿ƒXåº§æ¨™
+    /// @param cy ç”»é¢ä¸­å¿ƒYåº§æ¨™
     void UpdateStageSelect(int mouseX, int mouseY, bool isLeftClicked, int cx, int cy);
 
-    /// @brief ƒLƒƒƒ‰ƒNƒ^[‘I‘ğ‰æ–Ê‚ğ•`‰æ‚·‚é
-    /// @param cx ‰æ–Ê’†SXÀ•W
-    /// @param cy ‰æ–Ê’†SYÀ•W
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
-    /// @param font24 –{•¶ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
-    /// @param subFont •â•ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼é¸æŠç”»é¢ã‚’æç”»ã™ã‚‹
+    /// @param cx ç”»é¢ä¸­å¿ƒXåº§æ¨™
+    /// @param cy ç”»é¢ä¸­å¿ƒYåº§æ¨™
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
+    /// @param font24 æœ¬æ–‡ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
+    /// @param subFont è£œåŠ©ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawCharacterSelect(int cx, int cy, int mouseX, int mouseY, int font24, int subFont);
 
-    /// @brief ƒXƒe[ƒW‘I‘ğ‰æ–Ê‚ğ•`‰æ‚·‚é
-    /// @param cx ‰æ–Ê’†SXÀ•W
-    /// @param cy ‰æ–Ê’†SYÀ•W
-    /// @param mouseX ƒ}ƒEƒXXÀ•W
-    /// @param mouseY ƒ}ƒEƒXYÀ•W
-    /// @param font24 –{•¶ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
-    /// @param titleFont ƒ^ƒCƒgƒ‹ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠç”»é¢ã‚’æç”»ã™ã‚‹
+    /// @param cx ç”»é¢ä¸­å¿ƒXåº§æ¨™
+    /// @param cy ç”»é¢ä¸­å¿ƒYåº§æ¨™
+    /// @param mouseX ãƒã‚¦ã‚¹Xåº§æ¨™
+    /// @param mouseY ãƒã‚¦ã‚¹Yåº§æ¨™
+    /// @param font24 æœ¬æ–‡ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
+    /// @param titleFont ã‚¿ã‚¤ãƒˆãƒ«ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawStageSelect(int cx, int cy, int mouseX, int mouseY, int font24, int titleFont);
 
-    /// @brief UIƒ{ƒ^ƒ“‚ğ•`‰æ‚·‚é
-    /// @param x XÀ•W
-    /// @param y YÀ•W
-    /// @param w •
-    /// @param h ‚‚³
-    /// @param text •\¦•¶š—ñ
-    /// @param hover ƒ}ƒEƒXƒzƒo[’†‚©
-    /// @param color ƒ{ƒ^ƒ“F
-    /// @param font24 ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹
+    /// @brief UIãƒœã‚¿ãƒ³ã‚’æç”»ã™ã‚‹
+    /// @param x Xåº§æ¨™
+    /// @param y Yåº§æ¨™
+    /// @param w å¹…
+    /// @param h é«˜ã•
+    /// @param text è¡¨ç¤ºæ–‡å­—åˆ—
+    /// @param hover ãƒã‚¦ã‚¹ãƒ›ãƒãƒ¼ä¸­ã‹
+    /// @param color ãƒœã‚¿ãƒ³è‰²
+    /// @param font24 ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
     void DrawButton(int x, int y, int w, int h, const char* text, bool hover, int color, int font24);
 
 
-    int phase_;           ///< ‘I‘ğ‰æ–Ê‚ÌŒ»İƒtƒF[ƒY
-    int ui_button_graph_; ///< ƒ{ƒ^ƒ“‰æ‘œƒnƒ“ƒhƒ‹
-    int wait_count_;      ///< “ü—Í‘Ò‚¿‚â‘JˆÚ‘Ò‚¿‚ÌƒJƒEƒ“ƒ^[
+    int phase_;           ///< é¸æŠç”»é¢ã®ç¾åœ¨ãƒ•ã‚§ãƒ¼ã‚º
+    int ui_button_graph_; ///< ãƒœã‚¿ãƒ³ç”»åƒãƒãƒ³ãƒ‰ãƒ«
+    int wait_count_;      ///< å…¥åŠ›å¾…ã¡ã‚„é·ç§»å¾…ã¡ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
 };

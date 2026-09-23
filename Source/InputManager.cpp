@@ -1,4 +1,4 @@
-#include "InputManager.h"
+ï»¿#include "InputManager.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -7,9 +7,9 @@
 
 namespace
 {
-/// @brief IsValidKeyCode ‚ðŽÀs‚·‚é
-/// @param keyCode keyCode ‚Ì’l
-/// @return bool –ß‚è’l
+/// @brief IsValidKeyCode ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param keyCode keyCode ã®å€¤
+/// @return bool æˆ»ã‚Šå€¤
 	bool IsValidKeyCode(int keyCode)
 	{
 		return keyCode >= 0 && keyCode < 256;
@@ -20,19 +20,19 @@ int InputManager::down_buffer_[256] = { 0 };
 int InputManager::up_buffer_[256] = { 0 };
 int InputManager::mouse_down_buffer_ = 0;
 
-/// @brief InputManager ‚ð¶¬‚·‚é
+/// @brief InputManager ã‚’ç”Ÿæˆã™ã‚‹
 InputManager::InputManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ðs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 InputManager::~InputManager()
 {
 }
 
-/// @brief CheckDownKey ‚ðŽÀs‚·‚é
-/// @param keyCode keyCode ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckDownKey ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param keyCode keyCode ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckDownKey(int keyCode)
 {
 	if (!IsValidKeyCode(keyCode))
@@ -52,9 +52,9 @@ int InputManager::CheckDownKey(int keyCode)
 	return result;
 }
 
-/// @brief CheckUpKey ‚ðŽÀs‚·‚é
-/// @param keyCode keyCode ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckUpKey ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param keyCode keyCode ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckUpKey(int keyCode)
 {
 	if (!IsValidKeyCode(keyCode))
@@ -74,9 +74,9 @@ int InputManager::CheckUpKey(int keyCode)
 	return result;
 }
 
-/// @brief CheckPressKey ‚ðŽÀs‚·‚é
-/// @param keyCode keyCode ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckPressKey ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param keyCode keyCode ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckPressKey(int keyCode)
 {
 	if (!IsValidKeyCode(keyCode))
@@ -87,32 +87,32 @@ int InputManager::CheckPressKey(int keyCode)
 	return CheckHitKey(keyCode);
 }
 
-/// @brief ActionDown ‚ðŽÀs‚·‚é
-/// @param action action ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief ActionDown ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param action action ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::ActionDown(InputAction action)
 {
 	return CheckDownKey(InputBinding::GetKey(action));
 }
 
-/// @brief ActionPress ‚ðŽÀs‚·‚é
-/// @param action action ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief ActionPress ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param action action ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::ActionPress(InputAction action)
 {
 	return CheckPressKey(InputBinding::GetKey(action));
 }
 
-/// @brief ActionUp ‚ðŽÀs‚·‚é
-/// @param action action ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief ActionUp ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param action action ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::ActionUp(InputAction action)
 {
 	return CheckUpKey(InputBinding::GetKey(action));
 }
-/// @brief CheckMouseDown ‚ðŽÀs‚·‚é
-/// @param button button ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckMouseDown ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param button button ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckMouseDown(int button)
 {
     int state = GetMouseInput() & button;
@@ -123,26 +123,26 @@ int InputManager::CheckMouseDown(int button)
     return result;
 }
 
-/// @brief CheckMousePress ‚ðŽÀs‚·‚é
-/// @param button button ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckMousePress ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param button button ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckMousePress(int button)
 {
     return (GetMouseInput() & button) != 0 ? 1 : 0;
 }
 
-/// @brief CheckMouseUp ‚ðŽÀs‚·‚é
-/// @param button button ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief CheckMouseUp ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param button button ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int InputManager::CheckMouseUp(int button)
 {
     // Not implemented fully for buffer yet, simplify to down check inverse
     return 0; // Or implement later if needed
 }
 
-/// @brief GetMousePosition ‚ðŽÀs‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief GetMousePosition ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 void InputManager::GetMousePosition(int* x, int* y)
 {
     GetMousePoint(x, y);

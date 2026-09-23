@@ -1,65 +1,65 @@
-#pragma once
+ï»¿#pragma once
 #include "BossState.h"
 
-/// @brief ƒ{ƒX1—p‚Ì’¼ü’e–‹ó‘Ô
+/// @brief ãƒœã‚¹1ç”¨ã®ç›´ç·šå¼¾å¹•çŠ¶æ…‹
 class BossStateSimple : public BossState
 {
 public:
-    /// @brief UŒ‚ƒ^ƒCƒ}[‚ğ‰Šú‰»‚·‚é
+    /// @brief æ”»æ’ƒã‚¿ã‚¤ãƒãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
     BossStateSimple() : attack_timer_(0) {}
 
-    /// @brief ’¼ü’e–‹‚ÌUŒ‚ˆ—‚ğXV‚·‚é
-    /// @param boss XV‘ÎÛ‚Ìƒ{ƒX
+    /// @brief ç›´ç·šå¼¾å¹•ã®æ”»æ’ƒå‡¦ç†ã‚’æ›´æ–°ã™ã‚‹
+    /// @param boss æ›´æ–°å¯¾è±¡ã®ãƒœã‚¹
     void Update(Boss* boss) override;
 
 private:
-    int attack_timer_; ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
+    int attack_timer_; ///< æ”»æ’ƒé–“éš”ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
 };
 
-/// @brief ƒ{ƒX2—p‚Ì”½Ë’e–‹ó‘Ô
+/// @brief ãƒœã‚¹2ç”¨ã®åå°„å¼¾å¹•çŠ¶æ…‹
 class BossStateBouncing : public BossState
 {
 public:
-    /// @brief UŒ‚ƒ^ƒCƒ}[‚ğ‰Šú‰»‚·‚é
+    /// @brief æ”»æ’ƒã‚¿ã‚¤ãƒãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
     BossStateBouncing() : attack_timer_(0) {}
 
-    /// @brief ”½Ë’e–‹‚ÌUŒ‚ˆ—‚ğXV‚·‚é
-    /// @param boss XV‘ÎÛ‚Ìƒ{ƒX
+    /// @brief åå°„å¼¾å¹•ã®æ”»æ’ƒå‡¦ç†ã‚’æ›´æ–°ã™ã‚‹
+    /// @param boss æ›´æ–°å¯¾è±¡ã®ãƒœã‚¹
     void Update(Boss* boss) override;
 
 private:
-    int attack_timer_; ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
+    int attack_timer_; ///< æ”»æ’ƒé–“éš”ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
 };
 
-/// @brief ƒ{ƒX3—p‚Ì•¡‡’e–‹ó‘Ô
+/// @brief ãƒœã‚¹3ç”¨ã®è¤‡åˆå¼¾å¹•çŠ¶æ…‹
 class BossStateFinal : public BossState
 {
 public:
-    /// @brief UŒ‚ƒ^ƒCƒ}[‚Æƒpƒ^[ƒ“ó‘Ô‚ğ‰Šú‰»‚·‚é
+    /// @brief æ”»æ’ƒã‚¿ã‚¤ãƒãƒ¼ã¨ãƒ‘ã‚¿ãƒ¼ãƒ³çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹
     BossStateFinal() : attack_timer_(0), pattern_index_(0),
         invincible_cycle_timer_(0) {}
 
-    /// @brief •¡‡’e–‹‚Æ–³“GƒTƒCƒNƒ‹‚ğXV‚·‚é
-    /// @param boss XV‘ÎÛ‚Ìƒ{ƒX
+    /// @brief è¤‡åˆå¼¾å¹•ã¨ç„¡æ•µã‚µã‚¤ã‚¯ãƒ«ã‚’æ›´æ–°ã™ã‚‹
+    /// @param boss æ›´æ–°å¯¾è±¡ã®ãƒœã‚¹
     void Update(Boss* boss) override;
 
 private:
-    int attack_timer_;           ///< UŒ‚ŠÔŠu‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
-    int pattern_index_;          ///< Œ»İ‚ÌUŒ‚ƒpƒ^[ƒ“”Ô†
-    int invincible_cycle_timer_; ///< –³“GƒTƒCƒNƒ‹‚ğŠÇ—‚·‚éƒ^ƒCƒ}[
+    int attack_timer_;           ///< æ”»æ’ƒé–“éš”ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
+    int pattern_index_;          ///< ç¾åœ¨ã®æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³ç•ªå·
+    int invincible_cycle_timer_; ///< ç„¡æ•µã‚µã‚¤ã‚¯ãƒ«ã‚’ç®¡ç†ã™ã‚‹ã‚¿ã‚¤ãƒãƒ¼
 };
 
-/// @brief ƒ{ƒX€–S‰‰oó‘Ô
+/// @brief ãƒœã‚¹æ­»äº¡æ¼”å‡ºçŠ¶æ…‹
 class BossStateDying : public BossState
 {
 public:
-    /// @brief €–S‰‰oƒ^ƒCƒ}[‚ğ‰Šú‰»‚·‚é
+    /// @brief æ­»äº¡æ¼”å‡ºã‚¿ã‚¤ãƒãƒ¼ã‚’åˆæœŸåŒ–ã™ã‚‹
     BossStateDying() : death_timer_(180) {}
 
-    /// @brief €–S‰‰o‚ğXV‚·‚é
-    /// @param boss XV‘ÎÛ‚Ìƒ{ƒX
+    /// @brief æ­»äº¡æ¼”å‡ºã‚’æ›´æ–°ã™ã‚‹
+    /// @param boss æ›´æ–°å¯¾è±¡ã®ãƒœã‚¹
     void Update(Boss* boss) override;
 
 private:
-    int death_timer_; ///< €–S‰‰o‚Ìc‚èƒtƒŒ[ƒ€”
+    int death_timer_; ///< æ­»äº¡æ¼”å‡ºã®æ®‹ã‚Šãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 };

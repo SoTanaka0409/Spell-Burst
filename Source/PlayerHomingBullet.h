@@ -1,32 +1,32 @@
-#pragma once
+ï»¿#pragma once
 #include "Projectile.h"
 
 class CapsuleCollider;
 
-/// @brief “G‚ğ’Ç”ö‚·‚éƒvƒŒƒCƒ„[’eƒNƒ‰ƒX
+/// @brief æ•µã‚’è¿½å°¾ã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¼¾ã‚¯ãƒ©ã‚¹
 class PlayerHomingBullet : public Projectile
 {
 private:
-    int life_timer_; ///< c‚èõ–½ƒtƒŒ[ƒ€”
+    int life_timer_; ///< æ®‹ã‚Šå¯¿å‘½ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 
 public:
-    /// @brief ’Ç”ö’e‚ğ¶¬‚·‚é
-    /// @param pos ‰ŠúÀ•W
-    /// @param dir ‰Šúis•ûŒü
-    /// @param speed ‘¬“x
+    /// @brief è¿½å°¾å¼¾ã‚’ç”Ÿæˆã™ã‚‹
+    /// @param pos åˆæœŸåº§æ¨™
+    /// @param dir åˆæœŸé€²è¡Œæ–¹å‘
+    /// @param speed é€Ÿåº¦
     PlayerHomingBullet(Vector2 pos, Vector2 dir, float speed);
 
-    /// @brief ’Ç”ö’e‚ğ”jŠü‚·‚é
+    /// @brief è¿½å°¾å¼¾ã‚’ç ´æ£„ã™ã‚‹
     virtual ~PlayerHomingBullet() override;
 
-    /// @brief ’Ç”ö•ûŒü‚Æõ–½‚ğXV‚·‚é
+    /// @brief è¿½å°¾æ–¹å‘ã¨å¯¿å‘½ã‚’æ›´æ–°ã™ã‚‹
     virtual void Update() override;
 
-    /// @brief ’Ç”ö’e‚ğ•`‰æ‚·‚é
+    /// @brief è¿½å°¾å¼¾ã‚’æç”»ã™ã‚‹
     virtual void Draw() override;
 
-    /// @brief ‘¼ƒRƒ‰ƒCƒ_[‚Æ‚ÌÚGˆ—‚ğs‚¤
-    /// @param collider ©g‚ÌƒRƒ‰ƒCƒ_[
-    /// @param check ÚG‘Šè‚ÌƒRƒ‰ƒCƒ_[
+    /// @brief ä»–ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ã®æ¥è§¦å‡¦ç†ã‚’è¡Œã†
+    /// @param collider è‡ªèº«ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+    /// @param check æ¥è§¦ç›¸æ‰‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
     virtual void OnTrigger(Collider* collider, Collider* check) override;
 };

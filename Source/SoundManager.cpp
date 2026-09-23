@@ -6,28 +6,28 @@
 #endif
 #include "DxLib.h"
 
-/// @brief SoundManager ‚ğ¶¬‚·‚é
-SoundManager::SoundManager() : current_bgm_handle_(-1)
+/// @brief SoundManager ã‚’ç”Ÿæˆã™ã‚‹
+SoundManager::SoundManager() : current_bgm_handle_(-1), bgm_volume_(50), se_volume_(50)
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 SoundManager::~SoundManager()
 {
 	ClearAll();
 }
 
-/// @brief ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
-/// @return SoundManager* –ß‚è’l
+/// @brief ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+/// @return SoundManager* æˆ»ã‚Šå€¤
 SoundManager* SoundManager::GetInstance()
 {
 	static SoundManager instance;
 	return &instance;
 }
 
-/// @brief GetSound ‚ğÀs‚·‚é
-/// @param id id ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief GetSound ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param id id ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int SoundManager::GetSound(const std::string& id)
 {
     std::string path = ResourceManager::GetInstance()->GetAssetPath(id);
@@ -46,8 +46,8 @@ int SoundManager::GetSound(const std::string& id)
     return handle;
 }
 
-/// @brief BGM‚ğÄ¶‚·‚é
-/// @param id id ‚Ì’l
+/// @brief BGMã‚’å†ç”Ÿã™ã‚‹
+/// @param id id ã®å€¤
 void SoundManager::PlayBGM(const std::string& id)
 {
     int handle = GetSound(id);
@@ -56,23 +56,25 @@ void SoundManager::PlayBGM(const std::string& id)
     if (current_bgm_handle_ != handle)
     {
         StopBGM();
+        ChangeVolumeSoundMem(255 * bgm_volume_ / 100, handle);
         PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
         current_bgm_handle_ = handle;
     }
 }
 
-/// @brief Œø‰Ê‰¹‚ğÄ¶‚·‚é
-/// @param id id ‚Ì’l
+/// @brief åŠ¹æœéŸ³ã‚’å†ç”Ÿã™ã‚‹
+/// @param id id ã®å€¤
 void SoundManager::PlaySE(const std::string& id)
 {
     int handle = GetSound(id);
     if (handle != -1)
     {
+        ChangeVolumeSoundMem(255 * se_volume_ / 100, handle);
         PlaySoundMem(handle, DX_PLAYTYPE_BACK);
     }
 }
 
-/// @brief BGM‚ğ’â~‚·‚é
+/// @brief BGMã‚’åœæ­¢ã™ã‚‹
 void SoundManager::StopBGM()
 {
 	if (current_bgm_handle_ != -1)
@@ -82,7 +84,7 @@ void SoundManager::StopBGM()
 	}
 }
 
-/// @brief ‚·‚×‚Ä‚Ì‰¹º‚ğ’â~‚·‚é
+/// @brief ã™ã¹ã¦ã®éŸ³å£°ã‚’åœæ­¢ã™ã‚‹
 void SoundManager::StopAll()
 {
 	for (auto& pair : sound_map_)
@@ -95,7 +97,7 @@ void SoundManager::StopAll()
 	current_bgm_handle_ = -1;
 }
 
-/// @brief “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
+/// @brief èª­ã¿è¾¼ã¿æ¸ˆã¿ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã™ã‚‹
 void SoundManager::ClearAll()
 {
 	StopAll();
@@ -108,4 +110,27 @@ void SoundManager::ClearAll()
 		}
 	}
 	sound_map_.clear();
+}
+
+/// @brief BGMã®éŸ³é‡ã‚’è¨­å®šã™ã‚‹(0ã€œ100)
+/// @param volume éŸ³é‡(0ã€œ100)
+void SoundManager::SetBGMVolume(int volume)
+{
+    bgm_volume_ = volume;
+    if (bgm_volume_ < 0) bgm_volume_ = 0;
+    if (bgm_volume_ > 100) bgm_volume_ = 100;
+    
+    if (current_bgm_handle_ != -1)
+    {
+        ChangeVolumeSoundMem(255 * bgm_volume_ / 100, current_bgm_handle_);
+    }
+}
+
+/// @brief SEã®éŸ³é‡ã‚’è¨­å®šã™ã‚‹(0ã€œ100)
+/// @param volume éŸ³é‡(0ã€œ100)
+void SoundManager::SetSEVolume(int volume)
+{
+    se_volume_ = volume;
+    if (se_volume_ < 0) se_volume_ = 0;
+    if (se_volume_ > 100) se_volume_ = 100;
 }

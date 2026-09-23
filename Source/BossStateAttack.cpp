@@ -1,4 +1,4 @@
-#include "BossStateAttack.h"
+ï»¿#include "BossStateAttack.h"
 #include "Boss.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -11,8 +11,8 @@
 #include "SceneManager.h"
 #include "ResultScene.h"
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param boss boss ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param boss boss ã®å€¤
 void BossStateSimple::Update(Boss* boss)
 {
 	attack_timer_++;
@@ -23,8 +23,8 @@ void BossStateSimple::Update(Boss* boss)
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param boss boss ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param boss boss ã®å€¤
 void BossStateBouncing::Update(Boss* boss)
 {
 	attack_timer_++;
@@ -35,8 +35,8 @@ void BossStateBouncing::Update(Boss* boss)
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param boss boss ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param boss boss ã®å€¤
 void BossStateFinal::Update(Boss* boss)
 {
 	invincible_cycle_timer_++;
@@ -83,8 +83,8 @@ void BossStateFinal::Update(Boss* boss)
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
-/// @param boss boss ‚Ì’l
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+/// @param boss boss ã®å€¤
 void BossStateDying::Update(Boss* boss)
 {
 	death_timer_--;

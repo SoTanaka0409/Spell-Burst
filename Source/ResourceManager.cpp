@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+ï»¿#include "ResourceManager.h"
 #include "ObjectManager.h"
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -8,35 +8,35 @@
 #include <fstream>
 #include <sstream>
 
-/// @brief ResourceManager ‚ğ¶¬‚·‚é
+/// @brief ResourceManager ã‚’ç”Ÿæˆã™ã‚‹
 ResourceManager::ResourceManager()
 {
 }
 
-/// @brief ”jŠüˆ—‚ğs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 ResourceManager::~ResourceManager()
 {
 	ClearAll();
 }
 
-/// @brief ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
-/// @return ResourceManager* –ß‚è’l
+/// @brief ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
+/// @return ResourceManager* æˆ»ã‚Šå€¤
 ResourceManager* ResourceManager::GetInstance()
 {
 	static ResourceManager instance;
 	return &instance;
 }
 
-/// @brief CSVƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
-/// @param csv_path csv_path ‚Ì’l
-/// @return bool –ß‚è’l
+/// @brief CSVãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+/// @param csv_path csv_path ã®å€¤
+/// @return bool æˆ»ã‚Šå€¤
 bool ResourceManager::LoadCSV(const std::string& csv_path)
 {
 	std::ifstream file(csv_path);
 	if (!file.is_open()) return false;
 
 	std::string line;
-	// ƒwƒbƒ_[s‚ğ“Ç‚İ”ò‚Î‚·
+	// ãƒ˜ãƒƒãƒ€ãƒ¼è¡Œã‚’èª­ã¿é£›ã°ã™
 	std::getline(file, line); 
 
 	while (std::getline(file, line))
@@ -45,7 +45,7 @@ bool ResourceManager::LoadCSV(const std::string& csv_path)
 		std::string id, path;
 		if (std::getline(ss, id, ',') && std::getline(ss, path, ','))
 		{
-			// WindowsŠÂ‹«‚Ås––‚Ì\r‚ª¬“ü‚µ‚½ê‡‚Éæ‚èœ‚­
+			// Windowsç’°å¢ƒã§è¡Œæœ«ã®\rãŒæ··å…¥ã—ãŸå ´åˆã«å–ã‚Šé™¤ã
 			if (!path.empty() && path.back() == '\r') path.pop_back();
 			asset_paths_[id] = path;
 		}
@@ -53,9 +53,9 @@ bool ResourceManager::LoadCSV(const std::string& csv_path)
 	return true;
 }
 
-/// @brief ƒAƒZƒbƒgID‚É‘Î‰‚·‚éƒpƒX‚ğæ“¾‚·‚é
-/// @param id id ‚Ì’l
-/// @return std::string –ß‚è’l
+/// @brief ã‚¢ã‚»ãƒƒãƒˆIDã«å¯¾å¿œã™ã‚‹ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
+/// @param id id ã®å€¤
+/// @return std::string æˆ»ã‚Šå€¤
 std::string ResourceManager::GetAssetPath(const std::string& id)
 {
 	auto it = asset_paths_.find(id);
@@ -63,13 +63,13 @@ std::string ResourceManager::GetAssetPath(const std::string& id)
 	{
 		return it->second;
 	}
-	// ID‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÍAŒã•ûŒİŠ·‚Ì‚½‚ßID©‘Ì‚ğƒpƒX‚Æ‚µ‚Ä•Ô‚·
+	// IDãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ã€å¾Œæ–¹äº’æ›ã®ãŸã‚IDè‡ªä½“ã‚’ãƒ‘ã‚¹ã¨ã—ã¦è¿”ã™
 	return id;
 }
 
-/// @brief ‰æ‘œƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
-/// @param id id ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief ç”»åƒãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
+/// @param id id ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int ResourceManager::GetGraph(const std::string& id)
 {
 	std::string path = GetAssetPath(id);
@@ -85,10 +85,10 @@ int ResourceManager::GetGraph(const std::string& id)
 	return handle;
 }
 
-/// @brief ƒtƒHƒ“ƒgƒnƒ“ƒhƒ‹‚ğæ“¾‚·‚é
-/// @param size size ‚Ì’l
-/// @param thickness thickness ‚Ì’l
-/// @return int –ß‚è’l
+/// @brief ãƒ•ã‚©ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã™ã‚‹
+/// @param size size ã®å€¤
+/// @param thickness thickness ã®å€¤
+/// @return int æˆ»ã‚Šå€¤
 int ResourceManager::GetFont(int size, int thickness)
 {
 	auto key = std::make_pair(size, thickness);
@@ -103,7 +103,7 @@ int ResourceManager::GetFont(int size, int thickness)
 	return handle;
 }
 
-/// @brief “Ç‚İ‚İÏ‚İƒŠƒ\[ƒX‚ğ‰ğ•ú‚·‚é
+/// @brief èª­ã¿è¾¼ã¿æ¸ˆã¿ãƒªã‚½ãƒ¼ã‚¹ã‚’è§£æ”¾ã™ã‚‹
 void ResourceManager::ClearAll()
 {
 	for (auto& pair : graph_map_)

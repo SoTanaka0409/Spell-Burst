@@ -1,4 +1,4 @@
-#include "FadeScene.h"
+ï»¿#include "FadeScene.h"
 #include "Master.h"
 #include "Utility.h"
 #ifndef NOMINMAX
@@ -7,9 +7,9 @@
 #include "DxLib.h"
 #include <utility>
 
-/// @brief FadeScene ‚ğ¶¬‚·‚é
-/// @param target_scene ƒtƒF[ƒhŠ®—¹Œã‚É‘JˆÚ‚·‚éƒV[ƒ“í•Ê
-/// @param previous_scene ƒtƒF[ƒh’†‚É”wŒi‚Æ‚µ‚Ä•`‰æ‚·‚é‘JˆÚ‘OƒV[ƒ“
+/// @brief FadeScene ã‚’ç”Ÿæˆã™ã‚‹
+/// @param target_scene ãƒ•ã‚§ãƒ¼ãƒ‰å®Œäº†å¾Œã«é·ç§»ã™ã‚‹ã‚·ãƒ¼ãƒ³ç¨®åˆ¥
+/// @param previous_scene ãƒ•ã‚§ãƒ¼ãƒ‰ä¸­ã«èƒŒæ™¯ã¨ã—ã¦æç”»ã™ã‚‹é·ç§»å‰ã‚·ãƒ¼ãƒ³
 FadeScene::FadeScene(SceneManager::SceneType target_scene, std::unique_ptr<Scene> previous_scene)
     : target_scene_(target_scene)
     , previous_scene_(std::move(previous_scene))
@@ -18,13 +18,13 @@ FadeScene::FadeScene(SceneManager::SceneType target_scene, std::unique_ptr<Scene
 {
 }
 
-/// @brief ‰Šú‰»ˆ—‚ğs‚¤
+/// @brief åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
 void FadeScene::Initialize()
 {
     fade_timer_ = 0;
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ğs‚¤
+/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void FadeScene::Update()
 {
     fade_timer_++;
@@ -34,7 +34,7 @@ void FadeScene::Update()
     }
 }
 
-/// @brief •`‰æˆ—‚ğs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void FadeScene::Draw()
 {
     if (previous_scene_ != nullptr)
@@ -53,7 +53,7 @@ void FadeScene::Draw()
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
 
-/// @brief I—¹ˆ—‚ğs‚¤
+/// @brief çµ‚äº†å‡¦ç†ã‚’è¡Œã†
 void FadeScene::Finalize()
 {
     if (previous_scene_ != nullptr)

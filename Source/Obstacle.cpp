@@ -1,4 +1,4 @@
-#include "Obstacle.h"
+ï»¿#include "Obstacle.h"
 #include "ObjectManager.h"
 #include "CapsuleCollider.h"
 #include "Utility.h"
@@ -16,9 +16,9 @@
 #endif
 #include "DxLib.h"
 
-/// @brief Obstacle ‚ð¶¬‚·‚é
-/// @param x x ‚Ì’l
-/// @param y y ‚Ì’l
+/// @brief Obstacle ã‚’ç”Ÿæˆã™ã‚‹
+/// @param x x ã®å€¤
+/// @param y y ã®å€¤
 Obstacle::Obstacle(float x, float y)
 	: Object2D(Vector2(x, y))
 	, collider_(nullptr)
@@ -28,7 +28,7 @@ Obstacle::Obstacle(float x, float y)
 	collider_ = new CapsuleCollider(this, position_, position_, 40.0f);
 }
 
-/// @brief ”jŠüˆ—‚ðs‚¤
+/// @brief ç ´æ£„å‡¦ç†ã‚’è¡Œã†
 Obstacle::~Obstacle()
 {
 	if (collider_)
@@ -38,7 +38,7 @@ Obstacle::~Obstacle()
 	}
 }
 
-/// @brief –ˆƒtƒŒ[ƒ€‚ÌXVˆ—‚ðs‚¤
+/// @brief æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ ã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†
 void Obstacle::Update()
 {
 	position_.y += fall_speed_ * Utility::time_scale_;
@@ -59,7 +59,7 @@ void Obstacle::Update()
 	}
 }
 
-/// @brief •`‰æˆ—‚ðs‚¤
+/// @brief æç”»å‡¦ç†ã‚’è¡Œã†
 void Obstacle::Draw()
 {
 	int graph = ResourceManager::GetInstance()->GetGraph("IMG_OBJ_ROCK");
@@ -80,9 +80,9 @@ void Obstacle::Draw()
 	}
 }
 
-/// @brief ÚG’†‚Ìˆ—‚ðs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æŽ¥è§¦ä¸­ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Obstacle::OnTrigger(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)
@@ -115,9 +115,9 @@ void Obstacle::OnTrigger(Collider* collider, Collider* check)
 	}
 }
 
-/// @brief ÚGŠJŽnŽž‚Ìˆ—‚ðs‚¤
-/// @param collider collider ‚Ì’l
-/// @param check check ‚Ì’l
+/// @brief æŽ¥è§¦é–‹å§‹æ™‚ã®å‡¦ç†ã‚’è¡Œã†
+/// @param collider collider ã®å€¤
+/// @param check check ã®å€¤
 void Obstacle::OnEnter(Collider* collider, Collider* check)
 {
 	if (check != nullptr && check->GetParentObject() != nullptr)

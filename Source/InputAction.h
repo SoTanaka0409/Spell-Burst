@@ -1,38 +1,38 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 
-/// @brief ƒQ[ƒ€“à‚Ì“ü—ÍƒAƒNƒVƒ‡ƒ“í•Ê
+/// @brief ã‚²ãƒ¼ãƒ å†…ã®å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ç¨®åˆ¥
 enum class InputAction
 {
-    kMoveUp,      ///< ãˆÚ“®
-    kMoveDown,    ///< ‰ºˆÚ“®
-    kMoveLeft,    ///< ¶ˆÚ“®
-    kMoveRight,   ///< ‰EˆÚ“®
-    kFocus,       ///< ’á‘¬ˆÚ“®
-    kAttack,      ///< ’ÊíUŒ‚
-    kSwitchMode,  ///< UŒ‚ƒ‚[ƒhØ‚è‘Ö‚¦
-    kPause,       ///< ƒ|[ƒY
-    kConfirm,     ///< Œˆ’è
-    kCancel,      ///< ƒLƒƒƒ“ƒZƒ‹
+    kMoveUp,      ///< ä¸Šç§»å‹•
+    kMoveDown,    ///< ä¸‹ç§»å‹•
+    kMoveLeft,    ///< å·¦ç§»å‹•
+    kMoveRight,   ///< å³ç§»å‹•
+    kFocus,       ///< ä½é€Ÿç§»å‹•
+    kAttack,      ///< é€šå¸¸æ”»æ’ƒ
+    kSwitchMode,  ///< æ”»æ’ƒãƒ¢ãƒ¼ãƒ‰åˆ‡ã‚Šæ›¿ãˆ
+    kPause,       ///< ãƒãƒ¼ã‚º
+    kConfirm,     ///< æ±ºå®š
+    kCancel,      ///< ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 };
 
-/// @brief “ü—ÍƒAƒNƒVƒ‡ƒ“‚ÆƒL[ƒR[ƒh‚Ì‘Î‰‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+/// @brief å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã¨ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã®å¯¾å¿œã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 class InputBinding
 {
 public:
-    /// @brief ƒfƒtƒHƒ‹ƒg‚ÌƒL[Š„‚è“–‚Ä‚Å‰Šú‰»‚·‚é
+    /// @brief ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚­ãƒ¼å‰²ã‚Šå½“ã¦ã§åˆæœŸåŒ–ã™ã‚‹
     static void Initialize();
 
-    /// @brief w’èƒAƒNƒVƒ‡ƒ“‚É‘Î‰‚·‚éƒL[ƒR[ƒh‚ğæ“¾‚·‚é
-    /// @param action Šm”F‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
-    /// @return int ƒL[ƒR[ƒh
+    /// @brief æŒ‡å®šã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«å¯¾å¿œã™ã‚‹ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
+    /// @param action ç¢ºèªã™ã‚‹å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    /// @return int ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
     static int GetKey(InputAction action);
 
-    /// @brief w’èƒAƒNƒVƒ‡ƒ“‚ÉV‚µ‚¢ƒL[ƒR[ƒh‚ğŠ„‚è“–‚Ä‚é
-    /// @param action •ÏX‚·‚é“ü—ÍƒAƒNƒVƒ‡ƒ“
-    /// @param keyCode V‚µ‚¢ƒL[ƒR[ƒh
+    /// @brief æŒ‡å®šã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«æ–°ã—ã„ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å‰²ã‚Šå½“ã¦ã‚‹
+    /// @param action å¤‰æ›´ã™ã‚‹å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    /// @param keyCode æ–°ã—ã„ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
     static void Rebind(InputAction action, int keyCode);
 
 private:
-    static std::unordered_map<int, int> bindings_; ///< “ü—ÍƒAƒNƒVƒ‡ƒ“‚ÆƒL[ƒR[ƒh‚Ì‘Î‰•\
+    static std::unordered_map<int, int> bindings_; ///< å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã¨ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰ã®å¯¾å¿œè¡¨
 };

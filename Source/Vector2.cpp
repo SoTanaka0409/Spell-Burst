@@ -1,4 +1,4 @@
-#include "Vector2.h"
+ï»¿#include "Vector2.h"
 #include <cmath>
 
 Vector2::Vector2() : x(0.0f), y(0.0f) {}
@@ -8,9 +8,9 @@ Vector2 Vector2::operator+(const Vector2& other) const { return Vector2(x + othe
 Vector2 Vector2::operator-(const Vector2& other) const { return Vector2(x - other.x, y - other.y); }
 Vector2 Vector2::operator*(float scalar) const { return Vector2(x * scalar, y * scalar); }
 
-/// @brief ‰‰Zqˆ—‚ğs‚¤
-/// @param scalar scalar ‚Ì’l
-/// @return Vector2 –ß‚è’l
+/// @brief æ¼”ç®—å­å‡¦ç†ã‚’è¡Œã†
+/// @param scalar scalar ã®å€¤
+/// @return Vector2 æˆ»ã‚Šå€¤
 Vector2 Vector2::operator/(float scalar) const
 {
 	float inv = 1.0f / scalar;
@@ -21,9 +21,9 @@ Vector2& Vector2::operator+=(const Vector2& other) { x += other.x; y += other.y;
 Vector2& Vector2::operator-=(const Vector2& other) { x -= other.x; y -= other.y; return *this; }
 Vector2& Vector2::operator*=(float scalar) { x *= scalar; y *= scalar; return *this; }
 
-/// @brief ‰‰Zqˆ—‚ğs‚¤
-/// @param scalar scalar ‚Ì’l
-/// @return Vector2& –ß‚è’l
+/// @brief æ¼”ç®—å­å‡¦ç†ã‚’è¡Œã†
+/// @param scalar scalar ã®å€¤
+/// @return Vector2& æˆ»ã‚Šå€¤
 Vector2& Vector2::operator/=(float scalar)
 {
 	float inv = 1.0f / scalar;
@@ -34,8 +34,8 @@ Vector2& Vector2::operator/=(float scalar)
 float Vector2::Magnitude() const { return std::sqrt(x * x + y * y); }
 float Vector2::MagnitudeSq() const { return x * x + y * y; }
 
-/// @brief Normalized ‚ğÀs‚·‚é
-/// @return Vector2 –ß‚è’l
+/// @brief Normalized ã‚’å®Ÿè¡Œã™ã‚‹
+/// @return Vector2 æˆ»ã‚Šå€¤
 Vector2 Vector2::Normalized() const
 {
 	float mag = Magnitude();
@@ -47,7 +47,7 @@ Vector2 Vector2::Normalized() const
 	return Vector2(0.0f, 0.0f);
 }
 
-/// @brief Normalize ‚ğÀs‚·‚é
+/// @brief Normalize ã‚’å®Ÿè¡Œã™ã‚‹
 void Vector2::Normalize()
 {
 	float mag = Magnitude();
@@ -63,9 +63,9 @@ float Vector2::DistanceTo(const Vector2& other) const { return (*this - other).M
 
 float Vector2::DistanceSqTo(const Vector2& other) const { return (*this - other).MagnitudeSq(); }
 
-/// @brief AngleTo ‚ğÀs‚·‚é
-/// @param other other ‚Ì’l
-/// @return float –ß‚è’l
+/// @brief AngleTo ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param other other ã®å€¤
+/// @return float æˆ»ã‚Šå€¤
 float Vector2::AngleTo(const Vector2& other) const
 {
 	return std::atan2(x * other.y - y * other.x, Dot(other));
@@ -73,10 +73,10 @@ float Vector2::AngleTo(const Vector2& other) const
 
 float Vector2::Dot(const Vector2& other) const { return x * other.x + y * other.y; }
 
-/// @brief FromAngle ‚ğÀs‚·‚é
-/// @param radians radians ‚Ì’l
-/// @param length length ‚Ì’l
-/// @return Vector2 –ß‚è’l
+/// @brief FromAngle ã‚’å®Ÿè¡Œã™ã‚‹
+/// @param radians radians ã®å€¤
+/// @param length length ã®å€¤
+/// @return Vector2 æˆ»ã‚Šå€¤
 Vector2 Vector2::FromAngle(float radians, float length)
 {
 	return Vector2(std::cos(radians) * length, std::sin(radians) * length);
