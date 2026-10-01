@@ -41,7 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetOutApplicationLogValidFlag(FALSE);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(Utility::kScreenWidth, Utility::kScreenHeight, 32);
-	SetMainWindowText("Spell Burst");
+	SetMainWindowText("Spell_Burst");
 
 	if (DxLib_Init() == -1)
 	{
