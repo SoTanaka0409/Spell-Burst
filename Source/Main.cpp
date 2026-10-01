@@ -1,4 +1,4 @@
-#ifndef NOMINMAX
+﻿#ifndef NOMINMAX
 #define NOMINMAX
 #endif
 #include "DxLib.h"
@@ -41,7 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetOutApplicationLogValidFlag(FALSE);
 	ChangeWindowMode(TRUE);
 	SetGraphMode(Utility::kScreenWidth, Utility::kScreenHeight, 32);
-	SetMainWindowText("spell_Burst");
+	SetMainWindowText("Spell Burst");
 
 	if (DxLib_Init() == -1)
 	{

@@ -1,4 +1,4 @@
-#include "TitleScene.h"
+﻿#include "TitleScene.h"
 #include "ObjectManager.h"
 #include "InputManager.h"
 #include "Master.h"
@@ -108,7 +108,7 @@ void TitleScene::DrawTitleLogo()
 {
 	int titleFont = ResourceManager::GetInstance()->GetFont(60, 5);
 
-	const char* titleText = "spell_Burst";
+	const char* titleText = "Spell Burst";
 	int titleW = GetDrawStringWidthToHandle(titleText, (int)strlen(titleText), titleFont);
 	DrawStringToHandle((Utility::kScreenWidth - titleW) / 2, Utility::kScreenHeight / 4 - 30, titleText, GetColor(255, 215, 0), titleFont);
 }
