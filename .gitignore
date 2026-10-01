@@ -49,3 +49,12 @@ Logs/*.log
 *.bak
 *.swp
 *~
+
+# Game run history
+rank.txt
+ranking.txt
+score.txt
+
+# OS generated
+.DS_Store
+Thumbs.db
