@@ -93,10 +93,6 @@ public:
 	/// @brief 新しい移動目標を選ぶ
 	void SelectNewTarget();
 
-	/// @brief ボス状態を切り替える
-	/// @param newState 新しい状態オブジェクト
-	void SetState(BossState* newState) { state_.reset(newState); }
-
 	/// @brief ボス種別を取得する
 	/// @return int ボス種別
 	int GetBossType() const { return boss_type_; }

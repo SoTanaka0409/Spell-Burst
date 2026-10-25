@@ -82,14 +82,3 @@ void BossStateFinal::Update(Boss* boss)
 		}
 	}
 }
-
-/// @brief 毎フレームの更新処理を行う
-/// @param boss boss の値
-void BossStateDying::Update(Boss* boss)
-{
-	death_timer_--;
-	if (death_timer_ <= 0)
-	{
-		boss->Kill();
-	}
-}

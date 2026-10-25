@@ -48,18 +48,3 @@ private:
     int pattern_index_;          ///< 現在の攻撃パターン番号
     int invincible_cycle_timer_; ///< 無敵サイクルを管理するタイマー
 };
-
-/// @brief ボス死亡演出状態
-class BossStateDying : public BossState
-{
-public:
-    /// @brief 死亡演出タイマーを初期化する
-    BossStateDying() : death_timer_(180) {}
-
-    /// @brief 死亡演出を更新する
-    /// @param boss 更新対象のボス
-    void Update(Boss* boss) override;
-
-private:
-    int death_timer_; ///< 死亡演出の残りフレーム数
-};
