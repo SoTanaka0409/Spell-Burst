@@ -53,9 +53,7 @@ public:
         times.push_back(timeMs);
         std::sort(times.begin(), times.end());
 
-        /// @brief sの処理を行う
-        /// @param trunc 引数
-        /// @return 戻り値
+        // 上位5件だけを、ファイルの中身を消してから書き直す
         std::ofstream ofs("ranking.txt", std::ios::trunc);
         if (ofs.is_open())
         {

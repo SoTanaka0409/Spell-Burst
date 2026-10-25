@@ -66,9 +66,6 @@ public:
 };
 
 template<typename T, typename... Args>
-/// @brief eの処理を行う
-/// @param args 引数
-/// @return 戻り値
 std::weak_ptr<T> ObjectManager::Instantiate(Args&&... args)
 {
     if (!Master::sceneManager)

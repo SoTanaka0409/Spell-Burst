@@ -80,10 +80,7 @@ void Enemy::Update()
 
 	if (enemy_type_ == 4)
 	{
-		/// @brief tの処理を行う
-		/// @param target_x_ 引数
-		/// @param target_y_ 引数
-		/// @return 戻り値
+		// 目標に十分近づいたら次の目標を選び、まだ遠ければ目標へ向かって進む
 		Vector2 target(target_x_, target_y_);
 		float dist = position_.DistanceTo(target);
 
@@ -169,10 +166,7 @@ void Enemy::UpdateAttackPattern()
 		{
 			attack_timer_ = 0;
 			Player* player = dynamic_cast<Player*>(Master::sceneManager->GetCurrentScene()->GetObjectManager()->GetObject2DByTag(kTag2dPlayer).get());
-			/// @brief sの処理を行う
-			/// @param x 引数
-			/// @param f 引数
-			/// @return 戻り値
+			// プレイヤーを狙う。プレイヤーがいなければ真下を狙う
 			Vector2 targetPos(position_.x, position_.y + 100.0f);
 			if (player != nullptr)
 			{

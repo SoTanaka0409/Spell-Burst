@@ -81,7 +81,7 @@ public:
 	/// @brief プレイヤー狙い弾幕を発射する
 	void ShootTargetedBarrage();
 
-	/// @brief 直線弾幕を発射する
+	/// @brief ランダムな向きを基準に、円形に5発の弾幕を発射する
 	void ShootSimpleBarrage();
 
 	/// @brief 反射弾幕を発射する
